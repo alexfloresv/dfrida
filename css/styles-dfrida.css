@@ -1,0 +1,88 @@
+/* Fondo para el login */
+.fondoLogin{
+  background-image: url('../assets/img/loginBack.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.imagenLogin{
+  width: 190px;
+  height: auto;
+}
+
+.imageNavBar{
+  margin-top: -3px;
+  width: 120;
+  height: 75px;
+  padding-left: 40px;
+}
+/* Estilos para el login */
+
+#layoutAuthentication_content .container .card {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  width: 75%;
+  margin: 0 auto;
+}
+
+#layoutAuthentication_content .container .card .form-control {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: white;
+  border: none;
+}
+
+#layoutAuthentication_content .container .card .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+#layoutAuthentication_content .container .card .btn {
+  background-color:  #ffdf46;
+  color: rgb(0, 0, 0);
+  border: none; 
+  display: block;
+  margin: 0 auto;
+}
+
+.logonav {
+  width: 100px;
+  height: auto;
+}
+
+.logonav img {
+  margin-top: 10px;
+  width: 65%;
+  height: auto;
+}
+
+/* Estilos para el modal */
+ .modal-content {
+  background-color: rgba(0, 0, 0, 0.6); 
+  color: white;
+  border: 2px solid rgb(161, 159, 159);
+  max-height: 890px; /* Ajusta este valor a la altura máxima que desees */
+  overflow-y: auto; /* Permite el desplazamiento si el contenido es más largo que la altura máxima */ 
+}
+.modal .form-control {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+}
+
+.modal .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+/* Estilos para el modal fin */
+/* Estilos para el selec modal  */
+select.form-control option {
+  background-color: rgba(0, 0, 0, 0.6); 
+  color: white;
+}
+/* Estilos para el selec modal fin */
+
+.data-table-CategoriaProducto th, .data-table-CategoriaProducto td {
+  color: white;
+}
+
+.data-table-CategoriaProducto th:hover, .data-table-CategoriaProducto td:hover {
+  color: white;
+}
