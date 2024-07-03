@@ -117,7 +117,7 @@ CREATE TABLE
   `cotizacion` (
     `idCoti` int (11) NOT NULL AUTO_INCREMENT,
     `tituloCoti` varchar(255) NOT NULL,
-    `fechaCoti` datetime NOT NULL,
+    `fechaCoti` date NOT NULL,
     `razonSocialCoti` varchar(255) NOT NULL,
     `nombreComercialCoti` varchar(255) NOT NULL,
     `rucCoti` int (11) NOT NULL,
@@ -159,8 +159,16 @@ CREATE TABLE
   `ficha_Tecnica` (
     `idFichaTec` int (11) NOT NULL AUTO_INCREMENT,
     `nombreFichaTec` varchar(255) NOT NULL,
+    `fechaFichaTec` date (255) NOT NULL,
+    `clienteFichaTec` date (255) NOT NULL,
+    `descripcionFichaTec` date (255) NOT NULL,
+    `codigoFichaTec` date (255) NOT NULL,
+    `nombreSoliFichaTec` date (255) NOT NULL,
+    `celularFichaTec` date (255) NOT NULL,
+    `correoFichaTec` date (255) NOT NULL,
+    `detalleFichaTec` date (255) NOT NULL,
     `docFichaTec` varchar(255) DEFAULT NULL,
-    `EstadoFichaTec` int (11) NOT NULL,
+    `estadoFichaTec` int (11) NOT NULL,
     `DateCreate` datetime NOT NULL,
     `DateUpdate` datetime NOT NULL,
     PRIMARY KEY (`idFichaTec`)

@@ -115,5 +115,15 @@ class CotizacionModel
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
-
+  //cambiar estao de la cotizacion al descargar
+  public static function mdlEstadoDescargaPdfCotizacion($table, $codCoti)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoCoti = '2' WHERE idCoti = :idCoti");
+    $statement->bindParam(":idCoti", $codCoti, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }

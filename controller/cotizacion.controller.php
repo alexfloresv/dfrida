@@ -117,10 +117,19 @@ class CotizacionController
   public static function ctrDescargarPdfCotizacion($codCotiPdf)
   {
     $codCoti = $codCotiPdf["codCoti"];
+    //cambiar estado de la cotizacion al descargar
+    $newEstadoCoti = self::ctrEstadoDescargaPdfCotizacion($codCoti);
     $table = "cotizacion";
     $response = CotizacionModel::mdlDescargarPdfCotizacion($table, $codCoti);
 
     return $response;
   }
 
+  //cambiar estado de la cotizacion al descargar
+  public static function ctrEstadoDescargaPdfCotizacion($codCoti)
+  {
+    $table = "cotizacion";
+    $response = CotizacionModel::mdlEstadoDescargaPdfCotizacion($table, $codCoti);
+    return $response;
+  }
 }
