@@ -86,7 +86,7 @@
           </div>
           <!-- Phone Client -->
           <div class="form-group">
-            <label for="PhoneCli" class="col-form-label">Número de Teléfono:</label>
+            <label for="PhoneCli" class="col-form-label">Celular:</label>
             <input type="number" class="form-control" id="PhoneCli" name="PhoneCli">
           </div>
             <!-- Observacion Cliente -->

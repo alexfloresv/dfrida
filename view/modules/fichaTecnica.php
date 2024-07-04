@@ -16,7 +16,7 @@
       </h1>
     </div>
 
-    <form role="form" method="post" class="row g-3 m-2 formNuevaCotizacio " id="formNuevaCotizacio">
+    <form role="form" method="post" class="row g-3 m-2 formFichaTecnica " id="formFichaTecnica">
 
       <div class="container row g-8" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
 
@@ -24,60 +24,60 @@
 
         <!-- datos de la cotizacion Enpresa -->
         <div class="form-group col-md-10">
-          <label for="tituloCotiAdd" class="form-label" style="font-weight: bold">Nombre Ficha Tecnica:</label>
-          <input type="text" class="form-control" id="tituloCotiAdd" name="tituloCotiAdd"
-            placeholder="Ingrese nombre de la ficha">
+          <label for="nombreFichaTecAdd" class="form-label" style="font-weight: bold">Nombre Ficha Tecnica:</label>
+          <input type="text" class="form-control" id="nombreFichaTecAdd" name="nombreFichaTecAdd"
+            placeholder="Ingrese nombre de la ficha" required>
         </div>
         <div class="col-md-2">
-          <label for="fechaCotiAdd" class="form-label" style="font-weight: bold">Fecha: </label>
-          <input type="date" class="form-control" id="fechaCotiAdd" name="fechaCotiAdd">
+          <label for="fechaFichaTecAdd" class="form-label" style="font-weight: bold">Fecha: </label>
+          <input type="date" class="form-control" id="fechaFichaTecAdd" name="fechaFichaTecAdd" required>
         </div><br>
 
         <div class="form-group col-md-4">
-          <label for="razonSocialCotiAdd" class="form-label" style="font-weight: bold">Cliente :</label>
-          <input type="text" class="form-control" id="razonSocialCotiAdd" name="razonSocialCotiAdd"
-            placeholder="Ingrese nombre Cliente/Empresa/Institucion/etc">
+          <label for="clienteFichaTecAdd" class="form-label" style="font-weight: bold">Cliente :</label>
+          <input type="text" class="form-control" id="clienteFichaTecAdd" name="clienteFichaTecAdd"
+            placeholder="Ingrese nombre Cliente/Empresa/Institucion/etc" required>
         </div>
 
         <div class="form-group col-md-4">
-          <label for="nombreComercialCotiAdd" class="form-label" style="font-weight: bold">Descripcion Producto:</label>
-          <input type="text" class="form-control" id="nombreComercialCotiAdd" name="nombreComercialCotiAdd"
-            placeholder="Descripcion del producto">
+          <label for="descripcionFichaTecAdd" class="form-label" style="font-weight: bold">Descripcion Ficha:</label>
+          <input type="text" class="form-control" id="descripcionFichaTecAdd" name="descripcionFichaTecAdd"
+            placeholder="Descripcion del Ficha">
         </div>
 
         <div class="form-group col-md-4">
-          <label for="rucCotiAdd" class="form-label" style="font-weight: bold">Codigo de Ficha - Orden:</label>
-          <input type="number" class="form-control" id="rucCotiAdd" name="rucCotiAdd"
-            placeholder="Ingrese el Codigo de la FIcha">
+          <label for="codigoFichaTecAdd" class="form-label" style="font-weight: bold">Codigo de Ficha - Orden:</label>
+          <input type="text" class="form-control" id="codigoFichaTecAdd" name="codigoFichaTecAdd"
+            placeholder="Ingrese el Codigo de la Ficha">
         </div>
 
         <div class="form-group col-md-6">
-          <label for="nombreCotiAdd" class="form-label" style="font-weight: bold">Nombre Solicitante:</label>
-          <input type="text" class="form-control" id="nombreCotiAdd" name="nombreCotiAdd" value=""
+          <label for="nombreSoliFichaTecAdd" class="form-label" style="font-weight: bold">Nombre Solicitante:</label>
+          <input type="text" class="form-control" id="nombreSoliFichaTecAdd" name="nombreSoliFichaTecAdd" value=""
             placeholder="Nombre del solicitante">
         </div>
 
         <div class="form-group col-md-2">
-          <label for="celularCotiAdd" class="form-label" style="font-weight: bold">Numero Celular:</label>
-          <input type="number" class="form-control" id="celularCotiAdd" name="celularCotiAdd" value=""
+          <label for="celularFichaTecAdd" class="form-label" style="font-weight: bold">Numero Celular:</label>
+          <input type="number" class="form-control" id="celularFichaTecAdd" name="celularFichaTecAdd" value=""
             placeholder="Ingrese Celular">
         </div>
 
         <div class="form-group col-md-4">
-          <label for="correoCotiAdd" class="form-label" style="font-weight: bold">Correo:</label>
-          <input type="text" class="form-control" id="correoCotiAdd" name="correoCotiAdd" value=""
+          <label for="correoFichaTecAdd" class="form-label" style="font-weight: bold">Correo:</label>
+          <input type="text" class="form-control" id="correoFichaTecAdd" name="correoFichaTecAdd" value=""
             placeholder="Ingrese Correo">
         </div>
 
         <div class="col-md-12" style="margin-bottom: 10px;">
-          <label for="detalleCotiAdd" class="form-label" style="font-weight: bold">Observaciones: </label>
-          <input type="text" class="form-control" id="detalleCotiAdd" name="detalleCotiAdd"
+          <label for="detalleFichaTecAdd" class="form-label" style="font-weight: bold">Observaciones: </label>
+          <input type="text" class="form-control" id="detalleFichaTecAdd" name="detalleFichaTecAdd"
             placeholder="Ingrese observacion para la Ficha tecnica">
         </div>
         <!-- fin -->
       </div>
 
-      <!-- Productos -->
+      <!-- Ficha tecnica -->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
         <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
           <h3>Subir Ficha Tecnica</h3>

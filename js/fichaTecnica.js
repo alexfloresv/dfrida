@@ -1,67 +1,554 @@
-let zipContent = null; // Variable global para almacenar el contenido del ZIP
+/* let zipContent = null; // Variable global para almacenar el contenido del ZIP
 
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('btnfileFichaTecnica').addEventListener('click', function() {
-        document.getElementById('fileFichaTecnica').click();
+document.addEventListener("DOMContentLoaded", function () {
+  document
+    .getElementById("btnfileFichaTecnicaEdit")
+    .addEventListener("click", function () {
+      document.getElementById("fileFichaTecnicaEdit").click();
     });
 
-    document.getElementById('fileFichaTecnica').addEventListener('change', handleFileUpload);
+  document
+    .getElementById("fileFichaTecnicaEdit")
+    .addEventListener("change", handleFileUpload);
 
-    document.getElementById('btnDescargarFichaTecnica').addEventListener('click', function() {
-        if (!document.getElementById('fileFichaTecnica').files[0]) {
-            alert('Por favor, selecciona un archivo primero.');
-            return;
-        }
+  document
+    .getElementById("btnDescargarFichaTecnica")
+    .addEventListener("click", function () {
+      if (!document.getElementById("fileFichaTecnicaEdit").files[0]) {
+        alert("Por favor, selecciona un archivo primero.");
+        return;
+      }
 
-        if (!zipContent) {
-            alert('El archivo aún está procesándose. Por favor, espera.');
-            return;
-        }
+      if (!zipContent) {
+        alert("El archivo aún está procesándose. Por favor, espera.");
+        return;
+      }
 
-        // Utiliza la variable global zipContent para iniciar la descarga
-        saveAs(zipContent, "archivo.zip");
+      // Utiliza la variable global zipContent para iniciar la descarga
+      saveAs(zipContent, "archivo.zip");
     });
 });
 
 function handleFileUpload() {
-    const file = document.getElementById('fileFichaTecnica').files[0];
-    if (!file) {
-        alert('No se ha seleccionado ningún archivo.');
-        return;
-    }
+  const file = document.getElementById("fileFichaTecnicaEdit").files[0];
+  if (!file) {
+    alert("No se ha seleccionado ningún archivo.");
+    return;
+  }
 
-    updateProgressBar(0); // Inicia la barra de progreso en 0%
-    zipContent = null; // Resetea el contenido del ZIP
+  updateProgressBar(0); // Inicia la barra de progreso en 0%
+  zipContent = null; // Resetea el contenido del ZIP
 
-    const reader = new FileReader();
-    reader.onload = function(loadEvent) {
-        const base64 = loadEvent.target.result;
-        const zip = new JSZip();
-        zip.file(file.name, base64.split('base64,')[1], {base64: true});
-//ajx
-//if
-//true
-//falso
-        zip.generateAsync({type:"blob"}, function(metadata) {
-            // Actualiza la barra de progreso con el porcentaje real del proceso
-            updateProgressBar(metadata.percent);
-        }).then(function(content) {
-            zipContent = content; // Almacena el contenido del ZIP en la variable global
-            updateProgressBar(100); // Asegura que la barra de progreso muestre 100%
-        });
-    };
-    reader.readAsDataURL(file);
+  const reader = new FileReader();
+  reader.onload = function (loadEvent) {
+    const base64 = loadEvent.target.result;
+    console.log(base64); // Muestra el código base64 en la consola
+
+    const zip = new JSZip();
+    zip.file(file.name, base64.split("base64,")[1], { base64: true });
+
+    zip
+      .generateAsync({ type: "blob" }, function (metadata) {
+        // Actualiza la barra de progreso con el porcentaje real del proceso
+        updateProgressBar(metadata.percent);
+      })
+      .then(function (content) {
+        zipContent = content; // Almacena el contenido del ZIP en la variable global
+        updateProgressBar(100); // Asegura que la barra de progreso muestre 100%
+      });
+  };
+  reader.readAsDataURL(file);
 }
 
 function updateProgressBar(percent) {
-    const progressBar = document.getElementById('progressBar');
-    progressBar.style.width = percent + '%';
-    // Actualiza el texto dentro de la barra de progreso
-    if (percent > 0 && percent < 100) {
-        progressBar.textContent = 'Cargando...';
-    } else if (percent >= 100) {
-        progressBar.textContent = 'Completado';
-    } else {
-        progressBar.textContent = ''; // Limpia el texto si la barra está en 0%
-    }
+  const progressBar = document.getElementById("progressBarEdit");
+  progressBar.style.width = percent + "%";
+  // Actualiza el texto dentro de la barra de progreso
+  if (percent > 0 && percent < 100) {
+    progressBar.textContent = "Cargando...";
+  } else if (percent >= 100) {
+    progressBar.textContent = "Completado";
+  } else {
+    progressBar.textContent = ""; // Limpia el texto si la barra está en 0%
+  }
 }
+//fin zip */
+
+// Crear ficha tecnica
+
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/fichaTecnica";
+  if (currentPath == appPath) {
+    //crear dato base 64 y enviarlo por ajax
+
+    // Definición de la variable global para almacenar el Base64 y el nombre del archivo
+    var fichaTecnicaData = {
+      base64: null,
+      nombreArchivo: null,
+      extensionArchivo: null,
+    };
+
+    // Evento para abrir el diálogo de selección de archivo
+    document
+      .getElementById("btnfileFichaTecnica")
+      .addEventListener("click", function () {
+        document.getElementById("fileFichaTecnica").click();
+      });
+
+    // Evento para manejar el cambio de archivo y convertirlo a base64
+    document
+      .getElementById("fileFichaTecnica")
+      .addEventListener("change", convertirArchivoABase64YGuardarComoJSON);
+
+    // Función para convertir el archivo seleccionado a base64 y almacenarlo en la variable global
+    function convertirArchivoABase64YGuardarComoJSON() {
+      const file = document.getElementById("fileFichaTecnica").files[0];
+      if (!file) {
+        alert("No se ha seleccionado ningún archivo.");
+        return;
+      }
+
+      updateProgressBar(0); // Inicia la barra de progreso en 0%
+      const reader = new FileReader();
+      reader.onload = function (loadEvent) {
+        const base64 = loadEvent.target.result;
+        // Extrae el nombre del archivo y su extensión
+        const nombreCompletoArchivo = file.name;
+        const extensionArchivo = nombreCompletoArchivo.slice(
+          nombreCompletoArchivo.lastIndexOf(".") + 1
+        );
+        const nombreArchivo = nombreCompletoArchivo.slice(
+          0,
+          nombreCompletoArchivo.lastIndexOf(".")
+        );
+        // Almacena el resultado en base64 y el nombre del archivo en la variable global
+        fichaTecnicaData.base64 = base64.split("base64,")[1];
+        fichaTecnicaData.nombreArchivo = nombreArchivo;
+        fichaTecnicaData.extensionArchivo = extensionArchivo;
+        updateProgressBar(100); // Asegura que la barra de progreso muestre 100%
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Función para actualizar la barra de progreso
+    function updateProgressBar(percent) {
+      const progressBar = document.getElementById("progressBar");
+      progressBar.style.width = percent + "%";
+      if (percent > 0 && percent < 100) {
+        progressBar.textContent = "Cargando...";
+      } else if (percent >= 100) {
+        progressBar.textContent = "Completado";
+      } else {
+        progressBar.textContent = "";
+      }
+    }
+    //fin
+    //si la ruta no es la correcta no se ejecuta la función
+    document
+      .getElementById("btnRegistrarFichaTecnica")
+      .addEventListener("click", function (event) {
+        //obtener el formulario por id
+        var formulario = document.getElementById("formFichaTecnica");
+        var datosFormulario = {};
+        //obtener los elementos del formulario
+        var elementosFormulario = formulario.querySelectorAll("input, select");
+        //for each para recorrer los elementos del formulario y asignarle la clave como su id y su valor
+        elementosFormulario.forEach(function (elemento) {
+          if (elemento.id) {
+            datosFormulario[elemento.id] = elemento.value;
+          }
+        });
+        //crear el json
+        var jsonCrearfichaTecnica = JSON.stringify(datosFormulario);
+        console.log(jsonCrearfichaTecnica);
+        //llamar ala bafiable donde esta el json dela ficha tecninca y enviarlo junto al los datos  al servuidor
+        var jsonFichaTecnicaBase64 = JSON.stringify(fichaTecnicaData);
+        console.log(jsonFichaTecnicaBase64);
+        $.ajax({
+          url: "ajax/fichaTecnica.ajax.php",
+          method: "POST",
+          data: {
+            jsonCrearfichaTecnica: jsonCrearfichaTecnica,
+            jsonFichaTecnicaBase64: jsonFichaTecnicaBase64,
+          },
+          dataType: "json",
+          success: function (response) {
+            // Función para limpiar los datos de la URL
+            var limpiarURL = function () {
+              window.history.pushState(
+                {},
+                document.title,
+                window.location.pathname
+              );
+            };
+
+            if (response == "ok") {
+              Swal.fire({
+                icon: "success",
+                title: "Correcto",
+                html: "Ficha Tecnica Creada Correctamente <strong>¿Desea Crear Otra?</strong> ",
+                showCancelButton: true,
+                confirmButtonText: "Si",
+                cancelButtonText: "No",
+              }).then(function (result) {
+                if (result.value) {
+                  limpiarURL();
+                  window.location.reload();
+                } else {
+                  window.location.href = "/dfrida/fichaTecnicaList";
+                }
+              });
+            } else if (response == "errorForm") {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                html: "No se pudo crear la Ficha Tecnica  verifique los siguentes datos <br><strong>Nombre Ficha, Fecha, Descripcion Ficha</strong>.",
+                showCancelButton: true,
+                confirmButtonText: "Ok",
+                cancelButtonText: "No",
+              }).then(function (result) {
+                if (result.value) {
+                  limpiarURL();
+                } else {
+                  window.location.href = "/dfrida/fichaTecnicaList";
+                }
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                html: "No se pudo crear la Ficha Tecnica<br><strong>Ingrese una Ficha Tecnica</strong>.",
+                showCancelButton: true,
+                confirmButtonText: "Ok",
+                cancelButtonText: "No",
+              }).then(function (result) {
+                if (result.value) {
+                  limpiarURL();
+                } else {
+                  window.location.href = "/dfrida/fichaTecnicaList";
+                }
+              });
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
+      });
+    //fin vericar ruta
+  }
+});
+//fin crear ficha tecnica
+
+// Enviar código a la vista de editar ficha técnica para visualizar los datos
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/fichaTecnicaList";
+  if (currentPath == appPath) {
+    $(".dataTableFichaTenica").on("click", ".btnEditFichaTecnica", function () {
+      var codFichaTec = $(this).attr("codFichaTec");
+      // Usar la variable directamente en la URL de redirección
+      window.location.href =
+        "/dfrida/fichaTecnicaEdit?codFichaTec=" + codFichaTec;
+    });
+  }
+});
+// Fin
+//tomar el valor de la ur y asignarlo al campo oculto
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/fichaTecnicaEdit";
+  if (currentPath == appPath) {
+    // Función para obtener el valor de un parámetro por nombre
+    function getQueryParam(name) {
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(window.location.href);
+      if (!results) return null;
+      if (!results[2]) return "";
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    // Extraer el valor de 'codFichaTec' de la URL
+    var codFichaTec = getQueryParam("codFichaTec");
+    if (codFichaTec) {
+      // Asignar el valor extraído al campo oculto
+      document.getElementById("codFichaTec").value = codFichaTec;
+
+      // Eliminar el parámetro 'codFichaTec' de la URL
+      var newUrl = window.location.pathname;
+      history.replaceState(null, "", newUrl);
+    }
+
+    //  editar ficha tecnica
+    var codFichaTec = document.getElementById("codFichaTec").value;
+    var data = new FormData();
+    data.append("codFichaTec", codFichaTec);
+    //visualizar los datos
+    $.ajax({
+      url: "ajax/fichaTecnica.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        $("#codFichaTec").val(response["idFichTec"]);
+        $("#nombreFichaTecEdit").val(response["nombreFichaTec"]);
+        $("#fechaFichaTecEdit").val(response["fechaFichaTec"]);
+        $("#clienteFichaTecEdit").val(response["clienteFichaTec"]);
+        $("#descripcionFichaTecEdit").val(response["descripcionFichaTec"]);
+        $("#codigoFichaTecEdit").val(response["codigoFichaTec"]);
+        $("#nombreSoliFichaTecEdit").val(response["nombreSoliFichaTec"]);
+        $("#celularFichaTecEdit").val(response["celularFichaTec"]);
+        $("#correoFichaTecEdit").val(response["correoFichaTec"]);
+        $("#detalleFichaTecEdit").val(response["detalleFichaTec"]);
+        response["detalleFichaTec"] = fichaTecnicaBase64;
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+    //fin visualizar los datos
+
+    //inicio zip
+    let zipContent = null; // Variable global para almacenar el contenido del ZIP
+
+    document.addEventListener("DOMContentLoaded", function () {
+      document
+        .getElementById("btnfileFichaTecnicaEdit")
+        .addEventListener("click", function () {
+          document.getElementById("fileFichaTecnicaEdit").click();
+        });
+
+      document
+        .getElementById("fileFichaTecnicaEdit")
+        .addEventListener("change", handleFileUpload);
+
+      document
+        .getElementById("btnDescargarFichaTecnica")
+        .addEventListener("click", function () {
+          if (!document.getElementById("fileFichaTecnicaEdit").files[0]) {
+            alert("Por favor, selecciona un archivo primero.");
+            return;
+          }
+
+          if (!zipContent) {
+            alert("El archivo aún está procesándose. Por favor, espera.");
+            return;
+          }
+
+          // Utiliza la variable global zipContent para iniciar la descarga
+          saveAs(zipContent, "archivo.zip");
+        });
+    });
+
+    function handleFileUpload() {
+      const file = document.getElementById("fileFichaTecnicaEdit").files[0];
+      if (!file) {
+        alert("No se ha seleccionado ningún archivo.");
+        return;
+      }
+
+      updateProgressBar(0); // Inicia la barra de progreso en 0%
+      zipContent = null; // Resetea el contenido del ZIP
+
+      const reader = new FileReader();
+      reader.onload = function (loadEvent) {
+        const base64 = loadEvent.target.result;
+        console.log(base64); // Muestra el código base64 en la consola
+
+        const zip = new JSZip();
+        zip.file(file.name, base64.split("base64,")[1], { base64: true });
+
+        zip
+          .generateAsync({ type: "blob" }, function (metadata) {
+            // Actualiza la barra de progreso con el porcentaje real del proceso
+            updateProgressBar(metadata.percent);
+          })
+          .then(function (content) {
+            zipContent = content; // Almacena el contenido del ZIP en la variable global
+            updateProgressBar(100); // Asegura que la barra de progreso muestre 100%
+          });
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function updateProgressBar(percent) {
+      const progressBar = document.getElementById("progressBarEdit");
+      progressBar.style.width = percent + "%";
+      // Actualiza el texto dentro de la barra de progreso
+      if (percent > 0 && percent < 100) {
+        progressBar.textContent = "Cargando...";
+      } else if (percent >= 100) {
+        progressBar.textContent = "Completado";
+      } else {
+        progressBar.textContent = ""; // Limpia el texto si la barra está en 0%
+      }
+    }
+    //fin zip
+
+    $("#btnEditarFichaTecnica").on("click", function () {
+      //obtener el formulario por id
+      var formulario = document.getElementById("formEditarFcichaTecnica");
+      var datosFormulario = {};
+      //obtener los elementos del formulario
+      var elementosFormulario = formulario.querySelectorAll("input, select");
+      //for each para recorrer los elementos del formulario y asignarle la clave como su id y su valor
+      elementosFormulario.forEach(function (elemento) {
+        if (elemento.id) {
+          datosFormulario[elemento.id] = elemento.value;
+        }
+      });
+      //crear el json
+      var jsonEditarFichaTecnica = JSON.stringify(datosFormulario);
+      //enviar el json por ajax
+      $.ajax({
+        url: "ajax/fichaTecnica.ajax.php",
+        method: "POST",
+        data: { jsonEditarFichaTecnica: jsonEditarFichaTecnica },
+        dataType: "json",
+        success: function (response) {
+          if (response == "ok") {
+            Swal.fire(
+              "Correcto",
+              "Ficha Tecnica editada correctamente",
+              "success"
+            ).then(function () {
+              window.location.href = "/dfrida/fichaTecnicaList";
+            });
+          } else {
+            Swal.fire(
+              "Error",
+              "La ficha Tecnica no se ha podido editar",
+              "error"
+            ).then(function () {});
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    });
+    //fin editar
+  }
+});
+//fin
+
+// eliminar Cotizacion
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/fichaTecnicaList";
+  if (currentPath == appPath) {
+    $(".dataTableFichaTenica").on(
+      "click",
+      ".btnDeleteFichaTecnica",
+      function () {
+        var codFichaTec = $(this).attr("codFichaTec");
+        //mensaje de confirmación para eliminar ProductosMprima
+        swal
+          .fire({
+            title: "¿Está seguro de borrar Ficha Tecnica ?",
+            text: "¡No podrá revertir el cambio!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "Cancelar",
+            confirmButtonText: "Si, borrar Ficha Tecnica!",
+          })
+          .then((result) => {
+            if (result.isConfirmed) {
+              var jsonBorraFichaTecnica = JSON.stringify({
+                codFichaTec: codFichaTec,
+              });
+              $.ajax({
+                url: "ajax/fichaTecnica.ajax.php",
+                method: "POST",
+                data: { jsonBorraFichaTecnica: jsonBorraFichaTecnica },
+                dataType: "json",
+                success: function (response) {
+                  if (response == "ok") {
+                    Swal.fire(
+                      "Correcto",
+                      "Ficha Tecnica eliminada correctamente",
+                      "success"
+                    ).then(function () {
+                      window.location.reload(); // Recargar la página
+                    });
+                  } else {
+                    Swal.fire(
+                      "Error",
+                      "La Ficha Tecnica no se puede eliminar",
+                      "error"
+                    ).then(function () {
+                      //window.location.reload(); // Recargar la página
+                    });
+                  }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                  console.log(
+                    "Error en la solicitud AJAX: ",
+                    textStatus,
+                    errorThrown
+                  );
+                },
+              });
+            }
+          });
+      }
+    );
+  }
+});
+//fin eliminar
+
+// bton de agregar ficha tecnica redirecciona a la vista de ficha tecnica
+document.addEventListener("DOMContentLoaded", function () {
+  //si la ruta no es la correcta no se ejecuta la función
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/fichaTecnicaList";
+  if (currentPath == appPath) {
+    var btn = document.getElementById("btnAddFichaTecnica");
+    if (btn) {
+      btn.addEventListener("click", function () {
+        window.location.href = "/dfrida/fichaTecnica";
+      });
+    }
+  }
+});
+
+// bton de cerrar ficha tecnica redirecciona a la vista de fichas tecnicas
+document.addEventListener("DOMContentLoaded", function () {
+  //si la ruta no es la correcta no se ejecuta la función
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/fichaTecnica";
+  if (currentPath == appPath) {
+    var btn = document.getElementById("btnCerrarFichaTecnica");
+    if (btn) {
+      btn.addEventListener("click", function () {
+        window.location.href = "/dfrida/fichaTecnicaList";
+      });
+    }
+  }
+});
+
+// bton de cerrar Editficha tecnica redirecciona a la vista de fichas tecnicas
+document.addEventListener("DOMContentLoaded", function () {
+  //si la ruta no es la correcta no se ejecuta la función
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/fichaTecnicaEdit";
+  if (currentPath == appPath) {
+    var btn = document.getElementById("btnCerrarEditFichaTecnica");
+    if (btn) {
+      btn.addEventListener("click", function () {
+        window.location.href = "/dfrida/fichaTecnicaList";
+      });
+    }
+  }
+});

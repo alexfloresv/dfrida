@@ -30,9 +30,7 @@
   <a class="nav-link" href="nuevoIngreso"><i class="fa-solid fa-hand-holding-medical"></i><span style="margin-left: 10px;">Produccion</span></a>
   <a class="nav-link" href="nuevoIngreso"><i class="fa-solid fa-trash-arrow-up"></i><span style="margin-left: 10px;">Mermas</span></a>
   <a class="nav-link" href="nuevoIngreso"><i class="fa-solid fa-person-walking-arrow-loop-left"></i><span style="margin-left: 10px;">Producto Merma</span></a>
-  <a class="nav-link" href="nuevoIngreso"><i class="fa-solid fa-trash-can"></i><span style="margin-left: 10px;">Desecho Merma</span></a>
-    <a class="nav-link" href="nuevoIngreso"><i class="fa-solid fa-plus"></i><span style="margin-left: 10px;">Crear Nuevo Ingreso</span></a>
-    <a class="nav-link" href="ingresos"><i class="fa-solid fa-file-lines"></i><span style="margin-left: 10px;">Todos los Ingresos</span></a>
+
   </nav>
 </div>
 
@@ -49,9 +47,6 @@
   <a class="nav-link" href="notaPedido"><i class="fa-solid fa-arrows-up-to-line"></i><span style="margin-left: 5px;">Salida Productos</span></a>
   <a class="nav-link" href="notaPedido"><i class="fa-solid fa-boxes-stacked"></i><span style="margin-left: 5px;">Ingreso Materia Prima</span></a>
     <a class="nav-link" href="notaPedido"><i class="fa-solid fa-arrow-up-from-ground-water"></i><span style="margin-left: 5px;">Salida Materia Prima</span></a>
-    <a class="nav-link" href="notaPedido"><i class="fa-solid fa-cart-plus"></i><span style="margin-left: 5px;">Nueva Nota</span></a>
-    <a class="nav-link" href="nuevoLote"><i class="fa-solid fa-file-circle-plus"></i><span style="margin-left: 5px;">Nueva Factura</span></a>
-    <a class="nav-link" href="verSalidas"><i class="fa-solid fa-layer-group"></i><span style="margin-left: 5px;">Ver Salidas</span></a>
   </nav>
 </div>
 
@@ -66,7 +61,7 @@
   <nav class="sb-sidenav-menu-nested nav">
     <a class="nav-link" href="categorias"><i class="fa-solid fa-cart-plus"></i><span style="margin-left: 5px;">Pedido</span></a>
     <a class="nav-link" href="cotizacionList"><i class="fa-solid fa-file-signature"></i><span style="margin-left: 5px;">Cotizaciones</span></a>
-    <a class="nav-link" href="fichaTecnica"><i class="fa-solid fa-book"></i><span style="margin-left: 5px;">Ficha Tecnica</span></a>
+    <a class="nav-link" href="fichaTecnicaList"><i class="fa-solid fa-book"></i><span style="margin-left: 5px;">Ficha Tecnica</span></a>
     <a class="nav-link" href="categorias"><i class="fa-solid fa-network-wired"></i><span style="margin-left: 5px;">Fichas de Trabajo</span></a>
     <a class="nav-link" href="products"><i class="fa-solid fa-dolly"></i><span style="margin-left: 5px;">Productos</span></a>
     <a class="nav-link" href="productMprima"><i class="fa-solid fa-truck-ramp-box"></i><span style="margin-left: 5px;">Productos Prima</span></a>
