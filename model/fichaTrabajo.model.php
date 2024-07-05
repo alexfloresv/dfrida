@@ -2,7 +2,7 @@
 require_once "conexion.php";
 
 
-class FichaTecnicaModel
+class FichaTrabajoModel
 {
   //datatable de FichaTecnica
   public static function mdlDTableFichaTecnica($table)

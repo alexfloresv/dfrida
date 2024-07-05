@@ -36,12 +36,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Encabezado
                 doc.setFont("helvetica", "bold");
                 doc.setFontSize(16);
-                doc.text("Confeciones D'Frida", 14, 20);
+                doc.text("D'Frida Collection", 14, 20);
 
                 doc.setFontSize(10);
                 doc.text("Ruc: 20605835032", 14, 25);
-                doc.text("Email: dfrida@gmail.com", 14, 30);
+                doc.text("Email: dfridacollection@gmail.com", 14, 30);
                 doc.text("Teléfono: 957 983 430", 14, 35);
+                doc.text("Direccion:  CALLE SAN CARLOS NRO. 32 URB. LOS ANGELES", 14, 40);
 
                 // Cargar y agregar la imagen como fondo del documento
                 var imgBackground = new Image();

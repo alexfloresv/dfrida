@@ -53,7 +53,7 @@ class FichaTecnicaController
   // Editar ficha técnica
   public static function ctrEditarFichaTecnica($editarFichaTecnica, $jsonFichaTecnicaBase64)
   {
-    $table = 'ficha_Tecnica';
+    $table = 'ficha_tecnica';
     // Verificar si no se modificó la ficha técnica o si el JSON tiene "base64":null
     if
     (strpos($jsonFichaTecnicaBase64, '"base64":null') === false) {
@@ -104,7 +104,7 @@ class FichaTecnicaController
       $response = "error";
     } else {
       // Si la ficha técnica no está en uso, proceder con la eliminación
-      $table = "ficha_Tecnica";
+      $table = "ficha_tecnica";
       $response = FichaTecnicaModel::mdlDeleteFichaTecnica($table, $codFichaTec);
     }
     return $response;
@@ -123,7 +123,7 @@ class FichaTecnicaController
     $codCotiB64 = $codCotiB64["codFichaTec"];
     //cambiar estado de la ficha tecnica al descargar
     $newEstadoCoti = self::ctrEstadoDescargaFichaTecnica($codCotiB64);
-    $table = "ficha_Tecnica";
+    $table = "ficha_tecnica";
     $response = FichaTecnicaModel::mdlDescargarFichaTecnica($table, $codCotiB64);
     return $response;
   }
@@ -131,7 +131,7 @@ class FichaTecnicaController
   //cambiar estado de la ficha tecnica al descargar
   public static function ctrEstadoDescargaFichaTecnica($codCotiB64)
   {
-    $table = "ficha_Tecnica";
+    $table = "ficha_tecnica";
     $response = FichaTecnicaModel::mdlEstadoDescargaFichaTecnica($table, $codCotiB64);
     return $response;
   }

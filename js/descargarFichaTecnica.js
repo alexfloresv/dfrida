@@ -99,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           },
           error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText); // Procedencia de error
             console.log(
               "Error en la solicitud AJAX: ",
               textStatus,

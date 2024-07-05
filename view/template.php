@@ -35,6 +35,8 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
       $_GET["ruta"] == "fichaTecnica" ||
       $_GET["ruta"] == "fichaTecnicaList" ||
       $_GET["ruta"] == "fichaTecnicaEdit" ||
+      $_GET["ruta"] == "fichaTrabajo" ||
+      $_GET["ruta"] == "fichaTrabajoList" ||
       /*  $_GET["ruta"] == "ingresos" ||
     $_GET["ruta"] == "nuevoIngreso" ||
   $_GET["ruta"] == "almacen" ||
@@ -90,6 +92,7 @@ $_GET["ruta"] == "visualizarLote" || */
 <script src="dataTables/dt-categoriaProdMprima.js"></script>
 <script src="dataTables/dt-cotizacion.js"></script>
 <script src="dataTables/dt-fichaTecnica.js"></script>
+<script src="dataTables/dt-fichaTrabajo.js"></script>
 
 
 <!-- funciones js -->
@@ -104,6 +107,7 @@ $_GET["ruta"] == "visualizarLote" || */
 <script src="js/pdf.js"></script>
 <script src="js/fichaTecnica.js"></script>
 <script src="js/descargarFichaTecnica.js"></script>
+<script src="js/fichaTrabajo.js"></script>
 
 <!-- <script src="js/personal.js"></script> -->
 <!-- <script src="js/ingresos.js"></script> -->

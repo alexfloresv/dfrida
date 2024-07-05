@@ -138,6 +138,21 @@ document.addEventListener("DOMContentLoaded", function () {
                   window.location.href = "/dfrida/fichaTecnicaList";
                 }
               });
+            } else if (response == "errorFicha") {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                html: "No se pudo crear la Ficha Tecnica  el <strong>max_allowed_packet=1M</strong> no se modifico.",
+                showCancelButton: true,
+                confirmButtonText: "Ok",
+                cancelButtonText: "No",
+              }).then(function (result) {
+                if (result.value) {
+                  limpiarURL();
+                } else {
+                  window.location.href = "/dfrida/fichaTecnicaList";
+                }
+              });
             } else {
               Swal.fire({
                 icon: "error",
