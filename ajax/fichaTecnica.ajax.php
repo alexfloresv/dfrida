@@ -27,11 +27,12 @@ if (isset($_POST["codFichaTec"])) {
   $view->ajaxViewEditFichaTecnica($_POST["codFichaTec"]);
 }
 
-//editar ProductosMprima
-if (isset($_POST["jsonEditarProductosMprima"])) {
+//editar ficha tecnica
+if (isset($_POST["jsonEditarFichaTecnica"], $_POST["jsonFichaTecnicaBase64"])) {
   $edit = new FichaTecnicaAjax();
-  $edit->jsonEditarProductosMprima = $_POST["jsonEditarProductosMprima"];
-  $edit->ajaxEditarProductosMprima($_POST["jsonEditarProductosMprima"]);
+  $edit->jsonEditarFichaTecnica = $_POST["jsonEditarFichaTecnica"];
+  $edit->jsonFichaTecnicaBase64 = $_POST["jsonFichaTecnicaBase64"];
+  $edit->ajaxEditarFichaTecnica($_POST["jsonEditarFichaTecnica"], $_POST["jsonFichaTecnicaBase64"]);
 }
 //borrar FichaTecnica
 if (isset($_POST["jsonBorraFichaTecnica"])) {
@@ -80,10 +81,12 @@ class FichaTecnicaAjax
   }
 
   //  editar ProductosMprima
-  public function ajaxEditarProductosMprima($jsonEditarProductosMprima)
+  public function ajaxEditarFichaTecnica($jsonEditarFichaTecnica, $jsonFichaTecnicaBase64)
   {
-    $editarProductosMprima = json_decode($jsonEditarProductosMprima, true); // Decodificar la cadena de texto JSON en un array asociativo
-    $response = FichaTecnicaController::ctrEditProductMprima($editarProductosMprima);
+    $editarFichaTecnica = json_decode($jsonEditarFichaTecnica, true);
+
+    $response = FichaTecnicaController::ctrEditarFichaTecnica($editarFichaTecnica, $jsonFichaTecnicaBase64);
+
     echo json_encode($response);
   }
   //borrar FichaTecnica

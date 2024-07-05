@@ -1,81 +1,4 @@
-/* let zipContent = null; // Variable global para almacenar el contenido del ZIP
-
-document.addEventListener("DOMContentLoaded", function () {
-  document
-    .getElementById("btnfileFichaTecnicaEdit")
-    .addEventListener("click", function () {
-      document.getElementById("fileFichaTecnicaEdit").click();
-    });
-
-  document
-    .getElementById("fileFichaTecnicaEdit")
-    .addEventListener("change", handleFileUpload);
-
-  document
-    .getElementById("btnDescargarFichaTecnica")
-    .addEventListener("click", function () {
-      if (!document.getElementById("fileFichaTecnicaEdit").files[0]) {
-        alert("Por favor, selecciona un archivo primero.");
-        return;
-      }
-
-      if (!zipContent) {
-        alert("El archivo aún está procesándose. Por favor, espera.");
-        return;
-      }
-
-      // Utiliza la variable global zipContent para iniciar la descarga
-      saveAs(zipContent, "archivo.zip");
-    });
-});
-
-function handleFileUpload() {
-  const file = document.getElementById("fileFichaTecnicaEdit").files[0];
-  if (!file) {
-    alert("No se ha seleccionado ningún archivo.");
-    return;
-  }
-
-  updateProgressBar(0); // Inicia la barra de progreso en 0%
-  zipContent = null; // Resetea el contenido del ZIP
-
-  const reader = new FileReader();
-  reader.onload = function (loadEvent) {
-    const base64 = loadEvent.target.result;
-    console.log(base64); // Muestra el código base64 en la consola
-
-    const zip = new JSZip();
-    zip.file(file.name, base64.split("base64,")[1], { base64: true });
-
-    zip
-      .generateAsync({ type: "blob" }, function (metadata) {
-        // Actualiza la barra de progreso con el porcentaje real del proceso
-        updateProgressBar(metadata.percent);
-      })
-      .then(function (content) {
-        zipContent = content; // Almacena el contenido del ZIP en la variable global
-        updateProgressBar(100); // Asegura que la barra de progreso muestre 100%
-      });
-  };
-  reader.readAsDataURL(file);
-}
-
-function updateProgressBar(percent) {
-  const progressBar = document.getElementById("progressBarEdit");
-  progressBar.style.width = percent + "%";
-  // Actualiza el texto dentro de la barra de progreso
-  if (percent > 0 && percent < 100) {
-    progressBar.textContent = "Cargando...";
-  } else if (percent >= 100) {
-    progressBar.textContent = "Completado";
-  } else {
-    progressBar.textContent = ""; // Limpia el texto si la barra está en 0%
-  }
-}
-//fin zip */
-
 // Crear ficha tecnica
-
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/fichaTecnica";
@@ -143,7 +66,8 @@ document.addEventListener("DOMContentLoaded", function () {
         progressBar.textContent = "";
       }
     }
-    //fin
+    //fin crear dato base 64 y guardar como json en la variable global para enviarlo por ajax
+
     //si la ruta no es la correcta no se ejecuta la función
     document
       .getElementById("btnRegistrarFichaTecnica")
@@ -164,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(jsonCrearfichaTecnica);
         //llamar ala bafiable donde esta el json dela ficha tecninca y enviarlo junto al los datos  al servuidor
         var jsonFichaTecnicaBase64 = JSON.stringify(fichaTecnicaData);
-        console.log(jsonFichaTecnicaBase64);
+        //console.log(jsonFichaTecnicaBase64);
         $.ajax({
           url: "ajax/fichaTecnica.ajax.php",
           method: "POST",
@@ -187,7 +111,7 @@ document.addEventListener("DOMContentLoaded", function () {
               Swal.fire({
                 icon: "success",
                 title: "Correcto",
-                html: "Ficha Tecnica Creada Correctamente <strong>¿Desea Crear Otra?</strong> ",
+                html: "Ficha Tecnica Creada Correctamente <br><strong>¿Desea Crear Otra?</strong> ",
                 showCancelButton: true,
                 confirmButtonText: "Si",
                 cancelButtonText: "No",
@@ -245,6 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //fin crear ficha tecnica
 
+//inicio edicion de ficha tecnica
 // Enviar código a la vista de editar ficha técnica para visualizar los datos
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
@@ -286,6 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     //  editar ficha tecnica
+    //obtener el valor guardado en el campo oculto cuando carga la pagina
     var codFichaTec = document.getElementById("codFichaTec").value;
     var data = new FormData();
     data.append("codFichaTec", codFichaTec);
@@ -299,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
       processData: false,
       dataType: "json",
       success: function (response) {
-        $("#codFichaTec").val(response["idFichTec"]);
+        $("#codFichaTecEdit").val(response["idFichTec"]);
         $("#nombreFichaTecEdit").val(response["nombreFichaTec"]);
         $("#fechaFichaTecEdit").val(response["fechaFichaTec"]);
         $("#clienteFichaTecEdit").val(response["clienteFichaTec"]);
@@ -309,47 +235,47 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#celularFichaTecEdit").val(response["celularFichaTec"]);
         $("#correoFichaTecEdit").val(response["correoFichaTec"]);
         $("#detalleFichaTecEdit").val(response["detalleFichaTec"]);
-        response["detalleFichaTec"] = fichaTecnicaBase64;
+        $("#fichaTecDocEdit").val(response["docFichaTec"]);
+        if (response.hasOwnProperty("docFichaTec")) {
+          updateProgressBarEdit(100);
+        }
       },
+
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
       },
+      // Función simplificada para actualizar la barra de progreso
     });
+    function updateProgressBarEdit(percent) {
+      const progressBar = document.getElementById("progressBarEdit");
+      progressBar.style.width = percent + "%";
+      progressBar.textContent = " Ficha Tecnica Existente ";
+    }
     //fin visualizar los datos
 
-    //inicio zip
-    let zipContent = null; // Variable global para almacenar el contenido del ZIP
+    //crear dato base 64 y enviarlo por ajax
 
-    document.addEventListener("DOMContentLoaded", function () {
-      document
-        .getElementById("btnfileFichaTecnicaEdit")
-        .addEventListener("click", function () {
-          document.getElementById("fileFichaTecnicaEdit").click();
-        });
+    // Definición de la variable global para almacenar el Base64 y el nombre del archivo
+    var fichaTecnicaData = {
+      base64: null,
+      nombreArchivo: null,
+      extensionArchivo: null,
+    };
 
-      document
-        .getElementById("fileFichaTecnicaEdit")
-        .addEventListener("change", handleFileUpload);
+    // Evento para abrir el diálogo de selección de archivo
+    document
+      .getElementById("btnfileFichaTecnicaEdit")
+      .addEventListener("click", function () {
+        document.getElementById("fileFichaTecnicaEdit").click();
+      });
 
-      document
-        .getElementById("btnDescargarFichaTecnica")
-        .addEventListener("click", function () {
-          if (!document.getElementById("fileFichaTecnicaEdit").files[0]) {
-            alert("Por favor, selecciona un archivo primero.");
-            return;
-          }
+    // Evento para manejar el cambio de archivo y convertirlo a base64
+    document
+      .getElementById("fileFichaTecnicaEdit")
+      .addEventListener("change", convertirArchivoABase64YGuardarComoJSON);
 
-          if (!zipContent) {
-            alert("El archivo aún está procesándose. Por favor, espera.");
-            return;
-          }
-
-          // Utiliza la variable global zipContent para iniciar la descarga
-          saveAs(zipContent, "archivo.zip");
-        });
-    });
-
-    function handleFileUpload() {
+    // Función para convertir el archivo seleccionado a base64 y almacenarlo en la variable global
+    function convertirArchivoABase64YGuardarComoJSON() {
       const file = document.getElementById("fileFichaTecnicaEdit").files[0];
       if (!file) {
         alert("No se ha seleccionado ningún archivo.");
@@ -357,42 +283,40 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       updateProgressBar(0); // Inicia la barra de progreso en 0%
-      zipContent = null; // Resetea el contenido del ZIP
-
       const reader = new FileReader();
       reader.onload = function (loadEvent) {
         const base64 = loadEvent.target.result;
-        console.log(base64); // Muestra el código base64 en la consola
-
-        const zip = new JSZip();
-        zip.file(file.name, base64.split("base64,")[1], { base64: true });
-
-        zip
-          .generateAsync({ type: "blob" }, function (metadata) {
-            // Actualiza la barra de progreso con el porcentaje real del proceso
-            updateProgressBar(metadata.percent);
-          })
-          .then(function (content) {
-            zipContent = content; // Almacena el contenido del ZIP en la variable global
-            updateProgressBar(100); // Asegura que la barra de progreso muestre 100%
-          });
+        // Extrae el nombre del archivo y su extensión
+        const nombreCompletoArchivo = file.name;
+        const extensionArchivo = nombreCompletoArchivo.slice(
+          nombreCompletoArchivo.lastIndexOf(".") + 1
+        );
+        const nombreArchivo = nombreCompletoArchivo.slice(
+          0,
+          nombreCompletoArchivo.lastIndexOf(".")
+        );
+        // Almacena el resultado en base64 y el nombre del archivo en la variable global
+        fichaTecnicaData.base64 = base64.split("base64,")[1];
+        fichaTecnicaData.nombreArchivo = nombreArchivo;
+        fichaTecnicaData.extensionArchivo = extensionArchivo;
+        updateProgressBar(100); // Asegura que la barra de progreso muestre 100%
       };
       reader.readAsDataURL(file);
     }
 
+    // Función para actualizar la barra de progreso
     function updateProgressBar(percent) {
       const progressBar = document.getElementById("progressBarEdit");
       progressBar.style.width = percent + "%";
-      // Actualiza el texto dentro de la barra de progreso
       if (percent > 0 && percent < 100) {
         progressBar.textContent = "Cargando...";
       } else if (percent >= 100) {
-        progressBar.textContent = "Completado";
+        progressBar.textContent = "Cambio Completo";
       } else {
-        progressBar.textContent = ""; // Limpia el texto si la barra está en 0%
+        progressBar.textContent = "";
       }
     }
-    //fin zip
+    //fin crear dato base 64 y guardar como json en la variable global para enviarlo por ajax
 
     $("#btnEditarFichaTecnica").on("click", function () {
       //obtener el formulario por id
@@ -409,10 +333,15 @@ document.addEventListener("DOMContentLoaded", function () {
       //crear el json
       var jsonEditarFichaTecnica = JSON.stringify(datosFormulario);
       //enviar el json por ajax
+      //llamar ala bafiable donde esta el json dela ficha tecninca y enviarlo junto al los datos  al servuidor
+      var jsonFichaTecnicaBase64 = JSON.stringify(fichaTecnicaData);
       $.ajax({
         url: "ajax/fichaTecnica.ajax.php",
         method: "POST",
-        data: { jsonEditarFichaTecnica: jsonEditarFichaTecnica },
+        data: {
+          jsonEditarFichaTecnica: jsonEditarFichaTecnica,
+          jsonFichaTecnicaBase64: jsonFichaTecnicaBase64,
+        },
         dataType: "json",
         success: function (response) {
           if (response == "ok") {

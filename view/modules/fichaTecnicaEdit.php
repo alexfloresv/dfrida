@@ -80,6 +80,12 @@
         <!-- campo que guardel valor del boton y del ajax -->
         <input type="hidden" class="form-control" id="codFichaTec" name="codFichaTec">
 
+        <!-- campo que guardel valor del boton y del ajax -->
+        <input type="hidden" class="form-control" id="codFichaTecEdit" name="codFichaTecEdit">
+
+        <!-- campo que guarda el valor dela ficha tecnica del ajax para validarlo en el servidor-->
+        <input type="hidden" class="form-control" id="fichaTecDocEdit" name="fichaTecDocEdit">
+
       </div>
 
       <!-- archivo ficha tecnica -->

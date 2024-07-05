@@ -82,16 +82,19 @@
         <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
           <h3>Subir Ficha Tecnica</h3>
           <div class="d-inline-flex flex-column align-items-center m-2" style="text-align: center;">
-            <button type="button" class="btn btn-warning btnfileFichaTecnica" id="btnfileFichaTecnica" style="flex-direction: column-reverse; align-items: center;">
+            <button type="button" class="btn btn-warning btnfileFichaTecnica" id="btnfileFichaTecnica"
+              style="flex-direction: column-reverse; align-items: center;">
               <span style="display: block;">Agregar Ficha técnica</span>
               <i class="fa-solid fa-upload" style="font-size: 30px;"></i>
             </button>
             <input type="file" id="fileFichaTecnica" style="display: none;" />
-            <div id="progressBarContainer" style="width: 100%; background-color: #ddd; margin-top: 10px; border-radius: 5px;">
-              <div id="progressBar" style="height: 30px; width: 0%; background-color: #4CAF50; border-radius: 5px;"></div>
+            <div id="progressBarContainer"
+              style="width: 100%; background-color: #ddd; margin-top: 10px; border-radius: 5px;">
+              <div id="progressBar" style="height: 30px; width: 0%; background-color: #4CAF50; border-radius: 5px;">
+              </div>
             </div>
           </div>
-          <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-secondary btnDescargarFichaTecnica" id="btnDescargarFichaTecnica">Descargar archivo</button>
+
         </div>
 
       </div>

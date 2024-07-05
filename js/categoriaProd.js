@@ -1,4 +1,3 @@
-
 // Iniciar función por el document solo si se encuentra en la vista o ruta correcta que debe de ser "products"
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
@@ -7,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document
       .getElementById("btnCrearCategoriaProd")
       .addEventListener("click", function (event) {
-        
         var formulario = document.getElementById("formCrearCategoriaProd");
         var datosFormulario = {};
         var elementosFormulario = formulario.querySelectorAll("input, select");
@@ -83,29 +81,37 @@ document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/products";
   if (currentPath == appPath) {
-    $(".dataTableCategoriasProductos").on("click", ".btnEditCatProd", function () {
-      var codCatPro = $(this).attr("codCatPro");
-      var data = new FormData();
-      data.append("codCatPro", codCatPro);
-      //visualizar los datos del Productos en el modal
-      $.ajax({
-        url: "ajax/categoriaProd.ajax.php",
-        method: "POST",
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-        success: function (response) {
-          //console.log(response);
-          $("#codCatPro").val(response["idCatPro"]);
-          $("#categoriaNameProdEditar").val(response["nombreCategoriaProd"]);
+    $(".dataTableCategoriasProductos").on(
+      "click",
+      ".btnEditCatProd",
+      function () {
+        var codCatPro = $(this).attr("codCatPro");
+        var data = new FormData();
+        data.append("codCatPro", codCatPro);
+        //visualizar los datos del Productos en el modal
+        $.ajax({
+          url: "ajax/categoriaProd.ajax.php",
+          method: "POST",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (response) {
+            //console.log(response);
+            $("#codCatPro").val(response["idCatPro"]);
+            $("#categoriaNameProdEditar").val(response["nombreCategoriaProd"]);
           },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-        },
-      });
-    });
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
+      }
+    );
     //fin visualizar los datos del Productos en el modal
 
     //editar Productos si se da clic en el boton editar
