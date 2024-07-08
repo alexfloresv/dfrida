@@ -12,12 +12,11 @@ class FichaTecnicaController
   }
 
   //  crear ficha tecnica
-
-  public static function ctrCrearFichaTecnica($crearFichaTecnica, $jsonFichaTecnicaBase64)
+  public static function ctrCrearFichaTecnica($crearFichaTecnica, $jsonNombreArchivo, $jsonExtensionArchivo)
   {
     if ($crearFichaTecnica["nombreFichaTecAdd"] === "" || $crearFichaTecnica["fechaFichaTecAdd"] === "" || $crearFichaTecnica["descripcionFichaTecAdd"] === "") {
       $response = "errorForm";
-    } elseif (strpos($jsonFichaTecnicaBase64, '"base64":null') !== false) {
+    } elseif ($crearFichaTecnica["fileFichaTecnica"] === "") {
       $response = "error";
     } else {
       $table = "ficha_tecnica";
@@ -31,14 +30,43 @@ class FichaTecnicaController
         "celularFichaTec" => $crearFichaTecnica["celularFichaTecAdd"],
         "correoFichaTec" => $crearFichaTecnica["correoFichaTecAdd"],
         "detalleFichaTec" => $crearFichaTecnica["detalleFichaTecAdd"],
-        "docFichaTec" => $jsonFichaTecnicaBase64,
+        //"docFichaTec" => $jsonFichaTecnicaBase64,
         "estadoFichaTec" => 1,
         "DateCreate" => date("Y-m-d\TH:i:sP")
       );
       $response = FichaTecnicaModel::mdCrearFichaTecnica($table, $dataCreate);
+      if ($response === "ok") {
+        //obtener el ultimo registro de la ficha tecnica
+        $idFichaTec = self::ctrCrearObtenerElUltimoRegistro($table);
+        //registrar el documento de la ficha tecnica con el id del registro para ubicar el archivo en el direcorio id_fichatecnica
+        $docFichaTec = self::ctrRegistrarDocFichaTec($table, $idFichaTec, $jsonNombreArchivo, $jsonExtensionArchivo);
+        if ($docFichaTec === "ok") {
+          //retornar el id de la ficha tecnica para crear el archivo con el id como nombre
+          $response = $idFichaTec["idFichaTec"];
+        }
+      }
     }
     return $response;
-
+  }
+  //obtener el ultimo registro de la ficha tecnica
+  public static function ctrCrearObtenerElUltimoRegistro($table)
+  {
+    $response = FichaTecnicaModel::mdCrearObtenerElUltimoRegistro($table);
+    return $response;
+  }
+  //registrar el documento de la ficha tecnica con el id del registro para ubicar el archivo en el direcorio id_fichatecnica
+  public static function ctrRegistrarDocFichaTec($table, $idFichaTec, $jsonNombreArchivo, $jsonExtensionArchivo)
+  {
+    // Remover comillas dobles de las variables
+    $jsonNombreArchivo = str_replace('"', '', $jsonNombreArchivo);
+    $jsonExtensionArchivo = str_replace('"', '', $jsonExtensionArchivo);
+  
+    // Crear un texto con estos valores que son de tipo texto
+    $docFichaTec = $idFichaTec["idFichaTec"] . "_" . $jsonNombreArchivo . $jsonExtensionArchivo;
+  
+    $response = FichaTecnicaModel::mdlRegistrarDocFichaTec($table, $idFichaTec, $docFichaTec);
+  
+    return $response;
   }
   //  visualizar datos ficha tecnica
   public static function ctrViewDatosFichaTecnica($codFichaTec)

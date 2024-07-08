@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   }
                 },
               });
+              Swal.close();
 
               // Generar el ZIP.
               zip

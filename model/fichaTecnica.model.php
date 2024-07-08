@@ -52,7 +52,7 @@ interactive_timeout=300
   public static function mdCrearFichaTecnica($table, $dataCreate)
   {
     try {
-      $statement = Conexion::conn()->prepare("INSERT INTO $table (nombreFichaTec, fechaFichaTec, clienteFichaTec, descripcionFichaTec, codigoFichaTec, nombreSoliFichaTec, celularFichaTec, correoFichaTec, detalleFichaTec, docFichaTec, estadoFichaTec, DateCreate) VALUES(:nombreFichaTec, :fechaFichaTec, :clienteFichaTec, :descripcionFichaTec, :codigoFichaTec, :nombreSoliFichaTec, :celularFichaTec, :correoFichaTec, :detalleFichaTec, :docFichaTec, :estadoFichaTec, :DateCreate)");
+      $statement = Conexion::conn()->prepare("INSERT INTO $table (nombreFichaTec, fechaFichaTec, clienteFichaTec, descripcionFichaTec, codigoFichaTec, nombreSoliFichaTec, celularFichaTec, correoFichaTec, detalleFichaTec, estadoFichaTec, DateCreate) VALUES(:nombreFichaTec, :fechaFichaTec, :clienteFichaTec, :descripcionFichaTec, :codigoFichaTec, :nombreSoliFichaTec, :celularFichaTec, :correoFichaTec, :detalleFichaTec,  :estadoFichaTec, :DateCreate)");
   
       $statement->bindParam(":nombreFichaTec", $dataCreate["nombreFichaTec"], PDO::PARAM_STR);
       $statement->bindParam(":fechaFichaTec", $dataCreate["fechaFichaTec"], PDO::PARAM_STR);
@@ -63,7 +63,7 @@ interactive_timeout=300
       $statement->bindParam(":celularFichaTec", $dataCreate["celularFichaTec"], PDO::PARAM_INT);
       $statement->bindParam(":correoFichaTec", $dataCreate["correoFichaTec"], PDO::PARAM_STR);
       $statement->bindParam(":detalleFichaTec", $dataCreate["detalleFichaTec"], PDO::PARAM_STR);
-      $statement->bindParam(":docFichaTec", $dataCreate["docFichaTec"], PDO::PARAM_STR);
+      //$statement->bindParam(":docFichaTec", $dataCreate["docFichaTec"], PDO::PARAM_STR);
       $statement->bindParam(":estadoFichaTec", $dataCreate["estadoFichaTec"], PDO::PARAM_INT);
       $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
   
@@ -74,6 +74,27 @@ interactive_timeout=300
       }
     } catch (PDOException $e) {
       return "errorFicha"; 
+    }
+  }
+  //obtener el ultimo registro de la ficha tecnica
+  public static function mdCrearObtenerElUltimoRegistro($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idFichaTec FROM $table ORDER BY idFichaTec DESC LIMIT 1");
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    return $result;
+  }
+  //registrar el documento de la ficha tecnica
+  public static function mdlRegistrarDocFichaTec($table, $idFichaTec,$docFichaTec)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET docFichaTec = :docFichaTec WHERE idFichaTec = :idFichaTec");
+
+    $statement->bindParam(":idFichaTec", $idFichaTec["idFichaTec"], PDO::PARAM_INT);
+    $statement->bindParam(":docFichaTec", $docFichaTec, PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
     }
   }
   //  visualizar datos ficha tecnica

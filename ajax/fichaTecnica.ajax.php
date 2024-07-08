@@ -12,12 +12,13 @@ if (isset($_POST["todasLasFichasTecnicas"])) {
   $todasLasFichasTecnicas = new FichaTecnicaAjax();
   $todasLasFichasTecnicas->ajaxDTableFichaTecnica();
 }
-//  crear Cotizacion
-if (isset($_POST["jsonCrearfichaTecnica"], $_POST["jsonFichaTecnicaBase64"])) {
+//  crear FichaTecnica
+if (isset($_POST["jsonCrearfichaTecnica"], $_POST["jsonNombreArchivo"], $_POST["jsonExtensionArchivo"])) {
   $create = new FichaTecnicaAjax();
   $create->jsonCrearfichaTecnica = $_POST["jsonCrearfichaTecnica"];
-  $create->jsonFichaTecnicaBase64 = $_POST["jsonFichaTecnicaBase64"];
-  $create->ajaxCrearFichaTecnia($_POST["jsonCrearfichaTecnica"], $_POST["jsonFichaTecnicaBase64"]);
+  $create->jsonNombreArchivo = $_POST["jsonNombreArchivo"];
+  $create->jsonExtensionArchivo = $_POST["jsonExtensionArchivo"];
+  $create->ajaxCrearFichaTecnia($_POST["jsonCrearfichaTecnica"], $_POST["jsonNombreArchivo"], $_POST["jsonExtensionArchivo"]);
 }
 
 //  visualizar datos ficha tecnica
@@ -64,11 +65,11 @@ class FichaTecnicaAjax
   }
 
   //  crear ficha tecnica
-  public function ajaxCrearFichaTecnia($jsonCrearfichaTecnica, $jsonFichaTecnicaBase64)
+  public function ajaxCrearFichaTecnia($jsonCrearfichaTecnica, $jsonNombreArchivo, $jsonExtensionArchivo)
   {
     $crearFichaTecnica = json_decode($jsonCrearfichaTecnica, true);
 
-    $response = FichaTecnicaController::ctrCrearFichaTecnica($crearFichaTecnica, $jsonFichaTecnicaBase64);
+    $response = FichaTecnicaController::ctrCrearFichaTecnica($crearFichaTecnica, $jsonNombreArchivo, $jsonExtensionArchivo);
     echo json_encode($response);
   }
 
