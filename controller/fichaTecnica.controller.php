@@ -60,12 +60,12 @@ class FichaTecnicaController
     // Remover comillas dobles de las variables
     $jsonNombreArchivo = str_replace('"', '', $jsonNombreArchivo);
     $jsonExtensionArchivo = str_replace('"', '', $jsonExtensionArchivo);
-  
+
     // Crear un texto con estos valores que son de tipo texto
     $docFichaTec = $idFichaTec["idFichaTec"] . "_" . $jsonNombreArchivo . $jsonExtensionArchivo;
-  
+
     $response = FichaTecnicaModel::mdlRegistrarDocFichaTec($table, $idFichaTec, $docFichaTec);
-  
+
     return $response;
   }
   //  visualizar datos ficha tecnica
@@ -133,8 +133,17 @@ class FichaTecnicaController
     } else {
       // Si la ficha técnica no está en uso, proceder con la eliminación
       $table = "ficha_tecnica";
-      $response = FichaTecnicaModel::mdlDeleteFichaTecnica($table, $codFichaTec);
+      //obtebre el nombre de la ficha tecnica para eliminar el archivo
+      $docFichaTec = self::ctrDocFichaTecnica($table, $codFichaTec);
+      $eliminar = FichaTecnicaModel::mdlDeleteFichaTecnica($table, $codFichaTec);
+      
     }
+    return $docFichaTec;
+  }
+  //obtebre el nombre de la ficha tecnica para eliminar el archivo
+  public static function ctrDocFichaTecnica($table, $codFichaTec)
+  {
+    $response = FichaTecnicaModel::mdlDocFichaTecnica($table, $codFichaTec);
     return $response;
   }
   //verificar si esta en uso la ficha tecnica

@@ -14,18 +14,18 @@ document.addEventListener("DOMContentLoaded", function () {
     var fileFichaTecnica = document.getElementById("fileFichaTecnica");
     fileFichaTecnica.addEventListener("change", handleFileSelect);
 
-    let nombreArchivoSeleccionado; // Variable global para almacenar el nombre del archivo
-    let extensionArchivoSeleccionado; // Variable global para almacenar la extensión del archivo
-
     function handleFileSelect(event) {
       if (event.target.files.length > 0) {
         const file = event.target.files[0];
-        nombreArchivoSeleccionado = file.name.split(".").slice(0, -1).join("."); // Solo guarda el nombre base del archivo
-        extensionArchivoSeleccionado = "." + file.name.split(".").pop(); // Guarda la extensión del archivo, incluyendo el punto
-
-        //console.log("Archivo seleccionado:", nombreArchivoSeleccionado);
-        //console.log("Extensión del archivo:", extensionArchivoSeleccionado);
-
+        let nombreBaseArchivo = file.name.split(".").slice(0, -1).join("."); // Solo guarda el nombre base del archivo
+        let extensionArchivo = "." + file.name.split(".").pop(); // Guarda la extensión del archivo, incluyendo el punto
+    
+        // Limpiar el nombre del archivo, eliminando caracteres no deseados excepto el guion bajo (_)
+        nombreBaseArchivo = nombreBaseArchivo.replace(/[^a-zA-Z0-9._]/g, "");
+    
+        nombreArchivoSeleccionado = nombreBaseArchivo; // Actualiza la variable global con el nombre limpio
+        extensionArchivoSeleccionado = extensionArchivo; // Actualiza la variable global con la extensión
+    
         // Mostrar mensaje de carga
         Swal.fire({
           title: "Cargando la Ficha Técnica...",
@@ -43,12 +43,12 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           },
         });
-
+    
         // Cerrar el mensaje después de 2 segundos
         setTimeout(() => {
           Swal.close();
         }, 1000);
-
+    
         // Actualizar la barra de progreso
         updateProgressBar(100); // Ejemplo de actualización de progreso
       }
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 window.location.pathname
               );
             };
-            // Verificar si la respuesta es un número
+            // Verificar si la respuesta es un número el id del registro
             // Convierte response a una cadena para asegurar que .trim() funcione
             let responseStr = String(response).trim();
             // Verificar si la respuesta convertida a cadena es un número
@@ -183,26 +183,39 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append("nombreArchivo", nombreArchivoModificado); // Añade el nuevo nombre del archivo
         formData.append("fileFichaTecnica", file); // Añade el archivo
 
-        fetch("fichaTecnica", {
-          method: "POST",
-          body: formData,
-        })
-          // Recibe la respuesta del servidor aunque no sea valida almenos devuevle una respeusta para que no se quede cargando la pagina o se bloquee
-          .then((response) => response.text())
-          .then((result) => {
+        $.ajax({
+          url: "fichasTecnicas/guardarFichasTecnicas.php",
+          type: "POST",
+          data: formData,
+          processData: false, // Evitar que jQuery procese los datos
+          contentType: false, // Evitar que jQuery establezca el tipo de contenido
+          success: function (response) {
+            // Asumiendo que el servidor devuelve un objeto JSON con un campo "status"
+            if (response.status === "ok") {
+              Swal.fire({
+                icon: "success",
+                title: "Correcto",
+                html: "Ficha Técnica Registrada <strong>Correctamente</strong>.",
+                confirmButtonText: "Ok",
+              }).then((result) => {
+                window.location.href = "/dfrida/fichaTecnicaList";
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "No se pudo registrar la ficha técnica.",
+              });
+            }
+          },
+          error: function (xhr, status, error) {
             Swal.fire({
-              icon: "success",
-              title: "Correcto",
-              html: "<strong>Ficha Técnica Registrada Correctamente</strong>.",
-              confirmButtonText: "Ok",
-            }).then((result) => {
-              // Redirige a la vista deseada después de hacer clic en "Ok"
-              window.location.href = "/dfrida/fichaTecnicaList";
+              icon: "error",
+              title: "Error",
+              text: "Ocurrió un error al enviar el archivo.",
             });
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
+          },
+        });
       } else {
         console.log("No hay archivo seleccionado.");
       }
@@ -447,19 +460,25 @@ document.addEventListener("DOMContentLoaded", function () {
                 data: { jsonBorraFichaTecnica: jsonBorraFichaTecnica },
                 dataType: "json",
                 success: function (response) {
-                  if (response == "ok") {
+                  if (response == "error") {
+                    Swal.fire(
+                      "Error",
+                      "No se pudo borrar la Ficha Tecnica",
+                      "error"
+                    );
+                  } else {
+                    //la respuesta trae el nombre del archivo a eliminar
                     $.ajax({
-                      url: "view/modules/fichaTecnica.php",
+                      //enviar nombre a eliminar al servidor
+                      url: "fichasTecnicas/eliminarFichasTecnicas.php",
                       method: "POST",
-                      //psarle el nombre del archivo para eliminarlo del directorio 
-                      data: { response.nombreArchivo: response.nombreArchivo },
+                      data: { docFichaTec: response.docFichaTec },
                       dataType: "json",
                       success: function (response) {
-                        // Manejo de la respuesta exitosa de la segunda llamada AJAX.
-                        if (response == "ok") {
+                        if (response.status === "ok") {
                           Swal.fire(
                             "Correcto",
-                            "Operación realizada correctamente",
+                            "Ficha Tecnica eliminada correctamente.",
                             "success"
                           ).then(function () {
                             window.location.reload(); // Recargar la página.
@@ -468,9 +487,11 @@ document.addEventListener("DOMContentLoaded", function () {
                           // Manejo de una respuesta no exitosa de la segunda llamada AJAX.
                           Swal.fire(
                             "Error",
-                            "Hubo un problema con la operación.",
+                            "La ficha tecnica no se pudo eliminar.",
                             "error"
-                          );
+                          ).then(function () {
+                            window.location.reload(); // Recargar la página.
+                          });
                         }
                       },
                       error: function (error) {
@@ -478,18 +499,10 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.error("Error:", error);
                         Swal.fire(
                           "Error",
-                          "Hubo un problema con la petición.",
+                          "La Ficha tecnica no se pudo eliminar.",
                           "error"
                         );
                       },
-                    });
-                  } else {
-                    Swal.fire(
-                      "Error",
-                      "La Ficha Tecnica no se puede eliminar",
-                      "error"
-                    ).then(function () {
-                      //window.location.reload(); // Recargar la página
                     });
                   }
                 },

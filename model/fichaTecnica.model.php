@@ -179,7 +179,15 @@ interactive_timeout=300
     $result = $statement->fetch();
     return $result !== false;
   }
-
+//obtebre el nombre de la ficha tecnica para eliminar el archivo
+  public static function mdlDocFichaTecnica($table, $codFichaTec)
+  {
+    $statement = Conexion::conn()->prepare("SELECT docFichaTec FROM $table WHERE idFichaTec = :idFichaTec");
+    $statement->bindParam(":idFichaTec", $codFichaTec, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    return $result;
+  }
   //borrar FichaTecnica
   public static function mdlDeleteFichaTecnica($table, $codFichaTec)
   {

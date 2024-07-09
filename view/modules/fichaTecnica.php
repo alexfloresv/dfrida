@@ -106,28 +106,11 @@
 
     </form>
 </div>
-<!-- funcion php para guardar archivo al directorio con move_uploaded_file -->
-<?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['fileFichaTecnica']) && isset($_POST['nombreArchivo'])) {
 
-  $nombreOriginal = $_FILES['fileFichaTecnica']['name'];
-  $extension = pathinfo($nombreOriginal, PATHINFO_EXTENSION);
-  $nombreArchivoPost = preg_replace("/[^a-zA-Z0-9._]/", "", $_POST['nombreArchivo']);
-  $nuevoNombre = $nombreArchivoPost . "." . $extension;
-  $guardado = $_FILES['fileFichaTecnica']['tmp_name'];
-  if (!file_exists('fichasTecnicas')) {
-    mkdir('fichasTecnicas', 0777, true);
-  }
-  if (move_uploaded_file($guardado, 'fichasTecnicas/' . $nuevoNombre)) {
 
-    echo json_encode(["status" => "ok"]);
-  } else {
-
-    echo json_encode(["status" => "error"]);
-  }
-}
-?>
-<!-- fin -->
+</main>
+</div>
+</div>
 
 <!-- recuperar un archivo -->
 <?php
@@ -144,23 +127,3 @@ foreach ($archivos as $archivo) {
 ?>
 
 <!-- eliminar un archivo -->
-
-<?php
-https://youtu.be/p9SSIMSYAio?si=aR4XJlSuZcbQ0VCt
-if (isset($_POST["globalCodFichaTec"])) {
-
-  $archivoParaEliminar = 'fichasTecnicas/nombreDelArchivo.ext';
-
-  if (file_exists($archivoParaEliminar)) {
-    unlink($archivoParaEliminar);
-
-
-  } else {
-
-
-  }
-}
-?>
-</main>
-</div>
-</div>
