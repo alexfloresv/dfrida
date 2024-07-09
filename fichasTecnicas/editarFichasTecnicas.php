@@ -1,15 +1,21 @@
-
 <?php
-ob_start(); // Inicia el buffer de salida
-if (isset($_FILES['fileFichaTecnica']) && isset($_POST['nombreArchivo'])) {
+ob_start(); // Inicia el buffer de salida para editar
+if (isset($_FILES['fileFichaTecnicaEdit']) && isset($_POST['nombreArchivoEliminar']) && isset($_POST['nombreArchivoEdit'])) {
+  $nombreArchivoEliminar = $_POST["nombreArchivoEliminar"];
+  $archivoParaEliminar = $nombreArchivoEliminar;
 
-  $nombreOriginal = $_FILES['fileFichaTecnica']['name'];
-  $extension = pathinfo($nombreOriginal, PATHINFO_EXTENSION);
-  $nombreArchivoPost = preg_replace("/[^a-zA-Z0-9._]/", "", $_POST['nombreArchivo']);
-  $nuevoNombre = $nombreArchivoPost . "." . $extension;
-  $guardado = $_FILES['fileFichaTecnica']['tmp_name'];
-  if (move_uploaded_file($guardado, $nuevoNombre)) {
-    $response = ["status" => "ok"];
+  if (unlink($archivoParaEliminar)) {//elimino el archivo anterior por su nombre despeus de eliminar guarda el nuevo que seleciono 
+
+    $nombreOriginal = $_FILES['fileFichaTecnicaEdit']['name'];
+    $extension = pathinfo($nombreOriginal, PATHINFO_EXTENSION);
+    $nombreArchivoPost = preg_replace("/[^a-zA-Z0-9._]/", "", $_POST['nombreArchivoEdit']);
+    $nuevoNombre = $nombreArchivoPost . "." . $extension;
+    $guardado = $_FILES['fileFichaTecnicaEdit']['tmp_name'];
+    if (move_uploaded_file($guardado, $nuevoNombre)) {//guarda el archuvo nuevo
+      $response = ["status" => "ok"];
+    } else {
+      $response = ["status" => "error"];
+    }
   } else {
     $response = ["status" => "error"];
   }
@@ -19,20 +25,3 @@ if (isset($_FILES['fileFichaTecnica']) && isset($_POST['nombreArchivo'])) {
   exit(); // Termina la ejecución del script
 }
 ob_end_flush(); // Envía el buffer de salida y lo desactiva
-
-//!-- fin -->
-//<!-- recuperar un archivo -->
-
-/* $directorio = 'fichasTecnicas';
-$archivos = scandir($directorio);
-
-
-$archivos = array_diff($archivos, array('.', '..'));
-
-
-foreach ($archivos as $archivo) {
-  echo $archivo . "<br>";
-} */
-
-
-//<!-- eliminar un archivo -->

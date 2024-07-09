@@ -29,11 +29,12 @@ if (isset($_POST["codFichaTec"])) {
 }
 
 //editar ficha tecnica
-if (isset($_POST["jsonEditarFichaTecnica"], $_POST["jsonFichaTecnicaBase64"])) {
+if (isset($_POST["jsonEditarFichaTecnica"], $_POST["jsonNombreArchivo"], $_POST["jsonExtensionArchivo"])) {
   $edit = new FichaTecnicaAjax();
   $edit->jsonEditarFichaTecnica = $_POST["jsonEditarFichaTecnica"];
-  $edit->jsonFichaTecnicaBase64 = $_POST["jsonFichaTecnicaBase64"];
-  $edit->ajaxEditarFichaTecnica($_POST["jsonEditarFichaTecnica"], $_POST["jsonFichaTecnicaBase64"]);
+  $edit->jsonNombreArchivo = $_POST["jsonNombreArchivo"];
+  $edit->jsonExtensionArchivo = $_POST["jsonExtensionArchivo"];
+  $edit->ajaxEditarFichaTecnica($_POST["jsonEditarFichaTecnica"], $_POST["jsonNombreArchivo"], $_POST["jsonExtensionArchivo"]);
 }
 //borrar FichaTecnica
 if (isset($_POST["jsonBorraFichaTecnica"])) {
@@ -82,11 +83,11 @@ class FichaTecnicaAjax
   }
 
   //  editar ProductosMprima
-  public function ajaxEditarFichaTecnica($jsonEditarFichaTecnica, $jsonFichaTecnicaBase64)
+  public function ajaxEditarFichaTecnica($jsonEditarFichaTecnica, $jsonNombreArchivo, $jsonExtensionArchivo)
   {
     $editarFichaTecnica = json_decode($jsonEditarFichaTecnica, true);
 
-    $response = FichaTecnicaController::ctrEditarFichaTecnica($editarFichaTecnica, $jsonFichaTecnicaBase64);
+    $response = FichaTecnicaController::ctrEditarFichaTecnica($editarFichaTecnica, $jsonNombreArchivo, $jsonExtensionArchivo);
 
     echo json_encode($response);
   }

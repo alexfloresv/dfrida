@@ -107,7 +107,6 @@ $_GET["ruta"] == "visualizarLote" || */
 <script src="js/cotizacion.js"></script>
 <script src="js/pdf.js"></script>
 <script src="js/fichaTecnica.js"></script>
-<script src="js/descargarFichaTecnica.js"></script>
 <script src="js/fichaTrabajo.js"></script>
 
 <!-- <script src="js/personal.js"></script> -->

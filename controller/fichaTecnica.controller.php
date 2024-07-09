@@ -73,18 +73,20 @@ class FichaTecnicaController
   {
     $table = "ficha_tecnica";
     $response = FichaTecnicaModel::mdlViewDatosFichaTecnica($table, $codFichaTec);
-    unset($response['docFichaTec']);
-    $response['docFichaTec'] = "Documento eliminado para no sobrecargar el servidor y el navegador del usuario los elimine muchos caracateres p xdxdxd";
     return $response;
   }
 
   // Editar ficha técnica
-  public static function ctrEditarFichaTecnica($editarFichaTecnica, $jsonFichaTecnicaBase64)
+  public static function ctrEditarFichaTecnica($editarFichaTecnica, $jsonNombreArchivo, $jsonExtensionArchivo)
   {
     $table = 'ficha_tecnica';
-    // Verificar si no se modificó la ficha técnica o si el JSON tiene "base64":null
-    if
-    (strpos($jsonFichaTecnicaBase64, '"base64":null') === false) {
+    // Remover comillas dobles de las variables
+    $jsonNombreArchivo = str_replace('"', '', $jsonNombreArchivo);
+    $jsonExtensionArchivo = str_replace('"', '', $jsonExtensionArchivo);
+
+    if (!empty($jsonNombreArchivo) && !empty($jsonExtensionArchivo)) {
+      // Crear un nuevo nombre para el documento de la ficha técnica
+      $newNamedocFichaTec = $editarFichaTecnica["codFichaTec"] . "_" . $jsonNombreArchivo . $jsonExtensionArchivo;
       // Preparar datos para actualizar, incluyendo el documento y el estado
       $dataUpdate = array(
         "idFichaTec" => $editarFichaTecnica["codFichaTec"],
@@ -97,7 +99,7 @@ class FichaTecnicaController
         "celularFichaTec" => $editarFichaTecnica["celularFichaTecEdit"],
         "correoFichaTec" => $editarFichaTecnica["correoFichaTecEdit"],
         "detalleFichaTec" => $editarFichaTecnica["detalleFichaTecEdit"],
-        "docFichaTec" => $jsonFichaTecnicaBase64,
+        "docFichaTec" => $newNamedocFichaTec,
         "estadoFichaTec" => 1,
         "DateUpdate" => date("Y-m-d\TH:i:sP")
       );
@@ -136,7 +138,7 @@ class FichaTecnicaController
       //obtebre el nombre de la ficha tecnica para eliminar el archivo
       $docFichaTec = self::ctrDocFichaTecnica($table, $codFichaTec);
       $eliminar = FichaTecnicaModel::mdlDeleteFichaTecnica($table, $codFichaTec);
-      
+
     }
     return $docFichaTec;
   }
