@@ -188,14 +188,14 @@ function enviarArchivoConNuevoNombre(nombreArchivoModificado) {
   var fileInput = document.getElementById("fileFichaTecnica");
   if (fileInput.files.length > 0) {
     const file = fileInput.files[0];
-   // console.log("Archivo a enviar:", file); // Visualizar el archivo en la consola
+    // console.log("Archivo a enviar:", file); // Visualizar el archivo en la consola
 
     const formData = new FormData();
     formData.append("nombreArchivo", nombreArchivoModificado); // Añade el nuevo nombre del archivo
     formData.append("fileFichaTecnica", file); // Añade el archivo
 
     // Visualizar el contenido de FormData
-  /*   formData.forEach((value, key) => {
+    /*   formData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
     }); */
     $.ajax({
@@ -207,7 +207,11 @@ function enviarArchivoConNuevoNombre(nombreArchivoModificado) {
       success: function (response) {
         function mostrarMensaje(index) {
           // Verificar si el índice está fuera del rango del array de respuestas
-          if (index >= response.length) return;
+          if (index >= response.length) {
+            // Redirigir al usuario a la ruta especificada después de mostrar el último mensaje
+            window.location.href = "/dfrida/fichaTecnicaList";
+            return;
+          }
 
           let item = response[index];
           let icono = item.status === "ok" ? "success" : "error";
