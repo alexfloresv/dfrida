@@ -2,7 +2,8 @@
 ob_start(); // Inicia el buffer de salida
 if (isset($_POST["docFichaTec"])) {
   $nombreArchivoEliminar = $_POST["docFichaTec"];
-  $archivoParaEliminar = $nombreArchivoEliminar;
+  // Asegura que la eliminación ocurra en el directorio del script
+  $archivoParaEliminar = __DIR__ . '/' . $nombreArchivoEliminar;
   if (unlink($archivoParaEliminar)) {
     $response = ["status" => "ok"];
   } else {
@@ -14,4 +15,3 @@ if (isset($_POST["docFichaTec"])) {
   exit(); // Termina la ejecución del script
 }
 ob_end_flush(); // Envía el buffer de salida y lo desactiva
-

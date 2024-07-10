@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", function () {
   var appPath = "/dfrida/fichaTecnica";
   if (currentPath == appPath) {
     //inicio
-
     // escuchar el botn y tomar el archivo para enviarlo al servidor por php y guardarlo en el directorio
     var btnfileFichaTecnica = document.getElementById("btnfileFichaTecnica");
     btnfileFichaTecnica.addEventListener("click", function () {
@@ -13,6 +12,59 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var fileFichaTecnica = document.getElementById("fileFichaTecnica");
     fileFichaTecnica.addEventListener("change", handleFileSelect);
+
+    // Inicializar variables globales como vacías
+    nombreArchivoSeleccionado = "";
+    extensionArchivoSeleccionado = "";
+
+    function handleFileSelect(event) {
+      if (event.target.files.length > 0) {
+        const file = event.target.files[0];
+        let nombreBaseArchivo = file.name.split(".").slice(0, -1).join("."); // Solo guarda el nombre base del archivo
+        //console.log(nombreBaseArchivo);
+        let extensionArchivo = "." + file.name.split(".").pop(); // Guarda la extensión del archivo, incluyendo el punto
+        //console.log(extensionArchivo);
+        // Limpiar el nombre del archivo, eliminando caracteres no deseados excepto el guion bajo (_)
+        nombreBaseArchivo = nombreBaseArchivo.replace(/[^a-zA-Z0-9._]/g, "");
+
+        nombreArchivoSeleccionado = nombreBaseArchivo; // Actualiza la variable global con el nombre limpio
+
+        extensionArchivoSeleccionado = extensionArchivo; // Actualiza la variable global con la extensión
+
+        // Mostrar mensaje de carga
+        Swal.fire({
+          title: "Cargando la Ficha Técnica...",
+          showConfirmButton: false,
+          allowOutsideClick: false,
+          willOpen: () => {
+            Swal.showLoading();
+          },
+          didOpen: () => {
+            // Seleccionar el icono de carga y aplicar estilos directamente
+            const loader = document.querySelector(".swal2-loader");
+            if (loader) {
+              loader.style.width = "60px";
+              loader.style.height = "60px";
+            }
+          },
+        });
+        // Cerrar el mensaje después de 2 segundos
+        setTimeout(() => {
+          Swal.close();
+        }, 1000);
+        // Actualizar la barra de progreso
+        updateProgressBar(100); // Ejemplo de actualización de progreso
+      }
+    }
+
+    function updateProgressBar(percent) {
+      const progressBar = document.getElementById("progressBar");
+      if (progressBar) {
+        progressBar.style.width = percent + "%";
+        progressBar.textContent = percent >= 100 ? "Completado" : "Cargando...";
+      }
+    }
+    //fin enviar archivo con nuevo nombre al servidor php para guardar
 
     //si la ruta no es la correcta no se ejecuta la función
     document
@@ -131,69 +183,21 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //fin crear ficha tecnica
 
-// Inicializar variables globales como vacías
-nombreArchivoSeleccionado = "";
-extensionArchivoSeleccionado = "";
-
-function handleFileSelect(event) {
-  if (event.target.files.length > 0) {
-    const file = event.target.files[0];
-    let nombreBaseArchivo = file.name.split(".").slice(0, -1).join("."); // Solo guarda el nombre base del archivo
-    let extensionArchivo = "." + file.name.split(".").pop(); // Guarda la extensión del archivo, incluyendo el punto
-    // Limpiar el nombre del archivo, eliminando caracteres no deseados excepto el guion bajo (_)
-    nombreBaseArchivo = nombreBaseArchivo.replace(/[^a-zA-Z0-9._]/g, "");
-    nombreArchivoSeleccionado = nombreBaseArchivo; // Actualiza la variable global con el nombre limpio
-    extensionArchivoSeleccionado = extensionArchivo; // Actualiza la variable global con la extensión
-    // Mostrar mensaje de carga
-    Swal.fire({
-      title: "Cargando la Ficha Técnica...",
-      showConfirmButton: false,
-      allowOutsideClick: false,
-      willOpen: () => {
-        Swal.showLoading();
-      },
-      didOpen: () => {
-        // Seleccionar el icono de carga y aplicar estilos directamente
-        const loader = document.querySelector(".swal2-loader");
-        if (loader) {
-          loader.style.width = "60px";
-          loader.style.height = "60px";
-        }
-      },
-    });
-    // Cerrar el mensaje después de 2 segundos
-    setTimeout(() => {
-      Swal.close();
-    }, 1000);
-    // Actualizar la barra de progreso
-    updateProgressBar(100); // Ejemplo de actualización de progreso
-  }
-}
-
-function updateProgressBar(percent) {
-  const progressBar = document.getElementById("progressBar");
-  if (progressBar) {
-    progressBar.style.width = percent + "%";
-    progressBar.textContent = percent >= 100 ? "Completado" : "Cargando...";
-  }
-}
-//fin enviar archivo con nuevo nombre al servidor php para guardar
-
 //funcion apra envair el archivo ala funcion php que gaurdara ela rchivo en el directorio del sistema
 function enviarArchivoConNuevoNombre(nombreArchivoModificado) {
   var fileInput = document.getElementById("fileFichaTecnica");
   if (fileInput.files.length > 0) {
     const file = fileInput.files[0];
-    console.log("Archivo a enviar:", file); // Visualizar el archivo en la consola
+   // console.log("Archivo a enviar:", file); // Visualizar el archivo en la consola
 
     const formData = new FormData();
     formData.append("nombreArchivo", nombreArchivoModificado); // Añade el nuevo nombre del archivo
     formData.append("fileFichaTecnica", file); // Añade el archivo
 
     // Visualizar el contenido de FormData
-    formData.forEach((value, key) => {
+  /*   formData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
-    });
+    }); */
     $.ajax({
       url: "fichasTecnicas/guardarFichasTecnicas.php",
       type: "POST",
@@ -253,19 +257,22 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 // Fin
 //tomar el valor de la ur y asignarlo al campo oculto
+function getQueryParam(name) {
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(window.location.href);
+  if (!results) return null;
+  if (!results[2]) return "";
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+//variabla  del nombre anteriro del la ficha tecnica
+var globalDocFichaTec = null;
+
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/fichaTecnicaEdit";
   if (currentPath == appPath) {
     // Función para obtener el valor de un parámetro por nombre
-    function getQueryParam(name) {
-      name = name.replace(/[\[\]]/g, "\\$&");
-      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(window.location.href);
-      if (!results) return null;
-      if (!results[2]) return "";
-      return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
 
     // Extraer el valor de 'codFichaTec' de la URL
     var codFichaTec = getQueryParam("codFichaTec");
@@ -280,8 +287,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //variabla para el nombre del nuevo archivo
     var globalIdFichaTec = null;
-    //variabla  del nombre anteriro del la ficha tecnica
-    var globalDocFichaTec = null;
 
     //  editar ficha tecnica
     //obtener el valor guardado en el campo oculto cuando carga la pagina
@@ -340,7 +345,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var fileFichaTecnicaEdit = document.getElementById("fileFichaTecnicaEdit");
     fileFichaTecnicaEdit.addEventListener("change", handleFileSelect);
-
     // Inicializar variables globales como vacías
     nombreArchivoSeleccionadoEdit = "";
     extensionArchivoSeleccionadoEdit = "";
@@ -348,14 +352,19 @@ document.addEventListener("DOMContentLoaded", function () {
     function handleFileSelect(event) {
       if (event.target.files.length > 0) {
         const file = event.target.files[0];
-        let nombreBaseArchivo = file.name.split(".").slice(0, -1).join("."); // Solo guarda el nombre base del archivo
-        let extensionArchivo = "." + file.name.split(".").pop(); // Guarda la extensión del archivo, incluyendo el punto
+        let nombreBaseArchivoEdit = file.name.split(".").slice(0, -1).join("."); // Solo guarda el nombre base del archivo
+        console.log(nombreBaseArchivoEdit);
+        let extensionArchivoEdit = "." + file.name.split(".").pop(); // Guarda la extensión del archivo, incluyendo el punto
+        console.log(extensionArchivoEdit);
 
         // Limpiar el nombre del archivo, eliminando caracteres no deseados excepto el guion bajo (_)
-        nombreBaseArchivo = nombreBaseArchivo.replace(/[^a-zA-Z0-9._]/g, "");
+        nombreBaseArchivoEdit = nombreBaseArchivoEdit.replace(
+          /[^a-zA-Z0-9._]/g,
+          ""
+        );
 
-        nombreArchivoSeleccionadoEdit = nombreBaseArchivo; // Actualiza la variable global con el nombre limpio
-        extensionArchivoSeleccionadoEdit = extensionArchivo; // Actualiza la variable global con la extensión
+        nombreArchivoSeleccionadoEdit = nombreBaseArchivoEdit; // Actualiza la variable global con el nombre limpio
+        extensionArchivoSeleccionadoEdit = extensionArchivoEdit; // Actualiza la variable global con la extensión
 
         // Mostrar mensaje de carga
         Swal.fire({

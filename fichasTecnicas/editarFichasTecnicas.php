@@ -2,16 +2,17 @@
 ob_start(); // Inicia el buffer de salida para editar
 if (isset($_FILES['fileFichaTecnicaEdit']) && isset($_POST['nombreArchivoEliminar']) && isset($_POST['nombreArchivoEdit'])) {
   $nombreArchivoEliminar = $_POST["nombreArchivoEliminar"];
-  $archivoParaEliminar = $nombreArchivoEliminar;
+  // Asegura que la eliminación ocurra en el directorio del script
+  $archivoParaEliminar = __DIR__ . '/' . $nombreArchivoEliminar;
 
-  if (unlink($archivoParaEliminar)) {//elimino el archivo anterior por su nombre despeus de eliminar guarda el nuevo que seleciono 
-
+  if (unlink($archivoParaEliminar)) { // Elimina el archivo anterior por su nombre
     $nombreOriginal = $_FILES['fileFichaTecnicaEdit']['name'];
     $extension = pathinfo($nombreOriginal, PATHINFO_EXTENSION);
     $nombreArchivoPost = preg_replace("/[^a-zA-Z0-9._]/", "", $_POST['nombreArchivoEdit']);
-    $nuevoNombre = $nombreArchivoPost . "." . $extension;
+    $nuevoNombre = __DIR__ . '/' . $nombreArchivoPost . "." . $extension; // Asegura que el guardado ocurra en el directorio del script
     $guardado = $_FILES['fileFichaTecnicaEdit']['tmp_name'];
-    if (move_uploaded_file($guardado, $nuevoNombre)) {//guarda el archuvo nuevo
+
+    if (move_uploaded_file($guardado, $nuevoNombre)) { // Guarda el archivo nuevo
       $response = ["status" => "ok"];
     } else {
       $response = ["status" => "error"];
