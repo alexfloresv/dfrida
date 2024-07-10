@@ -14,50 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var fileFichaTecnica = document.getElementById("fileFichaTecnica");
     fileFichaTecnica.addEventListener("change", handleFileSelect);
 
-    function handleFileSelect(event) {
-      if (event.target.files.length > 0) {
-        const file = event.target.files[0];
-        let nombreBaseArchivo = file.name.split(".").slice(0, -1).join("."); // Solo guarda el nombre base del archivo
-        let extensionArchivo = "." + file.name.split(".").pop(); // Guarda la extensión del archivo, incluyendo el punto
-        // Limpiar el nombre del archivo, eliminando caracteres no deseados excepto el guion bajo (_)
-        nombreBaseArchivo = nombreBaseArchivo.replace(/[^a-zA-Z0-9._]/g, "");
-        nombreArchivoSeleccionado = nombreBaseArchivo; // Actualiza la variable global con el nombre limpio
-        extensionArchivoSeleccionado = extensionArchivo; // Actualiza la variable global con la extensión
-        // Mostrar mensaje de carga
-        Swal.fire({
-          title: "Cargando la Ficha Técnica...",
-          showConfirmButton: false,
-          allowOutsideClick: false,
-          willOpen: () => {
-            Swal.showLoading();
-          },
-          didOpen: () => {
-            // Seleccionar el icono de carga y aplicar estilos directamente
-            const loader = document.querySelector(".swal2-loader");
-            if (loader) {
-              loader.style.width = "60px";
-              loader.style.height = "60px";
-            }
-          },
-        });
-        // Cerrar el mensaje después de 2 segundos
-        setTimeout(() => {
-          Swal.close();
-        }, 1000);
-        // Actualizar la barra de progreso
-        updateProgressBar(100); // Ejemplo de actualización de progreso
-      }
-    }
-
-    function updateProgressBar(percent) {
-      const progressBar = document.getElementById("progressBar");
-      if (progressBar) {
-        progressBar.style.width = percent + "%";
-        progressBar.textContent = percent >= 100 ? "Completado" : "Cargando...";
-      }
-    }
-    //fin enviar archivo con nuevo nombre al servidor php para guardar
-
     //si la ruta no es la correcta no se ejecuta la función
     document
       .getElementById("btnRegistrarFichaTecnica")
@@ -169,57 +125,117 @@ document.addEventListener("DOMContentLoaded", function () {
           },
         });
       });
-    //funcion apra envair el archivo ala funcion php que gaurdara ela rchivo en el directorio del sistema
-    function enviarArchivoConNuevoNombre(nombreArchivoModificado) {
-      var fileInput = document.getElementById("fileFichaTecnica");
-      if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const formData = new FormData();
-        formData.append("nombreArchivo", nombreArchivoModificado); // Añade el nuevo nombre del archivo
-        formData.append("fileFichaTecnica", file); // Añade el archivo
 
-        $.ajax({
-          url: "fichasTecnicas/guardarFichasTecnicas.php",
-          type: "POST",
-          data: formData,
-          processData: false, // Evitar que jQuery procese los datos
-          contentType: false, // Evitar que jQuery establezca el tipo de contenido
-          success: function (response) {
-            // Asumiendo que el servidor devuelve un objeto JSON con un campo "status"
-            if (response.status === "ok") {
-              Swal.fire({
-                icon: "success",
-                title: "Correcto",
-                html: "Ficha Técnica Registrada <strong>Correctamente</strong>.",
-                confirmButtonText: "Ok",
-              }).then((result) => {
-                window.location.href = "/dfrida/fichaTecnicaList";
-              });
-            } else {
-              Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "No se pudo registrar la ficha técnica.",
-              });
-            }
-          },
-          error: function (xhr, status, error) {
-            Swal.fire({
-              icon: "error",
-              title: "Error",
-              text: "Ocurrió un error al enviar el archivo.",
-            });
-          },
-        });
-      } else {
-        console.log("No hay archivo seleccionado.");
-      }
-    }
-    //fin enviar archivo
     //fin vericar ruta
   }
 });
 //fin crear ficha tecnica
+
+// Inicializar variables globales como vacías
+nombreArchivoSeleccionado = "";
+extensionArchivoSeleccionado = "";
+
+function handleFileSelect(event) {
+  if (event.target.files.length > 0) {
+    const file = event.target.files[0];
+    let nombreBaseArchivo = file.name.split(".").slice(0, -1).join("."); // Solo guarda el nombre base del archivo
+    let extensionArchivo = "." + file.name.split(".").pop(); // Guarda la extensión del archivo, incluyendo el punto
+    // Limpiar el nombre del archivo, eliminando caracteres no deseados excepto el guion bajo (_)
+    nombreBaseArchivo = nombreBaseArchivo.replace(/[^a-zA-Z0-9._]/g, "");
+    nombreArchivoSeleccionado = nombreBaseArchivo; // Actualiza la variable global con el nombre limpio
+    extensionArchivoSeleccionado = extensionArchivo; // Actualiza la variable global con la extensión
+    // Mostrar mensaje de carga
+    Swal.fire({
+      title: "Cargando la Ficha Técnica...",
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      willOpen: () => {
+        Swal.showLoading();
+      },
+      didOpen: () => {
+        // Seleccionar el icono de carga y aplicar estilos directamente
+        const loader = document.querySelector(".swal2-loader");
+        if (loader) {
+          loader.style.width = "60px";
+          loader.style.height = "60px";
+        }
+      },
+    });
+    // Cerrar el mensaje después de 2 segundos
+    setTimeout(() => {
+      Swal.close();
+    }, 1000);
+    // Actualizar la barra de progreso
+    updateProgressBar(100); // Ejemplo de actualización de progreso
+  }
+}
+
+function updateProgressBar(percent) {
+  const progressBar = document.getElementById("progressBar");
+  if (progressBar) {
+    progressBar.style.width = percent + "%";
+    progressBar.textContent = percent >= 100 ? "Completado" : "Cargando...";
+  }
+}
+//fin enviar archivo con nuevo nombre al servidor php para guardar
+
+//funcion apra envair el archivo ala funcion php que gaurdara ela rchivo en el directorio del sistema
+function enviarArchivoConNuevoNombre(nombreArchivoModificado) {
+  var fileInput = document.getElementById("fileFichaTecnica");
+  if (fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    console.log("Archivo a enviar:", file); // Visualizar el archivo en la consola
+
+    const formData = new FormData();
+    formData.append("nombreArchivo", nombreArchivoModificado); // Añade el nuevo nombre del archivo
+    formData.append("fileFichaTecnica", file); // Añade el archivo
+
+    // Visualizar el contenido de FormData
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
+    $.ajax({
+      url: "fichasTecnicas/guardarFichasTecnicas.php",
+      type: "POST",
+      data: formData,
+      processData: false, // Evitar que jQuery procese los datos
+      contentType: false, // Evitar que jQuery establezca el tipo de contenido
+      success: function (response) {
+        function mostrarMensaje(index) {
+          // Verificar si el índice está fuera del rango del array de respuestas
+          if (index >= response.length) return;
+
+          let item = response[index];
+          let icono = item.status === "ok" ? "success" : "error";
+          let titulo = item.status === "ok" ? "Éxito" : "Error";
+
+          // Mostrar el mensaje actual
+          Swal.fire({
+            icon: icono,
+            title: titulo,
+            html: item.message,
+          }).then(() => {
+            // Una vez cerrado el mensaje actual, mostrar el siguiente
+            mostrarMensaje(index + 1);
+          });
+        }
+
+        // Iniciar la cadena de mensajes desde el primer elemento
+        mostrarMensaje(0);
+      },
+      error: function (xhr, status, error) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Ocurrió un error al enviar el archivo.",
+        });
+      },
+    });
+  } else {
+    console.log("No hay archivo seleccionado.");
+  }
+}
+//fin enviar archivo
 
 //inicio edicion de ficha tecnica
 // Enviar código a la vista de editar ficha técnica para visualizar los datos
@@ -450,56 +466,56 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
     //fin editar
-
-    function enviarArchivoConNuevoNombreEdit(nombreArchivoModificadoEdit) {
-      var fileInput = document.getElementById("fileFichaTecnicaEdit");
-      if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        const formData = new FormData();
-        formData.append("nombreArchivoEliminar", globalDocFichaTec); // nombre anterior del archivo
-        formData.append("nombreArchivoEdit", nombreArchivoModificadoEdit); // Añade el nuevo nombre del archivo
-        formData.append("fileFichaTecnicaEdit", file); // Añade el archivo
-
-        $.ajax({
-          url: "fichasTecnicas/editarFichasTecnicas.php",
-          type: "POST",
-          data: formData,
-          processData: false, // Evitar que jQuery procese los datos
-          contentType: false, // Evitar que jQuery establezca el tipo de contenido
-          success: function (response) {
-            // Asumiendo que el servidor devuelve un objeto JSON con un campo "status"
-            if (response.status === "ok") {
-              Swal.fire({
-                icon: "success",
-                title: "Correcto",
-                html: "Ficha Técnica Editada con <strong>Exito</strong>.",
-                confirmButtonText: "Ok",
-              }).then((result) => {
-                window.location.href = "/dfrida/fichaTecnicaList";
-              });
-            } else {
-              Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "No se pudo editar la ficha técnica.",
-              });
-            }
-          },
-          error: function (xhr, status, error) {
-            Swal.fire({
-              icon: "error",
-              title: "Error",
-              text: "Ocurrió un error al enviar el archivo.",
-            });
-          },
-        });
-      } else {
-        console.log("No hay archivo seleccionado.");
-      }
-    }
   }
 });
 //fin
+
+function enviarArchivoConNuevoNombreEdit(nombreArchivoModificadoEdit) {
+  var fileInput = document.getElementById("fileFichaTecnicaEdit");
+  if (fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    const formData = new FormData();
+    formData.append("nombreArchivoEliminar", globalDocFichaTec); // nombre anterior del archivo
+    formData.append("nombreArchivoEdit", nombreArchivoModificadoEdit); // Añade el nuevo nombre del archivo
+    formData.append("fileFichaTecnicaEdit", file); // Añade el archivo
+
+    $.ajax({
+      url: "fichasTecnicas/editarFichasTecnicas.php",
+      type: "POST",
+      data: formData,
+      processData: false, // Evitar que jQuery procese los datos
+      contentType: false, // Evitar que jQuery establezca el tipo de contenido
+      success: function (response) {
+        // Asumiendo que el servidor devuelve un objeto JSON con un campo "status"
+        if (response.status === "ok") {
+          Swal.fire({
+            icon: "success",
+            title: "Correcto",
+            html: "Ficha Técnica Editada con <strong>Exito</strong>.",
+            confirmButtonText: "Ok",
+          }).then((result) => {
+            window.location.href = "/dfrida/fichaTecnicaList";
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No se pudo editar la ficha técnica.",
+          });
+        }
+      },
+      error: function (xhr, status, error) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Ocurrió un error al enviar el archivo.",
+        });
+      },
+    });
+  } else {
+    console.log("No hay archivo seleccionado.");
+  }
+}
 
 // eliminar Cotizacion
 document.addEventListener("DOMContentLoaded", function () {
