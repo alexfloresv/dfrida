@@ -62,7 +62,7 @@
     <a class="nav-link" href="categorias"><i class="fa-solid fa-cart-plus"></i><span style="margin-left: 5px;">Pedido</span></a>
     <a class="nav-link" href="cotizacionList"><i class="fa-solid fa-file-signature"></i><span style="margin-left: 5px;">Cotizaciones</span></a>
     <a class="nav-link" href="fichaTecnicaList"><i class="fa-solid fa-book"></i><span style="margin-left: 5px;">Ficha Tecnica</span></a>
-    <a class="nav-link" href="categorias"><i class="fa-solid fa-network-wired"></i><span style="margin-left: 5px;">Fichas de Trabajo</span></a>
+    <a class="nav-link" href="fichaTrabajo"><i class="fa-solid fa-network-wired"></i><span style="margin-left: 5px;">Fichas de Trabajo</span></a>
     <a class="nav-link" href="products"><i class="fa-solid fa-dolly"></i><span style="margin-left: 5px;">Productos</span></a>
     <a class="nav-link" href="productMprima"><i class="fa-solid fa-truck-ramp-box"></i><span style="margin-left: 5px;">Productos Prima</span></a>
     <a class="nav-link" href="proveedores"><i class="fa-solid fa-truck"></i><span style="margin-left: 5px;">Proveedores</span></a>
