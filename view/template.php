@@ -37,7 +37,6 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
       $_GET["ruta"] == "fichaTecnicaEdit" ||
       $_GET["ruta"] == "fichaTrabajo" ||
       $_GET["ruta"] == "fichaTrabajoList" ||
-      $_GET["ruta"] == "uploadFichaTecnica" ||
       /*  $_GET["ruta"] == "ingresos" ||
     $_GET["ruta"] == "nuevoIngreso" ||
   $_GET["ruta"] == "almacen" ||

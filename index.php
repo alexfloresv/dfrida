@@ -47,7 +47,7 @@ require_once "functions/productoMprima.functions.php";
 require_once "functions/categoriaProdMprima.functions.php";
 require_once "functions/cotizacion.functions.php";
 require_once "functions/fichaTecnica.functions.php";
-
+require_once "functions/fichaTrabajo.functions.php";
 //+
 $template = new TemplateController();
 $template -> ctrTemplate();

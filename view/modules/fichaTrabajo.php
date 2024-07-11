@@ -16,7 +16,7 @@
       </h1>
     </div>
 
-    <form role="form" method="post" class="row g-3 m-2 formNuevaCotizacio " id="formNuevaCotizacio">
+    <form role="form" method="post" class="row g-3 m-2 formProcesoTrabajo" id="formProcesoTrabajo">
 
       <div class="container row g-8" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
 
@@ -24,45 +24,45 @@
 
         <!-- datos de la cotizacion Enpresa -->
         <div class="form-group col-md-6">
-          <label for="tituloCotiAdd" class="form-label" style="font-weight: bold">Nombre Proceso:</label>
-          <input type="text" class="form-control" id="tituloCotiAdd" name="tituloCotiAdd"
+          <label for="tituloProcesAdd" class="form-label" style="font-weight: bold">Nombre Proceso:</label>
+          <input type="text" class="form-control" id="tituloProcesAdd" name="tituloProcesAdd"
             placeholder="Ingrese el nombre del proceso">
         </div>
 
         <div class="col-md-6">
-          <label for="direccionCotiAdd" class="form-label" style="font-weight: bold"> Producto Proceso:</label>
-          <input type="text" class="form-control" id="direccionCotiAdd" name="direccionCotiAdd"
+          <label for="productoFichaProcAdd" class="form-label" style="font-weight: bold"> Producto Proceso:</label>
+          <input type="text" class="form-control" id="productoFichaProcAdd" name="productoFichaProcAdd"
             placeholder="Ingrese un producto/otro a procesar">
         </div>
         <!-- Utiliza CSS para agregar espacio entre los divs -->
         <div style="height: 20px;"></div> <!-- Ajusta el valor de height según necesites -->
 
         <div class="col-md-12" style="margin-bottom: 10px;">
-          <label for="detalleCotiAdd" class="form-label" style="font-weight: bold">Observaciones: </label>
-          <textarea class="form-control" id="detalleCotiAdd" name="detalleCotiAdd"
+          <label for="detalleFichaProcAdd" class="form-label" style="font-weight: bold">Observaciones: </label>
+          <textarea class="form-control" id="detalleFichaProcAdd" name="detalleFichaProcAdd"
             placeholder="Ingrese observacion para el proceso de trabajo Opcional" rows="4"></textarea>
         </div>
         <!-- fin -->
       </div>
 
-      <!-- Productos -->
+      <!-- procesos -->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
         <h3>Procesos a establecer para el flujo trabajo</h3>
         <div class="d-inline-flex m-2">
-          <button type="button" class="btn btn-warning" id="botonAbrirModalProceso" data-bs-toggle="modal"
+          <button type="button" class="btn btn-success" id="botonAbrirModalProceso" data-bs-toggle="modal"
             data-bs-target="#modalAddProceso">Agregar Nuevo Proceso</button>
         </div>
 
         <div class="row" style="font-weight: bold">
           <div class="col-lg-4">Proceso</div>
-          <div class="col-lg-2">tiempo</div>
-          <div class="col-lg-4">observacion</div>
+          <div class="col-lg-2">Tiempo</div>
+          <div class="col-lg-4">Observacion</div>
         </div>
       
-         <!-- aqui se agregan los productos del modal de prodcutos  -->
+         <!-- aqui se agregan los procesos del modal de procesos  -->
         <div class="form-group row AddProcesoTrabajo">
 
-          <!-- aqui se agregan los productos selecionado del modal de prodcutos  -->
+          <!-- aqui se agregan los procesos selecionado del modal de procesos  -->
         </div>
 
       </div>
@@ -70,15 +70,14 @@
 
       <div class="container row g-3 p-3 ">
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
-          id="btnCerrarCotizacion">Cerrar</button>
+          id="btnCerrarFichaTrabajo">Cerrar</button>
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success "
-          id="btnRegistrarCotizacion">Registrar Cotizacion</button>
+          id="btnRegistrarFichaTrabajo">Registrar Cotizacion</button>
       </div>
     </form>
   </main>
 </div>
 </div>
-
 
 <!-- Modal proceso -->
 <div class="modal fade" id="modalAddProceso" tabindex="-1" aria-labelledby="modalTitleAddProceso" aria-hidden="true">

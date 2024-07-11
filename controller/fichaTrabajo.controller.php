@@ -4,65 +4,51 @@ date_default_timezone_set('America/Bogota');
 class FichaTrabajoController
 {
   // Mostrar todos los productos
-  public static function ctrDTableCotizaciones()
+  public static function ctrDTableFrichasTrabajo()
   {
-    $table = "cotizacion";
-    $response = CotizacionModel::mdlDTableCotizaciones($table);
+    $table = "ficha_proceso";
+    $response = FichaTrabajoModel::mdlDTableFrichasTrabajo($table);
     return $response;
   }
 
-  // Crear nueva cotizacion
-  public static function ctrCrearCotizacion($crearCotizacion, $jsonProductosCotizacion, $jsonProductosPrimaCotizacion)
+  //visualizar procesos en el modal de procesos trabajo
+  public static function ctrVerProcesosTrabajo($codFichTrab)
+  {
+    $table = "ficha_proceso";
+    $response = FichaTrabajoModel::mdlVerProcesosTrabajo($table, $codFichTrab);
+    return $response;
+  }
+
+  //  crear ficha Trabajo
+  public static function ctrCrearFichaTrabajo($CrearProcesoTrabajo, $jsonProcesosTrabajo)
   {
     // Eliminar datos innecesarios
-    $cotizacionData = self::ctrBorrarDatosInecesarios($crearCotizacion);
+    $procesoTrabajoData = self::ctrBorrarDatosInecesarios($CrearProcesoTrabajo);
     // Eliminar el array $crearCotizacion para no duplicar datos
-    unset($crearCotizacion);
+    unset($CrearProcesoTrabajo);
 
-    $table = "cotizacion";
+    $table = "ficha_proceso";
     $dataCreate = array(
-      "tituloCoti" => $cotizacionData["tituloCotiAdd"],
-      "fechaCoti" => $cotizacionData["fechaCotiAdd"],
-      "razonSocialCoti" => $cotizacionData["razonSocialCotiAdd"],
-      "nombreComercialCoti" => $cotizacionData["nombreComercialCotiAdd"],
-      "rucCoti" => $cotizacionData["rucCotiAdd"],
-      "nombreCoti" => $cotizacionData["nombreCotiAdd"],
-      "celularCoti" => $cotizacionData["celularCotiAdd"],
-      "correoCoti" => $cotizacionData["correoCotiAdd"],
-      "direccionCoti" => $cotizacionData["direccionCotiAdd"],
-      "detalleCoti" => $cotizacionData["detalleCotiAdd"],
-      "productsCoti" => $jsonProductosCotizacion,
-      "productsMprimaCoti" => $jsonProductosPrimaCotizacion,
-      "totalProductsCoti" => $cotizacionData["totalProdCotiAdd"],
-      "totalProductsMprimaCoti" => $cotizacionData["totalProdMprimaCotiAdd"],
-      "igvCoti" => $cotizacionData["igvCotizacionAdd"],
-      "subTotalCoti" => $cotizacionData["subTotalCotizacionAdd"],
-      "totalCoti" => $cotizacionData["totalCotizacionAdd"],
-      "estadoCoti" => 1,
+      "tituloFichaProc" => $procesoTrabajoData["tituloProcesAdd"],
+      "productoFichaProc" => $procesoTrabajoData["productoFichaProcAdd"],
+      "detalleFichaProc" => $procesoTrabajoData["detalleFichaProcAdd"],
+      "procesoFichaProcJson" => $jsonProcesosTrabajo,
       "DateCreate" => date("Y-m-d\TH:i:sP"),
     );
-    $response = CotizacionModel::mdlCrearCrearCotizacion($table, $dataCreate);
+    $response = FichaTrabajoModel::mdCrearFichaTrabajo($table, $dataCreate);
 
     return $response;
   }
   //verificar si el nombre de Producto existe
-  public static function ctrBorrarDatosInecesarios($crearCotizacion)
+  public static function ctrBorrarDatosInecesarios($CrearProcesoTrabajo)
   {
-    //datos recolectados por la primera funcion de recoleccion de datos 
-    //datos repetidos incesarios y sin estructura
-    //datos del primer producto  ubicado por la funcion
-    unset($crearCotizacion["codProdCoti"]);
-    unset($crearCotizacion["nombreProdCoti"]);
-    unset($crearCotizacion["unidadProdCoti"]);
-    unset($crearCotizacion["cantidadProdCoti"]);
-    unset($crearCotizacion["precioProdCoti"]);
-    //datos del primer producto prima ubicado por la funcion
-    unset($crearCotizacion["codProdMprimaCoti"]);
-    unset($crearCotizacion["nombreProdMprimaCoti"]);
-    unset($crearCotizacion["unidadProdMprimaCoti"]);
-    unset($crearCotizacion["cantidadProdMprimaCoti"]);
-    unset($crearCotizacion["precioProdMprimaCoti"]);
-    $response = $crearCotizacion;
+
+    unset($CrearProcesoTrabajo["procesosAdd"]);
+    unset($CrearProcesoTrabajo["tiempoAdd"]);
+    unset($CrearProcesoTrabajo["observacionAdd"]);
+
+
+    $response = $CrearProcesoTrabajo;
     return $response;
   }
 
@@ -83,7 +69,7 @@ class FichaTrabajoController
         'DateUpdate' => date("Y-m-d\TH:i:sP"),
       );
 
-      $response = CotizacionModel::mdlEditProduct($table, $dataUpdate);
+      $response = FichaTrabajoModel::mdlEditProduct($table, $dataUpdate);
       return $response;
     }
   }
@@ -92,7 +78,7 @@ class FichaTrabajoController
   {
     $codCoti = $borrarCotizacion["codCoti"];
     $table = "cotizacion";
-    $response = CotizacionModel::mdlDeleteCotizacion($table, $codCoti);
+    $response = FichaTrabajoModel::mdlDeleteCotizacion($table, $codCoti);
 
     return $response;
   }
@@ -101,7 +87,7 @@ class FichaTrabajoController
   public static function ctrAgregarProductoCoti($codProductoCoti)
   {
     $table = 'producto';
-    $response = CotizacionModel::AgregarProductoCoti($table, $codProductoCoti);
+    $response = FichaTrabajoModel::AgregarProductoCoti($table, $codProductoCoti);
     return $response;
   }
 
@@ -109,7 +95,7 @@ class FichaTrabajoController
   public static function ctrAgregarProductoMprimaCoti($codProductoMprimaCoti)
   {
     $table = 'materia_prima';
-    $response = CotizacionModel::AgregarProductoMprimaCoti($table, $codProductoMprimaCoti);
+    $response = FichaTrabajoModel::AgregarProductoMprimaCoti($table, $codProductoMprimaCoti);
     return $response;
   }
 
@@ -120,7 +106,7 @@ class FichaTrabajoController
     //cambiar estado de la cotizacion al descargar
     $newEstadoCoti = self::ctrEstadoDescargaPdfCotizacion($codCoti);
     $table = "cotizacion";
-    $response = CotizacionModel::mdlDescargarPdfCotizacion($table, $codCoti);
+    $response = FichaTrabajoModel::mdlDescargarPdfCotizacion($table, $codCoti);
 
     return $response;
   }
@@ -129,7 +115,7 @@ class FichaTrabajoController
   public static function ctrEstadoDescargaPdfCotizacion($codCoti)
   {
     $table = "cotizacion";
-    $response = CotizacionModel::mdlEstadoDescargaPdfCotizacion($table, $codCoti);
+    $response = FichaTrabajoModel::mdlEstadoDescargaPdfCotizacion($table, $codCoti);
     return $response;
   }
 }

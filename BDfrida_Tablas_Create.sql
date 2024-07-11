@@ -178,9 +178,10 @@ CREATE TABLE
   `ficha_Proceso` (
     `idFichaProc` int (11) NOT NULL AUTO_INCREMENT,
     `tituloFichaProc` varchar(255) NOT NULL,
-    `nombreFichaProc` varchar(255) NOT NULL,
-    `docFichaProc` varchar(255) DEFAULT NULL,
+    `productoFichaProc` varchar(255) NOT NULL,
+    `detalleFichaProc` varchar(255) NOT NULL,
     `procesoFichaProcJson` JSON NOT NULL,
+    `docFichaProc` varchar(255) DEFAULT NULL,
     `DateCreate` datetime NOT NULL,
     `DateUpdate` datetime NOT NULL,
     PRIMARY KEY (`idFichaProc`)
