@@ -35,7 +35,7 @@ class FichaTrabajoModel
     $statement->bindParam(":productoFichaProc", $dataCreate["productoFichaProc"], PDO::PARAM_STR);
     $statement->bindParam(":detalleFichaProc", $dataCreate["detalleFichaProc"], PDO::PARAM_STR);
     $statement->bindParam(":procesoFichaProcJson", $dataCreate["procesoFichaProcJson"], PDO::PARAM_STR);
-     $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
+    $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
 
     if ($statement->execute()) {
       return "ok";
@@ -44,46 +44,30 @@ class FichaTrabajoModel
     }
   }
   //  visualizar datos ficha tecnica
-  public static function mdlViewDatosFichaTecnica($table, $codFichaTec)
+  public static function mdlVerDataFichaTrabajo($table, $codFichaTec)
   {
     $statement = Conexion::conn()->prepare("SELECT
-    idFichaTec,
-    nombreFichaTec,
-    fechaFichaTec,
-    clienteFichaTec,
-    descripcionFichaTec,
-    codigoFichaTec,
-    nombreSoliFichaTec,
-    celularFichaTec,
-    correoFichaTec,
-    detalleFichaTec,
-    docFichaTec
-    FROM $table WHERE idFichaTec = :idFichaTec");
-    $statement->bindParam(":idFichaTec", $codFichaTec, PDO::PARAM_INT);
+    idFichaProc,
+    tituloFichaProc,
+    productoFichaProc, 
+    detalleFichaProc,
+    procesoFichaProcJson
+    FROM $table WHERE idFichaProc = :idFichaProc");
+    $statement->bindParam(":idFichaProc", $codFichaTec, PDO::PARAM_INT);
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result;
   }
 
-  // Editar ficha técnica con ficha tecnica
-  public static function mdlUpdateConFichaTecnica($table, $dataUpdate)
+  // editar ficha trabajo
+  public static function mdlEditFichaTrabajo($table, $dataEdit)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET nombreFichaTec=:nombreFichaTec, fechaFichaTec=:fechaFichaTec, clienteFichaTec=:clienteFichaTec, descripcionFichaTec=:descripcionFichaTec, codigoFichaTec=:codigoFichaTec, nombreSoliFichaTec=:nombreSoliFichaTec, celularFichaTec=:celularFichaTec, correoFichaTec=:correoFichaTec, detalleFichaTec=:detalleFichaTec, docFichaTec=:docFichaTec, estadoFichaTec=:estadoFichaTec, DateUpdate=:DateUpdate WHERE idFichaTec=:idFichaTec");
-
-    $statement->bindParam(":nombreFichaTec", $dataUpdate["nombreFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":fechaFichaTec", $dataUpdate["fechaFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":clienteFichaTec", $dataUpdate["clienteFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":descripcionFichaTec", $dataUpdate["descripcionFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":codigoFichaTec", $dataUpdate["codigoFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":nombreSoliFichaTec", $dataUpdate["nombreSoliFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":celularFichaTec", $dataUpdate["celularFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":correoFichaTec", $dataUpdate["correoFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":detalleFichaTec", $dataUpdate["detalleFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":docFichaTec", $dataUpdate["docFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":estadoFichaTec", $dataUpdate["estadoFichaTec"], PDO::PARAM_INT);
-    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
-    $statement->bindParam(":idFichaTec", $dataUpdate["idFichaTec"], PDO::PARAM_INT);
-
+    $statement = Conexion::conn()->prepare("UPDATE $table SET tituloFichaProc = :tituloFichaProc, productoFichaProc = :productoFichaProc, detalleFichaProc = :detalleFichaProc, procesoFichaProcJson = :procesoFichaProcJson WHERE idFichaProc = :idFichaProc");
+    $statement->bindParam(":tituloFichaProc", $dataEdit["tituloFichaProc"], PDO::PARAM_STR);
+    $statement->bindParam(":productoFichaProc", $dataEdit["productoFichaProc"], PDO::PARAM_STR);
+    $statement->bindParam(":detalleFichaProc", $dataEdit["detalleFichaProc"], PDO::PARAM_STR);
+    $statement->bindParam(":procesoFichaProcJson", $dataEdit["procesoFichaProcJson"], PDO::PARAM_STR);
+    $statement->bindParam(":idFichaProc", $dataEdit["idFichaProc"], PDO::PARAM_INT);
     if ($statement->execute()) {
       return "ok";
     } else {
@@ -91,30 +75,6 @@ class FichaTrabajoModel
     }
   }
 
-  // Editar ficha técnica sin ficha tecnica
-
-  public static function mdlUpdateSinFichaTecnica($table, $dataUpdate)
-  {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET nombreFichaTec=:nombreFichaTec, fechaFichaTec=:fechaFichaTec, clienteFichaTec=:clienteFichaTec, descripcionFichaTec=:descripcionFichaTec, codigoFichaTec=:codigoFichaTec, nombreSoliFichaTec=:nombreSoliFichaTec, celularFichaTec=:celularFichaTec, correoFichaTec=:correoFichaTec, detalleFichaTec=:detalleFichaTec, DateUpdate=:DateUpdate WHERE idFichaTec=:idFichaTec");
-
-    $statement->bindParam(":nombreFichaTec", $dataUpdate["nombreFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":fechaFichaTec", $dataUpdate["fechaFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":clienteFichaTec", $dataUpdate["clienteFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":descripcionFichaTec", $dataUpdate["descripcionFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":codigoFichaTec", $dataUpdate["codigoFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":nombreSoliFichaTec", $dataUpdate["nombreSoliFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":celularFichaTec", $dataUpdate["celularFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":correoFichaTec", $dataUpdate["correoFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":detalleFichaTec", $dataUpdate["detalleFichaTec"], PDO::PARAM_STR);
-    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
-    $statement->bindParam(":idFichaTec", $dataUpdate["idFichaTec"], PDO::PARAM_INT);
-
-    if ($statement->execute()) {
-      return "ok";
-    } else {
-      return "error";
-    }
-  }
 
   //verificar si esta en uso la ficha tecnica
   public static function mdlVerificarUsoFichaTecnica($table, $codFichaTec)
@@ -126,11 +86,11 @@ class FichaTrabajoModel
     return $result !== false;
   }
 
-  //borrar FichaTecnica
-  public static function mdlDeleteFichaTecnica($table, $codFichaTec)
+  //eliminar ficha trabajo
+  public static function mdlDeleteFichaTrabajo($table, $codFichTrab)
   {
-    $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE idFichaTec = :idFichaTec");
-    $statement->bindParam(":idFichaTec", $codFichaTec, PDO::PARAM_INT);
+    $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE idFichaProc = :idFichaProc");
+    $statement->bindParam(":idFichaProc", $codFichTrab, PDO::PARAM_INT);
     if ($statement->execute()) {
       return "ok";
     } else {
@@ -148,16 +108,6 @@ class FichaTrabajoModel
     return $result;
   }
 
-  //cambiar estado de la ficha tecnica al descargar
-  public static function mdlEstadoDescargaFichaTecnica($table, $codCotiB64)
-  {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoFichaTec = '2' WHERE idFichaTec = :idFichaTec");
-    $statement->bindParam(":idFichaTec", $codCotiB64, PDO::PARAM_INT);
-    if ($statement->execute()) {
-      return "ok";
-    } else {
-      return "error";
-    }
-  }
+
 
 }

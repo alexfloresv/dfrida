@@ -42,62 +42,62 @@ class FichaTrabajoController
   //verificar si el nombre de Producto existe
   public static function ctrBorrarDatosInecesarios($CrearProcesoTrabajo)
   {
-
     unset($CrearProcesoTrabajo["procesosAdd"]);
     unset($CrearProcesoTrabajo["tiempoAdd"]);
     unset($CrearProcesoTrabajo["observacionAdd"]);
-
-
     $response = $CrearProcesoTrabajo;
     return $response;
   }
+  //visualizar datos para editar ficha trabajo
+ public static function ctrVerDataFichaTrabajo($codFichTrabView)
+ {
+   $codFichTrab = $codFichTrabView;
+   $table = "ficha_proceso";
+   $response = FichaTrabajoModel::mdlVerDataFichaTrabajo($table, $codFichTrab);
+   return $response;
+ }
 
+// Editar ficha Trabajo
+public static function ctrEditFichaTrabajo($editarProcesoTrabajo, $jsonProcesosTrabajoEdit)
+{
+  // Eliminar datos innecesarios
+  $procesoTrabajoData = self::ctrBorrarDatosInecesariosEdit($editarProcesoTrabajo);
+  // Eliminar el array $crearCotizacion para no duplicar datos
+  unset($editarProcesoTrabajo);
 
-  // Editar un producto específico
-  public static function ctrEditProduct($editarProducto)
+  $table = "ficha_proceso";
+  $dataCreate = array(
+    "idFichaProc" => $procesoTrabajoData["codFichTrab"],
+    "tituloFichaProc" => $procesoTrabajoData["tituloProcesEdit"],
+    "productoFichaProc" => $procesoTrabajoData["productoFichaProcEdit"],
+    "detalleFichaProc" => $procesoTrabajoData["detalleFichaProcEdit"],
+    "procesoFichaProcJson" => $jsonProcesosTrabajoEdit,
+    "DateCreate" => date("Y-m-d\TH:i:sP"),
+  );
+  $response = FichaTrabajoModel::mdlEditFichaTrabajo($table, $dataCreate);
+
+  return $response;
+}
+//verificar si el nombre de Producto existe
+public static function ctrBorrarDatosInecesariosEdit($editarProcesoTrabajo)
+{
+  unset($editarProcesoTrabajo["procesosAdd"]);
+  unset($editarProcesoTrabajo["tiempoAdd"]);
+  unset($editarProcesoTrabajo["observacionAdd"]);
+  $response = $editarProcesoTrabajo;
+  return $response;
+}
+
+  //eliminar ficha trabajo
+  public static function ctrDeleteFichaTrabajo($borrarFichaTrabajo)
   {
-    if (isset($editarProducto['editProductName']) && isset($editarProducto['editProductCategory'])) {
-      $table = 'producto';
-      $dataUpdate = array(
-        'idProd' => $editarProducto['codProduct'],
-        'idCatPro' => $editarProducto['editProductCategory'],
-        'nombreProd' => $editarProducto['editProductName'],
-        "codigoProd" => $editarProducto["editProductCodigo"],
-        'detalleProd' => $editarProducto['editProductDetail'],
-        'unidadProd' => $editarProducto['editProductUnit'],
-        'precioProd' => $editarProducto['editProductPrice'],
-        'DateUpdate' => date("Y-m-d\TH:i:sP"),
-      );
-
-      $response = FichaTrabajoModel::mdlEditProduct($table, $dataUpdate);
-      return $response;
-    }
-  }
-  // Eliminar cotizacion
-  public static function ctrDeleteCotizacion($borrarCotizacion)
-  {
-    $codCoti = $borrarCotizacion["codCoti"];
-    $table = "cotizacion";
-    $response = FichaTrabajoModel::mdlDeleteCotizacion($table, $codCoti);
+    $codFichTrab = $borrarFichaTrabajo["codFichTrab"];
+    $table = "ficha_proceso";
+    $response = FichaTrabajoModel::mdlDeleteFichaTrabajo($table, $codFichTrab);
 
     return $response;
   }
 
-  //Agregar Producto a la cotizacion
-  public static function ctrAgregarProductoCoti($codProductoCoti)
-  {
-    $table = 'producto';
-    $response = FichaTrabajoModel::AgregarProductoCoti($table, $codProductoCoti);
-    return $response;
-  }
-
-  //Agregar Producto Mprima a la cotizacion
-  public static function ctrAgregarProductoMprimaCoti($codProductoMprimaCoti)
-  {
-    $table = 'materia_prima';
-    $response = FichaTrabajoModel::AgregarProductoMprimaCoti($table, $codProductoMprimaCoti);
-    return $response;
-  }
 
   //  Descargar PDF de la cotizacion
   public static function ctrDescargarPdfCotizacion($codCotiPdf)

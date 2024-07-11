@@ -20,7 +20,7 @@ if (isset($_POST["codFichTrab"])) {
   $view->ajaxVerProcesosTrabajo($_POST["codFichTrab"]);
 }
 
-//  crear Cotizacion
+//  crear procesos trabajo
 if (isset($_POST["jsonCrearProcesoTrabajo"], $_POST["jsonProcesosTrabajo"])) {
   $create = new FichaTrabajoAjax();
   $create->jsonCrearProcesoTrabajo = $_POST["jsonCrearProcesoTrabajo"];
@@ -28,23 +28,26 @@ if (isset($_POST["jsonCrearProcesoTrabajo"], $_POST["jsonProcesosTrabajo"])) {
   $create->ajaxCrearFichaTrabajo($_POST["jsonCrearProcesoTrabajo"], $_POST["jsonProcesosTrabajo"]);
 }
 
+//visualizar datos para editar ficha trabajo
+if (isset($_POST["codFichTrabView"])) {
+  $viewData = new FichaTrabajoAjax();
+  $viewData->codFichTrabView = $_POST["codFichTrabView"];
+  $viewData->ajaxVerDataFichaTrabajo($_POST["codFichTrabView"]);
+}
+
+//  editar procesos trabajo
+if (isset($_POST["jsonEditarFichaTrabajo"], $_POST["jsonProcesosTrabajoEdit"])) {
+  $edit = new FichaTrabajoAjax();
+  $edit->jsonEditarFichaTrabajo = $_POST["jsonEditarFichaTrabajo"];
+  $edit->jsonProcesosTrabajoEdit = $_POST["jsonProcesosTrabajoEdit"];
+  $edit->ajaxEditFichaTrabajo($_POST["jsonEditarFichaTrabajo"], $_POST["jsonProcesosTrabajoEdit"]);
+}
+
 //borrar cotizacion
-if (isset($_POST["jsonBorraCotizacion"])) {
+if (isset($_POST["jsonBorraFichaTrabajo"])) {
   $delete = new FichaTrabajoAjax();
-  $delete->jsonBorraCotizacion = $_POST["jsonBorraCotizacion"];
-  $delete->ajaxBorrarCotizacion($_POST["jsonBorraCotizacion"]);
-}
-//Agregar Producto a la cotizacion
-if (isset($_POST["codAddProdModalCoti"])) {
-  $add = new FichaTrabajoAjax();
-  $add->codAddProdModalCoti = $_POST["codAddProdModalCoti"];
-  $add->ajaxAgregarProductoCoti($_POST["codAddProdModalCoti"]);
-}
-//Agregar Producto a la cotizacion
-if (isset($_POST["codAddProdMprimaModalCoti"])) {
-  $add = new FichaTrabajoAjax();
-  $add->codAddProdMprimaModalCoti = $_POST["codAddProdMprimaModalCoti"];
-  $add->ajaxAgregarProductoMprimaCoti($_POST["codAddProdMprimaModalCoti"]);
+  $delete->jsonBorraFichaTrabajo = $_POST["jsonBorraFichaTrabajo"];
+  $delete->ajaxBorrarFichaTrabajo($_POST["jsonBorraFichaTrabajo"]);
 }
 
 //  Descargar PDF de la cotizacion
@@ -85,33 +88,27 @@ class FichaTrabajoAjax
     echo json_encode($response);
   }
 
-  //  editar ProductosMprima
-  public function ajaxEditarProductosMprima($jsonEditarProductosMprima)
+  //visualizar datos para editar ficha trabajo
+  public function ajaxVerDataFichaTrabajo($codFichTrabView)
   {
-    $editarProductosMprima = json_decode($jsonEditarProductosMprima, true); // Decodificar la cadena de texto JSON en un array asociativo
-    $response = FichaTrabajoController::ctrEditProductMprima($editarProductosMprima);
-    echo json_encode($response);
-  }
-  //borrar ProductosMprima
-  public function ajaxBorrarCotizacion($jsonBorraCotizacion)
-  {
-    $borrarCotizacion = json_decode($jsonBorraCotizacion, true); // Decodificar la cadena de texto JSON en un array asociativo
-    $response = FichaTrabajoController::ctrDeleteCotizacion($borrarCotizacion);
+    $response = FichaTrabajoController::ctrVerDataFichaTrabajo($codFichTrabView);
     echo json_encode($response);
   }
 
-  //Agregar Producto a la cotizacion
-  public function ajaxAgregarProductoCoti($codAddProdModalCoti)
+  //  editar ficha Trabajo
+  public function ajaxEditFichaTrabajo($jsonEditarFichaTrabajo, $jsonProcesosTrabajoEdit)
   {
-    $codProductoCoti = json_decode($codAddProdModalCoti, true); // Decodificar la cadena de texto JSON en un array asociativo
-    $response = FichaTrabajoController::ctrAgregarProductoCoti($codProductoCoti);
+    $editarProcesoTrabajo = json_decode($jsonEditarFichaTrabajo, true);
+
+    $response = FichaTrabajoController::ctrEditFichaTrabajo($editarProcesoTrabajo, $jsonProcesosTrabajoEdit);
     echo json_encode($response);
   }
-  //Agregar Producto Mprima a la cotizacion
-  public function ajaxAgregarProductoMprimaCoti($codAddProdMprimaModalCoti)
+
+  //eliminar ficha trabajo
+  public function ajaxBorrarFichaTrabajo($jsonBorraFichaTrabajo)
   {
-    $codProductoMprimaCoti = json_decode($codAddProdMprimaModalCoti, true); // Decodificar la cadena de texto JSON en un array asociativo
-    $response = FichaTrabajoController::ctrAgregarProductoMprimaCoti($codProductoMprimaCoti);
+    $borrarFichaTrabajo = json_decode($jsonBorraFichaTrabajo, true);
+    $response = FichaTrabajoController::ctrDeleteFichaTrabajo($borrarFichaTrabajo);
     echo json_encode($response);
   }
 

@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
-
+// data table para el modal de lsita de procesos de trabajo
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/fichaTrabajoList";
