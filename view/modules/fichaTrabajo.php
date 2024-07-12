@@ -72,7 +72,7 @@
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
           id="btnCerrarFichaTrabajo">Cerrar</button>
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success "
-          id="btnRegistrarFichaTrabajo">Registrar Cotizacion</button>
+          id="btnRegistrarFichaTrabajo">Registrar Ficha Trabajo</button>
       </div>
     </form>
   </main>
