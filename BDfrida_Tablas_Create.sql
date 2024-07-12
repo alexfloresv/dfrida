@@ -251,29 +251,29 @@ CREATE TABLE
 CREATE TABLE
   `ingreso_Prod` (
     `idIngProd` int (11) NOT NULL AUTO_INCREMENT,
-    `idProd` int (11) NOT NULL,
-    `codigoProd` varchar(255) NOT NULL,
-    `nombreProd` varchar(255) NOT NULL,
-    `unidadProd` int (11) NOT NULL,
-    `cantidadProd` int NOT NULL,
+    `nombreIngProd` varchar(255) NOT NULL,
+    `fechaIngProd` date NOT NULL,
+    `igvIngProd` varchar(5) NOT NULL,
+    `subTotalIngProd` varchar(50) NOT NULL,
+    `totalIngProd` varchar(50) NOT NULL,
+    `ingJsonProd` JSON NOT NULL,
     `DateCreate` datetime NOT NULL,
     `DateUpdate` datetime NOT NULL,
     PRIMARY KEY (`idIngProd`),
-    FOREIGN KEY (`idProd`) REFERENCES `producto` (`idProd`)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 CREATE TABLE
   `almacen_Prod` (
     `idAlmaProd` int (11) NOT NULL AUTO_INCREMENT,
     `idProd` int (11) NOT NULL,
-    `codigoProd` varchar(255) NOT NULL,
-    `nombreProd` varchar(255) NOT NULL,
-    `unidadProd` int (11) NOT NULL,
-    `cantidadProd` int NOT NULL,
+    `codigoProdAlma` varchar(255) NOT NULL,
+    `nombreProdAlma` varchar(255) NOT NULL,
+    `unidadProdAlma` int (11) NOT NULL,
+    `cantidadProdAlma` int NOT NULL,
+    `precioProdAlma` int NOT NULL,
     `DateCreate` datetime NOT NULL,
     `DateUpdate` datetime NOT NULL,
-    PRIMARY KEY (`idAlmaProd`),
-    FOREIGN KEY (`idProd`) REFERENCES `producto` (`idProd`)
+    PRIMARY KEY (`idAlmaProd`)
   ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 CREATE TABLE

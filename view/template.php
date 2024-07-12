@@ -38,6 +38,8 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
       $_GET["ruta"] == "fichaTrabajo" ||
       $_GET["ruta"] == "fichaTrabajoList" ||
       $_GET["ruta"] == "fichaTrabajoEdit" ||
+      $_GET["ruta"] == "ingresoList" ||
+      $_GET["ruta"] == "ingresoProd" ||
       /*  $_GET["ruta"] == "ingresos" ||
     $_GET["ruta"] == "nuevoIngreso" ||
   $_GET["ruta"] == "almacen" ||
@@ -109,6 +111,7 @@ $_GET["ruta"] == "visualizarLote" || */
 <script src="js/fichaTecnica.js"></script>
 <script src="js/fichaTrabajo.js"></script>
 <script src="js/pdfFichasTrabajo.js"></script>
+<script src="js/ingresoProd.js"></script>
 
 <!-- <script src="js/personal.js"></script> -->
 <!-- <script src="js/ingresos.js"></script> -->

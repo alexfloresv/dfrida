@@ -106,7 +106,7 @@
 
           <!-- aqui se agregan los productos selecionado del modal de prodcutos  -->
         </div>
-        
+
         <!-- total producto  -->
         <div class="form-group row ">
           <div class="form-group col-md-4">
@@ -163,7 +163,8 @@
           </div>
 
           <div class="form-group col-md-2">
-            <label for="totalProdMprimaCotiAdd" class="form-label" style="font-weight: bold">Total Producto Prima: </label>
+            <label for="totalProdMprimaCotiAdd" class="form-label" style="font-weight: bold">Total Producto Prima:
+            </label>
             <input type="text" class="form-control" id="totalProdMprimaCotiAdd" name="totalProdMprimaCotiAdd" value=""
               placeholder="Total Producto Prima" readonly required>
           </div>
@@ -195,8 +196,8 @@
             </button>
           </div>
           <div class="form-group col-md-2">
-            <input type="text" class="form-control" id="igvCotizacionAdd" name="igvCotizacionAdd" value="" placeholder="IGV"
-              readonly required>
+            <input type="text" class="form-control" id="igvCotizacionAdd" name="igvCotizacionAdd" value=""
+              placeholder="IGV" readonly required>
           </div>
           <div class="form-group col-md-2">
             <input type="text" class="form-control" id="subTotalCotizacionAdd" name="subTotalCotizacionAdd" value=""
@@ -210,8 +211,8 @@
       </div>
       <!-- fin -->
       <div class="container row g-3 p-3 ">
-        <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger"
-          style="margin-right: 10px;" id="btnCerrarCotizacion">Cerrar</button>
+        <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
+          id="btnCerrarCotizacion">Cerrar</button>
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success "
           id="btnRegistrarCotizacion">Registrar Cotizacion</button>
       </div>
@@ -222,7 +223,7 @@
 
 <!-- Modal produtos -->
 <div class="modal fade" id="modalAddProdCoti" tabindex="-1" aria-labelledby="modalAddProdCoti" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg"> <!-- Clase "modal-lg" agregada aquí -->
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="modalAddProdCoti">Lista Productos </h1>
@@ -248,7 +249,7 @@
 <!-- Modal produtos materia prima -->
 <div class="modal fade" id="modalAddProdMprimaCoti" tabindex="-1" aria-labelledby="modalAddProdMprimaCoti"
   aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="modalAddProdMprimaCoti">Lista Productos Materia Prima</h1>
