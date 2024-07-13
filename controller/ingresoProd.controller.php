@@ -3,14 +3,14 @@ date_default_timezone_set('America/Bogota');
 
 class ingresoProdController
 {
-  // Mostrar todos los productos
-  public static function ctrDTableCotizaciones()
+  //datatable de ingresos productos
+  public static function ctrDTableIngProdcuctos()
   {
-    $table = "cotizacion";
-    $response = ingresoProdModel::mdlDTableCotizaciones($table);
+    $table = "ingreso_prod";
+    $response = ingresoProdModel::mdlDTableIngProdcuctos($table);
     return $response;
   }
-  
+
   //crear ingreso productos a almacen de  productos***
   public static function ctrCrearIngresoProd($crearIngresoProd, $jsonProductosIngProd)
   {

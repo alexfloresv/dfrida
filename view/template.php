@@ -96,6 +96,7 @@ $_GET["ruta"] == "visualizarLote" || */
 <script src="dataTables/dt-cotizacion.js"></script>
 <script src="dataTables/dt-fichaTecnica.js"></script>
 <script src="dataTables/dt-fichaTrabajo.js"></script>
+<script src="dataTables/dt-ingresos.js"></script>
 
 
 <!-- funciones js -->

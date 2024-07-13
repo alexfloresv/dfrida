@@ -7,10 +7,10 @@ if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
 //funciones para escuchar entrada de datos desde $.ajax de jquery
-//datatable de Cotizaciones
-if (isset($_POST["todasLasCotizaciones"])) {
-  $todasLasCotizaciones = new IngresoProdAjax();
-  $todasLasCotizaciones->ajaxDTableCotizaciones();
+//datatable de ingresos productos
+if (isset($_POST["todosLosIngProductos"])) {
+  $todosLosIngProductos = new IngresoProdAjax();
+  $todosLosIngProductos->ajaxDTableIngProdcuctos();
 }
   //  crear ingreso productos
 if (isset($_POST["jsonCrearIngProd"], $_POST["jsonProductosIngProd"])) {
@@ -49,16 +49,15 @@ if (isset($_POST["jsonPdfCotizacion"])) {
 
 class IngresoProdAjax
 {
-  //datatable de cotizaciones
-  public function ajaxDTableCotizaciones()
+//datatable de ingresos productos
+  public function ajaxDTableIngProdcuctos()
   {
-    $todasLasCotizaciones = ingresoProdController::ctrDTableCotizaciones();
-    foreach ($todasLasCotizaciones as &$cotizacion) {
-      $cotizacion['buttons'] = FunctionIngresoProd::getBtnCotizacion($cotizacion["idCoti"]);
-      $cotizacion['estadoCoti'] = FunctionIngresoProd::getEstadoCoti($cotizacion["estadoCoti"]);
+    $todosLosIngProductos = ingresoProdController::ctrDTableIngProdcuctos();
+    foreach ($todosLosIngProductos as &$ingresos) {
+      $ingresos['buttons'] = FunctionIngresoProd::getBtnIngProd($ingresos["idIngProd"]);
+      $ingresos['modalIngProd'] = FunctionIngresoProd::getBtnVerIngProd($ingresos["idIngProd"]);
     }
-    //mostar todos los ProductosMprima DataTable
-    echo json_encode($todasLasCotizaciones);
+     echo json_encode($todosLosIngProductos);
   }
 
   //  crear ingreso productos

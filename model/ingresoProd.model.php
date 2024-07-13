@@ -4,10 +4,10 @@ require_once "conexion.php";
 
 class ingresoProdModel
 {
-  // Mostrar todas las cotizaciones
-  public static function mdlDTableCotizaciones($table)
+  //datatable de ingresos productos
+  public static function mdlDTableIngProdcuctos($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT idCoti, tituloCoti, nombreComercialCoti, fechaCoti, nombreCoti, celularCoti, totalCoti, estadoCoti FROM $table ORDER BY idCoti DESC");
+    $statement = Conexion::conn()->prepare("SELECT idIngProd, nombreIngProd, fechaIngProd, totalIngProd FROM $table ORDER BY idIngProd DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }

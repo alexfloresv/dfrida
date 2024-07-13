@@ -41,15 +41,22 @@ class FunctionIngresoProd
   }
 
   //botones Cotizacion
-  public static function getBtnCotizacion($codCoti)
+  public static function getBtnIngProd($codIngProd)
   {
     $botones = '
-     <button class="btn btn-dark btnDescargarCoti" codCoti="' . $codCoti . '"><i class="fa-solid fa-file-pdf"></i></button>
-    
-    <button class="btn btn-danger btnDeleteCotizacion" codCoti="' . $codCoti . '"><i class="fa-solid fa-trash"></i></button>
+     <button class="btn btn-dark btnEditarIngProd" codIngProd="' . $codIngProd . '"><i class="fa-solid fa-pencil"></i></i></button>
+      <button class="btn btn-danger btnDeleteIngProd" codIngProd="' . $codIngProd . '"><i class="fa-solid fa-trash"></i></button>
     ';
     return $botones;
-    /* <button class="btn btn-warning btnEditCotizacion" codCoti="' . $codCoti . '" ><i class="fa-solid fa-pencil"></i></button> */
+  }
+
+  //boton ver procesos trabajo
+  public static function getBtnVerIngProd($codAllIngProd)
+  {
+    $botones = '
+       <button class="btn btn-info btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalProcesosTrabajo" codAllIngProd="' . $codAllIngProd . '"><i class="fa-solid fa-cubes"></i></button>
+      ';
+    return $botones;
   }
 }
 
