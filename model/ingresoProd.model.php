@@ -30,10 +30,13 @@ class ingresoProdModel
   // El producto ya existe, se actualiza la cantidad
   public static function mdlSumarProductoAlmacenProd($table, $dataSumarProdAlamacen)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET cantidadProdAlma = :cantidadProdAlma, DateUpdate = :DateUpdate  WHERE idProd = :idProd");
-    $statement->bindParam(":DateUpdate", $dataSumarProdAlamacen["DateUpdate"], PDO::PARAM_STR);
+    $statement = Conexion::conn()->prepare("UPDATE $table SET codigoProdAlma = :codigoProdAlma, nombreProdAlma = :nombreProdAlma, unidadProdAlma = :unidadProdAlma, cantidadProdAlma = :cantidadProdAlma, DateUpdate = :DateUpdate  WHERE idProd = :idProd");
+    $statement->bindParam(":codigoProdAlma", $dataSumarProdAlamacen["codigoProdAlma"], PDO::PARAM_STR);
+    $statement->bindParam(":nombreProdAlma", $dataSumarProdAlamacen["nombreProdAlma"], PDO::PARAM_STR);
+    $statement->bindParam(":unidadProdAlma", $dataSumarProdAlamacen["unidadProdAlma"], PDO::PARAM_STR);
     $statement->bindParam(":cantidadProdAlma", $dataSumarProdAlamacen["cantidadProdAlma"], PDO::PARAM_STR);
     $statement->bindParam(":idProd", $dataSumarProdAlamacen["idProd"], PDO::PARAM_INT);
+    $statement->bindParam(":DateUpdate", $dataSumarProdAlamacen["DateUpdate"], PDO::PARAM_STR);
     if ($statement->execute()) {
       return true;
     } else {
@@ -77,6 +80,23 @@ class ingresoProdModel
       return "error";
     }
   }
+  //visualizar datos para editar ingreso de productos
+  public static function mdlVerDataFichaTrabajo($table, $codIdIngProd)
+  {
+    $statement = Conexion::conn()->prepare("SELECT
+     idIngProd,
+     nombreIngProd,
+     fechaIngProd, 
+     igvIngProd,
+     subTotalIngProd,
+     totalIngProd,
+     ingJsonProd
+     FROM $table WHERE idIngProd = :idIngProd");
+    $statement->bindParam(":idIngProd", $codIdIngProd, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    return $result;
+  }
 
   // Editar un producto específico
   public static function mdlEditProduct($table, $dataUpdate)
@@ -96,17 +116,42 @@ class ingresoProdModel
       return "error";
     }
   }
+  //eliminar productos ingresados**
 
-  //  Borrar cotizacion
-  public static function mdlDeleteCotizacion($table, $codCoti)
+  //obtener el registro de productos ingresados
+  public static function mdlRecuperarProductosIngresados($table, $codIngProd)
   {
-    $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE idCoti = $codCoti");
+    $statement = Conexion::conn()->prepare("SELECT ingJsonProd FROM $table WHERE idIngProd = :idIngProd");
+    $statement->bindParam(":idIngProd", $codIngProd, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  //actualizar productos en almacen
+  public static function mdlActualizarProductosIngresados($table, $dataUpdateProdAlmacen)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET cantidadProdAlma = :cantidadProdAlma, DateUpdate = :DateUpdate WHERE idProd = :idProd");
+    $statement->bindParam(":cantidadProdAlma", $dataUpdateProdAlmacen["cantidadProdAlma"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataUpdateProdAlmacen["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":idProd", $dataUpdateProdAlmacen["idProd"], PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //  Borrar ingreso productos
+  public static function mdlBorrarRegistroIngresProducto($table, $codIngProd)
+  {
+    $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE idIngProd = $codIngProd");
     if ($statement->execute()) {
       return "ok";
     } else {
       return "error";
     }
   }
+  //fin eliminar productos ingresados**
+
   //Agregar Producto al ingreso
   public static function mdlAgregarIngProducto($table, $codIngProducto)
   {

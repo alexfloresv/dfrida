@@ -84,6 +84,9 @@ class ingresoProdController
         $dataSumarProdAlamacen = array(
           "idProd" => $producto["codProdIng"],
           "cantidadProdAlma" => $stockAlmacen["cantidadProdAlma"] + $producto["cantidadProdIng"], // Sumar la cantidad actual con la nueva cantidad
+          "codigoProdAlma" => $producto["codigoProdIng"],
+          "nombreProdAlma" => $producto["nombreProdIng"],
+          "unidadProdAlma" => $producto["unidadProdIng"],
           "DateUpdate" => date("Y-m-d\TH:i:sP"),
         );
         $response = ingresoProdModel::mdlSumarProductoAlmacenProd($table, $dataSumarProdAlamacen);
@@ -122,7 +125,17 @@ class ingresoProdController
   }
   //fin crear ingreso productos a almacen de  productos***
 
+  //visualizar datos para editar ingreso de productos
+  public static function ctrVerDataIngProductos($codIngProd)
+  {
+    $codIdIngProd = $codIngProd;
+    $table = "ingreso_prod";
+    $response = ingresoProdModel::mdlVerDataFichaTrabajo($table, $codIdIngProd);
+    return $response;
+  }
+
   // Editar un producto específico
+
   public static function ctrEditProduct($editarProducto)
   {
     if (isset($editarProducto['editProductName']) && isset($editarProducto['editProductCategory'])) {
@@ -142,12 +155,59 @@ class ingresoProdController
       return $response;
     }
   }
-  // Eliminar cotizacion
-  public static function ctrDeleteCotizacion($borrarCotizacion)
+
+  //borrar ingreso productos
+  public static function ctrBorrarIngProductos($borrarIngProductos)
   {
-    $codCoti = $borrarCotizacion["codCoti"];
-    $table = "cotizacion";
-    $response = ingresoProdModel::mdlDeleteCotizacion($table, $codCoti);
+    //verificar si el usuario es administrador
+    if ($_SESSION["idTipoUsu"] == 1) {
+      $codIngProd = $borrarIngProductos["codIngProd"];
+      $table = "ingreso_prod";
+      //obtener el registro de productos ingresados
+      $productosIngresados = self::ctrRecuperarProductosIngresados($codIngProd);
+      //borrar productos ingresados en almacen
+      $deleteProdIngAlmacen = self::ctrBorrarProductosIngresadosAlmacen($productosIngresados["ingJsonProd"]);
+      //eliminar registro de ingreso de productos
+      $response = ingresoProdModel::mdlBorrarRegistroIngresProducto($table, $codIngProd);
+    } else {
+      $response = "error";
+    }
+    return $response;
+  }
+
+  //obtener el registro de productos ingresados
+  public static function ctrRecuperarProductosIngresados($codIngProd)
+  {
+    $table = "ingreso_prod";
+    $response = ingresoProdModel::mdlRecuperarProductosIngresados($table, $codIngProd);
+    return $response;
+  }
+
+  //editar / cantidades de productos ingresados al alamcen de productos al eliminar un registro de ingreso
+  public static function ctrBorrarProductosIngresadosAlmacen($productosIngresados)
+  {
+    $dataProductosIng = json_decode($productosIngresados, true);
+    $table = "almacen_prod";
+
+    foreach ($dataProductosIng as $producto) {
+      // Verificar datos de productos en almacen
+      $stockAlmacen = self::ctrStockAlmacen($producto["codProdIng"]);
+      $stockActual = $stockAlmacen["cantidadProdAlma"];
+      $ajusteStock = $producto["cantidadProdIng"];
+
+      // Calcular nuevo stock
+      $nuevoStock = $stockActual - $ajusteStock;
+
+      // Preparar datos para actualizar
+      $dataActualizarProdAlamacen = array(
+        "idProd" => $producto["codProdIng"],
+        "cantidadProdAlma" => $nuevoStock,
+        "DateUpdate" => date("Y-m-d\TH:i:sP"),
+      );
+
+      // Actualizar productos en almacen
+      $response = ingresoProdModel::mdlActualizarProductosIngresados($table, $dataActualizarProdAlamacen);
+    }
 
     return $response;
   }

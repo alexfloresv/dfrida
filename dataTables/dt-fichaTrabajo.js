@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Actualiza la estructura del thead para incluir las nuevas columnas
       $("#ModalDataTableProcesoTrabajo thead").html(`
         <tr>
-          <th scope="col">#</th>
+          <th scope="col">N° Atividad</th>
           <th scope="col">Nombre</th>
           <th scope="col">Tiempo</th>
           <th scope="col">Observación</th>

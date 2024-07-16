@@ -24,7 +24,7 @@ class FichaTrabajoController
   {
     // Eliminar datos innecesarios
     $procesoTrabajoData = self::ctrBorrarDatosInecesarios($CrearProcesoTrabajo);
-    // Eliminar el array $crearCotizacion para no duplicar datos
+    // Eliminar el array $CrearProcesoTrabajo para no duplicar datos
     unset($CrearProcesoTrabajo);
 
     $table = "ficha_proceso";
@@ -39,7 +39,8 @@ class FichaTrabajoController
 
     return $response;
   }
-  //verificar si el nombre de Producto existe
+
+  //eliminar datos inecesarios
   public static function ctrBorrarDatosInecesarios($CrearProcesoTrabajo)
   {
     unset($CrearProcesoTrabajo["procesosAdd"]);
@@ -49,44 +50,44 @@ class FichaTrabajoController
     return $response;
   }
   //visualizar datos para editar ficha trabajo
- public static function ctrVerDataFichaTrabajo($codFichTrabView)
- {
-   $codFichTrab = $codFichTrabView;
-   $table = "ficha_proceso";
-   $response = FichaTrabajoModel::mdlVerDataFichaTrabajo($table, $codFichTrab);
-   return $response;
- }
+  public static function ctrVerDataFichaTrabajo($codFichTrabView)
+  {
+    $codFichTrab = $codFichTrabView;
+    $table = "ficha_proceso";
+    $response = FichaTrabajoModel::mdlVerDataFichaTrabajo($table, $codFichTrab);
+    return $response;
+  }
 
-// Editar ficha Trabajo
-public static function ctrEditFichaTrabajo($editarProcesoTrabajo, $jsonProcesosTrabajoEdit)
-{
-  // Eliminar datos innecesarios
-  $procesoTrabajoData = self::ctrBorrarDatosInecesariosEdit($editarProcesoTrabajo);
-  // Eliminar el array $crearCotizacion para no duplicar datos
-  unset($editarProcesoTrabajo);
+  // Editar ficha Trabajo
+  public static function ctrEditFichaTrabajo($editarProcesoTrabajo, $jsonProcesosTrabajoEdit)
+  {
+    // Eliminar datos innecesarios
+    $procesoTrabajoData = self::ctrBorrarDatosInecesariosEdit($editarProcesoTrabajo);
+    // Eliminar el array $crearCotizacion para no duplicar datos
+    unset($editarProcesoTrabajo);
 
-  $table = "ficha_proceso";
-  $dataCreate = array(
-    "idFichaProc" => $procesoTrabajoData["codFichTrab"],
-    "tituloFichaProc" => $procesoTrabajoData["tituloProcesEdit"],
-    "productoFichaProc" => $procesoTrabajoData["productoFichaProcEdit"],
-    "detalleFichaProc" => $procesoTrabajoData["detalleFichaProcEdit"],
-    "procesoFichaProcJson" => $jsonProcesosTrabajoEdit,
-    "DateCreate" => date("Y-m-d\TH:i:sP"),
-  );
-  $response = FichaTrabajoModel::mdlEditFichaTrabajo($table, $dataCreate);
+    $table = "ficha_proceso";
+    $dataCreate = array(
+      "idFichaProc" => $procesoTrabajoData["codFichTrab"],
+      "tituloFichaProc" => $procesoTrabajoData["tituloProcesEdit"],
+      "productoFichaProc" => $procesoTrabajoData["productoFichaProcEdit"],
+      "detalleFichaProc" => $procesoTrabajoData["detalleFichaProcEdit"],
+      "procesoFichaProcJson" => $jsonProcesosTrabajoEdit,
+      "DateCreate" => date("Y-m-d\TH:i:sP"),
+    );
+    $response = FichaTrabajoModel::mdlEditFichaTrabajo($table, $dataCreate);
 
-  return $response;
-}
-//verificar si el nombre de Producto existe
-public static function ctrBorrarDatosInecesariosEdit($editarProcesoTrabajo)
-{
-  unset($editarProcesoTrabajo["procesosAdd"]);
-  unset($editarProcesoTrabajo["tiempoAdd"]);
-  unset($editarProcesoTrabajo["observacionAdd"]);
-  $response = $editarProcesoTrabajo;
-  return $response;
-}
+    return $response;
+  }
+  //verificar si el nombre de Producto existe
+  public static function ctrBorrarDatosInecesariosEdit($editarProcesoTrabajo)
+  {
+    unset($editarProcesoTrabajo["procesosAdd"]);
+    unset($editarProcesoTrabajo["tiempoAdd"]);
+    unset($editarProcesoTrabajo["observacionAdd"]);
+    $response = $editarProcesoTrabajo;
+    return $response;
+  }
 
   //eliminar ficha trabajo
   public static function ctrDeleteFichaTrabajo($borrarFichaTrabajo)

@@ -103,14 +103,14 @@ document.addEventListener("DOMContentLoaded", function () {
             return meta.row + 1;
           },
         },
-        { data: "nombreProd" }, // Asume que este es el nombre del proceso
-        { data: "codigoProd" }, // Asume que este campo existe en tu JSON
-        { data: "unidadProd" }, // Asume que este campo existe en tu JSON
-        { data: "cantidadProd" }, // Asume que este campo existe en tu JSON
+        { data: "nombreProd" },
+        { data: "codigoProd" },
+        { data: "unidadProd" },
+        { data: "cantidadProd" },
         {
           data: "precioProd",
           render: function (data, type, row) {
-            return "S/ " + data; // Coloca 'S/' delante del valor de la celda
+            return "S/ " + data; 
           },
         },
       ];

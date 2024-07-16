@@ -43,7 +43,7 @@ class FichaTrabajoModel
       return "error";
     }
   }
-  //  visualizar datos ficha tecnica
+  //  visualizar datos ficha de trabajo
   public static function mdlVerDataFichaTrabajo($table, $codFichaTec)
   {
     $statement = Conexion::conn()->prepare("SELECT
