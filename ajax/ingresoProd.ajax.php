@@ -12,7 +12,15 @@ if (isset($_POST["todosLosIngProductos"])) {
   $todosLosIngProductos = new IngresoProdAjax();
   $todosLosIngProductos->ajaxDTableIngProdcuctos();
 }
-  //  crear ingreso productos
+
+//visualizar ingreos en el modal de ingresos productos
+if (isset($_POST["codAllIngProd"])) {
+  $view = new IngresoProdAjax();
+  $view->codAllIngProd = $_POST["codAllIngProd"];
+  $view->ajaxVerProductosIngresadosModal($_POST["codAllIngProd"]);
+}
+
+//  crear ingreso productos
 if (isset($_POST["jsonCrearIngProd"], $_POST["jsonProductosIngProd"])) {
   $create = new IngresoProdAjax();
   $create->jsonCrearIngProd = $_POST["jsonCrearIngProd"];
@@ -49,7 +57,7 @@ if (isset($_POST["jsonPdfCotizacion"])) {
 
 class IngresoProdAjax
 {
-//datatable de ingresos productos
+  //datatable de ingresos productos
   public function ajaxDTableIngProdcuctos()
   {
     $todosLosIngProductos = ingresoProdController::ctrDTableIngProdcuctos();
@@ -57,7 +65,14 @@ class IngresoProdAjax
       $ingresos['buttons'] = FunctionIngresoProd::getBtnIngProd($ingresos["idIngProd"]);
       $ingresos['modalIngProd'] = FunctionIngresoProd::getBtnVerIngProd($ingresos["idIngProd"]);
     }
-     echo json_encode($todosLosIngProductos);
+    echo json_encode($todosLosIngProductos);
+  }
+
+  //visualizar ingreos en el modal de ingresos productos
+  public function ajaxVerProductosIngresadosModal($codAllIngProd)
+  {
+    $response = ingresoProdController::ctrVerProductosIngresadosModal($codAllIngProd);
+    echo json_encode($response);
   }
 
   //  crear ingreso productos

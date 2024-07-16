@@ -44,7 +44,7 @@ class FunctionIngresoProd
   public static function getBtnIngProd($codIngProd)
   {
     $botones = '
-     <button class="btn btn-dark btnEditarIngProd" codIngProd="' . $codIngProd . '"><i class="fa-solid fa-pencil"></i></i></button>
+     <button class="btn btn-warning btnEditarIngProd" codIngProd="' . $codIngProd . '"><i class="fa-solid fa-pencil"></i></i></button>
       <button class="btn btn-danger btnDeleteIngProd" codIngProd="' . $codIngProd . '"><i class="fa-solid fa-trash"></i></button>
     ';
     return $botones;
@@ -54,7 +54,7 @@ class FunctionIngresoProd
   public static function getBtnVerIngProd($codAllIngProd)
   {
     $botones = '
-       <button class="btn btn-info btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalProcesosTrabajo" codAllIngProd="' . $codAllIngProd . '"><i class="fa-solid fa-cubes"></i></button>
+       <button class="btn btn-info btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalProdIngresados" codAllIngProd="' . $codAllIngProd . '"><i class="fa-solid fa-cubes"></i></button>
       ';
     return $botones;
   }

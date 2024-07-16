@@ -11,7 +11,14 @@ class ingresoProdModel
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
-
+  //datatable  ingresos en el modal de ingresos productos
+  public static function mdlVerProductosIngresadosModal($table, $codAllIngProd)
+  {
+    $statement = Conexion::conn()->prepare("SELECT ingJsonProd FROM $table WHERE idIngProd = :idIngProd");
+    $statement->bindParam(":idIngProd", $codAllIngProd, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
   //verificar datos de productos en almacen
   public static function mdlStockAlmacen($table, $codProd)
   {

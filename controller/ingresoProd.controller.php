@@ -10,6 +10,13 @@ class ingresoProdController
     $response = ingresoProdModel::mdlDTableIngProdcuctos($table);
     return $response;
   }
+  //datatable  ingresos en el modal de ingresos productos
+  public static function ctrVerProductosIngresadosModal($codAllIngProd)
+  {
+    $table = "ingreso_prod";
+    $response = ingresoProdModel::mdlVerProductosIngresadosModal($table, $codAllIngProd);
+    return $response;
+  }
 
   //crear ingreso productos a almacen de  productos***
   public static function ctrCrearIngresoProd($crearIngresoProd, $jsonProductosIngProd)
@@ -70,7 +77,7 @@ class ingresoProdController
       );
 
       if ($stockAlmacen === false) {
-        // El producto no existe, se crea con los datos ya preparados den el array de dataIngAlamacen con los del array decodificado
+        // El producto no existe, se crea con los datos ya preparados en el array de dataIngAlamacen con los del array decodificado
         $response = ingresoProdModel::mdlIngresarProductosAlmacenProd($table, $dataIngAlamacen);
       } else {
         // El producto ya existe, se actualiza la cantidad
