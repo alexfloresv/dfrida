@@ -90,7 +90,7 @@
           <div class="col-lg-2">Sub Total</div>
           <div class="col-lg-2">Total S/</div>
         </div>
-        <div class="form-group row totalCotizacion">
+        <div class="form-group row totalIngreso">
           <div class="form-group col-md-2">
             <!-- vacio -->
           </div>
@@ -98,7 +98,7 @@
             <!-- vacio -->
           </div>
           <div class="form-group col-md-2">
-            <button type="button" class="btn btn-info btnCalcularTotalIng" id="btnCalcularTotalIng">Calular Total Cotizacion
+            <button type="button" class="btn btn-info btnCalcularTotalIng" id="btnCalcularTotalIng">Calular Total Ingreso
             </button>
           </div>
           <div class="form-group col-md-2">
@@ -107,11 +107,11 @@
           </div>
           <div class="form-group col-md-2">
             <input type="text" class="form-control" id="subTotalIngProdAdd" name="subTotalIngProdAdd" value=""
-              placeholder="Sub Total Cotizacion" readonly required>
+              placeholder="Sub Total Ingreso" readonly required>
           </div>
           <div class="form-group col-md-2">
             <input type="text" class="form-control" id="totalIngProdAdd" name="totalIngProdAdd" value=""
-              placeholder="Total Cotizacion" readonly required>
+              placeholder="Total Ingreso" readonly required>
           </div>
         </div>
       </div>
@@ -120,7 +120,7 @@
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
           id="btnCerrarIngresoProd">Cerrar</button>
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success "
-          id="btnRegistrarIngresoProd">Registrar Cotizacion</button>
+          id="btnRegistrarIngresoProd">Registrar Ingreso a Almacen </button>
       </div>
     </form>
   </main>

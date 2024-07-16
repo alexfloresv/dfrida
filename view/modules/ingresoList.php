@@ -9,7 +9,7 @@
 <div id="layoutSidenav_content">
   <main class="bg">
     <div class="container-fluid px-4">
-      <h1 class="mt-4">Lista Cotizaciones</h1>
+      <h1 class="mt-4">Lista Ingresos de Productos</h1>
       <ol class="breadcrumb mb-4">
         <!-- <li class="breadcrumb-item active">Todos los Usuarios</li> -->
       </ol>

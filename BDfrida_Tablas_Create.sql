@@ -268,9 +268,9 @@ CREATE TABLE
     `idProd` int (11) NOT NULL,
     `codigoProdAlma` varchar(255) NOT NULL,
     `nombreProdAlma` varchar(255) NOT NULL,
-    `unidadProdAlma` int (11) NOT NULL,
-    `cantidadProdAlma` int NOT NULL,
-    `precioProdAlma` int NOT NULL,
+    `unidadProdAlma` varchar(255) NOT NULL,
+    `cantidadProdAlma` varchar(255) NOT NULL,
+    `precioProdAlma` varchar(255) NOT NULL,
     `DateCreate` datetime NOT NULL,
     `DateUpdate` datetime NOT NULL,
     PRIMARY KEY (`idAlmaProd`)

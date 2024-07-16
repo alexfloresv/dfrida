@@ -16,6 +16,7 @@ require_once "controller/cotizacion.controller.php";
 require_once "controller/fichaTecnica.controller.php";
 require_once "controller/fichaTrabajo.controller.php";
 require_once "controller/ingresoProd.controller.php";
+require_once "controller/almacenProductos.controller.php";
 
 
 //+
@@ -34,6 +35,7 @@ require_once "model/cotizacion.model.php";
 require_once "model/fichaTecnica.model.php";
 require_once "model/fichaTrabajo.model.php";
 require_once "model/ingresoProd.model.php";
+require_once "model/almacenProductos.model.php";
 
 //+
 
@@ -51,6 +53,7 @@ require_once "functions/cotizacion.functions.php";
 require_once "functions/fichaTecnica.functions.php";
 require_once "functions/fichaTrabajo.functions.php";
 require_once "functions/ingresoProd.functions.php";
+require_once "functions/almacenProductos.functions.php";
 //+
 $template = new TemplateController();
 $template -> ctrTemplate();

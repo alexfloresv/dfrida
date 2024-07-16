@@ -40,21 +40,8 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
       $_GET["ruta"] == "fichaTrabajoEdit" ||
       $_GET["ruta"] == "ingresoList" ||
       $_GET["ruta"] == "ingresoProd" ||
-      /*  $_GET["ruta"] == "ingresos" ||
-    $_GET["ruta"] == "nuevoIngreso" ||
-  $_GET["ruta"] == "almacen" ||
-$_GET["ruta"] == "notaPedido" ||
-$_GET["ruta"] == "editNotaPedido" ||
-$_GET["ruta"] == "editLote" ||
-$_GET["ruta"] == "nuevoLote" ||
-$_GET["ruta"] == "categorias" ||
-$_GET["ruta"] == "editarIngreso" ||
-$_GET["ruta"] == "verSalidas" ||
-$_GET["ruta"] == "nuevaDevolucion" ||
-$_GET["ruta"] == "mermas" ||
-$_GET["ruta"] == "visualizarIngreso" ||
-$_GET["ruta"] == "visualizarNotaPedido" ||
-$_GET["ruta"] == "visualizarLote" || */
+      $_GET["ruta"] == "almacenProductos" ||
+
 
       $_GET["ruta"] == "signout"
     ) {
@@ -97,6 +84,7 @@ $_GET["ruta"] == "visualizarLote" || */
 <script src="dataTables/dt-fichaTecnica.js"></script>
 <script src="dataTables/dt-fichaTrabajo.js"></script>
 <script src="dataTables/dt-ingresos.js"></script>
+<script src="dataTables/dt-almacenProductos.js"></script>
 
 
 <!-- funciones js -->

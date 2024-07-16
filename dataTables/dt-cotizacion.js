@@ -39,7 +39,12 @@ document.addEventListener("DOMContentLoaded", function () {
         { data: "fechaCoti" },
         { data: "nombreCoti" },
         { data: "celularCoti" },
-        { data: "totalCoti" },
+        {
+          data: "totalCoti",
+          render: function (data, type, row) {
+            return "S/ " + data; 
+          },
+        },
         { data: "estadoCoti" },
         { data: "buttons" },
       ];

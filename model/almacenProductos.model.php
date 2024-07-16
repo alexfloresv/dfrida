@@ -2,12 +2,12 @@
 
 require_once "conexion.php";
 
-class ingresoProdModel
+class almacenProductosModel
 {
   //datatable de ingresos productos
-  public static function mdlDTableIngProdcuctos($table)
+  public static function mdlDTableAlmacenProductos($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT idIngProd, nombreIngProd, fechaIngProd, totalIngProd FROM $table ORDER BY idIngProd DESC");
+    $statement = Conexion::conn()->prepare("SELECT idAlmaProd, idProd, codigoProdAlma, nombreProdAlma, unidadProdAlma, cantidadProdAlma, precioProdAlma FROM $table ORDER BY idAlmaProd DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -47,9 +47,9 @@ class ingresoProdModel
     $statement->bindParam(":idProd", $dataIngAlamacen["idProd"], PDO::PARAM_INT);
     $statement->bindParam(":codigoProdAlma", $dataIngAlamacen["codigoProdAlma"], PDO::PARAM_STR);
     $statement->bindParam(":nombreProdAlma", $dataIngAlamacen["nombreProdAlma"], PDO::PARAM_STR);
-    $statement->bindParam(":unidadProdAlma", $dataIngAlamacen["unidadProdAlma"], PDO::PARAM_STR);
-    $statement->bindParam(":cantidadProdAlma", $dataIngAlamacen["cantidadProdAlma"], PDO::PARAM_STR);
-    $statement->bindParam(":precioProdAlma", $dataIngAlamacen["precioProdAlma"], PDO::PARAM_STR);
+    $statement->bindParam(":unidadProdAlma", $dataIngAlamacen["unidadProdAlma"], PDO::PARAM_INT);
+    $statement->bindParam(":cantidadProdAlma", $dataIngAlamacen["cantidadProdAlma"], PDO::PARAM_INT);
+    $statement->bindParam(":precioProdAlma", $dataIngAlamacen["precioProdAlma"], PDO::PARAM_INT);
     $statement->bindParam(":DateCreate", $dataIngAlamacen["DateCreate"], PDO::PARAM_STR);
 
     if ($statement->execute()) {

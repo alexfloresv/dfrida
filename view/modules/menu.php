@@ -13,8 +13,8 @@
 </a>
 <div class="collapse" id="listInventory" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
   <nav class="sb-sidenav-menu-nested nav">
-    <a class="nav-link" href="almacen"><i class="fa-solid fa-box"></i><span style="margin-left: 10px;">Productos Finales</span></a>
-    <a class="nav-link" href="mermas"><i class="fa-solid fa-box"></i><span style="margin-left: 10px;">Materia Prima</span></a>
+    <a class="nav-link" href="almacenProductos"><i class="fa-solid fa-box"></i><span style="margin-left: 10px;">Almacen Productos</span></a>
+    <a class="nav-link" href="mermas"><i class="fa-solid fa-box"></i><span style="margin-left: 10px;">Almacen Materia Prima</span></a>
   </nav>
 </div>
 <!-- Compras -->
