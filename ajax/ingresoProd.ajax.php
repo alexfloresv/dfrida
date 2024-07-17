@@ -28,7 +28,7 @@ if (isset($_POST["jsonCrearIngProd"], $_POST["jsonProductosIngProd"])) {
   $create->ajaxCrearIngresoProd($_POST["jsonCrearIngProd"], $_POST["jsonProductosIngProd"]);
 }
 
-//visualizar datos para editar ficha trabajo
+//visualizar datos para editar ingreso productos
 if (isset($_POST["codIngProd"])) {
   $viewData = new IngresoProdAjax();
   $viewData->codIngProd = $_POST["codIngProd"];
@@ -36,12 +36,15 @@ if (isset($_POST["codIngProd"])) {
 }
 
 
-//editar ProductosMprima
-if (isset($_POST["jsonEditarProductosMprima"])) {
+//editar ingreso productos
+if (isset($_POST["jsonEditarIngProd"], $_POST["jsonEditarIngProductosForms"])) {
   $edit = new IngresoProdAjax();
-  $edit->jsonEditarProductosMprima = $_POST["jsonEditarProductosMprima"];
-  $edit->ajaxEditarProductosMprima($_POST["jsonEditarProductosMprima"]);
+  $edit->jsonEditarIngProd = $_POST["jsonEditarIngProd"];
+  $edit->jsonEditarIngProductosForms = $_POST["jsonEditarIngProductosForms"];
+  $edit->ajaxEditarIngresoProd($_POST["jsonEditarIngProd"], $_POST["jsonEditarIngProductosForms"]);
 }
+
+
 //borrar ingreso productos
 if (isset($_POST["jsonBorraIngProdcutos"])) {
   $delete = new IngresoProdAjax();
@@ -92,18 +95,18 @@ class IngresoProdAjax
     echo json_encode($response);
   }
 
-  //visualizar datos para editar ficha trabajo
+  //visualizar datos para editar ingreso productos
   public function ajaxVerDataIngProd($codIngProd)
   {
     $response = ingresoProdController::ctrVerDataIngProductos($codIngProd);
     echo json_encode($response);
   }
 
-  //  editar ProductosMprima
-  public function ajaxEditarProductosMprima($jsonEditarProductosMprima)
+  //editar ingreso productos
+  public function ajaxEditarIngresoProd($jsonEditarIngProd, $jsonEditarIngProductosForms)
   {
-    $editarProductosMprima = json_decode($jsonEditarProductosMprima, true); // Decodificar la cadena de texto JSON en un array asociativo
-    $response = ingresoProdController::ctrEditProductMprima($editarProductosMprima);
+    $editarIngProd = json_decode($jsonEditarIngProd, true); // Decodificar la cadena de texto JSON en un array asociativo
+    $response = ingresoProdController::ctrEditarIngresoProd($editarIngProd, $jsonEditarIngProductosForms);
     echo json_encode($response);
   }
   //borrar ingreso productos

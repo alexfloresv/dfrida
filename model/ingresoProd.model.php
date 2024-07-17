@@ -80,7 +80,7 @@ class ingresoProdModel
       return "error";
     }
   }
-  //visualizar datos para editar ingreso de productos
+  //visualizar datos para editar ingreso productos
   public static function mdlVerDataFichaTrabajo($table, $codIdIngProd)
   {
     $statement = Conexion::conn()->prepare("SELECT
@@ -97,25 +97,26 @@ class ingresoProdModel
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result;
   }
-
-  // Editar un producto específico
-  public static function mdlEditProduct($table, $dataUpdate)
+     //editar registro ingreso de productos
+  public static function mdlEditarIngresoProd($table, $dataEdit)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET idCatPro=:idCatPro, nombreProd=:nombreProd, codigoProd=:codigoProd, detalleProd=:detalleProd, unidadProd=:unidadProd, precioProd=:precioProd, DateUpdate=:DateUpdate WHERE idProd=:idProd");
-    $statement->bindParam(":idCatPro", $dataUpdate["idCatPro"], PDO::PARAM_INT);
-    $statement->bindParam(":nombreProd", $dataUpdate["nombreProd"], PDO::PARAM_STR);
-    $statement->bindParam(":codigoProd", $dataUpdate["codigoProd"], PDO::PARAM_STR);
-    $statement->bindParam(":detalleProd", $dataUpdate["detalleProd"], PDO::PARAM_STR);
-    $statement->bindParam(":unidadProd", $dataUpdate["unidadProd"], PDO::PARAM_STR);
-    $statement->bindParam(":precioProd", $dataUpdate["precioProd"], PDO::PARAM_STR);
-    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
-    $statement->bindParam(":idProd", $dataUpdate["idProd"], PDO::PARAM_INT);
+    $statement = Conexion::conn()->prepare("UPDATE $table SET nombreIngProd = :nombreIngProd, fechaIngProd = :fechaIngProd, igvIngProd = :igvIngProd, subTotalIngProd = :subTotalIngProd, totalIngProd = :totalIngProd, ingJsonProd = :ingJsonProd, DateUpdate = :DateUpdate WHERE idIngProd = :idIngProd");
+    $statement->bindParam(":nombreIngProd", $dataEdit["nombreIngProd"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaIngProd", $dataEdit["fechaIngProd"], PDO::PARAM_STR);
+    $statement->bindParam(":igvIngProd", $dataEdit["igvIngProd"], PDO::PARAM_STR);
+    $statement->bindParam(":subTotalIngProd", $dataEdit["subTotalIngProd"], PDO::PARAM_STR);
+    $statement->bindParam(":totalIngProd", $dataEdit["totalIngProd"], PDO::PARAM_STR);
+    $statement->bindParam(":ingJsonProd", $dataEdit["ingJsonProd"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataEdit["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":idIngProd", $dataEdit["idIngProd"], PDO::PARAM_INT);
     if ($statement->execute()) {
       return "ok";
     } else {
       return "error";
     }
   }
+
+
   //eliminar productos ingresados**
 
   //obtener el registro de productos ingresados

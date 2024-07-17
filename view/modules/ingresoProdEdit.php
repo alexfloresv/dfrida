@@ -16,7 +16,7 @@
       </h1>
     </div>
 
-    <form role="form" method="post" class="row g-3 m-2 formIngresoProd " id="formIngresoProd">
+    <form role="form" method="post" class="row g-3 m-2 formIngresoProd " id="formIngresoProdEdit">
 
       <div class="container row g-8" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
 
@@ -98,12 +98,13 @@
             <!-- vacio -->
           </div>
           <div class="form-group col-md-2">
-            <button type="button" class="btn btn-info btnCalcularTotalIng" id="btnCalcularTotalIng">Calular Total Ingreso
+            <button type="button" class="btn btn-info btnCalcularTotalIng" id="btnCalcularTotalIng">Calular Total
+              Ingreso
             </button>
           </div>
           <div class="form-group col-md-2">
-            <input type="text" class="form-control" id="igvIngProdAdd" name="igvIngProdAdd" value=""
-              placeholder="IGV" readonly required>
+            <input type="text" class="form-control" id="igvIngProdAdd" name="igvIngProdAdd" value="" placeholder="IGV"
+              readonly required>
           </div>
           <div class="form-group col-md-2">
             <input type="text" class="form-control" id="subTotalIngProdAdd" name="subTotalIngProdAdd" value=""
@@ -116,14 +117,18 @@
         </div>
       </div>
       <!-- fin -->
-             <!-- campo que guardel valor del boton y del ajax -->
+
+      <!-- campo que guardel valor del boton y del ajax -->
       <input type="hidden" class="form-control" id="codIngProd" name="codIngProd">
-      
+
+      <!-- campo que guarde el jsonProductos de la respuesta ajax -->
+      <input type="hidden" class="form-control" id="prodIngAnteriorEdit" name="prodIngAnteriorEdit" value="">
+
       <div class="container row g-3 p-3 ">
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
-          id="btnCerrarIngresoProd">Cerrar</button>
+          id="btnCerrarEditIngresoProd">Cerrar</button>
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success "
-          id="btnRegistrarIngresoProd">Registrar Ingreso a Almacen </button>
+          id="btnEditarIngresoProd">Editar Ingreso a Almacen </button>
       </div>
     </form>
   </main>

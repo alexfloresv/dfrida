@@ -125,7 +125,7 @@ class ingresoProdController
   }
   //fin crear ingreso productos a almacen de  productos***
 
-  //visualizar datos para editar ingreso de productos
+  //visualizar datos para editar ingreso productos
   public static function ctrVerDataIngProductos($codIngProd)
   {
     $codIdIngProd = $codIngProd;
@@ -134,27 +134,196 @@ class ingresoProdController
     return $response;
   }
 
-  // Editar un producto específico
-
-  public static function ctrEditProduct($editarProducto)
+  //editar ingreso productos
+  public static function ctrEditarIngresoProd($editarIngProd, $jsonProdIngNuevoEdit)
   {
-    if (isset($editarProducto['editProductName']) && isset($editarProducto['editProductCategory'])) {
-      $table = 'producto';
+
+    //verificar si el usuario es administrador
+    if ($_SESSION["idTipoUsu"] == 1) {
+      $codIngProd = $editarIngProd["codIngProd"];
+      $table = "ingreso_prod";
+      //eliminar datos innecesarios
+      $editProdData = self::ctrBorrarDatosInecesariosIngProd($editarIngProd);
+      //registro de productos ingresados a editar / anterior
+      $jsonProdIngAnteriorEdit = $editarIngProd["prodIngAnteriorEdit"];
+      //actualizar alamacen con los productos a editar se pasa los dos json en anterir registro y en nuevo
+      $editarProdIngAlmacen = self::ctrEditarProductosIngresadosAlmacen($jsonProdIngAnteriorEdit, $jsonProdIngNuevoEdit);
+
+      //editar registro ingreso de productos
       $dataUpdate = array(
-        'idProd' => $editarProducto['codProduct'],
-        'idCatPro' => $editarProducto['editProductCategory'],
-        'nombreProd' => $editarProducto['editProductName'],
-        "codigoProd" => $editarProducto["editProductCodigo"],
-        'detalleProd' => $editarProducto['editProductDetail'],
-        'unidadProd' => $editarProducto['editProductUnit'],
-        'precioProd' => $editarProducto['editProductPrice'],
-        'DateUpdate' => date("Y-m-d\TH:i:sP"),
+        "idIngProd" => $editarIngProd["codIngProd"],
+        "nombreIngProd" => $editarIngProd["tituloIngProdEdit"],
+        "fechaIngProd" => $editarIngProd["fechaIngProdEdit"],
+        "igvIngProd" => $editarIngProd["igvIngProdAdd"],
+        "subTotalIngProd" => $editarIngProd["subTotalIngProdAdd"],
+        "totalIngProd" => $editarIngProd["totalIngProdAdd"],
+        "ingJsonProd" => $jsonProdIngNuevoEdit,
+        "DateUpdate" => date("Y-m-d\TH:i:sP"),
       );
 
-      $response = ingresoProdModel::mdlEditProduct($table, $dataUpdate);
-      return $response;
+      $response = ingresoProdModel::mdlEditarIngresoProd($table, $dataUpdate);
+    } else {
+      $response = "error";
     }
+    return $response;
   }
+
+  //editar / cantidades de productos ingresados al alamcen de productos al eliminar un registro de ingreso
+  public static function ctrEditarProductosIngresadosAlmacen($jsonProdIngAnteriorEdit, $jsonProdIngNuevoEdit)
+  {
+    $dataProducIngAnterior = json_decode($jsonProdIngAnteriorEdit, true);
+    $dataProducIngNuevo = json_decode($jsonProdIngNuevoEdit, true);
+    $table = "almacen_prod";
+
+
+    // Inicializar arrays para clasificar los productos
+    $dataFiltroSuma = [];//SUMAR
+    $dataFiltroResta = [];//RESTAR
+    $dataFiltroIgual = [];//NO TOCAR
+    $dataFiltroNuevo = [];//NUEVO
+    $dataFiltroDelete = [];//ELIMINAR
+
+    // Indexar los productos antiguos por su código para un acceso rápido
+    $productosAntiguosIndexados = [];
+    foreach ($dataProducIngAnterior as $productoAntiguo) {
+      $productosAntiguosIndexados[$productoAntiguo["codProdIng"]] = $productoAntiguo;
+    }
+
+    // Indexar los productos nuevos por su código para un acceso rápido
+    $productosNuevosIndexados = [];
+    foreach ($dataProducIngNuevo as $productoNuevo) {
+      $productosNuevosIndexados[$productoNuevo["codProdIng"]] = $productoNuevo;
+    }
+
+    // Iterar sobre los productos nuevos para clasificarlos
+    foreach ($dataProducIngNuevo as $productoNuevo) {
+      $codProdIng = $productoNuevo["codProdIng"];
+      if (isset($productosAntiguosIndexados[$codProdIng])) {
+        // El producto existe en ambos, comparar cantidades
+        $productoAntiguo = $productosAntiguosIndexados[$codProdIng];
+        if ($productoNuevo["cantidadProdIng"] > $productoAntiguo["cantidadProdIng"]) {
+          $dataFiltroSuma[] = $productoNuevo; // La cantidad ha aumentado
+        } elseif ($productoNuevo["cantidadProdIng"] < $productoAntiguo["cantidadProdIng"]) {
+          $dataFiltroResta[] = $productoNuevo; // La cantidad ha disminuido
+        } else {
+          $dataFiltroIgual[] = $productoNuevo; // La cantidad es igual
+        }
+      } else {
+        // El producto es nuevo
+        $dataFiltroNuevo[] = $productoNuevo;
+      }
+    }
+
+    // Iterar sobre los productos antiguos para encontrar los que no están en los nuevos
+    foreach ($dataProducIngAnterior as $productoAntiguo) {
+      $codProdIng = $productoAntiguo["codProdIng"];
+      if (!isset($productosNuevosIndexados[$codProdIng])) {
+        // El producto antiguo no está presente en los nuevos, marcar para eliminar
+        $dataFiltroDelete[] = $productoAntiguo;
+      }
+    }
+
+    // Actualizar productos en almacen resta
+    foreach ($dataFiltroResta as $producto) {
+      // Verificar datos de productos en almacen
+      $stockAlmacen = self::ctrStockAlmacen($producto["codProdIng"]);
+      $stockActual = $stockAlmacen["cantidadProdAlma"];
+      $ajusteStock = $producto["cantidadProdIng"];
+
+      // Calcular nuevo stock
+      $nuevoStock = $stockActual - $ajusteStock;
+
+      // Preparar datos para actualizar
+      $dataActualizarProdAlamacen = array(
+        "idProd" => $producto["codProdIng"],
+        "cantidadProdAlma" => $nuevoStock,
+        "DateUpdate" => date("Y-m-d\TH:i:sP"),
+      );
+
+      // Actualizar productos en almacen
+      $response = ingresoProdModel::mdlActualizarProductosIngresados($table, $dataActualizarProdAlamacen);
+    }
+
+    // Actualizar productos en almacen suma
+    foreach ($dataFiltroSuma as $producto) {
+      // Verificar datos de productos en almacen
+      $stockAlmacen = self::ctrStockAlmacen($producto["codProdIng"]);
+      $stockActual = $stockAlmacen["cantidadProdAlma"];
+      $ajusteStock = $producto["cantidadProdIng"];
+
+      // Calcular nuevo stock
+      $nuevoStock = $stockActual + $ajusteStock;
+
+      // Preparar datos para actualizar
+      $dataActualizarProdAlamacen = array(
+        "idProd" => $producto["codProdIng"],
+        "cantidadProdAlma" => $nuevoStock,
+        "DateUpdate" => date("Y-m-d\TH:i:sP"),
+      );
+
+      // Actualizar productos en almacen
+      $response = ingresoProdModel::mdlActualizarProductosIngresados($table, $dataActualizarProdAlamacen);
+    }
+    // Actualizar productos en almacen si no existe lo crea si existe solo le suma
+    foreach ($dataFiltroNuevo as $producto) {
+      // Verificar datos de productos en almacen
+      $stockAlmacen = self::ctrStockAlmacen($producto["codProdIng"]);
+
+      $stockActual = $stockAlmacen["cantidadProdAlma"];
+      $ajusteStock = $producto["cantidadProdIng"];
+
+      // Calcular nuevo stock
+      $nuevoStock = $stockActual + $ajusteStock;
+
+      $dataIngAlamacen = array(
+        "idProd" => $producto["codProdIng"],
+        "cantidadProdAlma" => $ajusteStock,
+        "codigoProdAlma" => $producto["codigoProdIng"],
+        "nombreProdAlma" => $producto["nombreProdIng"],
+        "unidadProdAlma" => $producto["unidadProdIng"],
+        "DateCreate" => date("Y-m-d\TH:i:sP"),
+      );
+
+      if ($stockAlmacen === false) {
+        // El producto no existe, se crea con los datos ya preparados en el array de dataIngAlamacen con los del array decodificado
+        $response = ingresoProdModel::mdlIngresarProductosAlmacenProd($table, $dataIngAlamacen);
+      } else {
+        // Preparar datos para actualizar
+        $dataActualizarProdAlamacen = array(
+          "idProd" => $producto["codProdIng"],
+          "cantidadProdAlma" => $nuevoStock,
+          "DateUpdate" => date("Y-m-d\TH:i:sP"),
+        );
+
+        // Actualizar productos en almacen
+        $response = ingresoProdModel::mdlActualizarProductosIngresados($table, $dataActualizarProdAlamacen);
+      }
+    }
+
+    // Actualizar productos en almacen  delete significa que no esta presente en el edit pero si en el antiguo se retiro el producto entoces resta esta cantidad del almacen aqui es donde puede generar negativos
+    foreach ($dataFiltroDelete as $producto) {
+      // Verificar datos de productos en almacen
+      $stockAlmacen = self::ctrStockAlmacen($producto["codProdIng"]);
+      $stockActual = $stockAlmacen["cantidadProdAlma"];
+      $ajusteStock = $producto["cantidadProdIng"];
+
+      // Calcular nuevo stock
+      $nuevoStock = $stockActual - $ajusteStock;
+
+      // Preparar datos para actualizar
+      $dataActualizarProdAlamacen = array(
+        "idProd" => $producto["codProdIng"],
+        "cantidadProdAlma" => $nuevoStock,
+        "DateUpdate" => date("Y-m-d\TH:i:sP"),
+      );
+
+      // Actualizar productos en almacen
+      $response = ingresoProdModel::mdlActualizarProductosIngresados($table, $dataActualizarProdAlamacen);
+    }
+
+    return $response;
+  }
+  //fin editar ingreso productos
 
   //borrar ingreso productos
   public static function ctrBorrarIngProductos($borrarIngProductos)
@@ -211,6 +380,7 @@ class ingresoProdController
 
     return $response;
   }
+  //fin borrar ingreso productos
 
   //Agregar Producto a la cotizacion
   public static function ctrAgregarIngProducto($codIngProducto)
@@ -219,7 +389,6 @@ class ingresoProdController
     $response = ingresoProdModel::mdlAgregarIngProducto($table, $codIngProducto);
     return $response;
   }
-
 
   //  Descargar PDF de la cotizacion
   public static function ctrDescargarPdfCotizacion($codCotiPdf)
@@ -233,11 +402,5 @@ class ingresoProdController
     return $response;
   }
 
-  //cambiar estado de la cotizacion al descargar
-  public static function ctrEstadoDescargaPdfCotizacion($codCoti)
-  {
-    $table = "cotizacion";
-    $response = ingresoProdModel::mdlEstadoDescargaPdfCotizacion($table, $codCoti);
-    return $response;
-  }
+
 }
