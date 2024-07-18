@@ -761,8 +761,9 @@ document.addEventListener("DOMContentLoaded", function () {
           cantidadProdIng,
           precioProdIng,
         } = proceso;
-        // Agregar el código del producto a la variable global
-        codigosProductosAgregados.add(codProdIng);
+        // Convertir el código del producto a entero antes de agregarlo
+        var codProdIngInt = parseInt(codProdIng, 10);
+        codigosProductosAgregados.add(codProdIngInt);
 
         insertarFormulario(
           codProdIng,

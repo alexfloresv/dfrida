@@ -112,18 +112,4 @@
 </div>
 </div>
 
-<!-- recuperar un archivo -->
-<?php
-/* $directorio = 'fichasTecnicas';
-$archivos = scandir($directorio);
 
-
-$archivos = array_diff($archivos, array('.', '..'));
-
-
-foreach ($archivos as $archivo) {
-  echo $archivo . "<br>";
-} */
-?>
-
-<!-- eliminar un archivo -->

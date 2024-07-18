@@ -144,19 +144,21 @@ class ingresoProdController
       $table = "ingreso_prod";
       //eliminar datos innecesarios
       $editProdData = self::ctrBorrarDatosInecesariosIngProd($editarIngProd);
+      // Eliminar el array $editarIngProd para no duplicar datos
+      unset($editarIngProd);
       //registro de productos ingresados a editar / anterior
-      $jsonProdIngAnteriorEdit = $editarIngProd["prodIngAnteriorEdit"];
-      //actualizar alamacen con los productos a editar se pasa los dos json en anterir registro y en nuevo
+      $jsonProdIngAnteriorEdit = $editProdData["prodIngAnteriorEdit"];
+      //actualizar alamacen con los productos a editar se pasa los dos json en anterir registro y el nuevo
       $editarProdIngAlmacen = self::ctrEditarProductosIngresadosAlmacen($jsonProdIngAnteriorEdit, $jsonProdIngNuevoEdit);
 
-      //editar registro ingreso de productos
+      //editar registro ingreso de productos con los datos editados
       $dataUpdate = array(
-        "idIngProd" => $editarIngProd["codIngProd"],
-        "nombreIngProd" => $editarIngProd["tituloIngProdEdit"],
-        "fechaIngProd" => $editarIngProd["fechaIngProdEdit"],
-        "igvIngProd" => $editarIngProd["igvIngProdAdd"],
-        "subTotalIngProd" => $editarIngProd["subTotalIngProdAdd"],
-        "totalIngProd" => $editarIngProd["totalIngProdAdd"],
+        "idIngProd" => $editProdData["codIngProd"],
+        "nombreIngProd" => $editProdData["tituloIngProdEdit"],
+        "fechaIngProd" => $editProdData["fechaIngProdEdit"],
+        "igvIngProd" => $editProdData["igvIngProdAdd"],
+        "subTotalIngProd" => $editProdData["subTotalIngProdAdd"],
+        "totalIngProd" => $editProdData["totalIngProdAdd"],
         "ingJsonProd" => $jsonProdIngNuevoEdit,
         "DateUpdate" => date("Y-m-d\TH:i:sP"),
       );
@@ -168,18 +170,17 @@ class ingresoProdController
     return $response;
   }
 
-  //editar / cantidades de productos ingresados al alamcen de productos al eliminar un registro de ingreso
+  //editar / cantidades de productos ingresados al alamcen de productos al editar un registro de ingreso
   public static function ctrEditarProductosIngresadosAlmacen($jsonProdIngAnteriorEdit, $jsonProdIngNuevoEdit)
   {
     $dataProducIngAnterior = json_decode($jsonProdIngAnteriorEdit, true);
     $dataProducIngNuevo = json_decode($jsonProdIngNuevoEdit, true);
     $table = "almacen_prod";
 
-
-    // Inicializar arrays para clasificar los productos
+    // Inicializar arrays para clasificar los productos editados
     $dataFiltroSuma = [];//SUMAR
     $dataFiltroResta = [];//RESTAR
-    $dataFiltroIgual = [];//NO TOCAR
+    $dataFiltroIgual = [];//NO TOCAR no se editaron
     $dataFiltroNuevo = [];//NUEVO
     $dataFiltroDelete = [];//ELIMINAR
 
