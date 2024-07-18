@@ -4,10 +4,17 @@ date_default_timezone_set('America/Bogota');
 class salidaProdController
 {
   //datatable de ingresos productos
-  public static function ctrDTableIngProdcuctos()
+  public static function ctrDTableSalProdcuctos()
   {
-    $table = "ingreso_prod";
-    $response = salidaProdModel::mdlDTableIngProdcuctos($table);
+    $table = "salida_Prod";
+    $response = salidaProdModel::mdlmdlDTableSalProdcuctos($table);
+    return $response;
+  }
+  //datatable de salidas productos alamcen modal
+  public static function ctrDTableSalProdcuctosAlmacen()
+  {
+    $table = "almacen_Prod";
+    $response = salidaProdModel::mdlDTableSalProdcuctosAlmacen($table);
     return $response;
   }
   //datatable  ingresos en el modal de ingresos productos
@@ -383,23 +390,11 @@ class salidaProdController
   }
   //fin borrar ingreso productos
 
-  //Agregar Producto a la cotizacion
-  public static function ctrAgregarIngProducto($codIngProducto)
+  //Agregar Producto de almacen ala salida
+  public static function ctrAgregarSalProducto($codSalProducto)
   {
-    $table = 'producto';
-    $response = salidaProdModel::mdlAgregarIngProducto($table, $codIngProducto);
-    return $response;
-  }
-
-  //  Descargar PDF de la cotizacion
-  public static function ctrDescargarPdfCotizacion($codCotiPdf)
-  {
-    $codCoti = $codCotiPdf["codCoti"];
-    //cambiar estado de la cotizacion al descargar
-    $newEstadoCoti = self::ctrEstadoDescargaPdfCotizacion($codCoti);
-    $table = "cotizacion";
-    $response = salidaProdModel::mdlDescargarPdfCotizacion($table, $codCoti);
-
+    $table = 'almacen_Prod';
+    $response = salidaProdModel::mdlAgregarSalProducto($table, $codSalProducto);
     return $response;
   }
 

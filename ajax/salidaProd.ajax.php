@@ -7,13 +7,19 @@ if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
 //funciones para escuchar entrada de datos desde $.ajax de jquery
-//datatable de ingresos productos
-if (isset($_POST["todosLosIngProductos"])) {
-  $todosLosIngProductos = new salidaProdAjax();
-  $todosLosIngProductos->ajaxDTableIngProdcuctos();
+//datatable de salidas productos
+if (isset($_POST["todasLasSalidasProductos"])) {
+  $todasLasSalidasProductos = new salidaProdAjax();
+  $todasLasSalidasProductos->ajaxDTableSalProdcuctos();
 }
 
-//visualizar ingreos en el modal de ingresos productos
+//datatable de salidas productos alamcen modal
+if (isset($_POST["todosLosProductosAlmacen"])) {
+  $todosLosProductosAlmacen = new salidaProdAjax();
+  $todosLosProductosAlmacen->ajaxDTableSalProdcuctosAlmacen();
+}
+
+//visualizar ingreos en el modal de salidas productos
 if (isset($_POST["codAllIngProd"])) {
   $view = new salidaProdAjax();
   $view->codAllIngProd = $_POST["codAllIngProd"];
@@ -35,7 +41,6 @@ if (isset($_POST["codIngProd"])) {
   $viewData->ajaxVerDataIngProd($_POST["codIngProd"]);
 }
 
-
 //editar ingreso productos
 if (isset($_POST["jsonEditarIngProd"], $_POST["jsonEditarIngProductosForms"])) {
   $edit = new salidaProdAjax();
@@ -44,18 +49,18 @@ if (isset($_POST["jsonEditarIngProd"], $_POST["jsonEditarIngProductosForms"])) {
   $edit->ajaxEditarIngresoProd($_POST["jsonEditarIngProd"], $_POST["jsonEditarIngProductosForms"]);
 }
 
-
 //borrar ingreso productos
 if (isset($_POST["jsonBorraIngProdcutos"])) {
   $delete = new salidaProdAjax();
   $delete->jsonBorraIngProdcutos = $_POST["jsonBorraIngProdcutos"];
   $delete->ajaxBorrarIngProductos($_POST["jsonBorraIngProdcutos"]);
 }
-//Agregar Producto al ingreso
-if (isset($_POST["codAddIngProdModal"])) {
+
+//Agregar Producto de almacen ala salida
+if (isset($_POST["codAddSalProdModal"])) {
   $add = new salidaProdAjax();
-  $add->codAddIngProdModal = $_POST["codAddIngProdModal"];
-  $add->ajaxAgregarIngProducto($_POST["codAddIngProdModal"]);
+  $add->codAddSalProdModal = $_POST["codAddSalProdModal"];
+  $add->ajaxAgregarSalProducto($_POST["codAddSalProdModal"]);
 }
 
 //  Descargar PDF de la cotizacion
@@ -68,18 +73,25 @@ if (isset($_POST["jsonPdfCotizacion"])) {
 
 class salidaProdAjax
 {
-  //datatable de ingresos productos
-  public function ajaxDTableIngProdcuctos()
+  //datatable de salidas productos
+  public function ajaxDTableSalProdcuctos()
   {
-    $todosLosIngProductos = salidaProdController::ctrDTableIngProdcuctos();
-    foreach ($todosLosIngProductos as &$ingresos) {
-      $ingresos['buttons'] = FunctionIngresoProd::getBtnIngProd($ingresos["idIngProd"]);
-      $ingresos['modalIngProd'] = FunctionIngresoProd::getBtnVerIngProd($ingresos["idIngProd"]);
+    $todasLasSalidasProductos = salidaProdController::ctrDTableSalProdcuctos();
+    foreach ($todasLasSalidasProductos as &$salidas) {
+      $salidas['buttons'] = FunctionSalidaProd::getBtnSalProd($salidas["idSalProd"]);
+      $salidas['modalSalProd'] = FunctionSalidaProd::getBtnVerSalProd($salidas["idSalProd"]);
     }
-    echo json_encode($todosLosIngProductos);
+    echo json_encode($todasLasSalidasProductos);
   }
 
-  //visualizar ingreos en el modal de ingresos productos
+  //datatable de salidas productos alamcen modal
+  public function ajaxDTableSalProdcuctosAlmacen()
+  {
+    $todosLosProductosAlmacen = salidaProdController::ctrDTableSalProdcuctosAlmacen();
+    echo json_encode($todosLosProductosAlmacen);
+  }
+
+  //visualizar ingreos en el modal de salidas productos
   public function ajaxVerProductosIngresadosModal($codAllIngProd)
   {
     $response = salidaProdController::ctrVerProductosIngresadosModal($codAllIngProd);
@@ -117,20 +129,14 @@ class salidaProdAjax
     echo json_encode($response);
   }
 
-  //Agregar Producto a la cotizacion
-  public function ajaxAgregarIngProducto($codAddIngProdModal)
+ //Agregar Producto de almacen ala salida
+  public function ajaxAgregarSalProducto($codAddSalProdModal)
   {
-    $codIngProducto = json_decode($codAddIngProdModal, true); // Decodificar la cadena de texto JSON en un array asociativo
-    $response = salidaProdController::ctrAgregarIngProducto($codIngProducto);
+    $codSalProducto = json_decode($codAddSalProdModal, true); // Decodificar la cadena de texto JSON en un array asociativo
+    $response = salidaProdController::ctrAgregarSalProducto($codSalProducto);
     echo json_encode($response);
   }
 
-  //  Descargar PDF de la cotizacion
-  public function ajaxDescargarPdfCotizacion($jsonPdfCotizacion)
-  {
-    $codCotiPdf = json_decode($jsonPdfCotizacion, true); // Decodificar la cadena de texto JSON en un array asociativo
-    $response = salidaProdController::ctrDescargarPdfCotizacion($codCotiPdf);
-    echo json_encode($response);
-  }
+
 }
 

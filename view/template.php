@@ -89,6 +89,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
 <script src="dataTables/dt-fichaTrabajo.js"></script>
 <script src="dataTables/dt-ingresos.js"></script>
 <script src="dataTables/dt-almacenProductos.js"></script>
+<script src="dataTables/dt-salidas.js"></script>
 
 
 <!-- funciones js -->
@@ -105,13 +106,9 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
 <script src="js/fichaTrabajo.js"></script>
 <script src="js/pdfFichasTrabajo.js"></script>
 <script src="js/ingresoProd.js"></script>
+<script src="js/salidaProd.js"></script>
 
-<!-- <script src="js/personal.js"></script> -->
-<!-- <script src="js/ingresos.js"></script> -->
-<!-- <script src="js/almacen.js"></script> -->
-<!-- <script src="js/notaPedido.js"></script> -->
-<!-- <script src="js/lotes.js"></script> -->
-<!-- <script src="js/datatable-salidas.js"></script> -->
+
 
 </body>
 

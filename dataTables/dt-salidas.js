@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //verrificar si la ruta es la correcta
     var currentPath = window.location.pathname;
-    var appPath = "/dfrida/ingresoList";
+    var appPath = "/dfrida/salidaList";
     if (currentPath == appPath) {
       //si es correcta la ruta inicializa el datatable
 
@@ -53,10 +53,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Solicitud inicial de dataTableIngresosProd
       var data = new FormData();
-      data.append("todosLosIngProductos", true);
+      data.append("todasLasSalidasProductos", true);
 
       $.ajax({
-        url: "ajax/ingresoProd.ajax.php",
+        url: "ajax/salidaProd.ajax.php",
         method: "POST",
         data: data,
         cache: false,
@@ -165,4 +165,161 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+
+// //data table modal salidas almacen
+document.addEventListener("DOMContentLoaded", function () {
+  // Verificar si la ruta es la correcta al mostrar el modal
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/salidaProd";
+  if (currentPath == appPath) {
+    // Estructura de dataTableProductosSalidaAlmacen
+    $("#dataTableProductosSalidaAlmacen thead").html(`
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre Producto</th>
+          <th scope="col">Codigo</th>
+           <th scope="col">Cantidad Almacenada</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      `);
+
+    // Definición inicial de dataTableProductosSalidaAlmacen
+    var columnDefsProductos = [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
+      { data: "nombreProdAlma" },
+      { data: "codigoProdAlma" },
+      { data: "cantidadProdAlma" },
+      {
+        data: "precioProdAlma",
+        render: function (data, type, row) {
+          return "S/ " + data; // Coloca 'S/' delante del valor de la celda
+        },
+      },
+      {
+        data: "idProd",
+        render: function (data, type, row) {
+          return (
+            '<button class="btn btn-success btnAddProdModalSal" codAddSalProdModal="' +
+            data +
+            '"><i class="fa-solid fa-clipboard-check"></i></button>'
+          );
+        },
+      },
+    ];
+
+    var tableProductos = $("#dataTableProductosSalidaAlmacen").DataTable({
+      columns: columnDefsProductos,
+    });
+
+    // Titulo dataTableProductosSalidaAlmacen
+    //$(".tituloProductos").text("Todos los Productos");
+
+    // Solicitud inicial de dataTableProductosSalidaAlmacen
+    var data = new FormData();
+    data.append("todosLosProductosAlmacen", true);
+
+    $.ajax({
+      url: "ajax/salidaProd.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        tableProductos.clear();
+        tableProductos.rows.add(response);
+        tableProductos.draw();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+  }
+});
+//fin
+
+// //data table modal editar ingresos
+document.addEventListener("DOMContentLoaded", function () {
+  // Verificar si la ruta es la correcta al mostrar el modal
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/ingresoProdEdit";
+  if (currentPath == appPath) {
+    // Estructura de dataTableProductosSalidaAlmacen
+    $("#dataTableProductosSalidaAlmacen thead").html(`
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre Producto</th>
+          <th scope="col">Codigo</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      `);
+
+    // Definición inicial de dataTableProductosSalidaAlmacen
+    var columnDefsProductos = [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
+      { data: "nombreProd" },
+      { data: "codigoProd" },
+      {
+        data: "precioProd",
+        render: function (data, type, row) {
+          return "S/ " + data; // Coloca 'S/' delante del valor de la celda
+        },
+      },
+      {
+        data: "idProd",
+        render: function (data, type, row) {
+          return (
+            '<button class="btn btn-success btnAddProdModalIng" codAddIngProdModal="' +
+            data +
+            '"><i class="fa-solid fa-clipboard-check"></i></button>'
+          );
+        },
+      },
+    ];
+
+    var tableProductos = $("#dataTableProductosSalidaAlmacen").DataTable({
+      columns: columnDefsProductos,
+    });
+
+    // Titulo dataTableProductosSalidaAlmacen
+    //$(".tituloProductos").text("Todos los Productos");
+
+    // Solicitud inicial de dataTableProductosSalidaAlmacen
+    var data = new FormData();
+    data.append("todosLosProductos", true);
+
+    $.ajax({
+      url: "ajax/products.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        tableProductos.clear();
+        tableProductos.rows.add(response);
+        tableProductos.draw();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+  }
+});
+//fin
 

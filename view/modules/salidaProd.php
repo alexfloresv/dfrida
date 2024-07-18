@@ -12,25 +12,25 @@
   <main class="bg">
     <div class="container-fluid px-4">
       <h1 class="mt-4">
-        Ingreso Productos D'Frida
+        Salida Productos D'Frida
       </h1>
     </div>
 
-    <form role="form" method="post" class="row g-3 m-2 formIngresoProd " id="formIngresoProd">
+    <form role="form" method="post" class="row g-3 m-2 formSalidaProd " id="formSalidaProd">
 
       <div class="container row g-8" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
 
-        <h3>Datos para el Ingreso</h3>
+        <h3>Datos para la Salida de Productos del Almacen</h3>
 
         <!-- datos de la cotizacion Enpresa -->
         <div class="form-group col-md-10">
-          <label for="tituloIngProdAdd" class="form-label" style="font-weight: bold">Descripcion Ingreso:</label>
-          <input type="text" class="form-control" id="tituloIngProdAdd" name="tituloIngProdAdd"
-            placeholder="Ingrese una una descripcion para el ingreso ">
+          <label for="tituloSalProdAdds" class="form-label" style="font-weight: bold">Descripcion Salida:</label>
+          <input type="text" class="form-control" id="tituloSalProdAdds" name="tituloSalProdAdds"
+            placeholder="Ingrese una una descripcion para la salida ">
         </div>
         <div class="col-md-2">
-          <label for="fechaIngProdAdd" class="form-label" style="font-weight: bold">Fecha Ingreso: </label>
-          <input type="date" class="form-control" id="fechaIngProdAdd" name="fechaIngProdAdd">
+          <label for="fechaSalProdAdd" class="form-label" style="font-weight: bold">Fecha Salida: </label>
+          <input type="date" class="form-control" id="fechaSalProdAdd" name="fechaSalProdAdd">
         </div><br>
 
         <!-- fin -->
@@ -38,10 +38,10 @@
 
       <!-- Productos -->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
-        <h3>Productos a Almacen</h3>
+        <h3>Ingresar Productos de Almacen</h3>
         <div class="d-inline-flex m-2">
           <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-            data-bs-target="#modalAddProdCoti">Agregar Productos</button>
+            data-bs-target="#modalAddProdSali">Agregar Productos</button>
         </div>
 
         <div class="row" style="font-weight: bold">
@@ -52,7 +52,7 @@
           <div class="col-lg-2">Precio Producto</div>
         </div>
         <!-- aqui se agregan los productos del modal de prodcutos  -->
-        <div class="form-group row AddProductoCotizacion">
+        <div class="form-group row AddProductoSalida">
 
           <!-- aqui se agregan los productos selecionado del modal de prodcutos  -->
         </div>
@@ -81,7 +81,7 @@
 
       <!-- Calculo totales-->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
-        <h3>Valores Totales del Ingreso</h3>
+        <h3>Valores Totales de la salida Almacen</h3>
 
         <div class="row" style="font-weight: bold">
           <div class="col-lg-4"></div>
@@ -98,7 +98,7 @@
             <!-- vacio -->
           </div>
           <div class="form-group col-md-2">
-            <button type="button" class="btn btn-info btnCalcularTotalIng" id="btnCalcularTotalIng">Calular Total Ingreso
+            <button type="button" class="btn btn-info btnCalcularTotalIng" id="btnCalcularTotalIng">Calular Total
             </button>
           </div>
           <div class="form-group col-md-2">
@@ -118,9 +118,9 @@
       <!-- fin -->
       <div class="container row g-3 p-3 ">
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
-          id="btnCerrarIngresoProd">Cerrar</button>
+          id="btnCerrarSalidaProd">Cerrar</button>
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success "
-          id="btnRegistrarIngresoProd">Registrar Ingreso a Almacen </button>
+          id="btnRegistrarSalidaProd">Registrar Salida</button>
       </div>
     </form>
   </main>
@@ -128,20 +128,20 @@
 </div>
 
 <!-- Modal produtos -->
-<div class="modal fade" id="modalAddProdCoti" tabindex="-1" aria-labelledby="modalAddProdCoti" aria-hidden="true">
+<div class="modal fade" id="modalAddProdSali" tabindex="-1" aria-labelledby="modalAddProdSali" aria-hidden="true">
   <div class="modal-dialog modal-lg"> <!-- Clase "modal-lg" agregada aquí -->
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalAddProdCoti">Lista Productos </h1>
+        <h1 class="modal-title fs-5" id="modalAddProdSali">Lista Productos de Almacen </h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <table id="dataTableProductos" class="display dataTableProductos">
+        <table id="dataTableProductosSalidaAlmacen" class="display dataTableProductosSalidaAlmacen">
           <thead>
-            <!-- dataTableProductos -->
+            <!-- dataTableProductosSalidaAlmacen -->
           </thead>
           <tbody>
-            <!--dataTableProductos-->
+            <!--dataTableProductosSalidaAlmacen-->
           </tbody>
         </table>
       </div>

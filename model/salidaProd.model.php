@@ -5,12 +5,20 @@ require_once "conexion.php";
 class salidaProdModel
 {
   //datatable de ingresos productos
-  public static function mdlDTableIngProdcuctos($table)
+  public static function mdlmdlDTableSalProdcuctos($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT idIngProd, nombreIngProd, fechaIngProd, totalIngProd FROM $table ORDER BY idIngProd DESC");
+    $statement = Conexion::conn()->prepare("SELECT idSalProd, nombreSalProd, fechaSalProd, totalSalProd FROM $table ORDER BY idSalProd DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+// //data table modal salidas almacen
+  public static function mdlDTableSalProdcuctosAlmacen($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idProd, nombreProdAlma, codigoProdAlma, precioProdAlma, cantidadProdAlma FROM $table WHERE cantidadProdAlma > 0 ORDER BY idAlmaProd DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
   //datatable  ingresos en el modal de ingresos productos
   public static function mdlVerProductosIngresadosModal($table, $codAllIngProd)
   {
@@ -97,7 +105,7 @@ class salidaProdModel
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result;
   }
-     //editar registro ingreso de productos
+  //editar registro ingreso de productos
   public static function mdlEditarIngresoProd($table, $dataEdit)
   {
     $statement = Conexion::conn()->prepare("UPDATE $table SET nombreIngProd = :nombreIngProd, fechaIngProd = :fechaIngProd, igvIngProd = :igvIngProd, subTotalIngProd = :subTotalIngProd, totalIngProd = :totalIngProd, ingJsonProd = :ingJsonProd, DateUpdate = :DateUpdate WHERE idIngProd = :idIngProd");
@@ -153,11 +161,11 @@ class salidaProdModel
   }
   //fin eliminar productos ingresados**
 
-  //Agregar Producto al ingreso
-  public static function mdlAgregarIngProducto($table, $codIngProducto)
+  //Agregar Producto de almacen ala salida
+  public static function mdlAgregarSalProducto($table, $codSalProducto)
   {
-    $statement = Conexion::conn()->prepare("SELECT idProd, nombreProd, codigoProd, unidadProd,precioProd FROM $table WHERE idProd = :idProd");
-    $statement->bindParam(":idProd", $codIngProducto, PDO::PARAM_INT);
+    $statement = Conexion::conn()->prepare("SELECT idProd, nombreProdAlma, codigoProdAlma, unidadProdAlma,precioProdAlma, cantidadProdAlma FROM $table WHERE idProd = :idProd");
+    $statement->bindParam(":idProd", $codSalProducto, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }

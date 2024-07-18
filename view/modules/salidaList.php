@@ -14,8 +14,8 @@
         <!-- <li class="breadcrumb-item active">Todos los Usuarios</li> -->
       </ol>
       <div class="d-flex m-2">
-        <button type="button" class="btn btn-success" id="btnAddIngresoProd">
-          Ingresar Productos a Inventario
+        <button type="button" class="btn btn-success" id="btnAddSalidaProd">
+          Registrar Salida de Productos del Inventario
         </button>
       </div>
       <div class="card mb-4">

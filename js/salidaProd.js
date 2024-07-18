@@ -2,24 +2,29 @@
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoProd";
+  var appPath = "/dfrida/salidaProd";
   if (currentPath == appPath) {
-    // Definir un contador global para los IDs de formulario
+
+    // Definir un contador global para los IDs de formulario no taocar
     var formularioIngProdCounter = 1;
 
-    // guardar los codigos de los productos agregados
+    // variable global guardar los codigos de los productos agregados no tocar
     window.codigosProductosAgregados = new Set();
 
-    $(".dataTableProductos").on("click", ".btnAddProdModalIng", function () {
-      var codAddIngProdModal = $(this).attr("codAddIngProdModal");
+    // Variable global acumulativa para almacenar datos del formulario, idProd y cantidad para validar cantidad maxima en almacen
+    window.datosFormularios = [];
+    //console.log(datosFormularios);
+
+    $(".dataTableProductosSalidaAlmacen").on("click", ".btnAddProdModalSal", function () {
+      var codAddSalProdModal = $(this).attr("codAddSalProdModal");
 
       // Convertir el código a entero antes de verificar y agregar
-      var codAddIngProdModalInt = parseInt(codAddIngProdModal, 10);
+      var codAddSalProdModalInt = parseInt(codAddSalProdModal, 10);
 
       // Verificar si el código ya ha sido agregado
-      if (window.codigosProductosAgregados.has(codAddIngProdModalInt)) {
+      if (window.codigosProductosAgregados.has(codAddSalProdModalInt)) {
         // Cerrar el modal antes de mostrar el mensaje de SweetAlert
-        $("#modalAddProdCoti").modal("hide");
+        $("#modalAddProdSali").modal("hide");
         Swal.fire({
           icon: "warning",
           title: "Producto duplicado",
@@ -27,20 +32,21 @@ document.addEventListener("DOMContentLoaded", function () {
         }).then((result) => {
           if (result.value) {
             // Mostrar el modal de nuevo
-            $("#modalAddProdCoti").modal("show");
+            $("#modalAddProdSali").modal("show");
           }
         });
         return; // No proceder con el AJAX
       }
 
       // Agregar el código al conjunto de productos agregados como entero
-      window.codigosProductosAgregados.add(codAddIngProdModalInt);
+      window.codigosProductosAgregados.add(codAddSalProdModalInt);
       //console.log(window.codigosProductosAgregados); // Mostrar el estado actual
 
+
       var datos = new FormData();
-      datos.append("codAddIngProdModal", codAddIngProdModal);
+      datos.append("codAddSalProdModal", codAddSalProdModal);
       $.ajax({
-        url: "ajax/ingresoProd.ajax.php",
+        url: "ajax/salidaProd.ajax.php",
         method: "POST",
         data: datos,
         cache: false,
@@ -49,10 +55,12 @@ document.addEventListener("DOMContentLoaded", function () {
         dataType: "json",
         success: function (respuesta) {
           var idProd = respuesta["idProd"];
-          var nombreProd = respuesta["nombreProd"];
-          var codigoProd = respuesta["codigoProd"];
-          var unidadProd = respuesta["unidadProd"];
-          var precioProd = respuesta["precioProd"];
+          var nombreProd = respuesta["nombreProdAlma"];
+          var codigoProd = respuesta["codigoProdAlma"];
+          var unidadProd = respuesta["unidadProdAlma"];
+          var precioProd = respuesta["precioProdAlma"];
+          //cantidad
+          var cantidadProd = respuesta["cantidadProdAlma"];
 
           // Crear un nuevo formulario para el producto con un ID único que incrementa en 1 cada vez que se agrega un producto
           var formularioID = "formularioIngProd" + formularioIngProdCounter++;
@@ -84,7 +92,9 @@ document.addEventListener("DOMContentLoaded", function () {
             "</div>" +
             /* cantidad editable inicia en 1 */
             '<div class="col-lg-2">' +
-            '<input type="number" class="form-control cantidadProdIng" id="cantidadProdIng" value="1" min="1" step="1">' +
+            '<input type="number" class="form-control cantidadProdIng" id="cantidadProdIng" value="1" min="1" step="1" data-original-idProd="' +
+            idProd +
+            '">' +
             "</div>" +
             /* precio */
             '<div class="col-lg-2">' +
@@ -103,32 +113,71 @@ document.addEventListener("DOMContentLoaded", function () {
             "</form>";
 
           // Agregar el nuevo formulario al contenedor
-          $(".AddProductoCotizacion").append(nuevoProductoHTML);
+          $(".AddProductoSalida").append(nuevoProductoHTML);
+
+          // Dentro de la función de éxito del AJAX
+          var nuevoDatoFormulario = [formularioID, idProd, cantidadProd];
+          window.datosFormularios.push(nuevoDatoFormulario);
+          //console.log(datosFormularios);
         },
       });
     });
 
-    // Actualizar el precio cuando cambia la cantidad
+    // Actualizar el precio cuando cambia la cantidad y valida y muestra la cantidad maxiama en el alamcen 
     $(document).on("input", ".cantidadProdIng", function () {
       var count = $(this).val();
+      var idProd = $(this).data("original-idprod");
       var precioPerUnit = $(this)
         .closest(".productoRow")
         .find(".precioProdIng")
         .data("original-precio");
-      //si el valor del input es vacio o 0 el precio final es 0
+
+      // Lógica para calcular el precio final
       if (count === "" || parseInt(count) === 0) {
         var precioFinal = "0";
       } else {
         var precioFinal = (count * precioPerUnit).toFixed(2);
       }
+
       // Actualizar el valor interno y el atributo 'value' en el HTML
-      $(this).val(count);
-      $(this).attr("value", count); // Actualiza el atributo 'value' en el HTML para la cantidad
+      $(this).val(count).attr("value", count);
       $(this)
         .closest(".productoRow")
         .find(".precioProdIng")
-        .val(precioFinal) // Actualiza el valor interno para el precio
-        .attr("value", precioFinal); // Actualiza el atributo 'value' en el HTML para el precio
+        .val(precioFinal)
+        .attr("value", precioFinal);
+
+      // Lógica para mostrar el mensaje basado en la cantidad
+      // Suponiendo que window.datosFormularios es el array global acumulativo
+      var formularioID = "";
+      var cantidadInicial = 0;
+      window.datosFormularios.forEach(function (item) {
+        if (item[1] === idProd) {
+          formularioID = item[0];
+          cantidadInicial = item[2];
+        }
+      });
+      // Si se encuentra el formulario y la cantidad actual supera la inicial
+      if (formularioID && parseInt(count) > cantidadInicial) {
+        // Mostrar mensaje con SweetAlert
+        Swal.fire({
+          icon: "info",
+          title: "Cantidad Excedente",
+          html: "La cantidad máxima en el almacén es <b>" + cantidadInicial + "</b>.",
+        }).then((result) => {
+          if (result.value) {
+            // Después de darle OK, actualizar el campo con la cantidad máxima
+            $(this).val(cantidadInicial).attr("value", cantidadInicial);
+            // También actualizar el precio final basado en la cantidad máxima
+            var precioFinalMax = (cantidadInicial * precioPerUnit).toFixed(2);
+            $(this)
+              .closest(".productoRow")
+              .find(".precioProdIng")
+              .val(precioFinalMax)
+              .attr("value", precioFinalMax);
+          }
+        });
+      }
     });
 
     // Eliminar el producto
@@ -136,39 +185,20 @@ document.addEventListener("DOMContentLoaded", function () {
       // Paso 1: Capturar el valor del botón presionado y convertirlo a número entero
       var valorBoton = parseInt($(this).val(), 10);
       //console.log("Valor del botón presionado:", valorBoton);
-
-      // Paso 2: Copiar los datos de la variable global a una nueva variable (manteniendo el formato de Set)
+      // Paso 2: Copiar los datos de la variable global a una nueva 
       var datosTemporales = new Set(codigosProductosAgregados);
-      /* console.log(
-        "Datos originales de la variable global:",
-        Array.from(datosTemporales)
-      ); */
-
       // Paso 3: Buscar y eliminar el valor del botón en la nueva variable
       if (datosTemporales.has(valorBoton)) {
         datosTemporales.delete(valorBoton);
-        /*   console.log(
-          "Datos después de eliminar el valor del botón:",
-          Array.from(datosTemporales)
-        ); */
       } else {
         //console.log("El valor no se encontró en la variable global.");
       }
-
       // Paso 4: Limpiar la variable global
       codigosProductosAgregados.clear();
-
       // Paso 5: Actualizar la variable global con los nuevos datos
       datosTemporales.forEach((valor) => {
         codigosProductosAgregados.add(valor);
       });
-
-      // Paso 7: Mostrar por consola el estado actualizado de la variable global
-      /*  console.log(
-        "Estado actualizado de la variable global:",
-        Array.from(codigosProductosAgregados)
-      ); */
-
       // Eliminar el formulario del producto del DOM
       $(this).closest(".productoRow").remove();
     });
@@ -182,11 +212,11 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoProd";
+  var appPath = "/dfrida/salidaProd";
   if (currentPath == appPath) {
     //funcion para calcular los totales
     $(document).ready(function () {
-      function calcularTotalCotizacion() {
+      function calcularTotalSalida() {
         //guarda el valor de los productos y productos prima en 0 para  sumar los precios
         let totalProductos = 0;
 
@@ -214,11 +244,11 @@ document.addEventListener("DOMContentLoaded", function () {
         // Asignar un valor estático de 0 a igvIngProdAdd y actualizar el atributo 'value'
         $("#igvIngProdAdd").val(0).attr("value", 0);
         // Calcular el totalCotizacion como la suma de totalGeneral + igvIngProdAdd
-        const igvIngProdAdd = parseFloat($("#igvIngProdAdd").val()) || 0;
+        //const igvIngProdAdd = parseFloat($("#igvIngProdAdd").val()) || 0;
 
         // Calcular el 18% de totalGeneral para igvIngProdAdd y actualizar el atributo 'value'
-        //const igvIngProdAdd = totalGeneral * 0.18;
-        //$("#igvIngProdAdd").val(igvIngProdAdd).attr("value", igvIngProdAdd);
+        const igvIngProdAdd = totalGeneral * 0.18;
+        $("#igvIngProdAdd").val(igvIngProdAdd).attr("value", igvIngProdAdd);
 
         const totalIngProdAdd = totalGeneral + igvIngProdAdd;
 
@@ -230,7 +260,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       //botón para calcular el total
       $("#btnCalcularTotalIng").click(function () {
-        calcularTotalCotizacion();
+        calcularTotalSalida();
       });
     });
     //fin vericar ruta
@@ -242,14 +272,14 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoProd";
+  var appPath = "/dfrida/salidaProd";
   if (currentPath == appPath) {
     //escuchar el evento click en el boton registrar cotizacion
-    const btnRegistrar = document.getElementById("btnRegistrarIngresoProd");
+    const btnRegistrar = document.getElementById("btnRegistrarSalidaProd");
     btnRegistrar.addEventListener("click", function () {
       let camposRequeridos = [
-        { id: "tituloIngProdAdd", nombre: "Titulo cotizacion" },
-        { id: "fechaIngProdAdd", nombre: "Fecha cotizacion" },
+        { id: "tituloSalProdAdds", nombre: "Titulo cotizacion" },
+        { id: "fechaSalProdAdd", nombre: "Fecha cotizacion" },
         { id: "subTotalIngProdAdd", nombre: "Sub Total Cotización" },
         { id: "totalIngProdAdd", nombre: "Total Producto" },
       ];
@@ -283,7 +313,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("btnCalcularTotalIng").click();
         /* fin click calcular total */
         //recolectar los datos del formulario principal
-        var formulario = document.getElementById("formIngresoProd");
+        var formulario = document.getElementById("formSalidaProd");
         var datosFormulario = {};
         var elementosFormulario = formulario.querySelectorAll("input, select");
         elementosFormulario.forEach(function (elemento) {
@@ -292,21 +322,21 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         });
         // Crear un JSON con los datos recolectados del formulario principal
-        var jsonCrearIngProd = JSON.stringify(datosFormulario);
+        var jsonCrearSalidaProd = JSON.stringify(datosFormulario);
 
         // Llamada a la función para recolectar datos de formularios anidados PRODUCTOS
         recojerFormulariosAnidadosIngProductos(function (
           datosFormulariosProductos
         ) {
           // Crear un JSON con los datos recolectados de los formularios anidados
-          var jsonProductosIngProd = JSON.stringify(datosFormulariosProductos);
+          var jsonProductosSalidaProd = JSON.stringify(datosFormulariosProductos);
 
           $.ajax({
-            url: "ajax/ingresoProd.ajax.php",
+            url: "ajax/salidaProd.ajax.php",
             method: "POST",
             data: {
-              jsonCrearIngProd: jsonCrearIngProd,
-              jsonProductosIngProd: jsonProductosIngProd,
+              jsonCrearSalidaProd: jsonCrearSalidaProd,
+              jsonProductosSalidaProd: jsonProductosSalidaProd,
             },
             dataType: "json",
             success: function (response) {
@@ -601,7 +631,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (currentPath == appPath) {
     //funcion para calcular los totales
     $(document).ready(function () {
-      function calcularTotalCotizacion() {
+      function calcularTotalSalida() {
         //guarda el valor de los productos y productos prima en 0 para  sumar los precios
         let totalProductos = 0;
 
@@ -645,7 +675,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       //botón para calcular el total
       $("#btnCalcularTotalIng").click(function () {
-        calcularTotalCotizacion();
+        calcularTotalSalida();
       });
     });
     //fin vericar ruta
@@ -865,7 +895,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Error",
                 "Nesesita permisos de administrador para realizar esta acción",
                 "error"
-              ).then(function () {});
+              ).then(function () { });
             }
           },
           error: function (jqXHR, textStatus, errorThrown) {
@@ -970,26 +1000,26 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoList";
+  var appPath = "/dfrida/salidaList";
   if (currentPath == appPath) {
-    var btn = document.getElementById("btnAddIngresoProd");
+    var btn = document.getElementById("btnAddSalidaProd");
     if (btn) {
       btn.addEventListener("click", function () {
-        window.location.href = "/dfrida/ingresoProd";
+        window.location.href = "/dfrida/salidaProd";
       });
     }
   }
 });
-//cerrar ingreso productos
+//cerrar salida productos
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoProd";
+  var appPath = "/dfrida/salidaProd";
   if (currentPath == appPath) {
-    var btn = document.getElementById("btnCerrarIngresoProd");
+    var btn = document.getElementById("btnCerrarSalidaProd");
     if (btn) {
       btn.addEventListener("click", function () {
-        window.location.href = "/dfrida/ingresoList";
+        window.location.href = "/dfrida/salidaList";
       });
     }
   }
