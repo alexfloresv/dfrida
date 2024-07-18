@@ -42,6 +42,9 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
       $_GET["ruta"] == "ingresoProd" ||
       $_GET["ruta"] == "ingresoProdEdit" ||
       $_GET["ruta"] == "almacenProductos" ||
+      $_GET["ruta"] == "salidaList" ||
+      $_GET["ruta"] == "salidaProd" ||
+      $_GET["ruta"] == "salidaProdEdit" ||
 
 
       $_GET["ruta"] == "signout"
