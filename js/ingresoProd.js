@@ -1,4 +1,4 @@
-//agrergar productos a ingreso productos
+//agregar productos a ingreso productos****
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Agregar el código al conjunto de productos agregados como entero
       window.codigosProductosAgregados.add(codAddIngProdModalInt);
-      console.log(window.codigosProductosAgregados); // Mostrar el estado actual
+      //console.log(window.codigosProductosAgregados); // Mostrar el estado actual
 
       var datos = new FormData();
       datos.append("codAddIngProdModal", codAddIngProdModal);
@@ -135,24 +135,24 @@ document.addEventListener("DOMContentLoaded", function () {
     $(document).on("click", ".deleteNuevoIngresoProd", function (e) {
       // Paso 1: Capturar el valor del botón presionado y convertirlo a número entero
       var valorBoton = parseInt($(this).val(), 10);
-      console.log("Valor del botón presionado:", valorBoton);
+      //console.log("Valor del botón presionado:", valorBoton);
 
       // Paso 2: Copiar los datos de la variable global a una nueva variable (manteniendo el formato de Set)
       var datosTemporales = new Set(codigosProductosAgregados);
-      console.log(
+      /* console.log(
         "Datos originales de la variable global:",
         Array.from(datosTemporales)
-      );
+      ); */
 
       // Paso 3: Buscar y eliminar el valor del botón en la nueva variable
       if (datosTemporales.has(valorBoton)) {
         datosTemporales.delete(valorBoton);
-        console.log(
+        /*   console.log(
           "Datos después de eliminar el valor del botón:",
           Array.from(datosTemporales)
-        );
+        ); */
       } else {
-        console.log("El valor no se encontró en la variable global.");
+        //console.log("El valor no se encontró en la variable global.");
       }
 
       // Paso 4: Limpiar la variable global
@@ -164,10 +164,10 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       // Paso 7: Mostrar por consola el estado actualizado de la variable global
-      console.log(
+      /*  console.log(
         "Estado actualizado de la variable global:",
         Array.from(codigosProductosAgregados)
-      );
+      ); */
 
       // Eliminar el formulario del producto del DOM
       $(this).closest(".productoRow").remove();
@@ -409,7 +409,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //fin verificar que los campos de total cotizacion no esten vacios
   }
 });
-//fin ingreso
+//fin ingreso****
 
 //****funciones para editar producto ////
 
@@ -451,7 +451,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Agregar el código al conjunto de productos agregados como entero
       window.codigosProductosAgregados.add(codAddIngProdModalInt);
-      console.log(window.codigosProductosAgregados); // Mostrar el estado actual
+      //console.log(window.codigosProductosAgregados); // Mostrar el estado actual
 
       var datos = new FormData();
       datos.append("codAddIngProdModal", codAddIngProdModal);
@@ -550,24 +550,24 @@ document.addEventListener("DOMContentLoaded", function () {
     $(document).on("click", ".deleteNuevoIngresoProd", function (e) {
       // Paso 1: Capturar el valor del botón presionado y convertirlo a número entero
       var valorBoton = parseInt($(this).val(), 10);
-      console.log("Valor del botón presionado:", valorBoton);
+      //console.log("Valor del botón presionado:", valorBoton);
 
       // Paso 2: Copiar los datos de la variable global a una nueva variable (manteniendo el formato de Set)
       var datosTemporales = new Set(codigosProductosAgregados);
-      console.log(
+      /*  console.log(
         "Datos originales de la variable global:",
         Array.from(datosTemporales)
-      );
+      ); */
 
       // Paso 3: Buscar y eliminar el valor del botón en la nueva variable
       if (datosTemporales.has(valorBoton)) {
         datosTemporales.delete(valorBoton);
-        console.log(
+        /*    console.log(
           "Datos después de eliminar el valor del botón:",
           Array.from(datosTemporales)
-        );
+        ); */
       } else {
-        console.log("El valor no se encontró en la variable global.");
+        //console.log("El valor no se encontró en la variable global.");
       }
 
       // Paso 4: Limpiar la variable global
@@ -579,19 +579,19 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       // Paso 7: Mostrar por consola el estado actualizado de la variable global
-      console.log(
+      /*    console.log(
         "Estado actualizado de la variable global:",
         Array.from(codigosProductosAgregados)
-      );
+      ); */
 
       // Eliminar el formulario del producto del DOM
       $(this).closest(".productoRow").remove();
     });
-    //fin agregar productos a la cotizacion
+    //fin agregar productos
     //fin vericar ruta
   }
 });
-//fin agreagr productos a la cotizacion
+//fin agreagr productos
 
 // TOTALES
 document.addEventListener("DOMContentLoaded", function () {
@@ -628,7 +628,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Asignar un valor estático de 0 a igvIngProdAdd y actualizar el atributo 'value'
         $("#igvIngProdAdd").val(0).attr("value", 0);
-        // Calcular el totalCotizacion como la suma de totalGeneral + igvIngProdAdd
+        // Calcular el total como la suma de totalGeneral + igvIngProdAdd
         const igvIngProdAdd = parseFloat($("#igvIngProdAdd").val()) || 0;
 
         // Calcular el 18% de totalGeneral para igvIngProdAdd y actualizar el atributo 'value'
@@ -637,7 +637,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const totalIngProdAdd = totalGeneral + igvIngProdAdd;
 
-        // Asignar el totalCotizacion al input de totalCotizacion y actualizar el atributo 'value'
+        // Asignar el total al input de total y actualizar el atributo 'value'
         $("#totalIngProdAdd")
           .val(totalIngProdAdd.toFixed(2))
           .attr("value", totalIngProdAdd.toFixed(2));
@@ -685,7 +685,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 // Fin
 
-//tomar el valor de la ur y asignarlo al campo oculto
+//tomar el valor de la url y asignarlo al campo oculto
 function getQueryParam(name) {
   name = name.replace(/[\[\]]/g, "\\$&");
   var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
@@ -694,7 +694,7 @@ function getQueryParam(name) {
   if (!results[2]) return "";
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-//variable gloval para contar los formularios de procesos de trabajo de edit a agregar lo que llegan de respeusta y los nuevos que sea greagaran
+//variable gloval para contar los formularios  de edit a agregar los que llegan de respeusta y los nuevos que sea greagaran
 window.formularioIngProdCounter = 0;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -744,7 +744,6 @@ document.addEventListener("DOMContentLoaded", function () {
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
       },
-      // Función simplificada para actualizar la barra de progreso
     });
 
     function ingresoProductoEdit(ingJsonProd) {
@@ -761,7 +760,7 @@ document.addEventListener("DOMContentLoaded", function () {
           cantidadProdIng,
           precioProdIng,
         } = proceso;
-        // Convertir el código del producto a entero antes de agregarlo
+        // Convertir el código del producto a entero antes de agregarlo a la variable global contadora de productos agreagados ala lista
         var codProdIngInt = parseInt(codProdIng, 10);
         codigosProductosAgregados.add(codProdIngInt);
 
@@ -818,7 +817,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Agregar el nuevo formulario al contenedor
       $(".AddIngProductoEdit").append(nuevoProductoHTML);
     }
-
+    //enviar formulario al servidor para editar
     $("#btnEditarIngresoProd").on("click", function () {
       //totales estén actualizados si el usuario no lo hizo
       document.getElementById("btnCalcularTotalIng").click();
@@ -864,7 +863,7 @@ document.addEventListener("DOMContentLoaded", function () {
             } else {
               Swal.fire(
                 "Error",
-                "El ingreso de productos no se ha podido editar",
+                "Nesesita permisos de administrador para realizar esta acción",
                 "error"
               ).then(function () {});
             }
@@ -879,7 +878,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       });
       //fin editar
-
+      //recojer todos los formularios anidados que son los productos  y asignarle un nombre++ que es un json con sus datos recoje todos los productos = fromularios
       function recojerFormulariosAnidadosIngProdEdit(callback) {
         let datosFormulariosIngProd = {};
 
