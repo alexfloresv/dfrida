@@ -268,8 +268,7 @@ CREATE TABLE `salida_Prod` (
     `salJsonProd` JSON NOT NULL,
     `DateCreate` datetime NOT NULL,
     `DateUpdate` datetime NOT NULL,
-    PRIMARY KEY (`idSalProd`),
-    FOREIGN KEY (`idPedido`) REFERENCES `pedido` (`idPedido`)
+    PRIMARY KEY (`idSalProd`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 CREATE TABLE `tipo_Proceso` (

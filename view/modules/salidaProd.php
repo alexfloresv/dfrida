@@ -23,11 +23,18 @@
         <h3>Datos para la Salida de Productos del Almacen</h3>
 
         <!-- datos de la cotizacion Enpresa -->
-        <div class="form-group col-md-10">
-          <label for="tituloSalProdAdds" class="form-label" style="font-weight: bold">Descripcion Salida:</label>
-          <input type="text" class="form-control" id="tituloSalProdAdds" name="tituloSalProdAdds"
+        <div class="form-group col-md-6">
+          <label for="tituloSalProdAdd" class="form-label" style="font-weight: bold">Descripcion Salida:</label>
+          <input type="text" class="form-control" id="tituloSalProdAdd" name="tituloSalProdAdd"
             placeholder="Ingrese una una descripcion para la salida ">
         </div>
+
+        <div class="col-md-4">
+          <label for="pedidoSalProdAdd" class="form-label" style="font-weight: bold">Pedido: </label>
+          <input type="number" class="form-control" id="pedidoSalProdAdd" name="pedidoSalProdAdd"
+            placeholder="Ingrese el pedido correspondiente">
+        </div>
+
         <div class="col-md-2">
           <label for="fechaSalProdAdd" class="form-label" style="font-weight: bold">Fecha Salida: </label>
           <input type="date" class="form-control" id="fechaSalProdAdd" name="fechaSalProdAdd">
@@ -102,8 +109,8 @@
             </button>
           </div>
           <div class="form-group col-md-2">
-            <input type="text" class="form-control" id="igvIngProdAdd" name="igvIngProdAdd" value=""
-              placeholder="IGV" readonly required>
+            <input type="text" class="form-control" id="igvIngProdAdd" name="igvIngProdAdd" value="" placeholder="IGV"
+              readonly required>
           </div>
           <div class="form-group col-md-2">
             <input type="text" class="form-control" id="subTotalIngProdAdd" name="subTotalIngProdAdd" value=""

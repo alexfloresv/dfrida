@@ -26,19 +26,26 @@ if (isset($_POST["codAllIngProd"])) {
   $view->ajaxVerProductosIngresadosModal($_POST["codAllIngProd"]);
 }
 
-//  crear ingreso productos
-if (isset($_POST["jsonCrearIngProd"], $_POST["jsonProductosIngProd"])) {
+//  crear salida de  productos
+if (isset($_POST["jsonCrearSalidaProd"], $_POST["jsonProductosSalidaProd"])) {
   $create = new salidaProdAjax();
-  $create->jsonCrearIngProd = $_POST["jsonCrearIngProd"];
-  $create->jsonProductosIngProd = $_POST["jsonProductosIngProd"];
-  $create->ajaxCrearIngresoProd($_POST["jsonCrearIngProd"], $_POST["jsonProductosIngProd"]);
+  $create->jsonCrearSalidaProd = $_POST["jsonCrearSalidaProd"];
+  $create->jsonProductosSalidaProd = $_POST["jsonProductosSalidaProd"];
+  $create->ajaxCrearSalidaProd($_POST["jsonCrearSalidaProd"], $_POST["jsonProductosSalidaProd"]);
 }
 
-//visualizar datos para editar ingreso productos
-if (isset($_POST["codIngProd"])) {
+//visualizar datos para editar salidas productos
+if (isset($_POST["codSalProd"])) {
   $viewData = new salidaProdAjax();
-  $viewData->codIngProd = $_POST["codIngProd"];
-  $viewData->ajaxVerDataIngProd($_POST["codIngProd"]);
+  $viewData->codSalProd = $_POST["codSalProd"];
+  $viewData->ajaxVerDataSalProd($_POST["codSalProd"]);
+}
+
+//obtener stock de almacen para visualizar datos para editar salidas productos
+if (isset($_POST["codProdIng"])) {
+  $viewData = new salidaProdAjax();
+  $viewData->codProdIng = $_POST["codProdIng"];
+  $viewData->ajaxStockAlmacenEdit($_POST["codProdIng"]);
 }
 
 //editar ingreso productos
@@ -49,11 +56,11 @@ if (isset($_POST["jsonEditarIngProd"], $_POST["jsonEditarIngProductosForms"])) {
   $edit->ajaxEditarIngresoProd($_POST["jsonEditarIngProd"], $_POST["jsonEditarIngProductosForms"]);
 }
 
-//borrar ingreso productos
-if (isset($_POST["jsonBorraIngProdcutos"])) {
+//borrar salida productos
+if (isset($_POST["jsonBorraSalProdcutos"])) {
   $delete = new salidaProdAjax();
-  $delete->jsonBorraIngProdcutos = $_POST["jsonBorraIngProdcutos"];
-  $delete->ajaxBorrarIngProductos($_POST["jsonBorraIngProdcutos"]);
+  $delete->jsonBorraSalProdcutos = $_POST["jsonBorraSalProdcutos"];
+  $delete->ajaxBorrarSalProductos($_POST["jsonBorraSalProdcutos"]);
 }
 
 //Agregar Producto de almacen ala salida
@@ -79,6 +86,7 @@ class salidaProdAjax
     $todasLasSalidasProductos = salidaProdController::ctrDTableSalProdcuctos();
     foreach ($todasLasSalidasProductos as &$salidas) {
       $salidas['buttons'] = FunctionSalidaProd::getBtnSalProd($salidas["idSalProd"]);
+      $salidas['modalPedSalProd'] = FunctionSalidaProd::getBtnVerPedSalProd($salidas["idSalProd"]);
       $salidas['modalSalProd'] = FunctionSalidaProd::getBtnVerSalProd($salidas["idSalProd"]);
     }
     echo json_encode($todasLasSalidasProductos);
@@ -98,19 +106,26 @@ class salidaProdAjax
     echo json_encode($response);
   }
 
-  //  crear ingreso productos
-  public function ajaxCrearIngresoProd($jsonCrearIngProd, $jsonProductosIngProd, )
+  //  crear salida de  productos
+  public function ajaxCrearSalidaProd($jsonCrearSalidaProd, $jsonProductosSalidaProd, )
   {
-    $crearIngresoProd = json_decode($jsonCrearIngProd, true);
+    $crearSalidaProd = json_decode($jsonCrearSalidaProd, true);
 
-    $response = salidaProdController::ctrCrearIngresoProd($crearIngresoProd, $jsonProductosIngProd);
+    $response = salidaProdController::ctrCrearSalidaProd($crearSalidaProd, $jsonProductosSalidaProd);
     echo json_encode($response);
   }
 
-  //visualizar datos para editar ingreso productos
-  public function ajaxVerDataIngProd($codIngProd)
+  //visualizar datos para editar salidas productos
+  public function ajaxVerDataSalProd($codSalProd)
   {
-    $response = salidaProdController::ctrVerDataIngProductos($codIngProd);
+    $response = salidaProdController::ctrVerDataIngProductos($codSalProd);
+    echo json_encode($response);
+  }
+
+  //obtener stock de almacen para visualizar datos para editar salidas productos
+  public function ajaxStockAlmacenEdit($codProdIng)
+  {
+    $response = salidaProdController::ctrStockAlmacenEdit($codProdIng);
     echo json_encode($response);
   }
 
@@ -121,15 +136,16 @@ class salidaProdAjax
     $response = salidaProdController::ctrEditarIngresoProd($editarIngProd, $jsonEditarIngProductosForms);
     echo json_encode($response);
   }
-  //borrar ingreso productos
-  public function ajaxBorrarIngProductos($jsonBorraIngProdcutos)
+
+  //borrar salida productos
+  public function ajaxBorrarSalProductos($jsonBorraSalProdcutos)
   {
-    $borrarIngProductos = json_decode($jsonBorraIngProdcutos, true); // Decodificar la cadena de texto JSON en un array asociativo
-    $response = salidaProdController::ctrBorrarIngProductos($borrarIngProductos);
+    $borrarSalProductos = json_decode($jsonBorraSalProdcutos, true); // Decodificar la cadena de texto JSON en un array asociativo
+    $response = salidaProdController::ctrBorrarSalProductos($borrarSalProductos);
     echo json_encode($response);
   }
 
- //Agregar Producto de almacen ala salida
+  //Agregar Producto de almacen ala salida
   public function ajaxAgregarSalProducto($codAddSalProdModal)
   {
     $codSalProducto = json_decode($codAddSalProdModal, true); // Decodificar la cadena de texto JSON en un array asociativo

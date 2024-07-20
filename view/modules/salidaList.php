@@ -9,7 +9,7 @@
 <div id="layoutSidenav_content">
   <main class="bg">
     <div class="container-fluid px-4">
-      <h1 class="mt-4">Lista Ingresos de Productos</h1>
+      <h1 class="mt-4">Lista Salidas de Productos</h1>
       <ol class="breadcrumb mb-4">
         <!-- <li class="breadcrumb-item active">Todos los Usuarios</li> -->
       </ol>
@@ -20,17 +20,17 @@
       </div>
       <div class="card mb-4">
         <div class="card-header">
-          <!--  Titulo dataTableIngresosProd -->
-          <h5 class="mt-4 tituloIngresos"></h5>
+          <!--  Titulo dataTableSalidasProd -->
+          <h5 class="mt-4 tituloSalidas"></h5>
         </div>
         <div class="card-body">
-          <!-- dataTableIngresosProd -->
-          <table id="dataTableIngresosProd" class="display dataTableIngresosProd">
+          <!-- dataTableSalidasProd -->
+          <table id="dataTableSalidasProd" class="display dataTableSalidasProd">
             <thead>
-              <!-- dataTableIngresosProd -->
+              <!-- dataTableSalidasProd -->
             </thead>
             <tbody>
-              <!--dataTableIngresosProd-->
+              <!--dataTableSalidasProd-->
             </tbody>
           </table>
           <!-- fin -->

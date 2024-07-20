@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
             precioProd +
             '" data-original-precio="' +
             precioProd +
-            '" readonly>' +
+            '" >' +
             "</div>" +
             /* boton de eliminar */
             '<div class="col-lg-1">' +

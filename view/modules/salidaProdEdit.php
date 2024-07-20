@@ -16,7 +16,7 @@
       </h1>
     </div>
 
-    <form role="form" method="post" class="row g-3 m-2 formIngresoProd " id="formIngresoProdEdit">
+    <form role="form" method="post" class="row g-3 m-2 formIngresoProd " id="formSalidaProdEdit">
 
       <div class="container row g-8" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
 
@@ -53,7 +53,6 @@
         </div>
         <!-- aqui se agregan los productos del modal de prodcutos  -->
         <div class="form-group row AddIngProductoEdit">
-
           <!-- aqui se agregan los productos selecionado del modal de prodcutos  -->
         </div>
 
@@ -119,16 +118,16 @@
       <!-- fin -->
 
       <!-- campo que guardel valor del boton y del ajax -->
-      <input type="hidden" class="form-control" id="codIngProd" name="codIngProd">
+      <input type="hidden" class="form-control" id="codSalProd" name="codSalProd">
 
       <!-- campo que guarde el jsonProductos de la respuesta ajax -->
-      <input type="hidden" class="form-control" id="prodIngAnteriorEdit" name="prodIngAnteriorEdit" value="">
+      <input type="hidden" class="form-control" id="salidaAnteriorJsonEdit" name="salidaAnteriorJsonEdit" value="">
 
       <div class="container row g-3 p-3 ">
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
           id="btnCerrarEditIngresoProd">Cerrar</button>
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success "
-          id="btnEditarIngresoProd">Editar Ingreso a Almacen </button>
+          id="btnEditarSalidaProd">Editar Ingreso a Almacen </button>
       </div>
     </form>
   </main>

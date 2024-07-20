@@ -26,84 +26,85 @@ class salidaProdController
   }
 
   //crear ingreso productos a almacen de  productos***
-  public static function ctrCrearIngresoProd($crearIngresoProd, $jsonProductosIngProd)
+  public static function ctrCrearSalidaProd($crearSalidaProd, $jsonProductosSalidaProd)
   {
     // Eliminar datos innecesarios
-    $IngresoProdData = self::ctrBorrarDatosInecesariosIngProd($crearIngresoProd);
-    // Eliminar el array $crearCotizacion para no duplicar datos
-    unset($crearIngresoProd);
+    $salidaProdData = self::ctrBorrarDatosInecesariosSalidaProd($crearSalidaProd);
+    // Eliminar el array $crearSalidaProd para no duplicar datos
+    unset($crearSalidaProd);
     // Ingreso de productos a almacén
-    $ingresoProductosAlmacen = self::ctrIngresarProductosAlmacenProd($jsonProductosIngProd);
+    $salidaProductosAlmacen = self::ctrSalidaProductosAlmacenProd($jsonProductosSalidaProd);
     //verifica si es verdadero o falso para crear el registro
-    if ($ingresoProductosAlmacen) {
+    if ($salidaProductosAlmacen) {
       // Crear el registro de ingreso de productos si $ingresoProductosAlmacen es true
-      $response = self::ctrRegistroIngresoProductos($IngresoProdData, $jsonProductosIngProd);
+      $response = self::ctrRegistroSalidaProductos($salidaProdData, $jsonProductosSalidaProd);
     } else {
-      // Si $ingresoProductosAlmacen es false, asignar "error" a $response
-      $response = "errorIngAlmacen";
+      // Si $salidaProductosAlmacen es false, asignar "error" a $response
+      //este error solo sucedera cuando ubo un error al restar la cantidad de productos en almacen y se restauro el alamacen
+      $response = "errorSalAlmacen";
     }
     return $response;
   }
 
   //eliminar datos innecesarios
-  public static function ctrBorrarDatosInecesariosIngProd($crearIngresoProd)
+  public static function ctrBorrarDatosInecesariosSalidaProd($crearSalidaProd)
   {
     //datos recolectados por la primera funcion de recoleccion de datos 
     //datos repetidos incesarios y sin estructura
     //datos del primer producto  ubicado por la funcion
-    unset($crearIngresoProd["codProdIng"]);
-    unset($crearIngresoProd["nombreProdIng"]);
-    unset($crearIngresoProd["codigoProdIng"]);
-    unset($crearIngresoProd["unidadProdIng"]);
-    unset($crearIngresoProd["cantidadProdIng"]);
-    unset($crearIngresoProd["precioProdIng"]);
+    unset($crearSalidaProd["codProdIng"]);
+    unset($crearSalidaProd["nombreProdIng"]);
+    unset($crearSalidaProd["codigoProdIng"]);
+    unset($crearSalidaProd["unidadProdIng"]);
+    unset($crearSalidaProd["cantidadProdIng"]);
+    unset($crearSalidaProd["precioProdIng"]);
 
-    $response = $crearIngresoProd;
+    $response = $crearSalidaProd;
     return $response;
   }
 
-  //ingreso de productos a almacen
-  public static function ctrIngresarProductosAlmacenProd($jsonProductosIngProd)
+  //salida de productos a almacen
+  public static function ctrSalidaProductosAlmacenProd($jsonProductosSalidaProd)
   {
-    $dataProductosCotizacion = json_decode($jsonProductosIngProd, true);
+    $dataProductosSalida = json_decode($jsonProductosSalidaProd, true);
     $table = "almacen_prod";
-    //ingresamos a cada array de productos y verificamos si existe o no en el almacen
-    foreach ($dataProductosCotizacion as $producto) {
-      // Verificar datos de productos en almacen
+    //almacenar las operaciones exitosas y poder revertirlas si es necesario
+    $operacionesExitosas = [];
+
+    foreach ($dataProductosSalida as $producto) {
+      // Verificar datos de productos en almacen antes de restar sera true = valor positivo o false = valor negativo o 0
       $stockAlmacen = self::ctrStockAlmacen($producto["codProdIng"]);
-
-      // Preparar datos para ingresar o actualizar en el almacén
-      $dataIngAlamacen = array(
-        "idProd" => $producto["codProdIng"],
-        "codigoProdAlma" => $producto["codigoProdIng"],
-        "nombreProdAlma" => $producto["nombreProdIng"],
-        "unidadProdAlma" => $producto["unidadProdIng"],
-        "cantidadProdAlma" => $producto["cantidadProdIng"],
-        "precioProdAlma" => $producto["precioProdIng"],
-        "DateCreate" => date("Y-m-d\TH:i:sP"),
-      );
-
       if ($stockAlmacen === false) {
-        // El producto no existe, se crea con los datos ya preparados en el array de dataIngAlamacen con los del array decodificado
-        $response = salidaProdModel::mdlIngresarProductosAlmacenProd($table, $dataIngAlamacen);
+        //Si no se encuentra el producto, se restaurara los productos que ya se restaron
+        foreach ($operacionesExitosas as $operacion) {
+          salidaProdModel::mdlRestaurarProductosAlmacenProd($table, $operacion);
+        }
+        return false; // Devuelve falso inmediatamente si es negativo o 0 = falso
       } else {
-        // El producto ya existe, se actualiza la cantidad
-        $dataSumarProdAlamacen = array(
+        // Si el producto es postivo, se resta la cantidad
+        $dataRestarProdAlamacen = array(
           "idProd" => $producto["codProdIng"],
-          "cantidadProdAlma" => $stockAlmacen["cantidadProdAlma"] + $producto["cantidadProdIng"], // Sumar la cantidad actual con la nueva cantidad
-          "codigoProdAlma" => $producto["codigoProdIng"],
-          "nombreProdAlma" => $producto["nombreProdIng"],
-          "unidadProdAlma" => $producto["unidadProdIng"],
+          "cantidadProdAlma" => $stockAlmacen["cantidadProdAlma"] - $producto["cantidadProdIng"],
           "DateUpdate" => date("Y-m-d\TH:i:sP"),
         );
-        $response = salidaProdModel::mdlSumarProductoAlmacenProd($table, $dataSumarProdAlamacen);
-      }
-
-      if (!$response) {
-        return $response;
+        $response = salidaProdModel::mdlRestarProductoAlmacenProd($table, $dataRestarProdAlamacen);
+        if (!$response) {
+          // Si falla la resta, se restaura los productos que ya se restaron
+          foreach ($operacionesExitosas as $operacion) {
+            salidaProdModel::mdlRestaurarProductosAlmacenProd($table, $operacion);
+          }
+          return false; // Devuelve falso si falla la actualización
+        } else {
+          // Si la operación es exitosa, se agrega a la lista de operaciones exitosas
+          $operacionesExitosas[] = [
+            "idProd" => $producto["codProdIng"],
+            "cantidadProdAlma" => $stockAlmacen["cantidadProdAlma"], // Guardamos el stock original
+            "DateUpdate" => date("Y-m-d\TH:i:sP"),
+          ];
+        }
       }
     }
-    return $response;
+    return true; // Si todas las operaciones son exitosas, devuelve verdadero
   }
   //verificar datos de productos en almacen
   public static function ctrStockAlmacen($codProd)
@@ -113,31 +114,41 @@ class salidaProdController
     return $response;
   }
 
-  //crear el registro de ingreso de productos
-  public static function ctrRegistroIngresoProductos($IngresoProdData, $jsonProductosCotizacion)
+  //crear el registro de salida de productos
+  public static function ctrRegistroSalidaProductos($salidaProdData, $jsonProductosSalidaProd)
   {
-    $table = "ingreso_prod";
+    $table = "salida_prod";
     $dataCreate = array(
-      "nombreIngProd" => $IngresoProdData["tituloIngProdAdd"],
-      "fechaIngProd" => $IngresoProdData["fechaIngProdAdd"],
-      "igvIngProd" => $IngresoProdData["igvIngProdAdd"],
-      "subTotalIngProd" => $IngresoProdData["subTotalIngProdAdd"],
-      "totalIngProd" => $IngresoProdData["totalIngProdAdd"],
-      "ingJsonProd" => $jsonProductosCotizacion,
+      "nombreSalProd" => $salidaProdData["tituloSalProdAdd"],
+      "idPedido" => $salidaProdData["pedidoSalProdAdd"],
+      "fechaSalProd" => $salidaProdData["fechaSalProdAdd"],
+      "igvSalProd" => $salidaProdData["igvIngProdAdd"],
+      "subTotalSalProd" => $salidaProdData["subTotalIngProdAdd"],
+      "totalSalProd" => $salidaProdData["totalIngProdAdd"],
+      "salJsonProd" => $jsonProductosSalidaProd,
       "DateCreate" => date("Y-m-d\TH:i:sP"),
     );
-    $response = salidaProdModel::mdlCrearIngresoProd($table, $dataCreate);
-
+    $response = salidaProdModel::mdlCrearSalidaProd($table, $dataCreate);
     return $response;
   }
-  //fin crear ingreso productos a almacen de  productos***
+  //fin crear salida productos a almacen de  productos***
 
-  //visualizar datos para editar ingreso productos
-  public static function ctrVerDataIngProductos($codIngProd)
+  //***funciones de edit */
+  //visualizar datos para editar salida productos
+  public static function ctrVerDataIngProductos($codSalProd)
+  {
+    $codIdSalProd = $codSalProd;
+    $table = "salida_prod";
+    $response = salidaProdModel::mdlVerDataSalidaRegistro($table, $codIdSalProd);
+    return $response;
+  }
+  
+  //obtener stock de almacen para visualizar datos para editar salidas productos
+  public static function ctrStockAlmacenEdit($codIngProd)
   {
     $codIdIngProd = $codIngProd;
-    $table = "ingreso_prod";
-    $response = salidaProdModel::mdlVerDataFichaTrabajo($table, $codIdIngProd);
+    $table = "almacen_prod";
+    $response = salidaProdModel::mdlStockAlmacenEdit($table, $codIdIngProd);
     return $response;
   }
 
@@ -150,7 +161,7 @@ class salidaProdController
       $codIngProd = $editarIngProd["codIngProd"];
       $table = "ingreso_prod";
       //eliminar datos innecesarios
-      $editProdData = self::ctrBorrarDatosInecesariosIngProd($editarIngProd);
+      $editProdData = self::ctrBorrarDatosInecesariosSalidaProd($editarIngProd);
       // Eliminar el array $editarIngProd para no duplicar datos
       unset($editarIngProd);
       //registro de productos ingresados a editar / anterior
@@ -331,49 +342,51 @@ class salidaProdController
 
     return $response;
   }
-  //fin editar ingreso productos
+  //fin editar salida productos***
 
-  //borrar ingreso productos
-  public static function ctrBorrarIngProductos($borrarIngProductos)
+  //**** borar salida productos
+  //borrar salida productos
+  public static function ctrBorrarSalProductos($borrarSalProductos)
   {
     //verificar si el usuario es administrador
     if ($_SESSION["idTipoUsu"] == 1) {
-      $codIngProd = $borrarIngProductos["codIngProd"];
-      $table = "ingreso_prod";
-      //obtener el registro de productos ingresados
-      $productosIngresados = self::ctrRecuperarProductosIngresados($codIngProd);
-      //borrar productos ingresados en almacen
-      $deleteProdIngAlmacen = self::ctrBorrarProductosIngresadosAlmacen($productosIngresados["ingJsonProd"]);
+      $codSalProd = $borrarSalProductos["codSalProd"];
+      $table = "salida_prod";
+      //obtener el registro de productos 
+      $productosRegistradosSalida = self::ctrRecuperarProductosRegSalida($codSalProd);
+      //devolver productos restados del alamcen por el registro de salida +++
+      $sumarProdAlmacen = self::ctrSumarProductosRestadosDelAlmacen($productosRegistradosSalida["salJsonProd"]);
       //eliminar registro de ingreso de productos
-      $response = salidaProdModel::mdlBorrarRegistroIngresProducto($table, $codIngProd);
+      $response = salidaProdModel::mdlBorrarRegistroIngresProducto($table, $codSalProd);
     } else {
       $response = "error";
     }
     return $response;
   }
 
-  //obtener el registro de productos ingresados
-  public static function ctrRecuperarProductosIngresados($codIngProd)
+  //obtener el registro de productos 
+  public static function ctrRecuperarProductosRegSalida($codSalProd)
   {
-    $table = "ingreso_prod";
-    $response = salidaProdModel::mdlRecuperarProductosIngresados($table, $codIngProd);
+    $table = "salida_prod";
+    //recuperar los productos registrados en la salida
+    $response = salidaProdModel::mdlRecuperarProductosRegSalida($table, $codSalProd);
     return $response;
   }
 
-  //editar / cantidades de productos ingresados al alamcen de productos al eliminar un registro de ingreso
-  public static function ctrBorrarProductosIngresadosAlmacen($productosIngresados)
+  //editar / cantidades de productos retirados por el registro de salida de productos al eliminar un registro de salida
+  public static function ctrSumarProductosRestadosDelAlmacen($productosRegistradosSalida)
   {
-    $dataProductosIng = json_decode($productosIngresados, true);
+    $dataProductosSal = json_decode($productosRegistradosSalida, true);
     $table = "almacen_prod";
 
-    foreach ($dataProductosIng as $producto) {
-      // Verificar datos de productos en almacen
-      $stockAlmacen = self::ctrStockAlmacen($producto["codProdIng"]);
+    foreach ($dataProductosSal as $producto) {
+      //Obtener el stock de productos en almacen
+      $stockAlmacen = self::ctrStockAlmacenSalida($producto["codProdIng"]);
       $stockActual = $stockAlmacen["cantidadProdAlma"];
       $ajusteStock = $producto["cantidadProdIng"];
 
       // Calcular nuevo stock
-      $nuevoStock = $stockActual - $ajusteStock;
+      $nuevoStock = $stockActual + $ajusteStock;
 
       // Preparar datos para actualizar
       $dataActualizarProdAlamacen = array(
@@ -388,7 +401,15 @@ class salidaProdController
 
     return $response;
   }
-  //fin borrar ingreso productos
+  //Obtener el stock de productos en almacen
+  public static function ctrStockAlmacenSalida($codProd)
+  {
+    $table = "almacen_prod";
+    $response = salidaProdModel::mdlStockAlmacenSalida($table, $codProd);
+    return $response;
+  }
+
+  //****fin borar salida productos
 
   //Agregar Producto de almacen ala salida
   public static function ctrAgregarSalProducto($codSalProducto)
