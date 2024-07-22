@@ -9,22 +9,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // variable global guardar los codigos de los productos agregados no tocar
     window.codigosProductosAgregados = new Set();
-
+    //console.log(window.codigosProductosAgregados); // Mostrar el estado actual
     // Variable global acumulativa para almacenar datos del formulario, idProd y cantidad para validar cantidad maxima en almacen no tocar
     window.datosFormularios = [];
-    //console.log(datosFormularios);
+    //onsole.log(datosFormularios);
 
     $(".dataTableProductosSalidaAlmacen").on(
       "click",
       ".btnAddProdModalSal",
       function () {
         var codAddSalProdModal = $(this).attr("codAddSalProdModal");
-
+        // Primero, verificar si el string es vacío antes de cualquier conversión
+        if (codAddSalProdModal.trim() === "") {
+          return; // No proceder con el resto de la función si el string es vacío
+        }
         // Convertir el código a entero antes de verificar y agregar
-        var codAddSalProdModalInt = parseInt(codAddSalProdModal, 10);
+        var codAddSalProdModal = parseInt(codAddSalProdModal, 10);
+
+        // Validar que el código no sea NaN, cero, o el string no sea vacío
+        if (
+          isNaN(codAddSalProdModal) ||
+          codAddSalProdModal === 0 
+          //codAddSalProdModal.trim() === ""
+        ) {
+          return; // No proceder con el resto de la función
+        }
 
         // Verificar si el código ya ha sido agregado
-        if (window.codigosProductosAgregados.has(codAddSalProdModalInt)) {
+        if (window.codigosProductosAgregados.has(codAddSalProdModal)) {
           // Cerrar el modal antes de mostrar el mensaje de SweetAlert
           $("#modalAddProdSali").modal("hide");
           Swal.fire({
@@ -41,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         // Agregar el código al conjunto de productos agregados como entero
-        window.codigosProductosAgregados.add(codAddSalProdModalInt);
+        window.codigosProductosAgregados.add(codAddSalProdModal);
         //console.log(window.codigosProductosAgregados); // Mostrar el estado actual
 
         var datos = new FormData();
@@ -125,65 +137,12 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     );
 
-    // Actualizar el precio cuando cambia la cantidad y valida y muestra la cantidad maxiama en el alamcen
-    $(document).on("input", ".cantidadProdIng", function () {
-      var count = $(this).val();
-      var idProd = $(this).data("original-idprod");
-      var precioPerUnit = $(this)
-        .closest(".productoRow")
-        .find(".precioProdIng")
-        .data("original-precio");
-
-      // Lógica para calcular el precio final
-      if (count === "" || parseInt(count) === 0) {
-        var precioFinal = "0";
-      } else {
-        var precioFinal = (count * precioPerUnit).toFixed(2);
-      }
-
-      // Actualizar el valor interno y el atributo 'value' en el HTML
-      $(this).val(count).attr("value", count);
-      $(this)
-        .closest(".productoRow")
-        .find(".precioProdIng")
-        .val(precioFinal)
-        .attr("value", precioFinal);
-
-      // Lógica para mostrar el mensaje basado en la cantidad
-      //window.datosFormularios es el array global acumulativo
-      var formularioID = "";
-      var cantidadInicial = 0;
-      window.datosFormularios.forEach(function (item) {
-        if (item[1] === idProd) {
-          formularioID = item[0];
-          cantidadInicial = item[2];
-        }
-      });
-      // Si se encuentra el formulario y la cantidad actual supera la inicial
-      if (formularioID && parseInt(count) > cantidadInicial) {
-        // Mostrar mensaje con SweetAlert
-        Swal.fire({
-          icon: "info",
-          title: "Cantidad Excedente",
-          html:
-            "La cantidad máxima en el almacén es <b>" +
-            cantidadInicial +
-            "</b>.",
-        }).then((result) => {
-          if (result.value) {
-            // Después de darle OK, actualizar el campo con la cantidad máxima
-            $(this).val(cantidadInicial).attr("value", cantidadInicial);
-            // También actualizar el precio final basado en la cantidad máxima
-            var precioFinalMax = (cantidadInicial * precioPerUnit).toFixed(2);
-            $(this)
-              .closest(".productoRow")
-              .find(".precioProdIng")
-              .val(precioFinalMax)
-              .attr("value", precioFinalMax);
-          }
-        });
-      }
-    });
+    // funcion para actualizar el precio y validar la cantidad y mostrar la cantidad maxima en almacen
+    $(document).on(
+      "input",
+      ".cantidadProdIng",
+      actualizarPrecioYValidarCantidad
+    );
 
     // Eliminar el producto
     $(document).on("click", ".deleteNuevoIngresoProd", function (e) {
@@ -448,138 +407,154 @@ document.addEventListener("DOMContentLoaded", function () {
 //fin agregar y crear Salida****
 
 //****funciones para editar producto ////
-// Definir un contador global para los IDs de formulario no taocar
-var formularioIngProdCounter = 1;
-
-// guardar los codigos de los productos agregados
-window.codigosProductosAgregados = new Set();
-
-// Variable global acumulativa para almacenar datos del formulario, idProd y cantidad para validar cantidad maxima en almacen no tocar
-window.datosFormularios = [];
-console.log(datosFormularios);
-
-//agrergar productos a ingreso productos
+//agrergar productos
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/salidaProdEdit";
   if (currentPath == appPath) {
-    //funcion para agregar productos a la cotizacion
-    // Definir un contador global para los IDs de formulario
-    //var formularioIngProdCounter = 1;
+    // Definir un contador global para los IDs de formulario no tocar
+    var formularioIngProdCounter = 1;
 
-    $(".dataTableSalidasProd").on("click", ".btnEditarSalProd", function () {
-      var codAddIngProdModal = $(this).attr("codAddIngProdModal");
+    // guardar los codigos de los productos agregados no tocar
+    window.codigosProductosAgregados = new Set();
+    console.log(window.codigosProductosAgregados);
+    // Variable global acumulativa para almacenar datos del formulario, idProd y cantidad para validar cantidad maxima en almacen no tocar
+    window.datosFormularios = [];
+    //console.log(datosFormularios);
 
-      // Convertir el código a entero antes de verificar y agregar
-      var codAddIngProdModalInt = parseInt(codAddIngProdModal, 10);
+    //agregar producto de modal a formulario
+    $(".dataTableProductosSalidaAlmacen").on(
+      "click",
+      ".btnAddProdModalSal",
+      function () {
+        var codAddSalProdModal = $(this).attr("codAddSalProdModal");
 
-      // Verificar si el código ya ha sido agregado
-      if (window.codigosProductosAgregados.has(codAddIngProdModalInt)) {
-        // Cerrar el modal antes de mostrar el mensaje de SweetAlert
-        $("#modalAddProdCoti").modal("hide");
-        Swal.fire({
-          icon: "warning",
-          title: "Producto duplicado",
-          text: "El producto ya está en la lista.",
-        }).then((result) => {
-          if (result.value) {
-            // Mostrar el modal de nuevo
-            $("#modalAddProdCoti").modal("show");
-          }
+        // Primero, verificar si el string es vacío antes de cualquier conversión
+        if (codAddSalProdModal.trim() === "") {
+          return; // No proceder con el resto de la función si el string es vacío
+        }
+        // Convertir el código a entero antes de verificar y agregar
+        var codAddSalProdModal = parseInt(codAddSalProdModal, 10);
+        // Validar que el código no sea NaN, cero, o el string no sea vacío
+        if (
+          isNaN(codAddSalProdModal) ||
+          codAddSalProdModal === 0
+          //codAddSalProdModal.trim() === ""
+        ) {
+          return; // No proceder con el resto de la función
+        }
+        //console.log(window.codigosProductosAgregados); // Mostrar el estado actual
+        // Verificar si el código ya ha sido agregado
+        if (window.codigosProductosAgregados.has(codAddSalProdModal)) {
+          // Cerrar el modal antes de mostrar el mensaje de SweetAlert
+          $("#modalAddProdSali").modal("hide");
+          Swal.fire({
+            icon: "warning",
+            title: "Producto duplicado",
+            text: "El producto ya está en la lista.",
+          }).then((result) => {
+            if (result.value) {
+              // Mostrar el modal de nuevo
+              $("#modalAddProdSali").modal("show");
+            }
+          });
+          return; // No proceder con el AJAX
+        }
+
+        // Agregar el código al conjunto de productos agregados como entero
+        window.codigosProductosAgregados.add(codAddSalProdModal);
+        // console.log(window.codigosProductosAgregados); // Mostrar el estado actual
+
+        var datos = new FormData();
+        datos.append("codAddSalProdModal", codAddSalProdModal);
+        $.ajax({
+          url: "ajax/salidaProd.ajax.php",
+          method: "POST",
+          data: datos,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (respuesta) {
+            var idProd = respuesta["idProd"];
+            var nombreProd = respuesta["nombreProdAlma"];
+            var codigoProd = respuesta["codigoProdAlma"];
+            var unidadProd = respuesta["unidadProdAlma"];
+            var precioProd = respuesta["precioProdAlma"];
+            //cantidad
+            var cantidadProd = respuesta["cantidadProdAlma"];
+
+            // Crear un nuevo formulario para el producto con un ID único que incrementa en 1 cada vez que se agrega un producto
+            var formularioID = "formularioIngProd" + formularioIngProdCounter++;
+            var nuevoProductoHTML =
+              '<form id="' +
+              formularioID +
+              '" class="row productoRow" style="padding:5px 15px">' +
+              '<div class="col-lg-2">' +
+              /* id del prodcuto */
+              '<input type="hidden" class="form-control" id="codProdIng" value="' +
+              idProd +
+              '">' +
+              /* nombre del producto */
+              '<input type="text" class="form-control" id="nombreProdIng" value="' +
+              nombreProd +
+              '" readonly>' +
+              "</div>" +
+              /* codigo del producto */
+              '<div class="col-lg-2">' +
+              '<input type="text" class="form-control" id="codigoProdIng" value="' +
+              codigoProd +
+              '" readonly>' +
+              "</div>" +
+              /* unidad del tipo de producto */
+              '<div class="col-lg-2">' +
+              '<input type="text" class="form-control" id="unidadProdIng"value="' +
+              unidadProd +
+              '" readonly>' +
+              "</div>" +
+              /* cantidad editable inicia en 1 */
+              '<div class="col-lg-2">' +
+              '<input type="number" class="form-control cantidadProdIng" id="cantidadProdIng" value="1" min="1" step="1" data-original-idProd="' +
+              idProd +
+              '">' +
+              "</div>" +
+              /* precio */
+              '<div class="col-lg-2">' +
+              '<input type="text" class="form-control precioProdIng" id="precioProdIng" value="' +
+              precioProd +
+              '" data-original-precio="' +
+              precioProd +
+              '" readonly>' +
+              "</div>" +
+              /* boton de eliminar */
+              '<div class="col-lg-1">' +
+              '<button type="button" class="btn btn-danger btn-xs deleteNuevoIngresoProd" id="deleteNuevoIngresoProd" value="' +
+              idProd +
+              '"><i class="fa fa-times"></i></button>' +
+              "</div>" +
+              "</form>";
+
+            // Agregar el nuevo formulario al contenedor
+            $(".AddProductoSalida").append(nuevoProductoHTML);
+
+            //agregar la cantidad a la variable gloval contadora
+            var nuevoDatoFormulario = [formularioID, idProd, cantidadProd];
+            window.datosFormularios.push(nuevoDatoFormulario);
+            //console.log(datosFormularios);
+          },
         });
-        return; // No proceder con el AJAX
       }
+    );
 
-      // Agregar el código al conjunto de productos agregados como entero
-      window.codigosProductosAgregados.add(codAddIngProdModalInt);
-      //console.log(window.codigosProductosAgregados); // Mostrar el estado actual
-
-      var datos = new FormData();
-      datos.append("codAddIngProdModal", codAddIngProdModal);
-      $.ajax({
-        url: "ajax/ingresoProd.ajax.php",
-        method: "POST",
-        data: datos,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-        success: function (respuesta) {
-          var idProd = respuesta["idProd"];
-          var nombreProd = respuesta["nombreProd"];
-          var codigoProd = respuesta["codigoProd"];
-          var unidadProd = respuesta["unidadProd"];
-          var precioProd = respuesta["precioProd"];
-          //cantidad
-          var cantidadProd = respuesta["cantidadProdAlma"];
-          // Crear un nuevo formulario para el producto con un ID único que incrementa en 1 cada vez que se agrega un producto
-          var formularioID = "formularioIngProd" + formularioIngProdCounter++;
-          var nuevoProductoHTML =
-            '<form id="' +
-            formularioID +
-            '" class="row productoRow" style="padding:5px 15px">' +
-            '<div class="col-lg-2">' +
-            /* id del prodcuto */
-            '<input type="hidden" class="form-control" id="codProdIng" value="' +
-            idProd +
-            '">' +
-            /* nombre del producto */
-            '<input type="text" class="form-control" id="nombreProdIng" value="' +
-            nombreProd +
-            '" readonly>' +
-            "</div>" +
-            /* codigo del producto */
-            '<div class="col-lg-2">' +
-            '<input type="text" class="form-control" id="codigoProdIng" value="' +
-            codigoProd +
-            '" readonly>' +
-            "</div>" +
-            /* unidad del tipo de producto */
-            '<div class="col-lg-2">' +
-            '<input type="text" class="form-control" id="unidadProdIng"value="' +
-            unidadProd +
-            '" readonly>' +
-            "</div>" +
-            /* cantidad editable inicia en 1 */
-            '<div class="col-lg-2">' +
-            '<input type="number" class="form-control cantidadProdIng" id="cantidadProdIng" value="1" min="1" step="1">' +
-            "</div>" +
-            /* precio */
-            '<div class="col-lg-2">' +
-            '<input type="text" class="form-control precioProdIng" id="precioProdIng" value="' +
-            precioProd +
-            '" data-original-precio="' +
-            precioProd +
-            '" readonly>' +
-            "</div>" +
-            /* boton de eliminar */
-            '<div class="col-lg-1">' +
-            '<button type="button" class="btn btn-danger btn-xs deleteNuevoIngresoProd" value="' +
-            idProd +
-            '" ><i class="fa fa-times"></i></button>' +
-            "</div>" +
-            "</form>";
-
-          // Agregar el nuevo formulario al contenedor
-          $(".AddIngProductoEdit").append(nuevoProductoHTML);
-
-          //agregar la cantidad a la variable gloval contadora
-          var nuevoDatoFormulario = [formularioID, idProd, cantidadProd];
-          window.datosFormularios.push(nuevoDatoFormulario);
-          //console.log(datosFormularios);
-        },
-      });
-    });
-
-    // Mantener la delegación de eventos para activar la función
+    // verificar la cantidad de productos en almacen y actualizar el precio al maximo de almacen
     $(document).on(
       "input",
       ".cantidadProdIng",
       actualizarPrecioYValidarCantidad
     );
 
-    // Eliminar el producto
+    // Eliminar el producto y eliminarlo de la variable global para volver a ingresarlo
     $(document).on("click", ".deleteNuevoIngresoProd", function (e) {
       // Paso 1: Capturar el valor del botón presionado y convertirlo a número entero
       var valorBoton = parseInt($(this).val(), 10);
@@ -599,7 +574,7 @@ document.addEventListener("DOMContentLoaded", function () {
       datosTemporales.forEach((valor) => {
         codigosProductosAgregados.add(valor);
       });
-      // Eliminar el formulario del producto del DOM
+      // Eliminar el formulario del producto del DOM que asu ves el array contenedor del id del producto recojido del btoon
       $(this).closest(".productoRow").remove();
     });
     //fin agregar productos
@@ -608,6 +583,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //fin agreagr productos
 
+//*****funcion para validad cantidades de alamacen y actualizar precio y mostrar mensaje de cantidad maxima
 // Actualizar el precio cuando cambia la cantidad y valida y muestra la cantidad maxiama en // Definir la función globalmente
 function actualizarPrecioYValidarCantidad(event) {
   var input = $(event.target);
@@ -636,6 +612,7 @@ function actualizarPrecioYValidarCantidad(event) {
   var formularioID = "";
   var cantidadInicial = 0;
   window.datosFormularios.forEach(function (item) {
+    console.log(item);
     if (item[1] === idProd) {
       formularioID = item[0];
       cantidadInicial = item[2];
@@ -646,8 +623,7 @@ function actualizarPrecioYValidarCantidad(event) {
     Swal.fire({
       icon: "info",
       title: "Cantidad Excedente",
-      html:
-        "La cantidad máxima en el almacén es <b>" + cantidadInicial + "</b>.",
+      html: "La cantidad máxima en almacén es <b>" + cantidadInicial + "</b>.",
     }).then((result) => {
       if (result.value) {
         input.val(cantidadInicial).attr("value", cantidadInicial);
@@ -661,6 +637,7 @@ function actualizarPrecioYValidarCantidad(event) {
     });
   }
 }
+//***fin validar cantidad y actualizar precio */
 
 // TOTALES
 document.addEventListener("DOMContentLoaded", function () {
@@ -724,7 +701,7 @@ document.addEventListener("DOMContentLoaded", function () {
 ////
 
 //editar ingreso productos
-// Enviar código a la vista de editar
+// Enviar código a la vista de editar tomadnodlo el valor del boton
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/salidaList";
@@ -763,8 +740,8 @@ function getQueryParam(name) {
   if (!results[2]) return "";
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-//variable gloval para contar los formularios  de edit a agregar los que llegan de respeusta y los nuevos que sea greagaran
-window.formularioIngProdCounter = 0;
+//variable gloval para contar los formularios  de edit a agregar los que llegan de respeusta ajax visualizar datos  y los nuevos que sea greagaran
+window.formularioIngProdCounter = 1;
 
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
@@ -798,15 +775,16 @@ document.addEventListener("DOMContentLoaded", function () {
       processData: false,
       dataType: "json",
       success: function (response) {
-        $("#codIngProd").val(response["idIngProd"]);
-        $("#tituloIngProdEdit").val(response["nombreSalProd"]);
-        $("#fechaIngProdEdit").val(response["fechaSalProd"]);
-        $("#igvIngProdAdd").val(response["igvIngProd"]);
-        $("#subTotalIngProdAdd").val(response["subTotalIngProd"]);
+        $("#codIngProd").val(response["idSalProd"]);
+        $("#tituloSalProdEdit").val(response["nombreSalProd"]);
+        $("#pedidoSalProdEdit").val(response["idPedido"]);
+        $("#fechaSalProdEdit").val(response["fechaSalProd"]);
+        $("#igvIngProdAdd").val(response["igvSalProd"]);
+        $("#subTotalIngProdAdd").val(response["subTotalSalProd"]);
         $("#totalIngProdAdd").val(response["totalSalProd"]);
         $("#totalIngProdAddList").val(response["totalSalProd"]);
         $("#salidaAnteriorJsonEdit").val(response["salJsonProd"]);
-        if (response.hasOwnProperty("salJsonProd", "almacen")) {
+        if (response.hasOwnProperty("salJsonProd")) {
           ingresoProductoEdit(response["salJsonProd"]);
         }
       },
@@ -815,7 +793,8 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     });
 
-    // Modificación de obtenerStock para que retorne una promesa
+    //promesa para obtener el stock de los productos de almacen y sumarlo ala cantidad de la salida para mostrar un maximo a editar
+    // Modificación de obtenerStock para que retorne una promesa la funcion retorana la cantidad ala funcion de *insertarFormulario*
     function obtenerStock(codProdIng) {
       return new Promise((resolve, reject) => {
         var data = new FormData();
@@ -841,10 +820,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Uso de async/await en ingresoProductoEdit para esperar la respuesta de obtenerStock
-    async function ingresoProductoEdit(salJsonProd, almacen) {
-      // Decodificar el JSON recibido
+    async function ingresoProductoEdit(salJsonProd) {
+      // Decodificar el JSON recibido de la respeusta de visualiar datos
       const procesos = JSON.parse(salJsonProd);
 
+      // Mostrar el modal de carga por que la promesa es asincrona y espera la respuesta para crear el formulario
+      //el usuario visualizara una demora en al carga de los datos
+      Swal.fire({
+        title: "Cargando...",
+        text: "Por favor, espere mientras se procesan los datos.",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+      //recorre todos los arrays decodificado del json para crear un formulario por cada producto resuelto
       for (const proceso of Object.values(procesos)) {
         const {
           codProdIng,
@@ -856,11 +846,16 @@ document.addEventListener("DOMContentLoaded", function () {
         } = proceso;
 
         // Convertir el código del producto a entero antes de agregarlo a la variable global
+        //que valida los productos agregados a la lista
         var codProdIngInt = parseInt(codProdIng, 10);
-        codigosProductosAgregados.add(codProdIngInt);
+        codAddSalProdModal = codProdIngInt;
+        // Agregar el código del producto a la variable global
+        codigosProductosAgregados.add(codAddSalProdModal);
+        //console.log(codigosProductosAgregados); // Mostrar el estado actual
 
         // Esperar la respuesta de obtenerStock
         try {
+          //enviar el id de producto ala funcion de obtener stock para traer el ston del almacen
           const cantidadProdStock = await obtenerStock(codProdIng);
           insertarFormulario(
             codProdIng,
@@ -875,6 +870,9 @@ document.addEventListener("DOMContentLoaded", function () {
           console.error(error); // Manejar el error si la promesa es rechazada
         }
       }
+
+      // Cerrar el modal de carga una vez que se haya completado el procesamiento
+      Swal.close();
     }
 
     function insertarFormulario(
@@ -885,7 +883,7 @@ document.addEventListener("DOMContentLoaded", function () {
       cantidadProdIng,
       precioProdIng,
       cantidadProdStock,
-      //valores para la varible global que espera estos datos apra inicar la fucniin de enditar
+      //valores para la varible global que espera estos datos para inicar la funcion de cantidades maximas editables
       cantidadProd = Number(cantidadProdStock) + Number(cantidadProdIng),
       idProd = codProdIng
     ) {
@@ -894,7 +892,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <form id="${formularioID}" class="row productoRow" style="padding:5px 15px">
           <div class="col-lg-2">
             <!-- id del producto -->
-            <input type="hidden" class="form-control" id="codProdIng" value="${codProdIng}">
+            <input type="hidden" class="form-control" id="codProdIng" value="${idProd}">
             <!-- nombre del producto -->
             <input type="text" class="form-control" id="nombreProdIng" value="${nombreProdIng}" readonly>
           </div>
@@ -908,7 +906,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
           <!-- cantidad editable inicia en 1 -->
           <div class="col-lg-2">
-            <input type="number" class="form-control cantidadProdIng" id="cantidadProdIng" value="${cantidadProdIng}" min="1" step="1" data-original-idProd="${cantidadProd}">
+            <input type="number" class="form-control cantidadProdIng" id="cantidadProdIng" value="${cantidadProdIng}" min="1" step="1" data-original-idProd="${idProd}">
           </div>
           <!-- precio -->
           <div class="col-lg-2">
@@ -921,7 +919,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </form>`;
 
       // Agregar el nuevo formulario al contenedor
-      $(".AddIngProductoEdit").append(nuevoProductoHTML);
+      $(".AddProductoSalida").append(nuevoProductoHTML);
 
       //agregar la cantidad a la variable gloval contadora
       var nuevoDatoFormulario = [
@@ -932,12 +930,14 @@ document.addEventListener("DOMContentLoaded", function () {
       window.datosFormularios.push(nuevoDatoFormulario);
       //console.log(datosFormularios);
 
+      //llama ala funcion de editar cantidad y precio para que valide la cantidad maxima
       $(document).on(
         "input",
         ".cantidadProdIng",
         actualizarPrecioYValidarCantidad
       );
-      // Eliminar el producto
+
+      /*  // Eliminar el producto
       $(document).on("click", ".deleteNuevoIngresoProd", function (e) {
         // Paso 1: Capturar el valor del botón presionado y convertirlo a número entero
         var valorBoton = parseInt($(this).val(), 10);
@@ -960,7 +960,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Eliminar el formulario del producto del DOM
         $(this).closest(".productoRow").remove();
       });
-      //fin agregar productos
+      //fin agregar productos */
     }
     //enviar formulario al servidor para editar
     $("#btnEditarSalidaProd").on("click", function () {

@@ -48,12 +48,12 @@ if (isset($_POST["codProdIng"])) {
   $viewData->ajaxStockAlmacenEdit($_POST["codProdIng"]);
 }
 
-//editar ingreso productos
-if (isset($_POST["jsonEditarIngProd"], $_POST["jsonEditarIngProductosForms"])) {
+//editar salida productos
+if (isset($_POST["jsonEditarSalProd"], $_POST["jsonEditarSalProductosForms"])) {
   $edit = new salidaProdAjax();
-  $edit->jsonEditarIngProd = $_POST["jsonEditarIngProd"];
-  $edit->jsonEditarIngProductosForms = $_POST["jsonEditarIngProductosForms"];
-  $edit->ajaxEditarIngresoProd($_POST["jsonEditarIngProd"], $_POST["jsonEditarIngProductosForms"]);
+  $edit->jsonEditarSalProd = $_POST["jsonEditarSalProd"];
+  $edit->jsonEditarSalProductosForms = $_POST["jsonEditarSalProductosForms"];
+  $edit->ajaxEditarSalidaProd($_POST["jsonEditarSalProd"], $_POST["jsonEditarSalProductosForms"]);
 }
 
 //borrar salida productos
@@ -129,11 +129,11 @@ class salidaProdAjax
     echo json_encode($response);
   }
 
-  //editar ingreso productos
-  public function ajaxEditarIngresoProd($jsonEditarIngProd, $jsonEditarIngProductosForms)
+  //editar salida productos
+  public function ajaxEditarSalidaProd($jsonEditarSalProd, $jsonEditarSalProductosForms)
   {
-    $editarIngProd = json_decode($jsonEditarIngProd, true); // Decodificar la cadena de texto JSON en un array asociativo
-    $response = salidaProdController::ctrEditarIngresoProd($editarIngProd, $jsonEditarIngProductosForms);
+    $editarSalProd = json_decode($jsonEditarSalProd, true); // Decodificar la cadena de texto JSON en un array asociativo
+    $response = salidaProdController::ctrEditarSalidaProd($editarSalProd, $jsonEditarSalProductosForms);
     echo json_encode($response);
   }
 

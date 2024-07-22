@@ -115,18 +115,19 @@ class salidaProdModel
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
-  //editar registro ingreso de productos
-  public static function mdlEditarIngresoProd($table, $dataEdit)
+  //editar registro salida de productos
+  public static function mdlEditarSalidaProd($table, $dataUpdate)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET nombreIngProd = :nombreIngProd, fechaIngProd = :fechaIngProd, igvIngProd = :igvIngProd, subTotalIngProd = :subTotalIngProd, totalIngProd = :totalIngProd, ingJsonProd = :ingJsonProd, DateUpdate = :DateUpdate WHERE idIngProd = :idIngProd");
-    $statement->bindParam(":nombreIngProd", $dataEdit["nombreIngProd"], PDO::PARAM_STR);
-    $statement->bindParam(":fechaIngProd", $dataEdit["fechaIngProd"], PDO::PARAM_STR);
-    $statement->bindParam(":igvIngProd", $dataEdit["igvIngProd"], PDO::PARAM_STR);
-    $statement->bindParam(":subTotalIngProd", $dataEdit["subTotalIngProd"], PDO::PARAM_STR);
-    $statement->bindParam(":totalIngProd", $dataEdit["totalIngProd"], PDO::PARAM_STR);
-    $statement->bindParam(":ingJsonProd", $dataEdit["ingJsonProd"], PDO::PARAM_STR);
-    $statement->bindParam(":DateUpdate", $dataEdit["DateUpdate"], PDO::PARAM_STR);
-    $statement->bindParam(":idIngProd", $dataEdit["idIngProd"], PDO::PARAM_INT);
+    $statement = Conexion::conn()->prepare("UPDATE $table SET nombreSalProd = :nombreSalProd, idPedido = :idPedido, fechaSalProd = :fechaSalProd, igvSalProd = :igvSalProd, subTotalSalProd = :subTotalSalProd, totalSalProd = :totalSalProd, salJsonProd = :salJsonProd, DateUpdate = :DateUpdate WHERE idSalProd = :idSalProd");
+    $statement->bindParam(":nombreSalProd", $dataUpdate["nombreSalProd"], PDO::PARAM_STR);
+    $statement->bindParam(":idPedido", $dataUpdate["idPedido"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaSalProd", $dataUpdate["fechaSalProd"], PDO::PARAM_STR);
+    $statement->bindParam(":igvSalProd", $dataUpdate["igvSalProd"], PDO::PARAM_STR);
+    $statement->bindParam(":subTotalSalProd", $dataUpdate["subTotalSalProd"], PDO::PARAM_STR);
+    $statement->bindParam(":totalSalProd", $dataUpdate["totalSalProd"], PDO::PARAM_STR);
+    $statement->bindParam(":salJsonProd", $dataUpdate["salJsonProd"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":idSalProd", $dataUpdate["idSalProd"], PDO::PARAM_INT);
     if ($statement->execute()) {
       return "ok";
     } else {

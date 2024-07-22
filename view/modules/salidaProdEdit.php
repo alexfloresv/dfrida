@@ -12,7 +12,7 @@
   <main class="bg">
     <div class="container-fluid px-4">
       <h1 class="mt-4">
-        Editar Ingreso Productos D'Frida
+        Editar Salida Productos D'Frida
       </h1>
     </div>
 
@@ -20,17 +20,24 @@
 
       <div class="container row g-8" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
 
-        <h3>Datos para del Ingreso</h3>
+        <h3>Datos de la salida </h3>
 
 
-        <div class="form-group col-md-10">
-          <label for="tituloIngProdEdit" class="form-label" style="font-weight: bold">Descripcion Ingreso:</label>
-          <input type="text" class="form-control" id="tituloIngProdEdit" name="tituloIngProdEdit"
+        <div class="form-group col-md-6">
+          <label for="tituloSalProdEdit" class="form-label" style="font-weight: bold">Descripcion Ingreso:</label>
+          <input type="text" class="form-control" id="tituloSalProdEdit" name="tituloSalProdEdit"
             placeholder="Ingrese una una descripcion para el ingreso ">
         </div>
+
+        <div class="col-md-4">
+          <label for="pedidoSalProdEdit" class="form-label" style="font-weight: bold">Pedido: </label>
+          <input type="number" class="form-control" id="pedidoSalProdEdit" name="pedidoSalProdEdit"
+            placeholder="Ingrese el pedido correspondiente">
+        </div>
+
         <div class="col-md-2">
-          <label for="fechaIngProdEdit" class="form-label" style="font-weight: bold">Fecha Ingreso: </label>
-          <input type="date" class="form-control" id="fechaIngProdEdit" name="fechaIngProdEdit">
+          <label for="fechaSalProdEdit" class="form-label" style="font-weight: bold">Fecha Ingreso: </label>
+          <input type="date" class="form-control" id="fechaSalProdEdit" name="fechaSalProdEdit">
         </div><br>
 
         <!-- fin -->
@@ -38,10 +45,10 @@
 
       <!-- Productos -->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
-        <h3>Productos a Almacen</h3>
+        <h3>Productos que salieron del Almacen</h3>
         <div class="d-inline-flex m-2">
           <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-            data-bs-target="#modalAddProdCoti">Agregar Productos</button>
+            data-bs-target="#modalAddProdSali">Agregar Productos</button>
         </div>
 
         <div class="row" style="font-weight: bold">
@@ -52,7 +59,7 @@
           <div class="col-lg-2">Precio Producto</div>
         </div>
         <!-- aqui se agregan los productos del modal de prodcutos  -->
-        <div class="form-group row AddIngProductoEdit">
+        <div class="form-group row AddProductoSalida">
           <!-- aqui se agregan los productos selecionado del modal de prodcutos  -->
         </div>
 
@@ -126,8 +133,8 @@
       <div class="container row g-3 p-3 ">
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
           id="btnCerrarEditIngresoProd">Cerrar</button>
-        <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success "
-          id="btnEditarSalidaProd">Editar Ingreso a Almacen </button>
+        <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success " id="btnEditarSalidaProd">Editar
+          Ingreso a Almacen </button>
       </div>
     </form>
   </main>
@@ -135,20 +142,20 @@
 </div>
 
 <!-- Modal produtos -->
-<div class="modal fade" id="modalAddProdCoti" tabindex="-1" aria-labelledby="modalAddProdCoti" aria-hidden="true">
+<div class="modal fade" id="modalAddProdSali" tabindex="-1" aria-labelledby="modalAddProdSali" aria-hidden="true">
   <div class="modal-dialog modal-lg"> <!-- Clase "modal-lg" agregada aquí -->
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalAddProdCoti">Lista Productos </h1>
+        <h1 class="modal-title fs-5" id="modalAddProdSali">Lista Productos de Almacen </h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <table id="dataTableProductos" class="display dataTableProductos">
+        <table id="dataTableProductosSalidaAlmacen" class="display dataTableProductosSalidaAlmacen">
           <thead>
-            <!-- dataTableProductos -->
+            <!-- dataTableProductosSalidaAlmacen -->
           </thead>
           <tbody>
-            <!--dataTableProductos-->
+            <!--dataTableProductosSalidaAlmacen-->
           </tbody>
         </table>
       </div>
