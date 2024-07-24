@@ -6,14 +6,14 @@ class salidaProdController
   //datatable de ingresos productos
   public static function ctrDTableSalProdcuctos()
   {
-    $table = "salida_Prod";
+    $table = "salida_prod";
     $response = salidaProdModel::mdlmdlDTableSalProdcuctos($table);
     return $response;
   }
   //datatable de salidas productos alamcen modal
   public static function ctrDTableSalProdcuctosAlmacen()
   {
-    $table = "almacen_Prod";
+    $table = "almacen_prod";
     $response = salidaProdModel::mdlDTableSalProdcuctosAlmacen($table);
     return $response;
   }
@@ -444,7 +444,7 @@ class salidaProdController
   //Agregar Producto de almacen ala salida
   public static function ctrAgregarSalProducto($codSalProducto)
   {
-    $table = 'almacen_Prod';
+    $table = 'almacen_prod';
     $response = salidaProdModel::mdlAgregarSalProducto($table, $codSalProducto);
     return $response;
   }

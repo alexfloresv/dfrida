@@ -70,8 +70,8 @@ document.addEventListener("DOMContentLoaded", function () {
         tableSalProductos.draw();
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        console.log(jqXHR.responseText); // Procedencia de error
-        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        console.error("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        console.error("Detalles del error: ", jqXHR.responseText);
       },
     });
   }
