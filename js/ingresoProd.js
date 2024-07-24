@@ -110,21 +110,45 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Actualizar el precio cuando cambia la cantidad
     $(document).on("input", ".cantidadProdIng", function () {
-      var count = $(this).val();
-      var precioPerUnit = $(this)
+      var input = $(this);
+      var count = input.val();
+      var precioPerUnit = input
         .closest(".productoRow")
         .find(".precioProdIng")
         .data("original-precio");
-      //si el valor del input es vacio o 0 el precio final es 0
+
+      // Verificar si el campo tiene exactamente 0 y mostrar alerta
+      if (count === "0") {
+        Swal.fire({
+          icon: "warning",
+          title: "Cantidad Inválida",
+          html: "La cantidad no puede ser 0.",
+        }).then((result) => {
+          if (result.value) {
+            count = 1;
+            var precioFinal = (count * precioPerUnit).toFixed(2);
+            input.val(count).attr("value", count);
+            input
+              .closest(".productoRow")
+              .find(".precioProdIng")
+              .val(precioFinal)
+              .attr("value", precioFinal);
+          }
+        });
+        return; // Salir de la función para evitar continuar con la lógica
+      }
+
+      // Si el valor del input es vacío o 0, el precio final es 0
       if (count === "" || parseInt(count) === 0) {
         var precioFinal = "0";
       } else {
         var precioFinal = (count * precioPerUnit).toFixed(2);
       }
+
       // Actualizar el valor interno y el atributo 'value' en el HTML
-      $(this).val(count);
-      $(this).attr("value", count); // Actualiza el atributo 'value' en el HTML para la cantidad
-      $(this)
+      input.val(count);
+      input.attr("value", count); // Actualiza el atributo 'value' en el HTML para la cantidad
+      input
         .closest(".productoRow")
         .find(".precioProdIng")
         .val(precioFinal) // Actualiza el valor interno para el precio
@@ -525,21 +549,45 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     // Actualizar el precio cuando cambia la cantidad
     $(document).on("input", ".cantidadProdIng", function () {
-      var count = $(this).val();
-      var precioPerUnit = $(this)
+      var input = $(this);
+      var count = input.val();
+      var precioPerUnit = input
         .closest(".productoRow")
         .find(".precioProdIng")
         .data("original-precio");
-      //si el valor del input es vacio o 0 el precio final es 0
+
+      // Verificar si el campo tiene exactamente 0 y mostrar alerta
+      if (count === "0") {
+        Swal.fire({
+          icon: "warning",
+          title: "Cantidad Inválida",
+          html: "La cantidad no puede ser 0.",
+        }).then((result) => {
+          if (result.value) {
+            count = 1;
+            var precioFinal = (count * precioPerUnit).toFixed(2);
+            input.val(count).attr("value", count);
+            input
+              .closest(".productoRow")
+              .find(".precioProdIng")
+              .val(precioFinal)
+              .attr("value", precioFinal);
+          }
+        });
+        return; // Salir de la función para evitar continuar con la lógica
+      }
+
+      // Si el valor del input es vacío o 0, el precio final es 0
       if (count === "" || parseInt(count) === 0) {
         var precioFinal = "0";
       } else {
         var precioFinal = (count * precioPerUnit).toFixed(2);
       }
+
       // Actualizar el valor interno y el atributo 'value' en el HTML
-      $(this).val(count);
-      $(this).attr("value", count); // Actualiza el atributo 'value' en el HTML para la cantidad
-      $(this)
+      input.val(count);
+      input.attr("value", count); // Actualiza el atributo 'value' en el HTML para la cantidad
+      input
         .closest(".productoRow")
         .find(".precioProdIng")
         .val(precioFinal) // Actualiza el valor interno para el precio
@@ -745,8 +793,85 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
       },
     });
+    function obtenerPrecioProdUni(codProdIng) {
+      return new Promise((resolve, reject) => {
+        var data = new FormData();
+        data.append("codProdIng", codProdIng);
+        $.ajax({
+          url: "ajax/ingresoProd.ajax.php",
+          method: "POST",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (response) {
+            resolve(response["precioProd"]); // Resuelve la promesa con un objeto que contiene ambos valores
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            reject(
+              "Error en la solicitud AJAX: " + textStatus + " " + errorThrown
+            ); // Rechaza la promesa si hay un error
+          },
+        });
+      });
+    }
 
-    function ingresoProductoEdit(ingJsonProd) {
+    // Uso de async/await en ingresoProductoEdit para esperar la respuesta de obtenerPrecioProdUni
+    async function ingresoProductoEdit(ingJsonProd) {
+      // Decodificar el JSON recibido de la respuesta de visualizar datos
+      const procesos = JSON.parse(ingJsonProd);
+
+      // Mostrar el modal de carga porque la promesa es asincrónica y espera la respuesta para crear el formulario
+      // el usuario visualizará una demora en la carga de los datos
+      Swal.fire({
+        title: "Cargando...",
+        text: "Por favor, espere mientras se procesan los datos.",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
+
+      // Recorre todos los arrays decodificados del JSON para crear un formulario por cada producto resuelto
+      for (const proceso of Object.values(procesos)) {
+        const {
+          codProdIng,
+          nombreProdIng,
+          codigoProdIng,
+          unidadProdIng,
+          cantidadProdIng,
+          precioProdIng,
+        } = proceso;
+
+        // Convertir el código del producto a entero antes de agregarlo a la variable global contadora de productos agreagados ala lista
+        var codProdIngInt = parseInt(codProdIng, 10);
+        codigosProductosAgregados.add(codProdIngInt);
+
+        // Esperar la respuesta de obtenerPrecioProdUni
+        try {
+          // Enviar el id de producto a la función de obtener stock para traer el stock del almacén
+          const precioProd = await obtenerPrecioProdUni(
+            codProdIng
+          );
+          insertarFormulario(
+            codProdIng,
+            nombreProdIng,
+            codigoProdIng,
+            unidadProdIng,
+            cantidadProdIng,
+            precioProdIng,
+            precioProd
+          );
+        } catch (error) {
+          console.error(error); // Manejar el error si la promesa es rechazada
+        }
+      }
+
+      // Cerrar el modal de carga una vez que se haya completado el procesamiento
+      Swal.close();
+    }
+    /*  function ingresoProductoEdit(ingJsonProd) {
       // Decodificar el JSON recibido
       const procesos = JSON.parse(ingJsonProd);
       //var formularioProcesoCounter = 0;
@@ -773,7 +898,7 @@ document.addEventListener("DOMContentLoaded", function () {
           precioProdIng
         );
       });
-    }
+    } */
 
     function insertarFormulario(
       codProdIng,
@@ -781,7 +906,8 @@ document.addEventListener("DOMContentLoaded", function () {
       codigoProdIng,
       unidadProdIng,
       cantidadProdIng,
-      precioProdIng
+      precioProdIng,
+      precioProd
     ) {
       var formularioID = "formularioIngProd" + formularioIngProdCounter++;
       var nuevoProductoHTML = `
@@ -806,7 +932,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
           <!-- precio -->
           <div class="col-lg-2">
-            <input type="text" class="form-control precioProdIng" id="precioProdIng" value="${precioProdIng}" data-original-precio="${precioProdIng}" readonly>
+            <input type="text" class="form-control precioProdIng" id="precioProdIng" value="${precioProdIng}" data-original-precio="${precioProd}" readonly>
           </div>
           <!-- boton de eliminar -->
           <div class="col-lg-1">

@@ -14,7 +14,23 @@ class salidaProdModel
   // //data table modal salidas almacen
   public static function mdlDTableSalProdcuctosAlmacen($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT idProd, nombreProdAlma, codigoProdAlma, precioProdAlma, cantidadProdAlma FROM $table WHERE cantidadProdAlma > 0 ORDER BY idAlmaProd DESC");
+    $statement = Conexion::conn()->prepare("
+          SELECT 
+              a.idProd, 
+              a.nombreProdAlma, 
+              a.codigoProdAlma, 
+              a.precioProdAlma, 
+              a.cantidadProdAlma, 
+              p.precioProd 
+          FROM 
+              $table a
+          INNER JOIN 
+              producto p ON a.idProd = p.idProd
+          WHERE 
+              a.cantidadProdAlma > 0 
+          ORDER BY 
+              a.idAlmaProd DESC
+      ");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -110,7 +126,17 @@ class salidaProdModel
   //obtener stock de almacen para visualizar datos para editar salidas productos
   public static function mdlStockAlmacenEdit($table, $codIngProd)
   {
-    $statement = Conexion::conn()->prepare("SELECT cantidadProdAlma FROM $table WHERE idProd = :idProd");
+    $statement = Conexion::conn()->prepare("
+          SELECT 
+              a.cantidadProdAlma, 
+              p.precioProd 
+          FROM 
+              $table a
+          INNER JOIN 
+              producto p ON a.idProd = p.idProd
+          WHERE 
+              a.idProd = :idProd
+      ");
     $statement->bindParam(":idProd", $codIngProd, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
@@ -186,7 +212,22 @@ class salidaProdModel
   //Agregar Producto de almacen ala salida
   public static function mdlAgregarSalProducto($table, $codSalProducto)
   {
-    $statement = Conexion::conn()->prepare("SELECT idProd, nombreProdAlma, codigoProdAlma, unidadProdAlma,precioProdAlma, cantidadProdAlma FROM $table WHERE idProd = :idProd");
+    $statement = Conexion::conn()->prepare("
+          SELECT 
+              a.idProd, 
+              a.nombreProdAlma, 
+              a.codigoProdAlma, 
+              a.unidadProdAlma, 
+              a.precioProdAlma, 
+              a.cantidadProdAlma, 
+              p.precioProd 
+          FROM 
+              $table a
+          INNER JOIN 
+              producto p ON a.idProd = p.idProd
+          WHERE 
+              a.idProd = :idProd
+      ");
     $statement->bindParam(":idProd", $codSalProducto, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);

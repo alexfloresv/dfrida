@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Validar que el código no sea NaN, cero, o el string no sea vacío
         if (
           isNaN(codAddSalProdModal) ||
-          codAddSalProdModal === 0 
+          codAddSalProdModal === 0
           //codAddSalProdModal.trim() === ""
         ) {
           return; // No proceder con el resto de la función
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var nombreProd = respuesta["nombreProdAlma"];
             var codigoProd = respuesta["codigoProdAlma"];
             var unidadProd = respuesta["unidadProdAlma"];
-            var precioProd = respuesta["precioProdAlma"];
+            var precioProd = respuesta["precioProd"];
             //cantidad
             var cantidadProd = respuesta["cantidadProdAlma"];
 
@@ -481,7 +481,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var nombreProd = respuesta["nombreProdAlma"];
             var codigoProd = respuesta["codigoProdAlma"];
             var unidadProd = respuesta["unidadProdAlma"];
-            var precioProd = respuesta["precioProdAlma"];
+            var precioProd = respuesta["precioProd"];
             //cantidad
             var cantidadProd = respuesta["cantidadProdAlma"];
 
@@ -586,7 +586,6 @@ document.addEventListener("DOMContentLoaded", function () {
 //*****funcion para validad cantidades de alamacen y actualizar precio y mostrar mensaje de cantidad maxima
 // Actualizar el precio cuando cambia la cantidad y valida y muestra la cantidad maxiama en // Definir la función globalmente
 function actualizarPrecioYValidarCantidad(event) {
-  
   var input = $(event.target);
   var count = input.val();
   var idProd = input.data("original-idprod");
@@ -815,7 +814,7 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     });
 
-    //promesa para obtener el stock de los productos de almacen y sumarlo ala cantidad de la salida para mostrar un maximo a editar
+    //promesa para obtener el stock de los productos de almacen y sumarlo ala cantidad de la salida para mostrar un maximo a editar y tambien el precio del porducto
     // Modificación de obtenerStock para que retorne una promesa la funcion retorana la cantidad ala funcion de *insertarFormulario*
     function obtenerStock(codProdIng) {
       return new Promise((resolve, reject) => {
@@ -830,7 +829,10 @@ document.addEventListener("DOMContentLoaded", function () {
           processData: false,
           dataType: "json",
           success: function (response) {
-            resolve(response["cantidadProdAlma"]); // Resuelve la promesa con el valor deseado
+            resolve({
+              cantidadProdAlma: response["cantidadProdAlma"],
+              precioProd: response["precioProd"],
+            }); // Resuelve la promesa con un objeto que contiene ambos valores
           },
           error: function (jqXHR, textStatus, errorThrown) {
             reject(
@@ -877,8 +879,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Esperar la respuesta de obtenerStock
         try {
-          //enviar el id de producto ala funcion de obtener stock para traer el ston del almacen
-          const cantidadProdStock = await obtenerStock(codProdIng);
+          // Enviar el id de producto a la función de obtener stock para traer el stock del almacén
+          const { cantidadProdAlma, precioProd } = await obtenerStock(
+            codProdIng
+          );
           insertarFormulario(
             codProdIng,
             nombreProdIng,
@@ -886,7 +890,8 @@ document.addEventListener("DOMContentLoaded", function () {
             unidadProdIng,
             cantidadProdIng,
             precioProdIng,
-            cantidadProdStock
+            cantidadProdAlma,
+            precioProd
           );
         } catch (error) {
           console.error(error); // Manejar el error si la promesa es rechazada
@@ -905,9 +910,11 @@ document.addEventListener("DOMContentLoaded", function () {
       cantidadProdIng,
       precioProdIng,
       cantidadProdStock,
+      precioProd,
       //valores para la varible global que espera estos datos para inicar la funcion de cantidades maximas editables
       cantidadProd = Number(cantidadProdStock) + Number(cantidadProdIng),
       idProd = codProdIng
+
     ) {
       var formularioID = "formularioIngProd" + formularioIngProdCounter++;
       var nuevoProductoHTML = `
@@ -932,7 +939,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
           <!-- precio -->
           <div class="col-lg-2">
-            <input type="text" class="form-control precioProdIng" id="precioProdIng" value="${precioProdIng}" data-original-precio="${precioProdIng}" readonly>
+            <input type="text" class="form-control precioProdIng" id="precioProdIng" value="${precioProdIng}" data-original-precio="${precioProd}" readonly>
           </div>
           <!-- boton de eliminar -->
           <div class="col-lg-1">
