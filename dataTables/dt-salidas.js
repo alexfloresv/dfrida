@@ -77,15 +77,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-//modal para ver productos ingresados
+//modal para ver productos de salida por el boton 
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoList";
+  var appPath = "/dfrida/salidaList";
   if (currentPath == appPath) {
-    $(".dataTableSalidasProd").on("click", ".btnVerIngProd", function () {
-      var codAllIngProd = $(this).attr("codAllIngProd");
+    $(".dataTableSalidasProd").on("click", ".btnVerSalProd", function () {
+      var codAllSalProd = $(this).attr("codAllSalProd");
 
-      $("#ModalDataTableProdIngresados thead").html(`
+      $("#modalDataTableProdSalida thead").html(`
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre Producto</th>
@@ -115,16 +115,16 @@ document.addEventListener("DOMContentLoaded", function () {
         },
       ];
 
-      var tableProdIngresados = $("#ModalDataTableProdIngresados").DataTable({
+      var tableProdIngresados = $("#modalDataTableProdSalida").DataTable({
         columns: columnDefsProdIngresados,
         destroy: true, // Asegúrate de destruir la instancia anterior para evitar problemas de inicialización
       });
 
       var data = new FormData();
-      data.append("codAllIngProd", codAllIngProd);
+      data.append("codAllSalProd", codAllSalProd);
 
       $.ajax({
-        url: "ajax/ingresoProd.ajax.php",
+        url: "ajax/salidaProd.ajax.php",
         method: "POST",
         data: data,
         cache: false,
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
         dataType: "json",
         success: function (response) {
           // Asumiendo que la respuesta incluye el JSON en un campo llamado ingJsonProd
-          var decodedJson = JSON.parse(response.ingJsonProd);
+          var decodedJson = JSON.parse(response.salJsonProd);
           var dataArray = [];
 
           // Transformar el objeto JSON en un array de objetos
@@ -251,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //fin
 
-// //data table modal editar ingresos
+// //data table modal editar salidas
 document.addEventListener("DOMContentLoaded", function () {
   $("#modalAddProdSali").on("shown.bs.modal", function () {
     // Verificar si la ruta es la correcta al mostrar el modal

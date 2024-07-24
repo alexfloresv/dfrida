@@ -586,6 +586,7 @@ document.addEventListener("DOMContentLoaded", function () {
 //*****funcion para validad cantidades de alamacen y actualizar precio y mostrar mensaje de cantidad maxima
 // Actualizar el precio cuando cambia la cantidad y valida y muestra la cantidad maxiama en // Definir la función globalmente
 function actualizarPrecioYValidarCantidad(event) {
+  
   var input = $(event.target);
   var count = input.val();
   var idProd = input.data("original-idprod");
@@ -598,6 +599,27 @@ function actualizarPrecioYValidarCantidad(event) {
   var precioFinal = "0";
   if (count !== "" && parseInt(count) !== 0) {
     precioFinal = (count * precioPerUnit).toFixed(2);
+  }
+
+  // Verificar si el campo tiene exactamente 0 y mostrar alerta
+  if (count === "0") {
+    Swal.fire({
+      icon: "warning",
+      title: "Cantidad Inválida",
+      html: "La cantidad no puede ser 0.",
+    }).then((result) => {
+      if (result.value) {
+        count = 1;
+        precioFinal = (count * precioPerUnit).toFixed(2);
+        input.val(count).attr("value", count);
+        input
+          .closest(".productoRow")
+          .find(".precioProdIng")
+          .val(precioFinal)
+          .attr("value", precioFinal);
+      }
+    });
+    return; // Salir de la función para evitar continuar con la lógica
   }
 
   // Actualizar el valor interno y el atributo 'value' en el HTML
@@ -675,11 +697,11 @@ document.addEventListener("DOMContentLoaded", function () {
         // Asignar un valor estático de 0 a igvIngProdAdd y actualizar el atributo 'value'
         $("#igvIngProdAdd").val(0).attr("value", 0);
         // Calcular el total como la suma de totalGeneral + igvIngProdAdd
-        const igvIngProdAdd = parseFloat($("#igvIngProdAdd").val()) || 0;
+        //const igvIngProdAdd = parseFloat($("#igvIngProdAdd").val()) || 0;
 
         // Calcular el 18% de totalGeneral para igvIngProdAdd y actualizar el atributo 'value'
-        //const igvIngProdAdd = totalGeneral * 0.18;
-        //$("#igvIngProdAdd").val(igvIngProdAdd).attr("value", igvIngProdAdd);
+        const igvIngProdAdd = totalGeneral * 0.18;
+        $("#igvIngProdAdd").val(igvIngProdAdd).attr("value", igvIngProdAdd);
 
         const totalIngProdAdd = totalGeneral + igvIngProdAdd;
 

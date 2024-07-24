@@ -24,7 +24,7 @@ class FunctionSalidaProd
   public static function getBtnVerSalProd($codAllSalProd)
   {
     $botones = '
-       <button class="btn btn-info btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalProdIngresados" codAllSalProd="' . $codAllSalProd . '"><i class="fa-solid fa-cubes-stacked"></i></button>
+       <button class="btn btn-info btnVerSalProd" data-bs-toggle="modal" data-bs-target="#modalProdSalidas" codAllSalProd="' . $codAllSalProd . '"><i class="fa-solid fa-arrow-up-right-from-square"></i></button>
       ';
     return $botones;
   }

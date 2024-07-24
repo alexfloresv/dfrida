@@ -18,10 +18,10 @@ class salidaProdController
     return $response;
   }
   //datatable  ingresos en el modal de ingresos productos
-  public static function ctrVerProductosIngresadosModal($codAllIngProd)
+  public static function ctrVerProductosSalidaModal($codAllSalProd)
   {
-    $table = "ingreso_prod";
-    $response = salidaProdModel::mdlVerProductosIngresadosModal($table, $codAllIngProd);
+    $table = "salida_prod";
+    $response = salidaProdModel::mdlVerProductosSalidaModal($table, $codAllSalProd);
     return $response;
   }
 
@@ -201,67 +201,80 @@ class salidaProdController
     $dataNuevoRestAlmacen = [];
     $dataDeleteSumAlmacen = [];
     $dataFiltroIgual = [];
-    $dataCeroAlmacen = []; // Nuevo array para productos con cantidad nueva en 0
-    
+    $dataCeroAlmacen = []; // Nuevo array para productos con cantidad nueva en 0 o ""
+
     // Convertir cantidades a números
     foreach ($dataProducSalAnterior as &$producto) {
-        $producto["cantidadProdIng"] = (int)$producto["cantidadProdIng"];
+      $producto["cantidadProdIng"] = (int) $producto["cantidadProdIng"];
     }
     unset($producto); // Romper la referencia
-    
+
     foreach ($dataProducSalNuevo as &$producto) {
-        $producto["cantidadProdIng"] = (int)$producto["cantidadProdIng"];
+      $producto["cantidadProdIng"] = (int) $producto["cantidadProdIng"];
     }
     unset($producto); // Romper la referencia
-    
+
     // Indexar productos antiguos y nuevos por su código
     $productosAntiguosIndexados = [];
     foreach ($dataProducSalAnterior as $productoAntiguo) {
-        $productosAntiguosIndexados[$productoAntiguo["codProdIng"]] = $productoAntiguo;
+      $productosAntiguosIndexados[$productoAntiguo["codProdIng"]] = $productoAntiguo;
     }
-    
+
     $productosNuevosIndexados = [];
     foreach ($dataProducSalNuevo as $productoNuevo) {
-        $productosNuevosIndexados[$productoNuevo["codProdIng"]] = $productoNuevo;
+      $productosNuevosIndexados[$productoNuevo["codProdIng"]] = $productoNuevo;
     }
-    
+
     // Comparar productos antiguos y nuevos
     foreach ($dataProducSalNuevo as $productoNuevo) {
-        $codProdIng = $productoNuevo["codProdIng"];
-        if (isset($productosAntiguosIndexados[$codProdIng])) {
-            $productoAntiguo = $productosAntiguosIndexados[$codProdIng];
-            if ($productoNuevo["cantidadProdIng"] == 0) {
-                $dataCeroAlmacen[] = $productoAntiguo; // Guardar el producto antiguo si la cantidad nueva es 0
-            } elseif ($productoNuevo["cantidadProdIng"] > $productoAntiguo["cantidadProdIng"]) {
-                $dataRestaAlmacen[] = $productoNuevo;
-            } elseif ($productoNuevo["cantidadProdIng"] < $productoAntiguo["cantidadProdIng"]) {
-                $dataSumaAlmacen[] = $productoNuevo;
-            } else {
-                $dataFiltroIgual[] = $productoNuevo;
-            }
+      $codProdIng = $productoNuevo["codProdIng"];
+      if (isset($productosAntiguosIndexados[$codProdIng])) {
+        $productoAntiguo = $productosAntiguosIndexados[$codProdIng];
+        if ($productoNuevo["cantidadProdIng"] == 0) {
+          $dataCeroAlmacen[] = $productoAntiguo; // Guardar el producto antiguo si la cantidad nueva es 0
+        } elseif ($productoNuevo["cantidadProdIng"] > $productoAntiguo["cantidadProdIng"]) {
+          $dataRestaAlmacen[] = $productoNuevo;
+        } elseif ($productoNuevo["cantidadProdIng"] < $productoAntiguo["cantidadProdIng"]) {
+          $dataSumaAlmacen[] = $productoNuevo;
         } else {
-            $dataNuevoRestAlmacen[] = $productoNuevo;
+          $dataFiltroIgual[] = $productoNuevo;
         }
+      } else {
+        $dataNuevoRestAlmacen[] = $productoNuevo;
+      }
     }
-    
+
     foreach ($dataProducSalAnterior as $productoAntiguo) {
-        $codProdIng = $productoAntiguo["codProdIng"];
-        if (!isset($productosNuevosIndexados[$codProdIng])) {
-            $dataDeleteSumAlmacen[] = $productoAntiguo;
-        }
+      $codProdIng = $productoAntiguo["codProdIng"];
+      if (!isset($productosNuevosIndexados[$codProdIng])) {
+        $dataDeleteSumAlmacen[] = $productoAntiguo;
+      }
     }
-    
+
     // Procesar productos para sumar al almacén
     foreach ($dataSumaAlmacen as $producto) {
-      if ($producto["cantidadProdIng"] == 0)
-        continue;
-      $stockAlmacen = self::ctrStockAlmacen($producto["codProdIng"]);
-      $stockActual = $stockAlmacen["cantidadProdAlma"];
-      $ajusteStock = $producto["cantidadProdIng"];
-      $nuevoStock = $stockActual + $ajusteStock;
-      if ($nuevoStock < 0) {
-        $nuevoStock = 0;
+
+      //cantidad antes de editar
+      $prodEncontrado = null;
+
+      foreach ($productosAntiguosIndexados as $item) {
+        if ($item["codProdIng"] === $producto["codProdIng"]) {
+          $prodEncontrado = $item;
+          break; // Rompe el bucle una vez encontrado el producto
+        }
       }
+
+      $stockAlmacen = self::ctrStockAlmacenEdit($producto["codProdIng"]);
+      $stockActual = $stockAlmacen["cantidadProdAlma"];
+      $cantidadAnte = $prodEncontrado["cantidadProdIng"];// stock ya retirado
+      $ajusteStock = $producto["cantidadProdIng"];
+
+      // Calcular la cantidad a sumar al almacén
+      $cantidadAsumar = $cantidadAnte - $ajusteStock;
+
+      // Calcular el nuevo stock
+      $nuevoStock = $stockActual + $cantidadAsumar;
+
       $dataActualizarProdAlamacen = array(
         "idProd" => $producto["codProdIng"],
         "cantidadProdAlma" => $nuevoStock,
@@ -271,16 +284,31 @@ class salidaProdController
     }
 
     // Procesar productos para restar del almacén
-    foreach ($dataFiltroResta as $producto) {
-      if ($producto["cantidadProdIng"] == 0)
-        continue;
-      $stockAlmacen = self::ctrStockAlmacen($producto["codProdIng"]);
-      $stockActual = $stockAlmacen["cantidadProdAlma"];
-      $ajusteStock = $producto["cantidadProdIng"];
-      $nuevoStock = $stockActual - $ajusteStock;
-      if ($nuevoStock < 0) {
-        $nuevoStock = 0;
+    foreach ($dataRestaAlmacen as $producto) {
+
+      //cantidad antes de editar
+      $prodEncontrado = null;
+
+      foreach ($productosAntiguosIndexados as $item) {
+        if ($item["codProdIng"] === $producto["codProdIng"]) {
+          $prodEncontrado = $item;
+          break; // Rompe el bucle una vez encontrado el producto
+        }
       }
+
+      $stockAlmacen = self::ctrStockAlmacenEdit($producto["codProdIng"]);
+
+      $stockActual = $stockAlmacen["cantidadProdAlma"];// stock actual n
+      $cantidadAnte = $prodEncontrado["cantidadProdIng"];// stock ya retirado
+      // ajuste de stock es la suma la cantidad anterior y la cantidad actual ya sumada desde el usuario
+      $ajusteStock = $producto["cantidadProdIng"];// stock a restar -n
+
+      // Calcular la cantidad a retirar del almacén
+      $cantidadARetirar = $ajusteStock - $cantidadAnte;
+
+      // Calcular el nuevo stock
+      $nuevoStock = $stockActual - $cantidadARetirar;
+
       $dataActualizarProdAlamacen = array(
         "idProd" => $producto["codProdIng"],
         "cantidadProdAlma" => $nuevoStock,
@@ -290,16 +318,13 @@ class salidaProdController
     }
 
     // Procesar productos nuevos
-    foreach ($dataFiltroNuevo as $producto) {
-      if ($producto["cantidadProdIng"] == 0)
-        continue;
-      $stockAlmacen = self::ctrStockAlmacen($producto["codProdIng"]);
+    foreach ($dataNuevoRestAlmacen as $producto) {
+
+      $stockAlmacen = self::ctrStockAlmacenEdit($producto["codProdIng"]);
       $stockActual = $stockAlmacen["cantidadProdAlma"];
       $ajusteStock = $producto["cantidadProdIng"];
       $nuevoStock = $stockActual - $ajusteStock;
-      if ($nuevoStock < 0) {
-        $nuevoStock = 0;
-      }
+
       $dataActualizarProdAlamacen = array(
         "idProd" => $producto["codProdIng"],
         "cantidadProdAlma" => $nuevoStock,
@@ -309,16 +334,29 @@ class salidaProdController
     }
 
     // Procesar productos eliminados
-    foreach ($dataFiltroDelete as $producto) {
-      if ($producto["cantidadProdIng"] == 0)
-        continue;
-      $stockAlmacen = self::ctrStockAlmacen($producto["codProdIng"]);
+    foreach ($dataDeleteSumAlmacen as $producto) {
+
+      $stockAlmacen = self::ctrStockAlmacenEdit($producto["codProdIng"]);
       $stockActual = $stockAlmacen["cantidadProdAlma"];
       $ajusteStock = $producto["cantidadProdIng"];
       $nuevoStock = $stockActual + $ajusteStock;
-      if ($nuevoStock < 0) {
-        $nuevoStock = 0;
-      }
+
+      $dataActualizarProdAlamacen = array(
+        "idProd" => $producto["codProdIng"],
+        "cantidadProdAlma" => $nuevoStock,
+        "DateUpdate" => date("Y-m-d\TH:i:sP"),
+      );
+      $response = salidaProdModel::mdlActualizarProductosIngresados($table, $dataActualizarProdAlamacen);
+    }
+
+    // Procesar productos que inserta en 0
+    foreach ($dataCeroAlmacen as $producto) {
+
+      $stockAlmacen = self::ctrStockAlmacenEdit($producto["codProdIng"]);
+      $stockActual = $stockAlmacen["cantidadProdAlma"];
+      $ajusteStock = $producto["cantidadProdIng"];
+      $nuevoStock = $stockActual + $ajusteStock;
+
       $dataActualizarProdAlamacen = array(
         "idProd" => $producto["codProdIng"],
         "cantidadProdAlma" => $nuevoStock,

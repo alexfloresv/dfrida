@@ -43,22 +43,22 @@
 
 
 <!-- Modal productos ingresados-->
-<div class="modal fade" id="modalProdIngresados" tabindex="-1" aria-labelledby="modalProdIngresadosLabel"
+<div class="modal fade" id="modalProdSalidas" tabindex="-1" aria-labelledby="modalProdSalidasLabel"
   aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalProdIngresadosLabel">Productos Ingresados Al Almacen</h1>
+        <h1 class="modal-title fs-5" id="modalProdSalidasLabel">Productos salida de Almacen</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="procesosTrabajoModal">
 
-        <table id="ModalDataTableProdIngresados" class="display ModalDataTableProdIngresados">
+        <table id="modalDataTableProdSalida" class="display modalDataTableProdSalida">
           <thead>
-            <!-- ModalDataTableProdIngresados -->
+            <!-- modalDataTableProdSalida -->
           </thead>
           <tbody>
-            <!--ModalDataTableProdIngresados-->
+            <!--modalDataTableProdSalida-->
           </tbody>
         </table>
       </div>

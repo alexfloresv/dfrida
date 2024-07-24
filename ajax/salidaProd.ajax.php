@@ -19,11 +19,11 @@ if (isset($_POST["todosLosProductosAlmacen"])) {
   $todosLosProductosAlmacen->ajaxDTableSalProdcuctosAlmacen();
 }
 
-//visualizar ingreos en el modal de salidas productos
-if (isset($_POST["codAllIngProd"])) {
+//visualizar salidas en el modal de salidas productos
+if (isset($_POST["codAllSalProd"])) {
   $view = new salidaProdAjax();
-  $view->codAllIngProd = $_POST["codAllIngProd"];
-  $view->ajaxVerProductosIngresadosModal($_POST["codAllIngProd"]);
+  $view->codAllSalProd = $_POST["codAllSalProd"];
+  $view->ajaxVerProductosSalidaModal($_POST["codAllSalProd"]);
 }
 
 //  crear salida de  productos
@@ -100,9 +100,9 @@ class salidaProdAjax
   }
 
   //visualizar ingreos en el modal de salidas productos
-  public function ajaxVerProductosIngresadosModal($codAllIngProd)
+  public function ajaxVerProductosSalidaModal($codAllSalProd)
   {
-    $response = salidaProdController::ctrVerProductosIngresadosModal($codAllIngProd);
+    $response = salidaProdController::ctrVerProductosSalidaModal($codAllSalProd);
     echo json_encode($response);
   }
 
