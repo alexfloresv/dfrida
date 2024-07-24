@@ -11,7 +11,7 @@
  Target Server Version : 100432
  File Encoding         : 65001
 
- Date: 22/07/2024 16:39:49
+ Date: 24/07/2024 14:37:04
 */
 
 SET NAMES utf8mb4;
@@ -54,18 +54,16 @@ CREATE TABLE `almacen_prod`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idAlmaProd`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of almacen_prod
 -- ----------------------------
-INSERT INTO `almacen_prod` VALUES (17, 35, 'Et commodi amet ea ', 'producto prueva', 'Docena', '0', '2000.00', '2024-07-19 13:27:28', '2024-07-22 15:29:13');
-INSERT INTO `almacen_prod` VALUES (18, 34, 'Dignissimos possimus', 'Jordan Cross', 'Uni', '0', '6900.00', '2024-07-19 13:27:28', '2024-07-22 15:29:13');
-INSERT INTO `almacen_prod` VALUES (19, 33, 'Corrupti ipsa sed ', 'Kai Griffith', 'Docena', '0', '7610.00', '2024-07-19 13:27:28', '2024-07-22 15:29:13');
-INSERT INTO `almacen_prod` VALUES (20, 31, 'Magnam consequat Qu', 'Arsenio Gilliam', '1', '0', '925550.00', '2024-07-19 13:27:28', '2024-07-22 15:29:13');
-INSERT INTO `almacen_prod` VALUES (21, 30, 'Anim dolor recusanda', 'Sylvester Tuckergggggggg', '1', '0', '600.00', '2024-07-19 13:27:28', '2024-07-22 15:29:13');
-INSERT INTO `almacen_prod` VALUES (22, 29, '123456', 'camisa', '1', '0', '10.00', '2024-07-19 16:21:54', '2024-07-22 15:29:13');
-INSERT INTO `almacen_prod` VALUES (23, 16, 'Accusantium ut volup', 'Simone Chan', '51', '0', '3330.00', '2024-07-19 16:21:54', '2024-07-22 15:29:13');
+INSERT INTO `almacen_prod` VALUES (24, 40, 'PolEdFisUnx0325', 'Polos Ed Fisica Unisex', 'Docena', '10', '4800.00', '2024-07-24 13:02:20', '2024-07-24 13:19:38');
+INSERT INTO `almacen_prod` VALUES (25, 39, 'CamVarCole0324', 'Camisa Varon Colegio', 'Uni', '50', '6000.00', '2024-07-24 13:02:54', '2024-07-24 13:19:38');
+INSERT INTO `almacen_prod` VALUES (26, 37, 'BluCda0524', 'Blusa Ceda Blanca', 'Uni', '100', '8000.00', '2024-07-24 13:03:19', '2024-07-24 13:19:38');
+INSERT INTO `almacen_prod` VALUES (27, 38, 'PantSol0525', 'Pantalon Soldadura', 'Docena', '5', '28800.00', '2024-07-24 13:04:15', '2024-07-24 13:19:38');
+INSERT INTO `almacen_prod` VALUES (28, 36, 'PolProm202403', 'Polera Promocion Escolar', 'Uni', '10', '7500.00', '2024-07-24 13:04:16', '2024-07-24 13:19:38');
 
 -- ----------------------------
 -- Table structure for categoria_mprima
@@ -77,13 +75,16 @@ CREATE TABLE `categoria_mprima`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idCatMPrima`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of categoria_mprima
 -- ----------------------------
-INSERT INTO `categoria_mprima` VALUES (1, 'Hilo negro', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-INSERT INTO `categoria_mprima` VALUES (2, 'Hilooo 3ml', '2024-06-27 13:23:40', '2024-06-27 15:33:21');
+INSERT INTO `categoria_mprima` VALUES (1, 'Hilo', '0000-00-00 00:00:00', '2024-07-24 12:55:26');
+INSERT INTO `categoria_mprima` VALUES (5, 'Tela Ceda', '2024-07-24 12:52:10', '2024-07-24 12:55:20');
+INSERT INTO `categoria_mprima` VALUES (6, 'Tela Dril', '2024-07-24 12:52:31', '2024-07-24 12:55:16');
+INSERT INTO `categoria_mprima` VALUES (8, 'Botones ', '2024-07-24 12:52:56', '2024-07-24 12:55:00');
+INSERT INTO `categoria_mprima` VALUES (9, 'Cierre', '2024-07-24 12:53:07', '2024-07-24 12:54:56');
 
 -- ----------------------------
 -- Table structure for categoria_prod
@@ -95,19 +96,16 @@ CREATE TABLE `categoria_prod`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idCatPro`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of categoria_prod
 -- ----------------------------
-INSERT INTO `categoria_prod` VALUES (1, 'Poleras Hombre XL', '0000-00-00 00:00:00', '2024-06-26 13:13:14');
-INSERT INTO `categoria_prod` VALUES (5, 'Casca Promo Ln', '2024-06-26 11:46:38', '2024-06-28 11:38:35');
-INSERT INTO `categoria_prod` VALUES (6, 'Camisa Escolar S', '2024-06-26 11:47:09', '0000-00-00 00:00:00');
-INSERT INTO `categoria_prod` VALUES (16, 'Casca Promo M', '2024-06-26 12:32:03', '0000-00-00 00:00:00');
-INSERT INTO `categoria_prod` VALUES (17, 'Casca Promo S', '2024-06-26 12:32:23', '2024-06-26 13:01:23');
-INSERT INTO `categoria_prod` VALUES (23, 'Casca Promo Miiii', '2024-06-26 14:46:21', '2024-06-26 15:55:51');
-INSERT INTO `categoria_prod` VALUES (28, 'Casca Promo yygg', '2024-06-26 15:18:39', '2024-06-26 15:57:31');
-INSERT INTO `categoria_prod` VALUES (31, 'sdgsdg', '2024-06-28 11:39:24', '0000-00-00 00:00:00');
+INSERT INTO `categoria_prod` VALUES (32, 'Polo', '2024-07-24 12:44:07', '0000-00-00 00:00:00');
+INSERT INTO `categoria_prod` VALUES (33, 'Camisa', '2024-07-24 12:44:14', '0000-00-00 00:00:00');
+INSERT INTO `categoria_prod` VALUES (34, 'Pantalon', '2024-07-24 12:44:19', '0000-00-00 00:00:00');
+INSERT INTO `categoria_prod` VALUES (35, 'Blusa', '2024-07-24 12:44:25', '0000-00-00 00:00:00');
+INSERT INTO `categoria_prod` VALUES (36, 'Polera', '2024-07-24 12:44:30', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for cliente
@@ -287,14 +285,15 @@ CREATE TABLE `ingreso_prod`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idIngProd`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ingreso_prod
 -- ----------------------------
-INSERT INTO `ingreso_prod` VALUES (28, 'prueba q', '2024-07-19', '0', '946000.00', '946000.00', '{\"producto0\":{\"codProdIng\":\"35\",\"nombreProdIng\":\"producto prueva\",\"codigoProdIng\":\"Et commodi amet ea \",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"2000.00\"},\"producto1\":{\"codProdIng\":\"34\",\"nombreProdIng\":\"Jordan Cross\",\"codigoProdIng\":\"Dignissimos possimus\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"6900.00\"},\"producto2\":{\"codProdIng\":\"33\",\"nombreProdIng\":\"Kai Griffith\",\"codigoProdIng\":\"Corrupti ipsa sed \",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"7610.00\"},\"producto3\":{\"codProdIng\":\"31\",\"nombreProdIng\":\"Arsenio Gilliam\",\"codigoProdIng\":\"Magnam consequat Qu\",\"unidadProdIng\":\"1\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"925550.00\"},\"producto4\":{\"codProdIng\":\"30\",\"nombreProdIng\":\"Sylvester Tuckergggggggg\",\"codigoProdIng\":\"Anim dolor recusanda\",\"unidadProdIng\":\"1\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"600.00\"},\"producto5\":{\"codProdIng\":\"29\",\"nombreProdIng\":\"camisa\",\"codigoProdIng\":\"123456\",\"unidadProdIng\":\"1\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"10.00\"},\"producto6\":{\"codProdIng\":\"16\",\"nombreProdIng\":\"Simone Chan\",\"codigoProdIng\":\"Accusantium ut volup\",\"unidadProdIng\":\"51\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"3330.00\"}}', '2024-07-19 16:21:54', '0000-00-00 00:00:00');
-INSERT INTO `ingreso_prod` VALUES (29, 'VERIFICACION DE ESTOCK', '2024-07-19', '0', '473000.00', '473000.00', '{\"producto0\":{\"codProdIng\":\"35\",\"nombreProdIng\":\"producto prueva\",\"codigoProdIng\":\"Et commodi amet ea \",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"5\",\"precioProdIng\":\"1000.00\"},\"producto1\":{\"codProdIng\":\"34\",\"nombreProdIng\":\"Jordan Cross\",\"codigoProdIng\":\"Dignissimos possimus\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"5\",\"precioProdIng\":\"3450.00\"},\"producto2\":{\"codProdIng\":\"33\",\"nombreProdIng\":\"Kai Griffith\",\"codigoProdIng\":\"Corrupti ipsa sed \",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"5\",\"precioProdIng\":\"3805.00\"},\"producto3\":{\"codProdIng\":\"31\",\"nombreProdIng\":\"Arsenio Gilliam\",\"codigoProdIng\":\"Magnam consequat Qu\",\"unidadProdIng\":\"1\",\"cantidadProdIng\":\"5\",\"precioProdIng\":\"462775.00\"},\"producto4\":{\"codProdIng\":\"30\",\"nombreProdIng\":\"Sylvester Tuckergggggggg\",\"codigoProdIng\":\"Anim dolor recusanda\",\"unidadProdIng\":\"1\",\"cantidadProdIng\":\"5\",\"precioProdIng\":\"300.00\"},\"producto5\":{\"codProdIng\":\"29\",\"nombreProdIng\":\"camisa\",\"codigoProdIng\":\"123456\",\"unidadProdIng\":\"1\",\"cantidadProdIng\":\"5\",\"precioProdIng\":\"5.00\"},\"producto6\":{\"codProdIng\":\"16\",\"nombreProdIng\":\"Simone Chan\",\"codigoProdIng\":\"Accusantium ut volup\",\"unidadProdIng\":\"51\",\"cantidadProdIng\":\"5\",\"precioProdIng\":\"1665.00\"}}', '2024-07-19 16:22:43', '0000-00-00 00:00:00');
-INSERT INTO `ingreso_prod` VALUES (30, 'ASDFSDF', '2024-07-19', '0', '91749215.00', '91749215.00', '{\"producto0\":{\"codProdIng\":\"35\",\"nombreProdIng\":\"producto prueva\",\"codigoProdIng\":\"Et commodi amet ea \",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"45645654\"},\"producto1\":{\"codProdIng\":\"34\",\"nombreProdIng\":\"Jordan Cross\",\"codigoProdIng\":\"Dignissimos possimus\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"690.00\"},\"producto2\":{\"codProdIng\":\"33\",\"nombreProdIng\":\"Kai Griffith\",\"codigoProdIng\":\"Corrupti ipsa sed \",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"761.00\"},\"producto3\":{\"codProdIng\":\"29\",\"nombreProdIng\":\"camisa\",\"codigoProdIng\":\"123456\",\"unidadProdIng\":\"1\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"456456\"},\"producto4\":{\"codProdIng\":\"35\",\"nombreProdIng\":\"producto prueva\",\"codigoProdIng\":\"Et commodi amet ea \",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"45645654\"}}', '2024-07-19 16:24:59', '2024-07-19 16:37:06');
+INSERT INTO `ingreso_prod` VALUES (31, 'produccion polos educacion fisica', '2024-07-24', '0', '4800.00', '4800.00', '{\"producto0\":{\"codProdIng\":\"40\",\"nombreProdIng\":\"Polos Ed Fisica Unisex\",\"codigoProdIng\":\"PolEdFisUnx0325\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"4800.00\"}}', '2024-07-24 13:02:20', '0000-00-00 00:00:00');
+INSERT INTO `ingreso_prod` VALUES (32, 'produccion camisas colegio', '2024-07-24', '0', '6000.00', '6000.00', '{\"producto0\":{\"codProdIng\":\"39\",\"nombreProdIng\":\"Camisa Varon Colegio\",\"codigoProdIng\":\"CamVarCole0324\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"100\",\"precioProdIng\":\"6000.00\"}}', '2024-07-24 13:02:54', '0000-00-00 00:00:00');
+INSERT INTO `ingreso_prod` VALUES (33, 'registro blusas colegio dama', '2024-07-24', '0', '8000.00', '8000.00', '{\"producto0\":{\"codProdIng\":\"37\",\"nombreProdIng\":\"Blusa Ceda Blanca\",\"codigoProdIng\":\"BluCda0524\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"100\",\"precioProdIng\":\"8000.00\"}}', '2024-07-24 13:03:19', '0000-00-00 00:00:00');
+INSERT INTO `ingreso_prod` VALUES (34, 'Ingreso de produccion diario', '2024-07-24', '0', '45500.00', '45500.00', '{\"producto0\":{\"codProdIng\":\"40\",\"nombreProdIng\":\"Polos Ed Fisica Unisex\",\"codigoProdIng\":\"PolEdFisUnx0325\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"4800.00\"},\"producto1\":{\"codProdIng\":\"39\",\"nombreProdIng\":\"Camisa Varon Colegio\",\"codigoProdIng\":\"CamVarCole0324\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"60\",\"precioProdIng\":\"3600.00\"},\"producto2\":{\"codProdIng\":\"38\",\"nombreProdIng\":\"Pantalon Soldadura\",\"codigoProdIng\":\"PantSol0525\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"30\",\"precioProdIng\":\"28800.00\"},\"producto3\":{\"codProdIng\":\"37\",\"nombreProdIng\":\"Blusa Ceda Blanca\",\"codigoProdIng\":\"BluCda0524\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"800.00\"},\"producto4\":{\"codProdIng\":\"36\",\"nombreProdIng\":\"Polera Promocion Escolar\",\"codigoProdIng\":\"PolProm202403\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"50\",\"precioProdIng\":\"7500.00\"}}', '2024-07-24 13:04:16', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for materia_prima
@@ -313,26 +312,16 @@ CREATE TABLE `materia_prima`  (
   PRIMARY KEY (`idMprima`) USING BTREE,
   INDEX `idCatMprima`(`idCatMprima`) USING BTREE,
   CONSTRAINT `materia_prima_ibfk_1` FOREIGN KEY (`idCatMprima`) REFERENCES `categoria_mprima` (`idCatMPrima`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of materia_prima
 -- ----------------------------
-INSERT INTO `materia_prima` VALUES (1, 1, 'Nisi maxime delectus', 'Cain Odonnell', 'Exercitation commodi', '0', 774.00, '2024-06-27 10:24:19', '0000-00-00 00:00:00');
-INSERT INTO `materia_prima` VALUES (2, 1, 'Est et ea sit obcaec', 'Guy Carr', 'Tempora quis quia ip', '0', 344.00, '2024-06-27 10:24:34', '0000-00-00 00:00:00');
-INSERT INTO `materia_prima` VALUES (3, 1, 'Minus harum ea atque', 'Marcia Odom', 'In et ullamco facili', '0', 261.00, '2024-06-27 10:24:40', '0000-00-00 00:00:00');
-INSERT INTO `materia_prima` VALUES (4, 1, 'Sunt dolore rerum qu', 'Dakota Browning', 'Mollit ratione lorem', '0', 598.00, '2024-06-27 10:24:46', '0000-00-00 00:00:00');
-INSERT INTO `materia_prima` VALUES (12, 2, 'Rerum adipisci provi', 'alex', 'Dicta enim dolore to', '90', 519.00, '2024-06-27 15:05:05', '0000-00-00 00:00:00');
-INSERT INTO `materia_prima` VALUES (13, 2, '	Sunt dolore rerum qu', 'EPEPE', 'Dolor deleniti eiusm', '10', 542.00, '2024-06-27 15:05:50', '0000-00-00 00:00:00');
-INSERT INTO `materia_prima` VALUES (15, 2, '', '', '', '0', 0.00, '2024-06-27 15:44:19', '0000-00-00 00:00:00');
-INSERT INTO `materia_prima` VALUES (16, 2, 'Error nihil beatae e', 'tellaaaaaaaa', 'Ratione earum ea duc', '21', 1.00, '2024-06-28 17:28:02', '0000-00-00 00:00:00');
-INSERT INTO `materia_prima` VALUES (17, 2, 'Error nihil beatae egggg', 'tellaaaaaaaayyyy', 'Ratione earum ea duc', '21', 1.00, '2024-06-28 17:28:10', '0000-00-00 00:00:00');
-INSERT INTO `materia_prima` VALUES (19, 1, 'Molestiae et sit qu', 'Megan Taylor', 'Consequatur Omnis u', '21', 183.00, '2024-06-28 17:28:38', '0000-00-00 00:00:00');
-INSERT INTO `materia_prima` VALUES (20, 2, 'Ipsam nesciunt dese', 'Ulla Yang', 'Reprehenderit paria', '65', 555.00, '2024-06-28 17:32:51', '0000-00-00 00:00:00');
-INSERT INTO `materia_prima` VALUES (21, 2, 'Voluptatem Irure ev', 'Maya Fuller', 'Facere nostrum nihil', '78', 20.00, '2024-06-28 17:37:10', '0000-00-00 00:00:00');
-INSERT INTO `materia_prima` VALUES (22, 1, 'Non omnis adipisci c', 'Hop Powers', 'Veniam nobis aut re', '34', 196.00, '2024-06-28 17:38:32', '0000-00-00 00:00:00');
-INSERT INTO `materia_prima` VALUES (23, 2, 'Sed voluptas duis qu', 'Teegan Gay', 'Asperiores dolorum m', 'Metros', 473.00, '2024-07-01 15:33:39', '0000-00-00 00:00:00');
-INSERT INTO `materia_prima` VALUES (24, 2, 'Officia et eiusmod q', 'Robin Dunn', 'Deserunt adipisicing', 'Uni', 160.00, '2024-07-01 15:33:55', '0000-00-00 00:00:00');
+INSERT INTO `materia_prima` VALUES (25, 9, 'CieCasProm202405', 'Cierre Casacas Promo', 'Cierres para casacas de promocion', 'Uni', 15.00, '2024-07-24 12:56:23', '0000-00-00 00:00:00');
+INSERT INTO `materia_prima` VALUES (26, 8, 'Boto202405', 'Borones de pantalones hombre', 'botones para pantalones de varones ', 'Uni', 1.30, '2024-07-24 12:57:22', '0000-00-00 00:00:00');
+INSERT INTO `materia_prima` VALUES (27, 6, 'RollTelDri202405', 'Rollo tela dril azul', 'Rollo de tela dril azul', 'Uni', 800.00, '2024-07-24 12:58:42', '0000-00-00 00:00:00');
+INSERT INTO `materia_prima` VALUES (28, 5, 'RollTelCedBla202405', 'Rollo tela ceda blanco', 'Rollo de tela ceda blanco', 'Uni', 900.00, '2024-07-24 12:59:44', '0000-00-00 00:00:00');
+INSERT INTO `materia_prima` VALUES (29, 1, 'HilNeg202503', 'Holi negro 3.5', 'caja de hilos negros 3.5', 'Docena', 40.00, '2024-07-24 13:00:42', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for merma
@@ -492,18 +481,16 @@ CREATE TABLE `producto`  (
   PRIMARY KEY (`idProd`) USING BTREE,
   INDEX `idCatPro`(`idCatPro`) USING BTREE,
   CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`idCatPro`) REFERENCES `categoria_prod` (`idCatPro`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of producto
 -- ----------------------------
-INSERT INTO `producto` VALUES (16, 17, 'Accusantium ut volup', 'Simone Chan', 'Velit ut voluptatum', '51', 333.00, '2024-06-26 15:43:57', '0000-00-00 00:00:00');
-INSERT INTO `producto` VALUES (29, 6, '123456', 'camisa', 'asdas', '1', 1.00, '2024-06-28 15:12:39', '0000-00-00 00:00:00');
-INSERT INTO `producto` VALUES (30, 17, 'Anim dolor recusanda', 'Sylvester Tuckergggggggg', 'Veniam pariatur Re', '1', 60.00, '2024-07-01 12:45:09', '0000-00-00 00:00:00');
-INSERT INTO `producto` VALUES (31, 28, 'Magnam consequat Qu', 'Arsenio Gilliam', 'Ab perspiciatis in ', '1', 92555.00, '2024-07-01 12:45:38', '0000-00-00 00:00:00');
-INSERT INTO `producto` VALUES (33, 5, 'Corrupti ipsa sed ', 'Kai Griffith', 'Quis veritatis dolor', 'Docena', 761.00, '2024-07-01 15:30:54', '0000-00-00 00:00:00');
-INSERT INTO `producto` VALUES (34, 31, 'Dignissimos possimus', 'Jordan Cross', 'Quas ut amet aperia', 'Uni', 690.00, '2024-07-01 15:31:23', '0000-00-00 00:00:00');
-INSERT INTO `producto` VALUES (35, 23, 'Et commodi amet ea ', 'producto prueva', 'Magni quae atque ut ', 'Docena', 200.00, '2024-07-19 11:50:29', '0000-00-00 00:00:00');
+INSERT INTO `producto` VALUES (36, 36, 'PolProm202403', 'Polera Promocion Escolar', 'Polera promocion colegio San Sebastian', 'Uni', 150.00, '2024-07-24 12:46:18', '0000-00-00 00:00:00');
+INSERT INTO `producto` VALUES (37, 35, 'BluCda0524', 'Blusa Ceda Blanca', 'Blusa ceda blanca dama', 'Uni', 80.00, '2024-07-24 12:47:22', '0000-00-00 00:00:00');
+INSERT INTO `producto` VALUES (38, 34, 'PantSol0525', 'Pantalon Soldadura', 'Pantalon de soldadura empresa Soldadora', 'Docena', 960.00, '2024-07-24 12:48:43', '0000-00-00 00:00:00');
+INSERT INTO `producto` VALUES (39, 33, 'CamVarCole0324', 'Camisa Varon Colegio', 'Camisa varon colegio san sebastian', 'Uni', 60.00, '2024-07-24 12:49:41', '0000-00-00 00:00:00');
+INSERT INTO `producto` VALUES (40, 32, 'PolEdFisUnx0325', 'Polos Ed Fisica Unisex', 'Polos educacion fisica colegio san sebastian', 'Docena', 480.00, '2024-07-24 12:51:01', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for proveedores
@@ -572,12 +559,15 @@ CREATE TABLE `salida_prod`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idSalProd`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of salida_prod
 -- ----------------------------
-INSERT INTO `salida_prod` VALUES (19, 41, 'Error ut aut ratione', '1979-04-03', '0', '0.00', '0.00', '{\"producto0\":{\"codProdIng\":\"16\",\"nombreProdIng\":\"Simone Chan\",\"codigoProdIng\":\"Accusantium ut volup\",\"unidadProdIng\":\"51\",\"cantidadProdIng\":\"0\",\"precioProdIng\":\"0\"},\"producto1\":{\"codProdIng\":\"29\",\"nombreProdIng\":\"camisa\",\"codigoProdIng\":\"123456\",\"unidadProdIng\":\"1\",\"cantidadProdIng\":\"0\",\"precioProdIng\":\"0\"},\"producto2\":{\"codProdIng\":\"30\",\"nombreProdIng\":\"Sylvester Tuckergggggggg\",\"codigoProdIng\":\"Anim dolor recusanda\",\"unidadProdIng\":\"1\",\"cantidadProdIng\":\"0\",\"precioProdIng\":\"0\"},\"producto3\":{\"codProdIng\":\"34\",\"nombreProdIng\":\"Jordan Cross\",\"codigoProdIng\":\"Dignissimos possimus\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"0\",\"precioProdIng\":\"0\"},\"producto4\":{\"codProdIng\":\"35\",\"nombreProdIng\":\"producto prueva\",\"codigoProdIng\":\"Et commodi amet ea \",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"0\",\"precioProdIng\":\"0\"},\"producto5\":{\"codProdIng\":\"33\",\"nombreProdIng\":\"Kai Griffith\",\"codigoProdIng\":\"Corrupti ipsa sed \",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"0\",\"precioProdIng\":\"0\"},\"producto6\":{\"codProdIng\":\"31\",\"nombreProdIng\":\"Arsenio Gilliam\",\"codigoProdIng\":\"Magnam consequat Qu\",\"unidadProdIng\":\"1\",\"cantidadProdIng\":\"0\",\"precioProdIng\":\"0\"}}', '2024-07-22 15:29:13', '2024-07-22 16:07:21');
+INSERT INTO `salida_prod` VALUES (28, 1, 'salida casacas promocion', '2024-07-24', '810', '4500.00', '5310.00', '{\"producto0\":{\"codProdIng\":\"36\",\"nombreProdIng\":\"Polera Promocion Escolar\",\"codigoProdIng\":\"PolProm202403\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"30\",\"precioProdIng\":\"4500.00\"}}', '2024-07-24 13:18:11', '0000-00-00 00:00:00');
+INSERT INTO `salida_prod` VALUES (29, 1, 'salida camisas varon colegio ', '2024-07-24', '1080', '6000.00', '7080.00', '{\"producto0\":{\"codProdIng\":\"39\",\"nombreProdIng\":\"Camisa Varon Colegio\",\"codigoProdIng\":\"CamVarCole0324\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"100\",\"precioProdIng\":\"6000.00\"}}', '2024-07-24 13:18:39', '0000-00-00 00:00:00');
+INSERT INTO `salida_prod` VALUES (30, 12, 'salida pantalones ', '2024-07-24', '2592', '14400.00', '16992.00', '{\"producto0\":{\"codProdIng\":\"38\",\"nombreProdIng\":\"Pantalon Soldadura\",\"codigoProdIng\":\"PantSol0525\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"15\",\"precioProdIng\":\"14400.00\"}}', '2024-07-24 13:19:05', '0000-00-00 00:00:00');
+INSERT INTO `salida_prod` VALUES (31, 3, 'salida produccion Semana ', '2024-07-24', '3114', '17300.00', '20414.00', '{\"producto0\":{\"codProdIng\":\"36\",\"nombreProdIng\":\"Polera Promocion Escolar\",\"codigoProdIng\":\"PolProm202403\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"1500.00\"},\"producto1\":{\"codProdIng\":\"38\",\"nombreProdIng\":\"Pantalon Soldadura\",\"codigoProdIng\":\"PantSol0525\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"9600.00\"},\"producto2\":{\"codProdIng\":\"37\",\"nombreProdIng\":\"Blusa Ceda Blanca\",\"codigoProdIng\":\"BluCda0524\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"800.00\"},\"producto3\":{\"codProdIng\":\"39\",\"nombreProdIng\":\"Camisa Varon Colegio\",\"codigoProdIng\":\"CamVarCole0324\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"600.00\"},\"producto4\":{\"codProdIng\":\"40\",\"nombreProdIng\":\"Polos Ed Fisica Unisex\",\"codigoProdIng\":\"PolEdFisUnx0325\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"4800.00\"}}', '2024-07-24 13:19:38', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for tipo_proceso
@@ -634,7 +624,7 @@ CREATE TABLE `usuario`  (
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
-INSERT INTO `usuario` VALUES (1, 1, 'dfrida', 'Administrador', 'administrador', '$argon2id$v=19$m=4096,t=2,p=2$ZURZWG0yNkNOZVJTLlg5Lw$MvzbwXUNlV+Inxssd1nN+A8EN5Il6CdSAs7pTc3szJk', '2024-07-22 08:32:39', '2024-02-16 12:09:23', '2024-02-16 12:09:23');
+INSERT INTO `usuario` VALUES (1, 1, 'dfrida', 'Administrador', 'administrador', '$argon2id$v=19$m=4096,t=2,p=2$ZURZWG0yNkNOZVJTLlg5Lw$MvzbwXUNlV+Inxssd1nN+A8EN5Il6CdSAs7pTc3szJk', '2024-07-24 09:47:38', '2024-02-16 12:09:23', '2024-02-16 12:09:23');
 INSERT INTO `usuario` VALUES (7, 2, 'alex', 'alex administrativo', 'flores', '$argon2id$v=19$m=4096,t=2,p=2$N0RQdHo5MXhOb1ZPdS45Wg$lk4EN49DUl5YTX+omAM/qpOZZG1P4adfpdAWl/IFSG4', '2024-07-16 15:02:17', '2024-07-16 15:02:09', '2024-07-16 15:02:09');
 
 SET FOREIGN_KEY_CHECKS = 1;
