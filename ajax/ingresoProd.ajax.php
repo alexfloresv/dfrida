@@ -35,6 +35,12 @@ if (isset($_POST["codIngProd"])) {
   $viewData->ajaxVerDataIngProd($_POST["codIngProd"]);
 }
 
+//obtener precio para editar ingreso productos
+if (isset($_POST["codProdIng"])) {
+  $viewData = new IngresoProdAjax();
+  $viewData->codProdIng = $_POST["codProdIng"];
+  $viewData->ajaxPrecioProdEdit($_POST["codProdIng"]);
+}
 
 //editar ingreso productos
 if (isset($_POST["jsonEditarIngProd"], $_POST["jsonEditarIngProductosForms"])) {
@@ -99,6 +105,13 @@ class IngresoProdAjax
   public function ajaxVerDataIngProd($codIngProd)
   {
     $response = ingresoProdController::ctrVerDataIngProductos($codIngProd);
+    echo json_encode($response);
+  }
+
+  //obtener precio para editar ingreso productos
+  public function ajaxPrecioProdEdit($codProdIng)
+  {
+    $response = ingresoProdController::ctrPrecioProdEdit($codProdIng);
     echo json_encode($response);
   }
 

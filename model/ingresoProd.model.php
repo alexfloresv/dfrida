@@ -97,7 +97,17 @@ class ingresoProdModel
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result;
   }
-     //editar registro ingreso de productos
+
+  //obtener precio para editar ingreso productos
+  public static function mdlPrecioProdEdit($table, $codIngProd)
+  {
+    $statement = Conexion::conn()->prepare("SELECT precioProd FROM $table WHERE idProd = :idProd");
+    $statement->bindParam(":idProd", $codIngProd, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
+  //editar registro ingreso de productos
   public static function mdlEditarIngresoProd($table, $dataEdit)
   {
     $statement = Conexion::conn()->prepare("UPDATE $table SET nombreIngProd = :nombreIngProd, fechaIngProd = :fechaIngProd, igvIngProd = :igvIngProd, subTotalIngProd = :subTotalIngProd, totalIngProd = :totalIngProd, ingJsonProd = :ingJsonProd, DateUpdate = :DateUpdate WHERE idIngProd = :idIngProd");

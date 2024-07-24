@@ -410,6 +410,11 @@ class salidaProdController
       $stockActual = $stockAlmacen["cantidadProdAlma"];
       $ajusteStock = $producto["cantidadProdIng"];
 
+      // Verificar si el valor es vacío y asignar "0" si es el caso
+      if ($ajusteStock === "") {
+        $ajusteStock = "0";
+      }
+
       // Calcular nuevo stock
       $nuevoStock = $stockActual + $ajusteStock;
 

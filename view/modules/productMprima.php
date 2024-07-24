@@ -16,7 +16,7 @@
       </ol>
       <div class="d-flex m-2">
         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalAddProductoMprima">
-          Agregar Producto
+          Agregar Producto Prima
         </button>
         <span style="margin-right: 10px;"></span>
         <!-- Button  modal  ver lista categorias-->

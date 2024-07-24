@@ -201,7 +201,7 @@ document.addEventListener("DOMContentLoaded", function () {
         { data: "codigoProdAlma" },
         { data: "cantidadProdAlma" },
         {
-          data: "precioProdAlma",
+          data: "precioProd",
           render: function (data, type, row) {
             return "S/ " + data; // Coloca 'S/' delante del valor de la celda
           },

@@ -134,6 +134,15 @@ class ingresoProdController
     return $response;
   }
 
+  //obtener precio para editar ingreso productos
+    public static function ctrPrecioProdEdit($codIngProd)
+    {
+      $codIdIngProd = $codIngProd;
+      $table = "producto";
+      $response = ingresoProdModel::mdlPrecioProdEdit($table, $codIdIngProd);
+      return $response;
+    }
+
   //editar ingreso productos
   public static function ctrEditarIngresoProd($editarIngProd, $jsonProdIngNuevoEdit)
   {
