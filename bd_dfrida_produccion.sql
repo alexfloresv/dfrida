@@ -11,7 +11,7 @@
  Target Server Version : 100432
  File Encoding         : 65001
 
- Date: 24/07/2024 14:37:04
+ Date: 24/07/2024 16:08:56
 */
 
 SET NAMES utf8mb4;
@@ -24,15 +24,14 @@ DROP TABLE IF EXISTS `alamcen_mprima`;
 CREATE TABLE `alamcen_mprima`  (
   `idAlmaMprima` int NOT NULL AUTO_INCREMENT,
   `idMprima` int NOT NULL,
-  `codigoMprima` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `nombreMprima` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `unidadMprima` int NOT NULL,
-  `cantidadMprima` int NOT NULL,
+  `codigoMprimaAlma` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `nombreMprimaAlma` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `unidadMprimaAlma` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `cantidadMprimaAlma` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `precioMprimaAlma` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
-  PRIMARY KEY (`idAlmaMprima`) USING BTREE,
-  INDEX `idMprima`(`idMprima`) USING BTREE,
-  CONSTRAINT `alamcen_mprima_ibfk_1` FOREIGN KEY (`idMprima`) REFERENCES `materia_prima` (`idMprima`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  PRIMARY KEY (`idAlmaMprima`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -254,16 +253,15 @@ CREATE TABLE `ficha_tecnica`  (
 DROP TABLE IF EXISTS `ingreso_mprima`;
 CREATE TABLE `ingreso_mprima`  (
   `idIngMprima` int NOT NULL AUTO_INCREMENT,
-  `idMprima` int NOT NULL,
-  `codigoMprima` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `nombreMprima` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `unidadMprima` int NOT NULL,
-  `cantidadMprima` int NOT NULL,
+  `nombreIngMprima` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `fechaIngMprima` date NOT NULL,
+  `igvIngMprima` varchar(5) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `subTotalIngMprima` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `totalIngMprima` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `ingJsonMprima` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
-  PRIMARY KEY (`idIngMprima`) USING BTREE,
-  INDEX `idMprima`(`idMprima`) USING BTREE,
-  CONSTRAINT `ingreso_mprima_ibfk_1` FOREIGN KEY (`idMprima`) REFERENCES `materia_prima` (`idMprima`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  PRIMARY KEY (`idIngMprima`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -527,16 +525,16 @@ INSERT INTO `proveedores` VALUES (11, 'Et sit culpa inven', 83, 'Dolores sed nih
 DROP TABLE IF EXISTS `salida_mprima`;
 CREATE TABLE `salida_mprima`  (
   `idSalMprima` int NOT NULL AUTO_INCREMENT,
-  `idMprima` int NOT NULL,
-  `codigoMprima` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `nombreMprima` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `unidadMprima` int NOT NULL,
-  `cantidadMprima` int NOT NULL,
+  `idProcOp` int NULL DEFAULT NULL,
+  `nombreSalMprima` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `fechaSalMprima` date NOT NULL,
+  `igvSalMprima` varchar(5) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `subTotalSalMprima` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `totalSalMprima` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `salJsonMprima` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
-  PRIMARY KEY (`idSalMprima`) USING BTREE,
-  INDEX `idMprima`(`idMprima`) USING BTREE,
-  CONSTRAINT `salida_mprima_ibfk_1` FOREIGN KEY (`idMprima`) REFERENCES `materia_prima` (`idMprima`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  PRIMARY KEY (`idSalMprima`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------

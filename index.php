@@ -18,6 +18,7 @@ require_once "controller/fichaTrabajo.controller.php";
 require_once "controller/ingresoProd.controller.php";
 require_once "controller/almacenProductos.controller.php";
 require_once "controller/salidaProd.controller.php";
+require_once "controller/ingresoMprima.controller.php";
 
 
 //+
@@ -38,6 +39,7 @@ require_once "model/fichaTrabajo.model.php";
 require_once "model/ingresoProd.model.php";
 require_once "model/almacenProductos.model.php";
 require_once "model/salidaProd.model.php";
+require_once "model/ingresoMprima.model.php";
 
 //+
 
@@ -57,6 +59,7 @@ require_once "functions/fichaTrabajo.functions.php";
 require_once "functions/ingresoProd.functions.php";
 require_once "functions/almacenProductos.functions.php";
 require_once "functions/salidaProd.functions.php";
+require_once "functions/ingresoMprima.functions.php";
 //+
 $template = new TemplateController();
 $template -> ctrTemplate();

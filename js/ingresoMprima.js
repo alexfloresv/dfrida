@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoProd";
+  var appPath = "/dfrida/ingresoMprima";
   if (currentPath == appPath) {
     // Definir un contador global para los IDs de formulario
     var formularioIngProdCounter = 1;
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // guardar los codigos de los productos agregados
     window.codigosProductosAgregados = new Set();
 
-    $(".dataTableProductos").on("click", ".btnAddProdModalIng", function () {
+    $(".dataTableProductosMprima").on("click", ".btnAddProdModalIng", function () {
       var codAddIngProdModal = $(this).attr("codAddIngProdModal");
 
       // Convertir el código a entero antes de verificar y agregar
@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#modalAddProdCoti").modal("hide");
         Swal.fire({
           icon: "warning",
-          title: "Producto duplicado",
-          text: "El producto ya está en la lista.",
+          title: "Producto Prima duplicado",
+          text: "El producto Prima ya está en la lista.",
         }).then((result) => {
           if (result.value) {
             // Mostrar el modal de nuevo
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var datos = new FormData();
       datos.append("codAddIngProdModal", codAddIngProdModal);
       $.ajax({
-        url: "ajax/ingresoProd.ajax.php",
+        url: "ajax/ingresoMprima.ajax.php",
         method: "POST",
         data: datos,
         cache: false,
@@ -48,11 +48,11 @@ document.addEventListener("DOMContentLoaded", function () {
         processData: false,
         dataType: "json",
         success: function (respuesta) {
-          var idProd = respuesta["idProd"];
-          var nombreProd = respuesta["nombreProd"];
-          var codigoProd = respuesta["codigoProd"];
-          var unidadProd = respuesta["unidadProd"];
-          var precioProd = respuesta["precioProd"];
+          var idProd = respuesta["idMprima"];
+          var nombreProd = respuesta["nombreMprima"];
+          var codigoProd = respuesta["codigoMprima"];
+          var unidadProd = respuesta["unidadMprima"];
+          var precioProd = respuesta["precioMprima"];
 
           // Crear un nuevo formulario para el producto con un ID único que incrementa en 1 cada vez que se agrega un producto
           var formularioID = "formularioIngProd" + formularioIngProdCounter++;
@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoProd";
+  var appPath = "/dfrida/ingresoMprima";
   if (currentPath == appPath) {
     //funcion para calcular los totales
     $(document).ready(function () {
@@ -266,14 +266,14 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoProd";
+  var appPath = "/dfrida/ingresoMprima";
   if (currentPath == appPath) {
     //escuchar el evento click en el boton registrar cotizacion
-    const btnRegistrar = document.getElementById("btnRegistrarIngresoProd");
+    const btnRegistrar = document.getElementById("btnRegistrarIngresoMprima");
     btnRegistrar.addEventListener("click", function () {
       let camposRequeridos = [
-        { id: "tituloIngProdAdd", nombre: "Titulo ingreso" },
-        { id: "fechaIngProdAdd", nombre: "Fecha ingreso" },
+        { id: "tituloIngProdAdd", nombre: "Titulo ingreso Prodcuto Prima" },
+        { id: "fechaIngProdAdd", nombre: "Fecha ingreso Prima" },
         { id: "subTotalIngProdAdd", nombre: "Sub Total " },
         { id: "totalIngProdAdd", nombre: "Total Producto" },
       ];
@@ -307,7 +307,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("btnCalcularTotalIng").click();
         /* fin click calcular total */
         //recolectar los datos del formulario principal
-        var formulario = document.getElementById("formIngresoProd");
+        var formulario = document.getElementById("formIngresoMprima");
         var datosFormulario = {};
         var elementosFormulario = formulario.querySelectorAll("input, select");
         elementosFormulario.forEach(function (elemento) {
@@ -326,7 +326,7 @@ document.addEventListener("DOMContentLoaded", function () {
           var jsonProductosIngProd = JSON.stringify(datosFormulariosProductos);
 
           $.ajax({
-            url: "ajax/ingresoProd.ajax.php",
+            url: "ajax/ingresoMprima.ajax.php",
             method: "POST",
             data: {
               jsonCrearIngProd: jsonCrearIngProd,
@@ -1096,12 +1096,12 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoList";
+  var appPath = "/dfrida/ingresoMprimaList";
   if (currentPath == appPath) {
-    var btn = document.getElementById("btnAddIngresoProd");
+    var btn = document.getElementById("btnAddIngresoMprima");
     if (btn) {
       btn.addEventListener("click", function () {
-        window.location.href = "/dfrida/ingresoProd";
+        window.location.href = "/dfrida/ingresoMprima";
       });
     }
   }
@@ -1110,16 +1110,17 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoProd";
+  var appPath = "/dfrida/ingresoMprima";
   if (currentPath == appPath) {
-    var btn = document.getElementById("btnCerrarIngresoProd");
+    var btn = document.getElementById("btnCerrarIngresoMprima");
     if (btn) {
       btn.addEventListener("click", function () {
-        window.location.href = "/dfrida/ingresoList";
+        window.location.href = "/dfrida/ingresoMprimaList";
       });
     }
   }
 });
+
 //cerrar editar productos
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función

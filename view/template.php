@@ -45,8 +45,15 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
       $_GET["ruta"] == "salidaList" ||
       $_GET["ruta"] == "salidaProd" ||
       $_GET["ruta"] == "salidaProdEdit" ||
-
-
+      //vistas para salida Mprima
+      $_GET["ruta"] == "ingresoMprimaList" ||
+      $_GET["ruta"] == "ingresoMprima" ||
+ /*      $_GET["ruta"] == "ingresoProdEdit" ||
+      $_GET["ruta"] == "almacenProductos" ||
+      $_GET["ruta"] == "salidaList" ||
+      $_GET["ruta"] == "salidaProd" ||
+      $_GET["ruta"] == "salidaProdEdit" || */
+      //fin
       $_GET["ruta"] == "signout"
     ) {
       include "modules/" . $_GET["ruta"] . ".php";
@@ -90,6 +97,8 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
 <script src="dataTables/dt-ingresos.js"></script>
 <script src="dataTables/dt-almacenProductos.js"></script>
 <script src="dataTables/dt-salidas.js"></script>
+<script src="dataTables/dt-ingresosMprima.js"></script>
+
 
 
 <!-- funciones js -->
@@ -107,6 +116,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
 <script src="js/pdfFichasTrabajo.js"></script>
 <script src="js/ingresoProd.js"></script>
 <script src="js/salidaProd.js"></script>
+<script src="js/ingresoMprima.js"></script>
 
 
 

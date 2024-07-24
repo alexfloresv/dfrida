@@ -45,7 +45,7 @@
   <nav class="sb-sidenav-menu-nested nav">
   <a class="nav-link" href="ingresoList"><i class="fa-solid fa-arrows-down-to-line"></i><span style="margin-left: 5px;">Ingreso Produccion</span></a>
   <a class="nav-link" href="salidaList"><i class="fa-solid fa-arrows-up-to-line"></i><span style="margin-left: 5px;">Salida Productos</span></a>
-  <a class="nav-link" href="notaPedido"><i class="fa-solid fa-boxes-stacked"></i><span style="margin-left: 5px;">Ingreso Materia Prima</span></a>
+  <a class="nav-link" href="ingresoMprimaList"><i class="fa-solid fa-boxes-stacked"></i><span style="margin-left: 5px;">Ingreso Materia Prima</span></a>
     <a class="nav-link" href="notaPedido"><i class="fa-solid fa-arrow-up-from-ground-water"></i><span style="margin-left: 5px;">Salida Materia Prima</span></a>
   </nav>
 </div>
