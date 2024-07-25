@@ -20,7 +20,7 @@ require_once "controller/almacenProductos.controller.php";
 require_once "controller/salidaProd.controller.php";
 require_once "controller/ingresoMprima.controller.php";
 require_once "controller/almacenMateriaPrima.controller.php";
-
+require_once "controller/salidaMprima.controller.php";
 
 //+
 
@@ -42,6 +42,7 @@ require_once "model/almacenProductos.model.php";
 require_once "model/salidaProd.model.php";
 require_once "model/ingresoMprima.model.php";
 require_once "model/almacenMateriaPrima.model.php";
+require_once "model/salidaMprima.model.php";
 
 //+
 
@@ -62,6 +63,7 @@ require_once "functions/ingresoProd.functions.php";
 require_once "functions/almacenProductos.functions.php";
 require_once "functions/salidaProd.functions.php";
 require_once "functions/ingresoMprima.functions.php";
+require_once "functions/salidaMprima.functions.php";
 //+
 $template = new TemplateController();
 $template -> ctrTemplate();

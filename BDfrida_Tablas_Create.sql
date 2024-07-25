@@ -88,7 +88,7 @@ CREATE TABLE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 CREATE TABLE
-    `materia_Prima` (
+    `materia_prima` (
         `idMprima` int (11) NOT NULL AUTO_INCREMENT,
         `idCatMprima` int (11) NOT NULL,
         `codigoMprima` varchar(255) NOT NULL,

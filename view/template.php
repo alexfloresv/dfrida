@@ -45,15 +45,14 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
       $_GET["ruta"] == "salidaList" ||
       $_GET["ruta"] == "salidaProd" ||
       $_GET["ruta"] == "salidaProdEdit" ||
-      //vistas para salida Mprima
       $_GET["ruta"] == "ingresoMprimaList" ||
       $_GET["ruta"] == "ingresoMprima" ||
       $_GET["ruta"] == "ingresoMprimaEdit" ||
       $_GET["ruta"] == "almacenMateriaPrima" ||
-      /*   $_GET["ruta"] == "almacenProductos" ||
-     $_GET["ruta"] == "salidaList" ||
-     $_GET["ruta"] == "salidaProd" ||
-     $_GET["ruta"] == "salidaProdEdit" || */
+      $_GET["ruta"] == "salidaMprimaList" ||
+      $_GET["ruta"] == "salidaMprima" ||
+      /*   
+$_GET["ruta"] == "salidaProdEdit" || */
       //fin
       $_GET["ruta"] == "signout"
     ) {
@@ -100,6 +99,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
 <script src="dataTables/dt-salidas.js"></script>
 <script src="dataTables/dt-ingresosMprima.js"></script>
 <script src="dataTables/dt-almacenMateriaPrima.js"></script>
+<script src="dataTables/dt-salidasMprima.js"></script>
 
 
 <!-- funciones js -->
@@ -118,6 +118,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
 <script src="js/ingresoProd.js"></script>
 <script src="js/salidaProd.js"></script>
 <script src="js/ingresoMprima.js"></script>
+<script src="js/salidaMprima.js"></script>
 
 
 
