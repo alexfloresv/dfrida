@@ -135,13 +135,13 @@ class ingresoProdController
   }
 
   //obtener precio para editar ingreso productos
-    public static function ctrPrecioProdEdit($codIngProd)
-    {
-      $codIdIngProd = $codIngProd;
-      $table = "producto";
-      $response = ingresoProdModel::mdlPrecioProdEdit($table, $codIdIngProd);
-      return $response;
-    }
+  public static function ctrPrecioProdEdit($codIngProd)
+  {
+    $codIdIngProd = $codIngProd;
+    $table = "producto";
+    $response = ingresoProdModel::mdlPrecioProdEdit($table, $codIdIngProd);
+    return $response;
+  }
 
   //editar ingreso productos
   public static function ctrEditarIngresoProd($editarIngProd, $jsonProdIngNuevoEdit)
@@ -235,13 +235,28 @@ class ingresoProdController
 
     // Actualizar productos en almacen resta
     foreach ($dataFiltroResta as $producto) {
+
+      //cantidad antes de editar
+      $prodEncontrado = null;
+
+      foreach ($productosAntiguosIndexados as $item) {
+        if ($item["codProdIng"] === $producto["codProdIng"]) {
+          $prodEncontrado = $item;
+          break; // Rompe el bucle una vez encontrado el producto
+        }
+      }
+
       // Verificar datos de productos en almacen
       $stockAlmacen = self::ctrStockAlmacen($producto["codProdIng"]);
       $stockActual = $stockAlmacen["cantidadProdAlma"];
+      $cantidadAnte = $prodEncontrado["cantidadProdIng"];
       $ajusteStock = $producto["cantidadProdIng"];
 
-      // Calcular nuevo stock
-      $nuevoStock = $stockActual - $ajusteStock;
+      // Calcular la cantidad a retirar del almacén sina fectar el stock
+      $cantidadARetirar = $cantidadAnte - $ajusteStock;
+
+      // Calcular resta de stock al editar ingreso sina fectar el estock
+      $nuevoStock = $stockActual - $cantidadARetirar;
 
       // Preparar datos para actualizar
       $dataActualizarProdAlamacen = array(
@@ -256,13 +271,28 @@ class ingresoProdController
 
     // Actualizar productos en almacen suma
     foreach ($dataFiltroSuma as $producto) {
+
+      //cantidad antes de editar
+      $prodEncontrado = null;
+
+      foreach ($productosAntiguosIndexados as $item) {
+        if ($item["codProdIng"] === $producto["codProdIng"]) {
+          $prodEncontrado = $item;
+          break; // Rompe el bucle una vez encontrado el producto
+        }
+      }
+
       // Verificar datos de productos en almacen
       $stockAlmacen = self::ctrStockAlmacen($producto["codProdIng"]);
       $stockActual = $stockAlmacen["cantidadProdAlma"];
+      $cantidadAnte = $prodEncontrado["cantidadProdIng"];
       $ajusteStock = $producto["cantidadProdIng"];
 
-      // Calcular nuevo stock
-      $nuevoStock = $stockActual + $ajusteStock;
+      // Calcular la cantidad a retirar del almacén sina fectar el stock
+      $cantidadAsumar = $ajusteStock - $cantidadAnte;
+
+      // Calcular resta de stock al editar ingreso sina fectar el estock
+      $nuevoStock = $stockActual + $cantidadAsumar;
 
       // Preparar datos para actualizar
       $dataActualizarProdAlamacen = array(

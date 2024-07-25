@@ -48,11 +48,12 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
       //vistas para salida Mprima
       $_GET["ruta"] == "ingresoMprimaList" ||
       $_GET["ruta"] == "ingresoMprima" ||
- /*      $_GET["ruta"] == "ingresoProdEdit" ||
-      $_GET["ruta"] == "almacenProductos" ||
-      $_GET["ruta"] == "salidaList" ||
-      $_GET["ruta"] == "salidaProd" ||
-      $_GET["ruta"] == "salidaProdEdit" || */
+      $_GET["ruta"] == "ingresoMprimaEdit" ||
+      $_GET["ruta"] == "almacenMateriaPrima" ||
+      /*   $_GET["ruta"] == "almacenProductos" ||
+     $_GET["ruta"] == "salidaList" ||
+     $_GET["ruta"] == "salidaProd" ||
+     $_GET["ruta"] == "salidaProdEdit" || */
       //fin
       $_GET["ruta"] == "signout"
     ) {
@@ -98,7 +99,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
 <script src="dataTables/dt-almacenProductos.js"></script>
 <script src="dataTables/dt-salidas.js"></script>
 <script src="dataTables/dt-ingresosMprima.js"></script>
-
+<script src="dataTables/dt-almacenMateriaPrima.js"></script>
 
 
 <!-- funciones js -->

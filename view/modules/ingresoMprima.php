@@ -38,7 +38,7 @@
 
       <!-- Productos -->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
-        <h3>Productos a Almacen</h3>
+        <h3>Productos Prima a Almacen</h3>
         <div class="d-inline-flex m-2">
           <button type="button" class="btn btn-warning" data-bs-toggle="modal"
             data-bs-target="#modalAddMprima">Agregar Productos</button>
@@ -121,7 +121,7 @@
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
           id="btnCerrarIngresoMprima">Cerrar</button>
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success "
-          id="btnRegistrarIngresoMprima">Registrar Ingreso a Almacen </button>
+          id="btnRegistrarIngresoMprima">Registrar Ingreso a Almacen Prima </button>
       </div>
     </form>
   </main>

@@ -1,4 +1,4 @@
-//agregar productos a ingreso productos****
+//agregar productos a ingreso productos prima****
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Verificar si el código ya ha sido agregado
       if (window.codigosProductosAgregados.has(codAddIngProdModalInt)) {
         // Cerrar el modal antes de mostrar el mensaje de SweetAlert
-        $("#modalAddProdCoti").modal("hide");
+        $("#modalAddMprima").modal("hide");
         Swal.fire({
           icon: "warning",
           title: "Producto Prima duplicado",
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }).then((result) => {
           if (result.value) {
             // Mostrar el modal de nuevo
-            $("#modalAddProdCoti").modal("show");
+            $("#modalAddMprima").modal("show");
           }
         });
         return; // No proceder con el AJAX
@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 Swal.fire({
                   icon: "success",
                   title: "Correcto",
-                  html: "Ingreso de productos a Almacen ingresados Correctamente<br> <strong>¿Desea Crear Otra?</strong> ",
+                  html: "Ingreso de productos a Almacen Prima ingresados Correctamente<br> <strong>¿Desea Crear Otro Ingreso?</strong> ",
                   showCancelButton: true,
                   confirmButtonText: "Si",
                   cancelButtonText: "No",
@@ -356,14 +356,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     limpiarURL(); // Llamar a la función para limpiar la URL
                     window.location.reload(); // Recargar la página
                   } else {
-                    window.location.href = "/dfrida/ingresoList"; // Redirigir a la
+                    window.location.href = "/dfrida/ingresoMprimaList"; // Redirigir a la
                   }
                 });
-              } else if (response == "error0") {
+              } else if (response == "errorIngAlmacen") {
                 Swal.fire({
                   icon: "error",
                   title: "Error",
-                  html: "La cotización ya existe <strong>¿Desea Crear Otra?</strong>.",
+                  html: "Error Ingreso Almacen <strong>¿Intentar otra vez?</strong>.",
                   showCancelButton: true,
                   confirmButtonText: "Si",
                   cancelButtonText: "No",
@@ -372,14 +372,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     limpiarURL(); // Llamar a la función para limpiar la URL
                     window.location.reload(); // Recargar la página
                   } else {
-                    window.location.href = "/dfrida/ingresoList"; // Redirigir a la
+                    window.location.href = "/dfrida/ingresoMprimaList"; // Redirigir a la
                   }
                 });
               } else {
                 Swal.fire({
                   icon: "error",
                   title: "Error",
-                  html: "No se pudo crear la cotización <strong>¿Desea Crear Otra?</strong>.",
+                  html: "No se pudo registrar el ingreso de almacen producto Prima <strong>¿Desea Crear Otra ingreso?</strong>.",
                   showCancelButton: true,
                   confirmButtonText: "Si",
                   cancelButtonText: "No",
@@ -388,7 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     limpiarURL(); // Llamar a la función para limpiar la URL
                     window.location.reload(); // Recargar la página
                   } else {
-                    window.location.href = "/dfrida/ingresoList"; // Redirigir a la vista de cotizacionList
+                    window.location.href = "/dfrida/ingresoMprimaList"; // Redirigir a la vista de cotizacionList
                   }
                 });
               }
@@ -435,7 +435,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //fin ingreso****
 
-//****funciones para editar producto ////
+//****funciones para editar producto prima////
 
 // guardar los codigos de los productos agregados
 window.codigosProductosAgregados = new Set();
@@ -444,13 +444,13 @@ window.codigosProductosAgregados = new Set();
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoProdEdit";
+  var appPath = "/dfrida/ingresoMprimaEdit";
   if (currentPath == appPath) {
     //funcion para agregar productos a la cotizacion
     // Definir un contador global para los IDs de formulario
     //var formularioIngProdCounter = 1;
 
-    $(".dataTableProductos").on("click", ".btnAddProdModalIng", function () {
+    $(".dataTableProductosMprima").on("click", ".btnAddProdModalIng", function () {
       var codAddIngProdModal = $(this).attr("codAddIngProdModal");
 
       // Convertir el código a entero antes de verificar y agregar
@@ -459,15 +459,15 @@ document.addEventListener("DOMContentLoaded", function () {
       // Verificar si el código ya ha sido agregado
       if (window.codigosProductosAgregados.has(codAddIngProdModalInt)) {
         // Cerrar el modal antes de mostrar el mensaje de SweetAlert
-        $("#modalAddProdCoti").modal("hide");
+        $("#modalAddMprima").modal("hide");
         Swal.fire({
           icon: "warning",
-          title: "Producto duplicado",
+          title: "Producto Prima duplicado",
           text: "El producto ya está en la lista.",
         }).then((result) => {
           if (result.value) {
             // Mostrar el modal de nuevo
-            $("#modalAddProdCoti").modal("show");
+            $("#modalAddMprima").modal("show");
           }
         });
         return; // No proceder con el AJAX
@@ -480,7 +480,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var datos = new FormData();
       datos.append("codAddIngProdModal", codAddIngProdModal);
       $.ajax({
-        url: "ajax/ingresoProd.ajax.php",
+        url: "ajax/ingresoMprima.ajax.php",
         method: "POST",
         data: datos,
         cache: false,
@@ -488,11 +488,11 @@ document.addEventListener("DOMContentLoaded", function () {
         processData: false,
         dataType: "json",
         success: function (respuesta) {
-          var idProd = respuesta["idProd"];
-          var nombreProd = respuesta["nombreProd"];
-          var codigoProd = respuesta["codigoProd"];
-          var unidadProd = respuesta["unidadProd"];
-          var precioProd = respuesta["precioProd"];
+          var idProd = respuesta["idMprima"];
+          var nombreProd = respuesta["nombreMprima"];
+          var codigoProd = respuesta["codigoMprima"];
+          var unidadProd = respuesta["unidadMprima"];
+          var precioProd = respuesta["precioMprima"];
 
           // Crear un nuevo formulario para el producto con un ID único que incrementa en 1 cada vez que se agrega un producto
           var formularioID = "formularioIngProd" + formularioIngProdCounter++;
@@ -645,7 +645,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoProdEdit";
+  var appPath = "/dfrida/ingresoMprimaEdit";
   if (currentPath == appPath) {
     //funcion para calcular los totales
     $(document).ready(function () {
@@ -702,17 +702,17 @@ document.addEventListener("DOMContentLoaded", function () {
 //FIN TOTALES
 ////
 
-//editar ingreso productos
+//editar ingreso productos prima
 // Enviar código a la vista de editar
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoList";
+  var appPath = "/dfrida/ingresoMprimaList";
   if (currentPath == appPath) {
-    $(".dataTableIngresosProd").on("click", ".btnEditarIngProd", function () {
+    $(".dataTableIngresosMprima").on("click", ".btnEditarIngProd", function () {
       swal
         .fire({
           title: "¡Editar el Ingreso Puede generar negativos!",
-          text: "¡Esta accion afectara directamente al almacen!",
+          text: "¡Esta accion afectara directamente al almacen Productos Prima!",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
@@ -722,10 +722,10 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            var codIngProd = $(this).attr("codIngProd");
+            var codIngMprima = $(this).attr("codIngMprima");
             // Usar la variable directamente en la URL de redirección
             window.location.href =
-              "/dfrida/ingresoProdEdit?codIngProd=" + codIngProd;
+              "/dfrida/ingresoMprimaEdit?codIngMprima=" + codIngMprima;
           }
         });
     });
@@ -747,15 +747,14 @@ window.formularioIngProdCounter = 0;
 
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoProdEdit";
+  var appPath = "/dfrida/ingresoMprimaEdit";
   if (currentPath == appPath) {
-    // Función para obtener el valor de un parámetro por nombre
 
     // Extraer el valor de 'codFichaTec' de la URL
-    var codIngProd = getQueryParam("codIngProd");
-    if (codIngProd) {
+    var codIngMprima = getQueryParam("codIngMprima");
+    if (codIngMprima) {
       // Asignar el valor extraído al campo oculto
-      document.getElementById("codIngProd").value = codIngProd;
+      document.getElementById("codIngMprima").value = codIngMprima;
 
       // Eliminar el parámetro 'codFichaTec' de la URL
       var newUrl = window.location.pathname;
@@ -764,12 +763,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //  editar ficha tecnica
     //obtener el valor guardado en el campo oculto cuando carga la pagina
-    var codIngProd = document.getElementById("codIngProd").value;
+    var codIngMprima = document.getElementById("codIngMprima").value;
     var data = new FormData();
-    data.append("codIngProd", codIngProd);
+    data.append("codIngMprima", codIngMprima);
     //visualizar los datos
     $.ajax({
-      url: "ajax/ingresoProd.ajax.php",
+      url: "ajax/ingresoMprima.ajax.php",
       method: "POST",
       data: data,
       cache: false,
@@ -777,28 +776,29 @@ document.addEventListener("DOMContentLoaded", function () {
       processData: false,
       dataType: "json",
       success: function (response) {
-        $("#codIngProd").val(response["idIngProd"]);
-        $("#tituloIngProdEdit").val(response["nombreIngProd"]);
-        $("#fechaIngProdEdit").val(response["fechaIngProd"]);
-        $("#igvIngProdAdd").val(response["igvIngProd"]);
-        $("#subTotalIngProdAdd").val(response["subTotalIngProd"]);
-        $("#totalIngProdAdd").val(response["totalIngProd"]);
-        $("#totalIngProdAddList").val(response["totalIngProd"]);
-        $("#prodIngAnteriorEdit").val(response["ingJsonProd"]);
-        if (response.hasOwnProperty("ingJsonProd")) {
-          ingresoProductoEdit(response["ingJsonProd"]);
+        $("#codIngMprima").val(response["idIngMprima"]);
+        $("#tituloIngProdEdit").val(response["nombreIngMprima"]);
+        $("#fechaIngProdEdit").val(response["fechaIngMprima"]);
+        $("#igvIngProdAdd").val(response["igvIngMprima"]);
+        $("#subTotalIngProdAdd").val(response["subTotalIngMprima"]);
+        $("#totalIngProdAdd").val(response["totalIngMprima"]);
+        $("#totalIngProdAddList").val(response["totalIngMprima"]);
+        $("#prodIngAnteriorEdit").val(response["ingJsonMprima"]);
+        if (response.hasOwnProperty("ingJsonMprima")) {
+          ingresoProductoEdit(response["ingJsonMprima"]);
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
       },
     });
+
     function obtenerPrecioProdUni(codProdIng) {
       return new Promise((resolve, reject) => {
         var data = new FormData();
         data.append("codProdIng", codProdIng);
         $.ajax({
-          url: "ajax/ingresoProd.ajax.php",
+          url: "ajax/ingresoMprima.ajax.php",
           method: "POST",
           data: data,
           cache: false,
@@ -806,7 +806,7 @@ document.addEventListener("DOMContentLoaded", function () {
           processData: false,
           dataType: "json",
           success: function (response) {
-            resolve(response["precioProd"]); // Resuelve la promesa con un objeto que contiene ambos valores
+            resolve(response["precioMprima"]); // Resuelve la promesa con un objeto que contiene ambos valores
           },
           error: function (jqXHR, textStatus, errorThrown) {
             reject(
@@ -818,9 +818,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Uso de async/await en ingresoProductoEdit para esperar la respuesta de obtenerPrecioProdUni
-    async function ingresoProductoEdit(ingJsonProd) {
+    async function ingresoProductoEdit(ingJsonMprima) {
       // Decodificar el JSON recibido de la respuesta de visualizar datos
-      const procesos = JSON.parse(ingJsonProd);
+      const procesos = JSON.parse(ingJsonMprima);
 
       // Mostrar el modal de carga porque la promesa es asincrónica y espera la respuesta para crear el formulario
       // el usuario visualizará una demora en la carga de los datos
@@ -871,35 +871,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Cerrar el modal de carga una vez que se haya completado el procesamiento
       Swal.close();
     }
-    /*  function ingresoProductoEdit(ingJsonProd) {
-      // Decodificar el JSON recibido
-      const procesos = JSON.parse(ingJsonProd);
-      //var formularioProcesoCounter = 0;
-      // Insertar datos automáticamente
-      Object.values(procesos).forEach((proceso) => {
-        const {
-          codProdIng,
-          nombreProdIng,
-          codigoProdIng,
-          unidadProdIng,
-          cantidadProdIng,
-          precioProdIng,
-        } = proceso;
-        // Convertir el código del producto a entero antes de agregarlo a la variable global contadora de productos agreagados ala lista
-        var codProdIngInt = parseInt(codProdIng, 10);
-        codigosProductosAgregados.add(codProdIngInt);
-
-        insertarFormulario(
-          codProdIng,
-          nombreProdIng,
-          codigoProdIng,
-          unidadProdIng,
-          cantidadProdIng,
-          precioProdIng
-        );
-      });
-    } */
-
+ 
     function insertarFormulario(
       codProdIng,
       nombreProdIng,
@@ -944,12 +916,12 @@ document.addEventListener("DOMContentLoaded", function () {
       $(".AddIngProductoEdit").append(nuevoProductoHTML);
     }
     //enviar formulario al servidor para editar
-    $("#btnEditarIngresoProd").on("click", function () {
+    $("#btnEditarIngresoMprima").on("click", function () {
       //totales estén actualizados si el usuario no lo hizo
       document.getElementById("btnCalcularTotalIng").click();
       //obtener el formulario por id
 
-      var formulario = document.getElementById("formIngresoProdEdit");
+      var formulario = document.getElementById("formIngresoMprimaEdit");
       var datosFormulario = {};
       //obtener los elementos del formulario
       var elementosFormulario = formulario.querySelectorAll("input, select");
@@ -970,7 +942,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
         $.ajax({
-          url: "ajax/ingresoProd.ajax.php",
+          url: "ajax/ingresoMprima.ajax.php",
           method: "POST",
           data: {
             jsonEditarIngProd: jsonEditarIngProd,
@@ -982,9 +954,9 @@ document.addEventListener("DOMContentLoaded", function () {
               Swal.fire({
                 icon: "success",
                 title: "Correcto",
-                text: "Ingreso Producto Editado Correctamente",
+                text: "Ingreso Producto Prima Editado Correctamente",
               }).then(function () {
-                window.location.href = "/dfrida/ingresoList";
+                window.location.href = "/dfrida/ingresoMprimaList";
               });
             } else {
               Swal.fire(
@@ -1031,13 +1003,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //fin editar ingreso productos
 
-//borrar ingreso productos
+//borrar ingreso productos prima
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoList";
+  var appPath = "/dfrida/ingresoMprimaList";
   if (currentPath == appPath) {
-    $(".dataTableIngresosProd").on("click", ".btnDeleteIngProd", function () {
-      var codIngProd = $(this).attr("codIngProd");
+    $(".dataTableIngresosMprima").on("click", ".btnDeleteIngProd", function () {
+      var codIngMprima = $(this).attr("codIngMprima");
       swal
         .fire({
           title: "¿Está seguro de borrar el Ingreso? Puede generar negativos",
@@ -1051,13 +1023,13 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            var jsonBorraIngProdcutos = JSON.stringify({
-              codIngProd: codIngProd,
+            var jsonBorraIngProductosPrima = JSON.stringify({
+              codIngMprima: codIngMprima,
             });
             $.ajax({
-              url: "ajax/ingresoProd.ajax.php",
+              url: "ajax/ingresoMprima.ajax.php",
               method: "POST",
-              data: { jsonBorraIngProdcutos: jsonBorraIngProdcutos },
+              data: { jsonBorraIngProductosPrima: jsonBorraIngProductosPrima },
               dataType: "json",
               success: function (response) {
                 if (response == "ok") {
@@ -1106,6 +1078,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+
 //cerrar ingreso productos
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
@@ -1121,16 +1094,16 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-//cerrar editar productos
+//cerrar editar productos 
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoProdEdit";
+  var appPath = "/dfrida/ingresoMprimaEdit";
   if (currentPath == appPath) {
-    var btn = document.getElementById("btnCerrarEditIngresoProd");
+    var btn = document.getElementById("btnCerrarEditIngresoMprima");
     if (btn) {
       btn.addEventListener("click", function () {
-        window.location.href = "/dfrida/ingresoList";
+        window.location.href = "/dfrida/ingresoMprimaList";
       });
     }
   }

@@ -12,19 +12,19 @@
   <main class="bg">
     <div class="container-fluid px-4">
       <h1 class="mt-4">
-        Editar Ingreso Productos D'Frida
+        Editar Ingreso Productos Prima D'Frida
       </h1>
     </div>
 
-    <form role="form" method="post" class="row g-3 m-2 formIngresoProd " id="formIngresoProdEdit">
+    <form role="form" method="post" class="row g-3 m-2 formIngresoMprima" id="formIngresoMprimaEdit">
 
       <div class="container row g-8" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
 
-        <h3>Datos para del Ingreso</h3>
+        <h3>Editar Datos para del Ingreso</h3>
 
 
         <div class="form-group col-md-10">
-          <label for="tituloIngProdEdit" class="form-label" style="font-weight: bold">Descripcion Ingreso:</label>
+          <label for="tituloIngProdEdit" class="form-label" style="font-weight: bold">Descripcion Ingreso Producto Prima:</label>
           <input type="text" class="form-control" id="tituloIngProdEdit" name="tituloIngProdEdit"
             placeholder="Ingrese una una descripcion para el ingreso ">
         </div>
@@ -38,10 +38,10 @@
 
       <!-- Productos -->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
-        <h3>Productos a Almacen</h3>
+        <h3>Productos Prima a Almacen </h3>
         <div class="d-inline-flex m-2">
           <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-            data-bs-target="#modalAddProdCoti">Agregar Productos</button>
+            data-bs-target="#modalAddMprima">Agregar Productos</button>
         </div>
 
         <div class="row" style="font-weight: bold">
@@ -119,16 +119,16 @@
       <!-- fin -->
 
       <!-- campo que guardel valor del boton y del ajax -->
-      <input type="hidden" class="form-control" id="codIngProd" name="codIngProd">
+      <input type="hidden" class="form-control" id="codIngMprima" name="codIngMprima">
 
       <!-- campo que guarde el jsonProductos de la respuesta ajax -->
       <input type="hidden" class="form-control" id="prodIngAnteriorEdit" name="prodIngAnteriorEdit" value="">
 
       <div class="container row g-3 p-3 ">
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
-          id="btnCerrarEditIngresoProd">Cerrar</button>
+          id="btnCerrarEditIngresoMprima">Cerrar</button>
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success "
-          id="btnEditarIngresoProd">Editar Ingreso a Almacen </button>
+          id="btnEditarIngresoMprima">Editar Ingreso a Almacen </button>
       </div>
     </form>
   </main>
@@ -136,20 +136,20 @@
 </div>
 
 <!-- Modal produtos -->
-<div class="modal fade" id="modalAddProdCoti" tabindex="-1" aria-labelledby="modalAddProdCoti" aria-hidden="true">
+<div class="modal fade" id="modalAddMprima" tabindex="-1" aria-labelledby="modalAddMprima" aria-hidden="true">
   <div class="modal-dialog modal-lg"> <!-- Clase "modal-lg" agregada aquí -->
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalAddProdCoti">Lista Productos </h1>
+        <h1 class="modal-title fs-5" id="modalAddMprima">Lista Productos </h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <table id="dataTableProductos" class="display dataTableProductos">
+        <table id="dataTableProductosMprima" class="display dataTableProductosMprima">
           <thead>
-            <!-- dataTableProductos -->
+            <!-- dataTableProductosMprima -->
           </thead>
           <tbody>
-            <!--dataTableProductos-->
+            <!--dataTableProductosMprima-->
           </tbody>
         </table>
       </div>

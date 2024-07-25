@@ -19,6 +19,7 @@ require_once "controller/ingresoProd.controller.php";
 require_once "controller/almacenProductos.controller.php";
 require_once "controller/salidaProd.controller.php";
 require_once "controller/ingresoMprima.controller.php";
+require_once "controller/almacenMateriaPrima.controller.php";
 
 
 //+
@@ -40,6 +41,7 @@ require_once "model/ingresoProd.model.php";
 require_once "model/almacenProductos.model.php";
 require_once "model/salidaProd.model.php";
 require_once "model/ingresoMprima.model.php";
+require_once "model/almacenMateriaPrima.model.php";
 
 //+
 

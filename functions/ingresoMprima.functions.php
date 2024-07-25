@@ -54,7 +54,7 @@ class FunctionIngresoMprima
   public static function getBtnVerIngProd($codAllIngMprima)
   {
     $botones = '
-       <button class="btn btn-info btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalProdIngresados" codAllIngMprima="' . $codAllIngMprima . '"><i class="fa-solid fa-cubes"></i></button>
+       <button class="btn btn-info btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalProdIngresados" codAllIngMprima="' . $codAllIngMprima . '"><i class="fa-solid fa-cube"></i></button>
       ';
     return $botones;
   }

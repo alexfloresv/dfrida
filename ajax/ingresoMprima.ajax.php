@@ -10,72 +10,72 @@ if (session_status() == PHP_SESSION_NONE) {
 
 //datatable de ingresos productos Prima
 if (isset($_POST["todosLosIngProductosPrima"])) {
-  $todosLosIngProductosPrima = new IngresoProdAjax();
+  $todosLosIngProductosPrima = new IngresoMprimaAjax();
   $todosLosIngProductosPrima->ajaxDTableIngProductosPrima();
 }
 
-//visualizar ingreos en el modal de ingresos productos
-if (isset($_POST["codAllIngProd"])) {
-  $view = new IngresoProdAjax();
-  $view->codAllIngProd = $_POST["codAllIngProd"];
-  $view->ajaxVerProductosIngresadosModal($_POST["codAllIngProd"]);
+//visualizar ingreos en el modal de ingresos productos prima
+if (isset($_POST["codAllIngMprima"])) {
+  $view = new IngresoMprimaAjax();
+  $view->codAllIngMprima = $_POST["codAllIngMprima"];
+  $view->ajaxVerProductosIngresadosModal($_POST["codAllIngMprima"]);
 }
 
 //  crear ingreso productos prima
 if (isset($_POST["jsonCrearIngProd"], $_POST["jsonProductosIngProd"])) {
-  $create = new IngresoProdAjax();
+  $create = new IngresoMprimaAjax();
   $create->jsonCrearIngProd = $_POST["jsonCrearIngProd"];
   $create->jsonProductosIngProd = $_POST["jsonProductosIngProd"];
   $create->ajaxCrearIngresoMprima($_POST["jsonCrearIngProd"], $_POST["jsonProductosIngProd"]);
 }
 
-//visualizar datos para editar ingreso productos
-if (isset($_POST["codIngProd"])) {
-  $viewData = new IngresoProdAjax();
-  $viewData->codIngProd = $_POST["codIngProd"];
-  $viewData->ajaxVerDataIngProd($_POST["codIngProd"]);
+//visualizar datos para editar ingreso productos prima
+if (isset($_POST["codIngMprima"])) {
+  $viewData = new IngresoMprimaAjax();
+  $viewData->codIngMprima = $_POST["codIngMprima"];
+  $viewData->ajaxVerDataIngProd($_POST["codIngMprima"]);
 }
 
-//obtener precio para editar ingreso productos
+//obtener precio para editar ingreso productos prima
 if (isset($_POST["codProdIng"])) {
-  $viewData = new IngresoProdAjax();
+  $viewData = new IngresoMprimaAjax();
   $viewData->codProdIng = $_POST["codProdIng"];
   $viewData->ajaxPrecioProdEdit($_POST["codProdIng"]);
 }
 
-//editar ingreso productos
+//editar ingreso productos prima
 if (isset($_POST["jsonEditarIngProd"], $_POST["jsonEditarIngProductosForms"])) {
-  $edit = new IngresoProdAjax();
+  $edit = new IngresoMprimaAjax();
   $edit->jsonEditarIngProd = $_POST["jsonEditarIngProd"];
   $edit->jsonEditarIngProductosForms = $_POST["jsonEditarIngProductosForms"];
   $edit->ajaxEditarIngresoProd($_POST["jsonEditarIngProd"], $_POST["jsonEditarIngProductosForms"]);
 }
 
 
-//borrar ingreso productos
-if (isset($_POST["jsonBorraIngProdcutos"])) {
-  $delete = new IngresoProdAjax();
-  $delete->jsonBorraIngProdcutos = $_POST["jsonBorraIngProdcutos"];
-  $delete->ajaxBorrarIngProductos($_POST["jsonBorraIngProdcutos"]);
+//borrar ingreso productos prima
+if (isset($_POST["jsonBorraIngProductosPrima"])) {
+  $delete = new IngresoMprimaAjax();
+  $delete->jsonBorraIngProductosPrima = $_POST["jsonBorraIngProductosPrima"];
+  $delete->ajaxBorrarIngProductos($_POST["jsonBorraIngProductosPrima"]);
 }
 //Agregar Producto prima al ingreso
 if (isset($_POST["codAddIngProdModal"])) {
-  $add = new IngresoProdAjax();
+  $add = new IngresoMprimaAjax();
   $add->codAddIngProdModal = $_POST["codAddIngProdModal"];
   $add->ajaxAgregarIngProductoPrima($_POST["codAddIngProdModal"]);
 }
 
 //  Descargar PDF de la cotizacion
 if (isset($_POST["jsonPdfCotizacion"])) {
-  $pdf = new IngresoProdAjax();
+  $pdf = new IngresoMprimaAjax();
   $pdf->jsonPdfCotizacion = $_POST["jsonPdfCotizacion"];
   $pdf->ajaxDescargarPdfCotizacion($_POST["jsonPdfCotizacion"]);
 }
 /////////////////////////////
 
-class IngresoProdAjax
+class IngresoMprimaAjax
 {
-  //datatable de ingresos productos
+  //datatable de ingresos productos prima
   public function ajaxDTableIngProductosPrima()
   {
     $todosLosIngProductosPrima = ingresoMprimaController::ctrDTableIngProductosPrima();
@@ -86,10 +86,10 @@ class IngresoProdAjax
     echo json_encode($todosLosIngProductosPrima);
   }
 
-  //visualizar ingreos en el modal de ingresos productos
-  public function ajaxVerProductosIngresadosModal($codAllIngProd)
+  //visualizar ingreos en el modal de ingresos productos prima
+  public function ajaxVerProductosIngresadosModal($codAllIngMprima)
   {
-    $response = ingresoMprimaController::ctrVerProductosIngresadosModal($codAllIngProd);
+    $response = ingresoMprimaController::ctrVerProductosIngresadosModal($codAllIngMprima);
     echo json_encode($response);
   }
 
@@ -102,31 +102,31 @@ class IngresoProdAjax
     echo json_encode($response);
   }
 
-  //visualizar datos para editar ingreso productos
-  public function ajaxVerDataIngProd($codIngProd)
+  //visualizar datos para editar ingreso productos prima
+  public function ajaxVerDataIngProd($codIngMprima)
   {
-    $response = ingresoMprimaController::ctrVerDataIngProductos($codIngProd);
+    $response = ingresoMprimaController::ctrVerDataIngProductos($codIngMprima);
     echo json_encode($response);
   }
 
-  //obtener precio para editar ingreso productos
+  //obtener precio para editar ingreso productos prima
   public function ajaxPrecioProdEdit($codProdIng)
   {
     $response = ingresoMprimaController::ctrPrecioProdEdit($codProdIng);
     echo json_encode($response);
   }
 
-  //editar ingreso productos
+  //editar ingreso productos prima
   public function ajaxEditarIngresoProd($jsonEditarIngProd, $jsonEditarIngProductosForms)
   {
     $editarIngProd = json_decode($jsonEditarIngProd, true); // Decodificar la cadena de texto JSON en un array asociativo
     $response = ingresoMprimaController::ctrEditarIngresoProd($editarIngProd, $jsonEditarIngProductosForms);
     echo json_encode($response);
   }
-  //borrar ingreso productos
-  public function ajaxBorrarIngProductos($jsonBorraIngProdcutos)
+  //borrar ingreso productos prima
+  public function ajaxBorrarIngProductos($jsonBorraIngProductosPrima)
   {
-    $borrarIngProductos = json_decode($jsonBorraIngProdcutos, true); // Decodificar la cadena de texto JSON en un array asociativo
+    $borrarIngProductos = json_decode($jsonBorraIngProductosPrima, true); // Decodificar la cadena de texto JSON en un array asociativo
     $response = ingresoMprimaController::ctrBorrarIngProductos($borrarIngProductos);
     echo json_encode($response);
   }
@@ -134,8 +134,8 @@ class IngresoProdAjax
 //Agregar Producto prima al ingreso
   public function ajaxAgregarIngProductoPrima($codAddIngProdModal)
   {
-    $codIngProducto = json_decode($codAddIngProdModal, true); // Decodificar la cadena de texto JSON en un array asociativo
-    $response = ingresoMprimaController::ctrAgregarIngProducto($codIngProducto);
+    $codIngMprimaucto = json_decode($codAddIngProdModal, true); // Decodificar la cadena de texto JSON en un array asociativo
+    $response = ingresoMprimaController::ctrAgregarIngProducto($codIngMprimaucto);
     echo json_encode($response);
   }
 

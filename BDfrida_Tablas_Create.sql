@@ -212,7 +212,7 @@ CREATE TABLE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 CREATE TABLE
-    `ingreso_Mprima` (
+    `ingreso_mprima` (
         `idIngMprima` int (11) NOT NULL AUTO_INCREMENT,
         `nombreIngMprima` varchar(255) NOT NULL,
         `fechaIngMprima` date NOT NULL,
@@ -224,9 +224,9 @@ CREATE TABLE
         `DateUpdate` datetime NOT NULL,
         PRIMARY KEY (`idIngMprima`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
-
+Drop TABLE alamcen_mprima;
 CREATE TABLE
-    `alamcen_Mprima` (
+    `almacen_mprima` (
         `idAlmaMprima` int (11) NOT NULL AUTO_INCREMENT,
         `idMprima` int (11) NOT NULL,
         `codigoMprimaAlma` varchar(255) NOT NULL,
@@ -240,7 +240,7 @@ CREATE TABLE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 CREATE TABLE
-    `salida_Mprima` (
+    `salida_mprima` (
         `idSalMprima` int (11) NOT NULL AUTO_INCREMENT,
         `idProcOp` int (11) DEFAULT NULL,
         `nombreSalMprima` varchar(255) NOT NULL,
