@@ -11,17 +11,17 @@
  Target Server Version : 100432
  File Encoding         : 65001
 
- Date: 24/07/2024 16:08:56
+ Date: 26/07/2024 13:53:20
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for alamcen_mprima
+-- Table structure for almacen_mprima
 -- ----------------------------
-DROP TABLE IF EXISTS `alamcen_mprima`;
-CREATE TABLE `alamcen_mprima`  (
+DROP TABLE IF EXISTS `almacen_mprima`;
+CREATE TABLE `almacen_mprima`  (
   `idAlmaMprima` int NOT NULL AUTO_INCREMENT,
   `idMprima` int NOT NULL,
   `codigoMprimaAlma` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
@@ -32,11 +32,16 @@ CREATE TABLE `alamcen_mprima`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idAlmaMprima`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of alamcen_mprima
+-- Records of almacen_mprima
 -- ----------------------------
+INSERT INTO `almacen_mprima` VALUES (1, 29, 'HilNeg202503', 'Holi negro 3.5', 'Docena', '10', '400.00', '2024-07-25 10:14:28', '2024-07-26 13:24:28');
+INSERT INTO `almacen_mprima` VALUES (2, 28, 'RollTelCedBla202405', 'Rollo tela ceda blanco', 'Uni', '10', '9000.00', '2024-07-25 10:14:51', '2024-07-26 13:24:28');
+INSERT INTO `almacen_mprima` VALUES (3, 27, 'RollTelDri202405', 'Rollo tela dril azul', 'Uni', '10', '8000.00', '2024-07-25 10:15:01', '2024-07-26 13:24:16');
+INSERT INTO `almacen_mprima` VALUES (4, 26, 'Boto202405', 'Botones de pantalones hombre', 'Uni', '10', '13.00', '2024-07-25 10:15:02', '2024-07-26 13:24:16');
+INSERT INTO `almacen_mprima` VALUES (5, 25, 'CieCasProm202405', 'Cierre Casacas Promo', 'Uni', '10', '150.00', '2024-07-25 10:15:03', '2024-07-26 13:24:16');
 
 -- ----------------------------
 -- Table structure for almacen_prod
@@ -53,16 +58,17 @@ CREATE TABLE `almacen_prod`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idAlmaProd`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of almacen_prod
 -- ----------------------------
-INSERT INTO `almacen_prod` VALUES (24, 40, 'PolEdFisUnx0325', 'Polos Ed Fisica Unisex', 'Docena', '10', '4800.00', '2024-07-24 13:02:20', '2024-07-24 13:19:38');
-INSERT INTO `almacen_prod` VALUES (25, 39, 'CamVarCole0324', 'Camisa Varon Colegio', 'Uni', '50', '6000.00', '2024-07-24 13:02:54', '2024-07-24 13:19:38');
-INSERT INTO `almacen_prod` VALUES (26, 37, 'BluCda0524', 'Blusa Ceda Blanca', 'Uni', '100', '8000.00', '2024-07-24 13:03:19', '2024-07-24 13:19:38');
-INSERT INTO `almacen_prod` VALUES (27, 38, 'PantSol0525', 'Pantalon Soldadura', 'Docena', '5', '28800.00', '2024-07-24 13:04:15', '2024-07-24 13:19:38');
-INSERT INTO `almacen_prod` VALUES (28, 36, 'PolProm202403', 'Polera Promocion Escolar', 'Uni', '10', '7500.00', '2024-07-24 13:04:16', '2024-07-24 13:19:38');
+INSERT INTO `almacen_prod` VALUES (24, 40, 'PolEdFisUnx0325', 'Polos Ed Fisica Unisex', 'Docena', '20', '4800.00', '2024-07-24 13:02:20', '2024-07-26 13:52:14');
+INSERT INTO `almacen_prod` VALUES (25, 39, 'CamVarCole0324', 'Camisa Varon Colegio', 'Uni', '60', '6000.00', '2024-07-24 13:02:54', '2024-07-25 10:20:35');
+INSERT INTO `almacen_prod` VALUES (26, 37, 'BluCda0524', 'Blusa Ceda Blanca', 'Uni', '110', '8000.00', '2024-07-24 13:03:19', '2024-07-25 10:20:35');
+INSERT INTO `almacen_prod` VALUES (27, 38, 'PantSol0525', 'Pantalon Soldadura', 'Docena', '30', '28800.00', '2024-07-24 13:04:15', '2024-07-25 10:20:39');
+INSERT INTO `almacen_prod` VALUES (28, 36, 'PolProm202403', 'Polera Promocion Escolar', 'Uni', '28', '7500.00', '2024-07-24 13:04:16', '2024-07-26 13:52:25');
+INSERT INTO `almacen_prod` VALUES (34, 41, '123456', 'productoNuevo', 'Uni', '0', '10.00', '2024-07-25 14:35:17', '2024-07-26 13:52:22');
 
 -- ----------------------------
 -- Table structure for categoria_mprima
@@ -262,11 +268,12 @@ CREATE TABLE `ingreso_mprima`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idIngMprima`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ingreso_mprima
 -- ----------------------------
+INSERT INTO `ingreso_mprima` VALUES (15, 'Asperiores molestiae', '1979-07-25', '0', '17563.00', '17563.00', '{\"producto0\":{\"codProdIng\":\"29\",\"nombreProdIng\":\"Holi negro 3.5\",\"codigoProdIng\":\"HilNeg202503\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"400.00\"},\"producto1\":{\"codProdIng\":\"28\",\"nombreProdIng\":\"Rollo tela ceda blanco\",\"codigoProdIng\":\"RollTelCedBla202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"9000.00\"},\"producto2\":{\"codProdIng\":\"27\",\"nombreProdIng\":\"Rollo tela dril azul\",\"codigoProdIng\":\"RollTelDri202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"8000.00\"},\"producto3\":{\"codProdIng\":\"26\",\"nombreProdIng\":\"Botones de pantalones hombre\",\"codigoProdIng\":\"Boto202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"13.00\"},\"producto4\":{\"codProdIng\":\"25\",\"nombreProdIng\":\"Cierre Casacas Promo\",\"codigoProdIng\":\"CieCasProm202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"150.00\"}}', '2024-07-26 11:14:34', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for ingreso_prod
@@ -283,7 +290,7 @@ CREATE TABLE `ingreso_prod`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idIngProd`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ingreso_prod
@@ -316,7 +323,7 @@ CREATE TABLE `materia_prima`  (
 -- Records of materia_prima
 -- ----------------------------
 INSERT INTO `materia_prima` VALUES (25, 9, 'CieCasProm202405', 'Cierre Casacas Promo', 'Cierres para casacas de promocion', 'Uni', 15.00, '2024-07-24 12:56:23', '0000-00-00 00:00:00');
-INSERT INTO `materia_prima` VALUES (26, 8, 'Boto202405', 'Borones de pantalones hombre', 'botones para pantalones de varones ', 'Uni', 1.30, '2024-07-24 12:57:22', '0000-00-00 00:00:00');
+INSERT INTO `materia_prima` VALUES (26, 8, 'Boto202405', 'Botones de pantalones hombre', 'botones para pantalones de varones ', 'Uni', 1.30, '2024-07-24 12:57:22', '2024-07-25 10:24:30');
 INSERT INTO `materia_prima` VALUES (27, 6, 'RollTelDri202405', 'Rollo tela dril azul', 'Rollo de tela dril azul', 'Uni', 800.00, '2024-07-24 12:58:42', '0000-00-00 00:00:00');
 INSERT INTO `materia_prima` VALUES (28, 5, 'RollTelCedBla202405', 'Rollo tela ceda blanco', 'Rollo de tela ceda blanco', 'Uni', 900.00, '2024-07-24 12:59:44', '0000-00-00 00:00:00');
 INSERT INTO `materia_prima` VALUES (29, 1, 'HilNeg202503', 'Holi negro 3.5', 'caja de hilos negros 3.5', 'Docena', 40.00, '2024-07-24 13:00:42', '0000-00-00 00:00:00');
@@ -479,7 +486,7 @@ CREATE TABLE `producto`  (
   PRIMARY KEY (`idProd`) USING BTREE,
   INDEX `idCatPro`(`idCatPro`) USING BTREE,
   CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`idCatPro`) REFERENCES `categoria_prod` (`idCatPro`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of producto
@@ -489,6 +496,7 @@ INSERT INTO `producto` VALUES (37, 35, 'BluCda0524', 'Blusa Ceda Blanca', 'Blusa
 INSERT INTO `producto` VALUES (38, 34, 'PantSol0525', 'Pantalon Soldadura', 'Pantalon de soldadura empresa Soldadora', 'Docena', 960.00, '2024-07-24 12:48:43', '0000-00-00 00:00:00');
 INSERT INTO `producto` VALUES (39, 33, 'CamVarCole0324', 'Camisa Varon Colegio', 'Camisa varon colegio san sebastian', 'Uni', 60.00, '2024-07-24 12:49:41', '0000-00-00 00:00:00');
 INSERT INTO `producto` VALUES (40, 32, 'PolEdFisUnx0325', 'Polos Ed Fisica Unisex', 'Polos educacion fisica colegio san sebastian', 'Docena', 480.00, '2024-07-24 12:51:01', '0000-00-00 00:00:00');
+INSERT INTO `producto` VALUES (41, 36, '123456', 'productoNuevo', 'prueba', 'Uni', 1.00, '2024-07-25 14:35:02', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for proveedores
@@ -535,7 +543,7 @@ CREATE TABLE `salida_mprima`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idSalMprima`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of salida_mprima
@@ -564,8 +572,6 @@ CREATE TABLE `salida_prod`  (
 -- ----------------------------
 INSERT INTO `salida_prod` VALUES (28, 1, 'salida casacas promocion', '2024-07-24', '810', '4500.00', '5310.00', '{\"producto0\":{\"codProdIng\":\"36\",\"nombreProdIng\":\"Polera Promocion Escolar\",\"codigoProdIng\":\"PolProm202403\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"30\",\"precioProdIng\":\"4500.00\"}}', '2024-07-24 13:18:11', '0000-00-00 00:00:00');
 INSERT INTO `salida_prod` VALUES (29, 1, 'salida camisas varon colegio ', '2024-07-24', '1080', '6000.00', '7080.00', '{\"producto0\":{\"codProdIng\":\"39\",\"nombreProdIng\":\"Camisa Varon Colegio\",\"codigoProdIng\":\"CamVarCole0324\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"100\",\"precioProdIng\":\"6000.00\"}}', '2024-07-24 13:18:39', '0000-00-00 00:00:00');
-INSERT INTO `salida_prod` VALUES (30, 12, 'salida pantalones ', '2024-07-24', '2592', '14400.00', '16992.00', '{\"producto0\":{\"codProdIng\":\"38\",\"nombreProdIng\":\"Pantalon Soldadura\",\"codigoProdIng\":\"PantSol0525\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"15\",\"precioProdIng\":\"14400.00\"}}', '2024-07-24 13:19:05', '0000-00-00 00:00:00');
-INSERT INTO `salida_prod` VALUES (31, 3, 'salida produccion Semana ', '2024-07-24', '3114', '17300.00', '20414.00', '{\"producto0\":{\"codProdIng\":\"36\",\"nombreProdIng\":\"Polera Promocion Escolar\",\"codigoProdIng\":\"PolProm202403\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"1500.00\"},\"producto1\":{\"codProdIng\":\"38\",\"nombreProdIng\":\"Pantalon Soldadura\",\"codigoProdIng\":\"PantSol0525\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"9600.00\"},\"producto2\":{\"codProdIng\":\"37\",\"nombreProdIng\":\"Blusa Ceda Blanca\",\"codigoProdIng\":\"BluCda0524\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"800.00\"},\"producto3\":{\"codProdIng\":\"39\",\"nombreProdIng\":\"Camisa Varon Colegio\",\"codigoProdIng\":\"CamVarCole0324\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"600.00\"},\"producto4\":{\"codProdIng\":\"40\",\"nombreProdIng\":\"Polos Ed Fisica Unisex\",\"codigoProdIng\":\"PolEdFisUnx0325\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"4800.00\"}}', '2024-07-24 13:19:38', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for tipo_proceso
@@ -622,7 +628,7 @@ CREATE TABLE `usuario`  (
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
-INSERT INTO `usuario` VALUES (1, 1, 'dfrida', 'Administrador', 'administrador', '$argon2id$v=19$m=4096,t=2,p=2$ZURZWG0yNkNOZVJTLlg5Lw$MvzbwXUNlV+Inxssd1nN+A8EN5Il6CdSAs7pTc3szJk', '2024-07-24 09:47:38', '2024-02-16 12:09:23', '2024-02-16 12:09:23');
+INSERT INTO `usuario` VALUES (1, 1, 'dfrida', 'Administrador', 'administrador', '$argon2id$v=19$m=4096,t=2,p=2$ZURZWG0yNkNOZVJTLlg5Lw$MvzbwXUNlV+Inxssd1nN+A8EN5Il6CdSAs7pTc3szJk', '2024-07-26 08:40:14', '2024-02-16 12:09:23', '2024-02-16 12:09:23');
 INSERT INTO `usuario` VALUES (7, 2, 'alex', 'alex administrativo', 'flores', '$argon2id$v=19$m=4096,t=2,p=2$N0RQdHo5MXhOb1ZPdS45Wg$lk4EN49DUl5YTX+omAM/qpOZZG1P4adfpdAWl/IFSG4', '2024-07-16 15:02:17', '2024-07-16 15:02:09', '2024-07-16 15:02:09');
 
 SET FOREIGN_KEY_CHECKS = 1;
