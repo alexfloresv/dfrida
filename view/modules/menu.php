@@ -52,7 +52,7 @@
 </a>
 <div class="collapse" id="listRegistros" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
   <nav class="sb-sidenav-menu-nested nav">
-    <a class="nav-link" href="nuevoIngreso"><i class="fa-solid fa-person-walking-arrow-right"></i><span
+    <a class="nav-link" href="procesosOperativos"><i class="fa-solid fa-person-walking-arrow-right"></i><span
         style="margin-left: 10px;">Proceso Operatido</span></a>
     <a class="nav-link" href="nuevoIngreso"><i class="fa-solid fa-hand-holding-medical"></i><span
         style="margin-left: 10px;">Produccion</span></a>

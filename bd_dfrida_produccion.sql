@@ -11,7 +11,7 @@
  Target Server Version : 100432
  File Encoding         : 65001
 
- Date: 26/07/2024 13:53:20
+ Date: 26/07/2024 17:32:40
 */
 
 SET NAMES utf8mb4;
@@ -354,23 +354,20 @@ DROP TABLE IF EXISTS `pedido`;
 CREATE TABLE `pedido`  (
   `idPedido` int NOT NULL AUTO_INCREMENT,
   `idCli` int NOT NULL,
-  `idProd` int NOT NULL,
-  `idFichaTec` int NULL DEFAULT NULL,
-  `idFichaProc` int NULL DEFAULT NULL,
   `tituloPedido` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `nombrePedido` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `fechaPedido` date NOT NULL,
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
+  `idCoti` int NULL DEFAULT NULL,
+  `idFichaTec` int NULL DEFAULT NULL,
   PRIMARY KEY (`idPedido`) USING BTREE,
   INDEX `idCli`(`idCli`) USING BTREE,
-  INDEX `idProd`(`idProd`) USING BTREE,
-  INDEX `idFichaTec`(`idFichaTec`) USING BTREE,
-  INDEX `idFichaProc`(`idFichaProc`) USING BTREE,
-  CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`idCli`) REFERENCES `cliente` (`idCli`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `pedido_ibfk_2` FOREIGN KEY (`idProd`) REFERENCES `producto` (`idProd`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `pedido_ibfk_3` FOREIGN KEY (`idFichaTec`) REFERENCES `ficha_tecnica` (`idFichaTec`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `pedido_ibfk_4` FOREIGN KEY (`idFichaProc`) REFERENCES `ficha_proceso` (`idFichaProc`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `fk_idCoti`(`idCoti`) USING BTREE,
+  INDEX `fk_idFichaTec`(`idFichaTec`) USING BTREE,
+  CONSTRAINT `fk_idCoti` FOREIGN KEY (`idCoti`) REFERENCES `cotizacion` (`idCoti`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_idFichaTec` FOREIGN KEY (`idFichaTec`) REFERENCES `ficha_tecnica` (`idFichaTec`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`idCli`) REFERENCES `cliente` (`idCli`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -579,11 +576,13 @@ INSERT INTO `salida_prod` VALUES (29, 1, 'salida camisas varon colegio ', '2024-
 DROP TABLE IF EXISTS `tipo_proceso`;
 CREATE TABLE `tipo_proceso`  (
   `idTipoProc` int NOT NULL AUTO_INCREMENT,
-  `idFichaProc` int NULL DEFAULT NULL,
   `descripcionTipoProc` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
-  PRIMARY KEY (`idTipoProc`) USING BTREE
+  `idFichaProc` int NULL DEFAULT NULL,
+  PRIMARY KEY (`idTipoProc`) USING BTREE,
+  INDEX `fk_idFichaProc`(`idFichaProc`) USING BTREE,
+  CONSTRAINT `fk_idFichaProc` FOREIGN KEY (`idFichaProc`) REFERENCES `ficha_proceso` (`idFichaProc`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------

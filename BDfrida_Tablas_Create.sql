@@ -1,7 +1,29 @@
+--ver tabla creada
+--SHOW CREATE TABLE salida_mprima;
 
 --eliminar clave foranea 
 --ALTER TABLE salida_mprima DROP FOREIGN KEY salida_mprima_ibfk_1;
 
+--eliminar campo de tabla 
+--ALTER TABLE tabla
+--DROP COLUMN campo;
+
+--agrear campo a tabla
+--ALTER TABLE tabla
+--ADD COLUMN campo tipo;
+
+--eliminar una tabla
+--Drop TABLE alamcen_mprima;
+
+--agregar cclave foranea
+--ALTER TABLE tipo_proceso
+--ADD CONSTRAINT fk_idFichaProc FOREIGN KEY (idFichaProc) REFERENCES ficha_proceso(idFichaProc);
+-----------------------------------------------------
+ALTER TABLE pedido
+ADD COLUMN idFichaTec int (11) DEFAULT NULL;
+
+ALTER TABLE pedido
+ADD CONSTRAINT fk_idFichaTec FOREIGN KEY (idFichaTec) REFERENCES ficha_tecnica (idFichaTec);
 
 CREATE TABLE
     `tipo_Usuario` (
@@ -224,7 +246,7 @@ CREATE TABLE
         `DateUpdate` datetime NOT NULL,
         PRIMARY KEY (`idIngMprima`)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
-Drop TABLE alamcen_mprima;
+
 CREATE TABLE
     `almacen_mprima` (
         `idAlmaMprima` int (11) NOT NULL AUTO_INCREMENT,

@@ -52,6 +52,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
       $_GET["ruta"] == "salidaMprimaList" ||
       $_GET["ruta"] == "salidaMprima" ||
       $_GET["ruta"] == "salidaMprimaEdit" ||
+      $_GET["ruta"] == "procesosOperativos" ||
 
       $_GET["ruta"] == "signout"
     ) {
