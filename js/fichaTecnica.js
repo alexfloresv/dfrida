@@ -240,7 +240,7 @@ function enviarArchivoConNuevoNombre(nombreArchivoModificado) {
       },
     });
   } else {
-    console.log("No hay archivo seleccionado.");
+    //console.log("No hay archivo seleccionado.");
   }
 }
 //fin enviar archivo
@@ -357,9 +357,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (event.target.files.length > 0) {
         const file = event.target.files[0];
         let nombreBaseArchivoEdit = file.name.split(".").slice(0, -1).join("."); // Solo guarda el nombre base del archivo
-        console.log(nombreBaseArchivoEdit);
+        //console.log(nombreBaseArchivoEdit);
         let extensionArchivoEdit = "." + file.name.split(".").pop(); // Guarda la extensión del archivo, incluyendo el punto
-        console.log(extensionArchivoEdit);
+        //console.log(extensionArchivoEdit);
 
         // Limpiar el nombre del archivo, eliminando caracteres no deseados excepto el guion bajo (_)
         nombreBaseArchivoEdit = nombreBaseArchivoEdit.replace(
@@ -398,7 +398,7 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         // Aquí puedes manejar el caso en que no se seleccionen archivos
         // Por ejemplo, mostrar un mensaje o realizar alguna acción específica
-        console.log("No se ha seleccionado ningún archivo.");
+        //console.log("No se ha seleccionado ningún archivo.");
       }
     }
 
@@ -526,7 +526,7 @@ function enviarArchivoConNuevoNombreEdit(nombreArchivoModificadoEdit) {
       },
     });
   } else {
-    console.log("No hay archivo seleccionado.");
+    //console.log("No hay archivo seleccionado.");
   }
 }
 

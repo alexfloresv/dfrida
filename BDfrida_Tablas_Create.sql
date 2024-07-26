@@ -255,7 +255,7 @@ CREATE TABLE
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 CREATE TABLE
-    `ingreso_Prod` (
+    `ingreso_prod` (
         `idIngProd` int (11) NOT NULL AUTO_INCREMENT,
         `nombreIngProd` varchar(255) NOT NULL,
         `fechaIngProd` date NOT NULL,

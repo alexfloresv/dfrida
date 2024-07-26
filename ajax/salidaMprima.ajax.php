@@ -19,11 +19,11 @@ if (isset($_POST["todosLosProductosAlmacen"])) {
   $todosLosProductosAlmacen->ajaxDTableSalProdcuctosAlmacen();
 }
 
-//visualizar salidas en el modal de salidas productos
-if (isset($_POST["codAllSalProd"])) {
+//visualizar salidas en el modal de salidas productos prima
+if (isset($_POST["codAllSalMprima"])) {
   $view = new salidaMprimaAjax();
-  $view->codAllSalProd = $_POST["codAllSalProd"];
-  $view->ajaxVerProductosSalidaModal($_POST["codAllSalProd"]);
+  $view->codAllSalMprima = $_POST["codAllSalMprima"];
+  $view->ajaxVerProductosSalidaModal($_POST["codAllSalMprima"]);
 }
 
 //  crear salida de  productos prima
@@ -34,21 +34,21 @@ if (isset($_POST["jsonCrearSalidaProd"], $_POST["jsonProductosSalidaProd"])) {
   $create->ajaxCrearSalidaProd($_POST["jsonCrearSalidaProd"], $_POST["jsonProductosSalidaProd"]);
 }
 
-//visualizar datos para editar salidas productos
-if (isset($_POST["codSalProd"])) {
+//visualizar datos para editar salidas productos prima
+if (isset($_POST["codSalMprima"])) {
   $viewData = new salidaMprimaAjax();
-  $viewData->codSalProd = $_POST["codSalProd"];
-  $viewData->ajaxVerDataSalProd($_POST["codSalProd"]);
+  $viewData->codSalMprima = $_POST["codSalMprima"];
+  $viewData->ajaxVerDataSalProd($_POST["codSalMprima"]);
 }
 
-//obtener stock de almacen para visualizar datos para editar salidas productos
+//obtener stock y precio de almacen para visualizar datos para editar salidas productos prima
 if (isset($_POST["codProdIng"])) {
   $viewData = new salidaMprimaAjax();
   $viewData->codProdIng = $_POST["codProdIng"];
   $viewData->ajaxStockAlmacenEdit($_POST["codProdIng"]);
 }
 
-//editar salida productos
+//editar salida productos prima
 if (isset($_POST["jsonEditarSalProd"], $_POST["jsonEditarSalProductosForms"])) {
   $edit = new salidaMprimaAjax();
   $edit->jsonEditarSalProd = $_POST["jsonEditarSalProd"];
@@ -56,7 +56,7 @@ if (isset($_POST["jsonEditarSalProd"], $_POST["jsonEditarSalProductosForms"])) {
   $edit->ajaxEditarSalidaProd($_POST["jsonEditarSalProd"], $_POST["jsonEditarSalProductosForms"]);
 }
 
-//borrar salida productos
+//borrar salida productos prima
 if (isset($_POST["jsonBorraSalProdcutos"])) {
   $delete = new salidaMprimaAjax();
   $delete->jsonBorraSalProdcutos = $_POST["jsonBorraSalProdcutos"];
@@ -99,10 +99,10 @@ class salidaMprimaAjax
     echo json_encode($todosLosProductosAlmacen);
   }
 
-  //visualizar ingreos en el modal de salidas productos
-  public function ajaxVerProductosSalidaModal($codAllSalProd)
+  //visualizar ingreos en el modal de salidas productos prima
+  public function ajaxVerProductosSalidaModal($codAllSalMprima)
   {
-    $response = salidaMprimaController::ctrVerProductosSalidaModal($codAllSalProd);
+    $response = salidaMprimaController::ctrVerProductosSalidaModal($codAllSalMprima);
     echo json_encode($response);
   }
 
@@ -115,21 +115,21 @@ class salidaMprimaAjax
     echo json_encode($response);
   }
 
-  //visualizar datos para editar salidas productos
-  public function ajaxVerDataSalProd($codSalProd)
+  //visualizar datos para editar salidas productos prima
+  public function ajaxVerDataSalProd($codSalMprima)
   {
-    $response = salidaMprimaController::ctrVerDataIngProductos($codSalProd);
+    $response = salidaMprimaController::ctrVerDataIngProductos($codSalMprima);
     echo json_encode($response);
   }
 
-  //obtener stock de almacen para visualizar datos para editar salidas productos
+  //obtener stock de almacen para visualizar datos para editar salidas productosm prima
   public function ajaxStockAlmacenEdit($codProdIng)
   {
     $response = salidaMprimaController::ctrStockAlmacenEdit($codProdIng);
     echo json_encode($response);
   }
 
-  //editar salida productos
+  //editar salida productos prima
   public function ajaxEditarSalidaProd($jsonEditarSalProd, $jsonEditarSalProductosForms)
   {
     $editarSalProd = json_decode($jsonEditarSalProd, true); // Decodificar la cadena de texto JSON en un array asociativo
@@ -137,7 +137,7 @@ class salidaMprimaAjax
     echo json_encode($response);
   }
 
-  //borrar salida productos
+  //borrar salida productos prima
   public function ajaxBorrarSalProductos($jsonBorraSalProdcutos)
   {
     $borrarSalProductos = json_decode($jsonBorraSalProdcutos, true); // Decodificar la cadena de texto JSON en un array asociativo

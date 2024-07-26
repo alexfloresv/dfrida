@@ -12,31 +12,31 @@
   <main class="bg">
     <div class="container-fluid px-4">
       <h1 class="mt-4">
-        Editar Salida Productos D'Frida
+        Editar Salida Productos Prima D'Frida
       </h1>
     </div>
 
-    <form role="form" method="post" class="row g-3 m-2 formIngresoProd " id="formSalidaProdEdit">
+    <form role="form" method="post" class="row g-3 m-2 formIngresoProd " id="formSalidaMprimaEdit">
 
       <div class="container row g-8" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
 
-        <h3>Datos de la salida </h3>
+        <h3>Datos para la Salida de Productos Prima del Almacen </h3>
 
 
         <div class="form-group col-md-6">
-          <label for="tituloSalProdEdit" class="form-label" style="font-weight: bold">Descripcion Ingreso:</label>
+          <label for="tituloSalProdEdit" class="form-label" style="font-weight: bold">Descripcion Salida productos Prima:</label>
           <input type="text" class="form-control" id="tituloSalProdEdit" name="tituloSalProdEdit"
             placeholder="Ingrese una una descripcion para el ingreso ">
         </div>
 
         <div class="col-md-4">
-          <label for="pedidoSalProdEdit" class="form-label" style="font-weight: bold">Pedido: </label>
+          <label for="pedidoSalProdEdit" class="form-label" style="font-weight: bold">Proceso Operativo: </label>
           <input type="number" class="form-control" id="pedidoSalProdEdit" name="pedidoSalProdEdit"
             placeholder="Ingrese el pedido correspondiente">
         </div>
 
         <div class="col-md-2">
-          <label for="fechaSalProdEdit" class="form-label" style="font-weight: bold">Fecha Ingreso: </label>
+          <label for="fechaSalProdEdit" class="form-label" style="font-weight: bold">Fecha Salida: </label>
           <input type="date" class="form-control" id="fechaSalProdEdit" name="fechaSalProdEdit">
         </div><br>
 
@@ -45,7 +45,7 @@
 
       <!-- Productos -->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
-        <h3>Productos que salieron del Almacen</h3>
+        <h3>Retirar Productos de Almacen</h3>
         <div class="d-inline-flex m-2">
           <button type="button" class="btn btn-warning" data-bs-toggle="modal"
             data-bs-target="#modalAddProdSali">Agregar Productos</button>
@@ -125,15 +125,15 @@
       <!-- fin -->
 
       <!-- campo que guardel valor del boton y del ajax -->
-      <input type="hidden" class="form-control" id="codSalProd" name="codSalProd">
+      <input type="hidden" class="form-control" id="codSalMprima" name="codSalMprima">
 
       <!-- campo que guarde el jsonProductos de la respuesta ajax -->
       <input type="hidden" class="form-control" id="salidaAnteriorJsonEdit" name="salidaAnteriorJsonEdit" value="">
 
       <div class="container row g-3 p-3 ">
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
-          id="btnCerrarEditSalProd">Cerrar</button>
-        <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success " id="btnEditarSalidaProd">Editar
+          id="btnCerrarEditSalMprima">Cerrar</button>
+        <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success " id="btnEditarSalidaMprima">Editar
           Ingreso a Almacen </button>
       </div>
     </form>
@@ -150,12 +150,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <table id="dataTableProductosSalidaAlmacen" class="display dataTableProductosSalidaAlmacen">
+        <table id="dataTableProductosSalidaAlmacenMprima" class="display dataTableProductosSalidaAlmacenMprima">
           <thead>
-            <!-- dataTableProductosSalidaAlmacen -->
+            <!-- dataTableProductosSalidaAlmacenMprima -->
           </thead>
           <tbody>
-            <!--dataTableProductosSalidaAlmacen-->
+            <!--dataTableProductosSalidaAlmacenMprima-->
           </tbody>
         </table>
       </div>

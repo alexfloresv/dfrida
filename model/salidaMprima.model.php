@@ -35,22 +35,23 @@ class salidaMprimaModel
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  //datatable  ingresos en el modal de ingresos productos
-  public static function mdlVerProductosSalidaModal($table, $codAllSalProd)
+  //datatable  ingresos en el modal de ingresos productos prima
+  public static function mdlVerProductosSalidaModal($table, $codAllSalMprima)
   {
-    $statement = Conexion::conn()->prepare("SELECT salJsonProd FROM $table WHERE idSalProd = :idSalProd");
-    $statement->bindParam(":idSalProd", $codAllSalProd, PDO::PARAM_INT);
+    $statement = Conexion::conn()->prepare("SELECT salJsonMprima FROM $table WHERE idSalMprima = :idSalMprima");
+    $statement->bindParam(":idSalMprima", $codAllSalMprima, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
-  //verificar datos de productos en almacen
+
+  //verificar datos de productos en almacen prima
   public static function mdlStockAlmacen($table, $codProd)
   {
-    $statement = Conexion::conn()->prepare("SELECT cantidadProdAlma FROM $table WHERE idProd = :idProd");
-    $statement->bindParam(":idProd", $codProd, PDO::PARAM_INT);
+    $statement = Conexion::conn()->prepare("SELECT cantidadMprimaAlma FROM $table WHERE idMprima = :idMprima");
+    $statement->bindParam(":idMprima", $codProd, PDO::PARAM_INT);
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
-    if ($result && $result['cantidadProdAlma'] > 0) {
+    if ($result && $result['cantidadMprimaAlma'] > 0) {
       return $result;
     } else {
       return false;
@@ -60,9 +61,9 @@ class salidaMprimaModel
   // El producto ya existe, se actualiza la cantidad
   public static function mdlRestarProductoAlmacenProd($table, $dataRestarProdAlamacen)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET  cantidadProdAlma = :cantidadProdAlma, DateUpdate = :DateUpdate  WHERE idProd = :idProd");
-    $statement->bindParam(":cantidadProdAlma", $dataRestarProdAlamacen["cantidadProdAlma"], PDO::PARAM_STR);
-    $statement->bindParam(":idProd", $dataRestarProdAlamacen["idProd"], PDO::PARAM_INT);
+    $statement = Conexion::conn()->prepare("UPDATE $table SET  cantidadMprimaAlma = :cantidadMprimaAlma, DateUpdate = :DateUpdate  WHERE idMprima = :idMprima");
+    $statement->bindParam(":cantidadMprimaAlma", $dataRestarProdAlamacen["cantidadMprimaAlma"], PDO::PARAM_STR);
+    $statement->bindParam(":idMprima", $dataRestarProdAlamacen["idMprima"], PDO::PARAM_INT);
     $statement->bindParam(":DateUpdate", $dataRestarProdAlamacen["DateUpdate"], PDO::PARAM_STR);
     if ($statement->execute()) {
       return true;
@@ -71,12 +72,12 @@ class salidaMprimaModel
     }
   }
 
-  //ingreso de productos a almacen si ubo error al restar 
+  //ingreso de productos a almacen si ubo error al restar prima
   public static function mdlRestaurarProductosAlmacenProd($table, $operacion)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET  cantidadProdAlma = :cantidadProdAlma, DateUpdate = :DateUpdate  WHERE idProd = :idProd");
-    $statement->bindParam(":cantidadProdAlma", $operacion["cantidadProdAlma"], PDO::PARAM_STR);
-    $statement->bindParam(":idProd", $operacion["idProd"], PDO::PARAM_INT);
+    $statement = Conexion::conn()->prepare("UPDATE $table SET  cantidadMprimaAlma = :cantidadMprimaAlma, DateUpdate = :DateUpdate  WHERE idMprima = :idMprima");
+    $statement->bindParam(":cantidadMprimaAlma", $operacion["cantidadMprimaAlma"], PDO::PARAM_STR);
+    $statement->bindParam(":idMprima", $operacion["idMprima"], PDO::PARAM_INT);
     $statement->bindParam(":DateUpdate", $operacion["DateUpdate"], PDO::PARAM_STR);
     if ($statement->execute()) {
       return true;
@@ -85,17 +86,17 @@ class salidaMprimaModel
     }
   }
 
-  //crear el registro de ingreso de productos
+  //crear el registro de ingreso de productos prima
   public static function mdlCrearSalidaProd($table, $dataCreate)
   {
-    $statement = Conexion::conn()->prepare("INSERT INTO $table (nombreSalProd, idPedido, fechaSalProd, igvSalProd, subTotalSalProd, totalSalProd, salJsonProd, DateCreate) VALUES(:nombreSalProd, :idPedido, :fechaSalProd, :igvSalProd, :subTotalSalProd, :totalSalProd, :salJsonProd, :DateCreate)");
-    $statement->bindParam(":nombreSalProd", $dataCreate["nombreSalProd"], PDO::PARAM_STR);
-    $statement->bindParam(":idPedido", $dataCreate["idPedido"], PDO::PARAM_INT);
-    $statement->bindParam(":fechaSalProd", $dataCreate["fechaSalProd"], PDO::PARAM_STR);
-    $statement->bindParam(":igvSalProd", $dataCreate["igvSalProd"], PDO::PARAM_STR);
-    $statement->bindParam(":subTotalSalProd", $dataCreate["subTotalSalProd"], PDO::PARAM_STR);
-    $statement->bindParam(":totalSalProd", $dataCreate["totalSalProd"], PDO::PARAM_STR);
-    $statement->bindParam(":salJsonProd", $dataCreate["salJsonProd"], PDO::PARAM_STR);
+    $statement = Conexion::conn()->prepare("INSERT INTO $table (nombreSalMprima, idProcOp, fechaSalMprima, igvSalMprima, subTotalSalMprima, totalSalMprima, salJsonMprima, DateCreate) VALUES(:nombreSalMprima, :idProcOp, :fechaSalMprima, :igvSalMprima, :subTotalSalMprima, :totalSalMprima, :salJsonMprima, :DateCreate)");
+    $statement->bindParam(":nombreSalMprima", $dataCreate["nombreSalMprima"], PDO::PARAM_STR);
+    $statement->bindParam(":idProcOp", $dataCreate["idProcOp"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaSalMprima", $dataCreate["fechaSalMprima"], PDO::PARAM_STR);
+    $statement->bindParam(":igvSalMprima", $dataCreate["igvSalMprima"], PDO::PARAM_STR);
+    $statement->bindParam(":subTotalSalMprima", $dataCreate["subTotalSalMprima"], PDO::PARAM_STR);
+    $statement->bindParam(":totalSalMprima", $dataCreate["totalSalMprima"], PDO::PARAM_STR);
+    $statement->bindParam(":salJsonMprima", $dataCreate["salJsonMprima"], PDO::PARAM_STR);
     $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
     if ($statement->execute()) {
       return "ok";
@@ -104,56 +105,56 @@ class salidaMprimaModel
     }
   }
 
-  //visualizar datos para editar salida productos
+  //visualizar datos para editar salida productos prima
   public static function mdlVerDataSalidaRegistro($table, $codIdSalProd)
   {
     $statement = Conexion::conn()->prepare("SELECT
-     idSalProd,
-     nombreSalProd,
-     idPedido,
-     fechaSalProd,
-     igvSalProd,
-     subTotalSalProd,
-     totalSalProd,
-     salJsonProd
-     FROM $table WHERE idSalProd = :idSalProd");
-    $statement->bindParam(":idSalProd", $codIdSalProd, PDO::PARAM_INT);
+     idSalMprima,
+     nombreSalMprima,
+     idProcOp,
+     fechaSalMprima,
+     igvSalMprima,
+     subTotalSalMprima,
+     totalSalMprima,
+     salJsonMprima
+     FROM $table WHERE idSalMprima = :idSalMprima");
+    $statement->bindParam(":idSalMprima", $codIdSalProd, PDO::PARAM_INT);
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result;
   }
 
-  //obtener stock de almacen para visualizar datos para editar salidas productos
+  //obtener stock de almacen para visualizar datos para editar salidas productos pima
   public static function mdlStockAlmacenEdit($table, $codIngProd)
   {
     $statement = Conexion::conn()->prepare("
           SELECT 
-              a.cantidadProdAlma, 
-              p.precioProd 
+              a.cantidadMprimaAlma, 
+              p.precioMprima 
           FROM 
               $table a
           INNER JOIN 
-              producto p ON a.idProd = p.idProd
+              materia_prima p ON a.idMprima = p.idMprima
           WHERE 
-              a.idProd = :idProd
+              a.idMprima = :idMprima
       ");
-    $statement->bindParam(":idProd", $codIngProd, PDO::PARAM_INT);
+    $statement->bindParam(":idMprima", $codIngProd, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
-  //editar registro salida de productos
+  //editar registro salida de productos prima
   public static function mdlEditarSalidaProd($table, $dataUpdate)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET nombreSalProd = :nombreSalProd, idPedido = :idPedido, fechaSalProd = :fechaSalProd, igvSalProd = :igvSalProd, subTotalSalProd = :subTotalSalProd, totalSalProd = :totalSalProd, salJsonProd = :salJsonProd, DateUpdate = :DateUpdate WHERE idSalProd = :idSalProd");
-    $statement->bindParam(":nombreSalProd", $dataUpdate["nombreSalProd"], PDO::PARAM_STR);
-    $statement->bindParam(":idPedido", $dataUpdate["idPedido"], PDO::PARAM_STR);
-    $statement->bindParam(":fechaSalProd", $dataUpdate["fechaSalProd"], PDO::PARAM_STR);
-    $statement->bindParam(":igvSalProd", $dataUpdate["igvSalProd"], PDO::PARAM_STR);
-    $statement->bindParam(":subTotalSalProd", $dataUpdate["subTotalSalProd"], PDO::PARAM_STR);
-    $statement->bindParam(":totalSalProd", $dataUpdate["totalSalProd"], PDO::PARAM_STR);
-    $statement->bindParam(":salJsonProd", $dataUpdate["salJsonProd"], PDO::PARAM_STR);
+    $statement = Conexion::conn()->prepare("UPDATE $table SET nombreSalMprima = :nombreSalMprima, idProcOp = :idProcOp, fechaSalMprima = :fechaSalMprima, igvSalMprima = :igvSalMprima, subTotalSalMprima = :subTotalSalMprima, totalSalMprima = :totalSalMprima, salJsonMprima = :salJsonMprima, DateUpdate = :DateUpdate WHERE idSalMprima = :idSalMprima");
+    $statement->bindParam(":nombreSalMprima", $dataUpdate["nombreSalMprima"], PDO::PARAM_STR);
+    $statement->bindParam(":idProcOp", $dataUpdate["idProcOp"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaSalMprima", $dataUpdate["fechaSalMprima"], PDO::PARAM_STR);
+    $statement->bindParam(":igvSalMprima", $dataUpdate["igvSalMprima"], PDO::PARAM_STR);
+    $statement->bindParam(":subTotalSalMprima", $dataUpdate["subTotalSalMprima"], PDO::PARAM_STR);
+    $statement->bindParam(":totalSalMprima", $dataUpdate["totalSalMprima"], PDO::PARAM_STR);
+    $statement->bindParam(":salJsonMprima", $dataUpdate["salJsonMprima"], PDO::PARAM_STR);
     $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
-    $statement->bindParam(":idSalProd", $dataUpdate["idSalProd"], PDO::PARAM_INT);
+    $statement->bindParam(":idSalMprima", $dataUpdate["idSalMprima"], PDO::PARAM_INT);
     if ($statement->execute()) {
       return "ok";
     } else {
@@ -162,34 +163,34 @@ class salidaMprimaModel
   }
 
 
-  //eliminar productos salida**
+  //eliminar productos salida prima**
 
-  //obtener el registro de productos salida
+  //obtener el registro de productos salida prima
   public static function mdlRecuperarProductosRegSalida($table, $codSalProd)
   {
-    $statement = Conexion::conn()->prepare("SELECT salJsonProd FROM $table WHERE idSalProd = :idSalProd");
-    $statement->bindParam(":idSalProd", $codSalProd, PDO::PARAM_INT);
+    $statement = Conexion::conn()->prepare("SELECT salJsonMprima FROM $table WHERE idSalMprima = :idSalMprima");
+    $statement->bindParam(":idSalMprima", $codSalProd, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
-  //verificar datos de productos en almacen
+  //verificar datos de productos en almacen prima
   public static function mdlStockAlmacenSalida($table, $codProd)
   {
-    $statement = Conexion::conn()->prepare("SELECT cantidadProdAlma FROM $table WHERE idProd = :idProd");
-    $statement->bindParam(":idProd", $codProd, PDO::PARAM_INT);
+    $statement = Conexion::conn()->prepare("SELECT cantidadMprimaAlma FROM $table WHERE idMprima = :idMprima");
+    $statement->bindParam(":idMprima", $codProd, PDO::PARAM_INT);
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result;
   }
 
-  //actualizar productos en almacen
+  //actualizar productos en almacen prima
   public static function mdlActualizarProductosIngresados($table, $dataUpdateProdAlmacen)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET cantidadProdAlma = :cantidadProdAlma, DateUpdate = :DateUpdate WHERE idProd = :idProd");
-    $statement->bindParam(":cantidadProdAlma", $dataUpdateProdAlmacen["cantidadProdAlma"], PDO::PARAM_STR);
+    $statement = Conexion::conn()->prepare("UPDATE $table SET cantidadMprimaAlma = :cantidadMprimaAlma, DateUpdate = :DateUpdate WHERE idMprima = :idMprima");
+    $statement->bindParam(":cantidadMprimaAlma", $dataUpdateProdAlmacen["cantidadMprimaAlma"], PDO::PARAM_STR);
     $statement->bindParam(":DateUpdate", $dataUpdateProdAlmacen["DateUpdate"], PDO::PARAM_STR);
-    $statement->bindParam(":idProd", $dataUpdateProdAlmacen["idProd"], PDO::PARAM_INT);
+    $statement->bindParam(":idMprima", $dataUpdateProdAlmacen["idMprima"], PDO::PARAM_INT);
     if ($statement->execute()) {
       return true;
     } else {
@@ -197,10 +198,10 @@ class salidaMprimaModel
     }
   }
 
-  //borrar salida productos
+  //borrar salida productos pirma
   public static function mdlBorrarRegistroIngresProducto($table, $codSalProd)
   {
-    $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE idSalProd = $codSalProd");
+    $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE idSalMprima = $codSalProd");
     if ($statement->execute()) {
       return "ok";
     } else {

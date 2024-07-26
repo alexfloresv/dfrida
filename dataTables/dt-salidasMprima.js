@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <th scope="col">#</th>
           <th scope="col">Nombre Salida Producto</th>
           <th scope="col">Fecha Salida</th>
-            <th scope="col">Pedido</th>
+            <th scope="col">Proceso Operativo</th>
           <th scope="col">Salida Productos</th>
           <th scope="col">Total</th>
           <th scope="col">Acciones</th>
@@ -80,15 +80,15 @@ document.addEventListener("DOMContentLoaded", function () {
 //modal para ver productos de salida por el boton 
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/salidaList";
+  var appPath = "/dfrida/salidaMprimaList";
   if (currentPath == appPath) {
     $(".dataTableSalidasMprima").on("click", ".btnVerSalProd", function () {
-      var codAllSalProd = $(this).attr("codAllSalProd");
+      var codAllSalMprima = $(this).attr("codAllSalMprima");
 
       $("#modalDataTableProdSalida thead").html(`
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Nombre Producto</th>
+          <th scope="col">Producto Prima</th>
           <th scope="col">Codigo Producto</th>
           <th scope="col">Unidad Producto</th>
           <th scope="col">Cantidad Producto</th>
@@ -121,10 +121,10 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       var data = new FormData();
-      data.append("codAllSalProd", codAllSalProd);
+      data.append("codAllSalMprima", codAllSalMprima);
 
       $.ajax({
-        url: "ajax/salidaProd.ajax.php",
+        url: "ajax/salidaMprima.ajax.php",
         method: "POST",
         data: data,
         cache: false,
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
         dataType: "json",
         success: function (response) {
           // Asumiendo que la respuesta incluye el JSON en un campo llamado ingJsonProd
-          var decodedJson = JSON.parse(response.salJsonProd);
+          var decodedJson = JSON.parse(response.salJsonMprima);
           var dataArray = [];
 
           // Transformar el objeto JSON en un array de objetos
@@ -251,12 +251,12 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //fin
 
-// //data table modal editar salidas
+// //data table modal salidas almacen
 document.addEventListener("DOMContentLoaded", function () {
   $("#modalAddProdSali").on("shown.bs.modal", function () {
     // Verificar si la ruta es la correcta al mostrar el modal
     var currentPath = window.location.pathname;
-    var appPath = "/dfrida/salidaProdEdit";
+    var appPath = "/dfrida/salidaMprimaEdit";
     if (currentPath == appPath) {
       // Verifica si el DataTable ya está inicializado y destrúyelo si es así
       if ($.fn.DataTable.isDataTable("#dataTableProductosSalidaAlmacenMprima")) {
@@ -282,17 +282,17 @@ document.addEventListener("DOMContentLoaded", function () {
             return meta.row + 1;
           },
         },
-        { data: "nombreProdAlma" },
-        { data: "codigoProdAlma" },
-        { data: "cantidadProdAlma" },
+        { data: "nombreMprimaAlma" },
+        { data: "codigoMprimaAlma" },
+        { data: "cantidadMprimaAlma" },
         {
-          data: "precioProdAlma",
+          data: "precioMprima",
           render: function (data, type, row) {
             return "S/ " + data; // Coloca 'S/' delante del valor de la celda
           },
         },
         {
-          data: "idProd",
+          data: "idMprima",
           render: function (data, type, row) {
             return (
               '<button class="btn btn-success btnAddProdModalSal" codAddSalProdModal="' +
@@ -315,7 +315,7 @@ document.addEventListener("DOMContentLoaded", function () {
       data.append("todosLosProductosAlmacen", true);
 
       $.ajax({
-        url: "ajax/salidaProd.ajax.php",
+        url: "ajax/salidaMprima.ajax.php",
         method: "POST",
         data: data,
         cache: false,

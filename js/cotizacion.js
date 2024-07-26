@@ -332,7 +332,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Si el formulario es válido, se procede con la CREACION DE LA COTIZACION
       } else {
         // Aquí puedes añadir la lógica para enviar el formulario manualmente o cualquier otra acción
-        console.log("Formulario válido, proceder con la acción deseada.");
+        //console.log("Formulario válido, proceder con la acción deseada.");
         // Simula la pulsación del botón "btnCalcularTotal" para asegurar que los totales estén actualizados si el usuario no lo hizo
         document.getElementById("btnCalcularTotal").click();
         /* fin click calcular total */

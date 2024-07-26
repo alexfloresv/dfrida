@@ -17,11 +17,11 @@ class salidaMprimaController
     $response = salidaMprimaModel::mdlDTableSalProdcuctosAlmacen($table);
     return $response;
   }
-  //datatable  ingresos en el modal de ingresos productos
-  public static function ctrVerProductosSalidaModal($codAllSalProd)
+  //datatable  ingresos en el modal de ingresos productos prima
+  public static function ctrVerProductosSalidaModal($codAllSalMprima)
   {
-    $table = "salida_prod";
-    $response = salidaMprimaModel::mdlVerProductosSalidaModal($table, $codAllSalProd);
+    $table = "salida_mprima";
+    $response = salidaMprimaModel::mdlVerProductosSalidaModal($table, $codAllSalMprima);
     return $response;
   }
 
@@ -63,7 +63,7 @@ class salidaMprimaController
     return $response;
   }
 
-  //salida de productos a almacen
+  //salida de productos a almacen prima
   public static function ctrSalidaProductosAlmacenProd($jsonProductosSalidaProd)
   {
     $dataProductosSalida = json_decode($jsonProductosSalidaProd, true);
@@ -109,12 +109,12 @@ class salidaMprimaController
   //verificar datos de productos en almacen
   public static function ctrStockAlmacen($codProd)
   {
-    $table = "almacen_prod";
+    $table = "almacen_mprima";
     $response = salidaMprimaModel::mdlStockAlmacen($table, $codProd);
     return $response;
   }
 
-  //crear el registro de salida de productos
+  //crear el registro de salida de productos pirma
   public static function ctrRegistroSalidaProductos($salidaProdData, $jsonProductosSalidaProd)
   {
     $table = "salida_mprima";
@@ -131,14 +131,14 @@ class salidaMprimaController
     $response = salidaMprimaModel::mdlCrearSalidaProd($table, $dataCreate);
     return $response;
   }
-  //fin crear salida productos a almacen de  productos***
+  //fin crear salida productos a almacen de  productos prima***
 
-  //***funciones de edit */
-  //visualizar datos para editar salida productos
-  public static function ctrVerDataIngProductos($codSalProd)
+  //***funciones de edit prima */
+  //visualizar datos para editar salida productos prima
+  public static function ctrVerDataIngProductos($codSalMprima)
   {
-    $codIdSalProd = $codSalProd;
-    $table = "salida_prod";
+    $codIdSalProd = $codSalMprima;
+    $table = "salida_mprima";
     $response = salidaMprimaModel::mdlVerDataSalidaRegistro($table, $codIdSalProd);
     return $response;
   }
@@ -147,17 +147,17 @@ class salidaMprimaController
   public static function ctrStockAlmacenEdit($codIngProd)
   {
     $codIdIngProd = $codIngProd;
-    $table = "almacen_prod";
+    $table = "almacen_mprima";
     $response = salidaMprimaModel::mdlStockAlmacenEdit($table, $codIdIngProd);
     return $response;
   }
 
-  //editar ingreso productos***
+  //editar ingreso productos prima***
   public static function ctrEditarSalidaProd($editarSalProd, $jsonEditarSalProductosForms)
   {
     //verificar si el usuario es administrador
     if ($_SESSION["idTipoUsu"] == 1) {
-      $table = "salida_prod";
+      $table = "salida_mprima";
       //eliminar datos innecesarios
       $editProdData = self::ctrBorrarDatosInecesariosSalidaProd($editarSalProd);
       // Eliminar el array $editarIngProd para no duplicar datos
@@ -169,14 +169,14 @@ class salidaMprimaController
 
       //editar registro salida de productos con los datos editados
       $dataUpdate = array(
-        "idSalProd" => $editProdData["codSalProd"],
-        "nombreSalProd" => $editProdData["tituloSalProdEdit"],
-        "idPedido" => $editProdData["pedidoSalProdEdit"],
-        "fechaSalProd" => $editProdData["fechaSalProdEdit"],
-        "igvSalProd" => $editProdData["igvIngProdAdd"],
-        "subTotalSalProd" => $editProdData["subTotalIngProdAdd"],
-        "totalSalProd" => $editProdData["totalIngProdAdd"],
-        "salJsonProd" => $jsonEditarSalProductosForms,
+        "idSalMprima" => $editProdData["codSalMprima"],
+        "nombreSalMprima" => $editProdData["tituloSalProdEdit"],
+        "idProcOp" => $editProdData["pedidoSalProdEdit"],
+        "fechaSalMprima" => $editProdData["fechaSalProdEdit"],
+        "igvSalMprima" => $editProdData["igvIngProdAdd"],
+        "subTotalSalMprima" => $editProdData["subTotalIngProdAdd"],
+        "totalSalMprima" => $editProdData["totalIngProdAdd"],
+        "salJsonMprima" => $jsonEditarSalProductosForms,
         "DateUpdate" => date("Y-m-d\TH:i:sP"),
       );
 
@@ -187,11 +187,11 @@ class salidaMprimaController
     return $response;
   }
 
-  //editar / cantidades de productos ingresados al alamcen de productos al editar un registro de ingreso
+  //editar / cantidades de productos ingresados al alamcen de productos al editar un registro de ingreso prima
   public static function ctrEditarProductosRetiradosAlmacen($jsonProdSalAnteriorEdit, $jsonEditarSalProductosForms)
   {
 
-    $table = "almacen_prod";
+    $table = "almacen_mprima";
 
     $dataProducSalAnterior = json_decode($jsonProdSalAnteriorEdit, true);
     $dataProducSalNuevo = json_decode($jsonEditarSalProductosForms, true);
@@ -265,7 +265,7 @@ class salidaMprimaController
       }
 
       $stockAlmacen = self::ctrStockAlmacenEdit($producto["codProdIng"]);
-      $stockActual = $stockAlmacen["cantidadProdAlma"];
+      $stockActual = $stockAlmacen["cantidadMprimaAlma"];
       $cantidadAnte = $prodEncontrado["cantidadProdIng"];// stock ya retirado
       $ajusteStock = $producto["cantidadProdIng"];
 
@@ -276,8 +276,8 @@ class salidaMprimaController
       $nuevoStock = $stockActual + $cantidadAsumar;
 
       $dataActualizarProdAlamacen = array(
-        "idProd" => $producto["codProdIng"],
-        "cantidadProdAlma" => $nuevoStock,
+        "idMprima" => $producto["codProdIng"],
+        "cantidadMprimaAlma" => $nuevoStock,
         "DateUpdate" => date("Y-m-d\TH:i:sP"),
       );
       $response = salidaMprimaModel::mdlActualizarProductosIngresados($table, $dataActualizarProdAlamacen);
@@ -298,7 +298,7 @@ class salidaMprimaController
 
       $stockAlmacen = self::ctrStockAlmacenEdit($producto["codProdIng"]);
 
-      $stockActual = $stockAlmacen["cantidadProdAlma"];// stock actual n
+      $stockActual = $stockAlmacen["cantidadMprimaAlma"];// stock actual n
       $cantidadAnte = $prodEncontrado["cantidadProdIng"];// stock ya retirado
       // ajuste de stock es la suma la cantidad anterior y la cantidad actual ya sumada desde el usuario
       $ajusteStock = $producto["cantidadProdIng"];// stock a restar -n
@@ -310,8 +310,8 @@ class salidaMprimaController
       $nuevoStock = $stockActual - $cantidadARetirar;
 
       $dataActualizarProdAlamacen = array(
-        "idProd" => $producto["codProdIng"],
-        "cantidadProdAlma" => $nuevoStock,
+        "idMprima" => $producto["codProdIng"],
+        "cantidadMprimaAlma" => $nuevoStock,
         "DateUpdate" => date("Y-m-d\TH:i:sP"),
       );
       $response = salidaMprimaModel::mdlActualizarProductosIngresados($table, $dataActualizarProdAlamacen);
@@ -321,13 +321,13 @@ class salidaMprimaController
     foreach ($dataNuevoRestAlmacen as $producto) {
 
       $stockAlmacen = self::ctrStockAlmacenEdit($producto["codProdIng"]);
-      $stockActual = $stockAlmacen["cantidadProdAlma"];
+      $stockActual = $stockAlmacen["cantidadMprimaAlma"];
       $ajusteStock = $producto["cantidadProdIng"];
       $nuevoStock = $stockActual - $ajusteStock;
 
       $dataActualizarProdAlamacen = array(
-        "idProd" => $producto["codProdIng"],
-        "cantidadProdAlma" => $nuevoStock,
+        "idMprima" => $producto["codProdIng"],
+        "cantidadMprimaAlma" => $nuevoStock,
         "DateUpdate" => date("Y-m-d\TH:i:sP"),
       );
       $response = salidaMprimaModel::mdlActualizarProductosIngresados($table, $dataActualizarProdAlamacen);
@@ -337,13 +337,13 @@ class salidaMprimaController
     foreach ($dataDeleteSumAlmacen as $producto) {
 
       $stockAlmacen = self::ctrStockAlmacenEdit($producto["codProdIng"]);
-      $stockActual = $stockAlmacen["cantidadProdAlma"];
+      $stockActual = $stockAlmacen["cantidadMprimaAlma"];
       $ajusteStock = $producto["cantidadProdIng"];
       $nuevoStock = $stockActual + $ajusteStock;
 
       $dataActualizarProdAlamacen = array(
-        "idProd" => $producto["codProdIng"],
-        "cantidadProdAlma" => $nuevoStock,
+        "idMprima" => $producto["codProdIng"],
+        "cantidadMprimaAlma" => $nuevoStock,
         "DateUpdate" => date("Y-m-d\TH:i:sP"),
       );
       $response = salidaMprimaModel::mdlActualizarProductosIngresados($table, $dataActualizarProdAlamacen);
@@ -353,13 +353,13 @@ class salidaMprimaController
     foreach ($dataCeroAlmacen as $producto) {
 
       $stockAlmacen = self::ctrStockAlmacenEdit($producto["codProdIng"]);
-      $stockActual = $stockAlmacen["cantidadProdAlma"];
+      $stockActual = $stockAlmacen["cantidadMprimaAlma"];
       $ajusteStock = $producto["cantidadProdIng"];
       $nuevoStock = $stockActual + $ajusteStock;
 
       $dataActualizarProdAlamacen = array(
-        "idProd" => $producto["codProdIng"],
-        "cantidadProdAlma" => $nuevoStock,
+        "idMprima" => $producto["codProdIng"],
+        "cantidadMprimaAlma" => $nuevoStock,
         "DateUpdate" => date("Y-m-d\TH:i:sP"),
       );
       $response = salidaMprimaModel::mdlActualizarProductosIngresados($table, $dataActualizarProdAlamacen);
@@ -369,18 +369,18 @@ class salidaMprimaController
   }
   //fin editar salida productos***
 
-  //**** borar salida productos
-  //borrar salida productos
+  //**** borar salida productos prima
+  //borrar salida productos prima
   public static function ctrBorrarSalProductos($borrarSalProductos)
   {
     //verificar si el usuario es administrador
     if ($_SESSION["idTipoUsu"] == 1) {
-      $codSalProd = $borrarSalProductos["codSalProd"];
-      $table = "salida_prod";
+      $codSalProd = $borrarSalProductos["codSalMprima"];
+      $table = "salida_mprima";
       //obtener el registro de productos 
       $productosRegistradosSalida = self::ctrRecuperarProductosRegSalida($codSalProd);
       //devolver productos restados del alamcen por el registro de salida +++
-      $sumarProdAlmacen = self::ctrSumarProductosRestadosDelAlmacen($productosRegistradosSalida["salJsonProd"]);
+      $sumarProdAlmacen = self::ctrSumarProductosRestadosDelAlmacen($productosRegistradosSalida["salJsonMprima"]);
       //eliminar registro de ingreso de productos
       $response = salidaMprimaModel::mdlBorrarRegistroIngresProducto($table, $codSalProd);
     } else {
@@ -389,25 +389,25 @@ class salidaMprimaController
     return $response;
   }
 
-  //obtener el registro de productos 
+  //obtener el registro de productos salida prima
   public static function ctrRecuperarProductosRegSalida($codSalProd)
   {
-    $table = "salida_prod";
+    $table = "salida_mprima";
     //recuperar los productos registrados en la salida
     $response = salidaMprimaModel::mdlRecuperarProductosRegSalida($table, $codSalProd);
     return $response;
   }
 
-  //editar / cantidades de productos retirados por el registro de salida de productos al eliminar un registro de salida
+  //editar / cantidades de productos retirados por el registro de salida de productos al eliminar un registro de salida prima
   public static function ctrSumarProductosRestadosDelAlmacen($productosRegistradosSalida)
   {
     $dataProductosSal = json_decode($productosRegistradosSalida, true);
-    $table = "almacen_prod";
+    $table = "almacen_mprima";
 
     foreach ($dataProductosSal as $producto) {
       //Obtener el stock de productos en almacen
       $stockAlmacen = self::ctrStockAlmacenSalida($producto["codProdIng"]);
-      $stockActual = $stockAlmacen["cantidadProdAlma"];
+      $stockActual = $stockAlmacen["cantidadMprimaAlma"];
       $ajusteStock = $producto["cantidadProdIng"];
 
       // Verificar si el valor es vacío y asignar "0" si es el caso
@@ -420,8 +420,8 @@ class salidaMprimaController
 
       // Preparar datos para actualizar
       $dataActualizarProdAlamacen = array(
-        "idProd" => $producto["codProdIng"],
-        "cantidadProdAlma" => $nuevoStock,
+        "idMprima" => $producto["codProdIng"],
+        "cantidadMprimaAlma" => $nuevoStock,
         "DateUpdate" => date("Y-m-d\TH:i:sP"),
       );
 
@@ -431,10 +431,10 @@ class salidaMprimaController
 
     return $response;
   }
-  //Obtener el stock de productos en almacen
+  //Obtener el stock de productos en almacen prima
   public static function ctrStockAlmacenSalida($codProd)
   {
-    $table = "almacen_prod";
+    $table = "almacen_mprima";
     $response = salidaMprimaModel::mdlStockAlmacenSalida($table, $codProd);
     return $response;
   }

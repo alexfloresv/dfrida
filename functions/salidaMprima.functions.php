@@ -11,20 +11,20 @@ class FunctionSalidaMprima
     ';
     return $botones;
   }
-   //boton para modalde proceso operativo 
-   public static function getBtnVerProcSalMprima($codProcSalMprima)
-   {
-     $botones = '
+  //boton para modalde proceso operativo 
+  public static function getBtnVerProcSalMprima($codProcSalMprima)
+  {
+    $botones = '
         <button class="btn btn-warning btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalProdIngresados" codProcSalMprima="' . $codProcSalMprima . '"><i class="fa-solid fa-clipboard-list"></i></button>
        ';
-     return $botones;
-   }
+    return $botones;
+  }
 
   //boton para modal salida de materias primas salidas
   public static function getBtnVerSalMprima($codAllSalMprima)
   {
     $botones = '
-       <button class="btn btn-info btnVerSalProd" data-bs-toggle="modal" data-bs-target="#modalProdSalidas" codAllSalMprima="' . $codAllSalMprima . '"><i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+       <button class="btn btn-info btnVerSalProd" data-bs-toggle="modal" data-bs-target="#modalProdSalidas" codAllSalMprima="' . $codAllSalMprima . '"><i class="fa-solid fa-arrow-up-right-dots"></i></button>
       ';
     return $botones;
   }

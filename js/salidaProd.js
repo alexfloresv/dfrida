@@ -418,7 +418,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // guardar los codigos de los productos agregados no tocar
     window.codigosProductosAgregados = new Set();
-    console.log(window.codigosProductosAgregados);
+    //console.log(window.codigosProductosAgregados);
     // Variable global acumulativa para almacenar datos del formulario, idProd y cantidad para validar cantidad maxima en almacen no tocar
     window.datosFormularios = [];
     //console.log(datosFormularios);
@@ -633,7 +633,7 @@ function actualizarPrecioYValidarCantidad(event) {
   var formularioID = "";
   var cantidadInicial = 0;
   window.datosFormularios.forEach(function (item) {
-    console.log(item);
+    //console.log(item);
     if (item[1] === idProd) {
       formularioID = item[0];
       cantidadInicial = item[2];
@@ -1030,7 +1030,7 @@ document.addEventListener("DOMContentLoaded", function () {
               Swal.fire({
                 icon: "success",
                 title: "Correcto",
-                text: "Ingreso Producto Editado Correctamente",
+                text: "Salida de Productos Editado Correctamente",
               }).then(function () {
                 window.location.href = "/dfrida/salidaList";
               });
@@ -1173,12 +1173,12 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoProdEdit";
+  var appPath = "/dfrida/salidaProdEdit";
   if (currentPath == appPath) {
-    var btn = document.getElementById("btnCerrarEditIngresoProd");
+    var btn = document.getElementById("btnCerrarEditSalProd");
     if (btn) {
       btn.addEventListener("click", function () {
-        window.location.href = "/dfrida/ingresoList";
+        window.location.href = "/dfrida/salidaList";
       });
     }
   }

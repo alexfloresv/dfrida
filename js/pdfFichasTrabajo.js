@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
       function () {
         var codFichTrab = $(this).attr("codFichTrab");
         //mensaje de confirmación descargar cotizacion
-        console.log("codFichTrab", codFichTrab);
+        //console.log("codFichTrab", codFichTrab);
         swal
           .fire({
             title: "Descargar Ficha Trabajo",

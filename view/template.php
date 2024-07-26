@@ -17,7 +17,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
   echo '
       <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
-          <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+          <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion" style="width: 245px;">
             <div class="sb-sidenav-menu" >
               <div class="nav">';
   include "modules/menu.php";
@@ -51,9 +51,8 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
       $_GET["ruta"] == "almacenMateriaPrima" ||
       $_GET["ruta"] == "salidaMprimaList" ||
       $_GET["ruta"] == "salidaMprima" ||
-      /*   
-$_GET["ruta"] == "salidaProdEdit" || */
-      //fin
+      $_GET["ruta"] == "salidaMprimaEdit" ||
+
       $_GET["ruta"] == "signout"
     ) {
       include "modules/" . $_GET["ruta"] . ".php";

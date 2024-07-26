@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/salidaProd";
+  var appPath = "/dfrida/salidaMprima";
   if (currentPath == appPath) {
     //escuchar el evento click en el boton registrar cotizacion
     const btnRegistrar = document.getElementById("btnRegistrarSalidaProd");
@@ -334,13 +334,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 Swal.fire({
                   icon: "error",
                   title: "Error",
-                  html: "Un producto que se intenta retirar es negativo o esta en 0 en Almacen <strong>¿Desea verificar el Almacen?</strong>.",
+                  html: "Un producto que se intenta retirar es negativo o esta en 0 en Almacen Prima <strong>¿Desea verificar el Almacen?</strong>.",
                   showCancelButton: true,
                   confirmButtonText: "Si",
                   cancelButtonText: "No",
                 }).then(function (result) {
                   if (result.value) {
-                    window.location.href = "/dfrida/salidaMprimaList"; // Redirigir a la
+                    window.location.href = "/dfrida/almacenMateriaPrima"; // Redirigir a la
                   } else {
                     limpiarURL(); // Llamar a la función para limpiar la URL
                     //window.location.reload(); // Recargar la página
@@ -406,25 +406,25 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //fin agregar y crear Salida****
 
-//****funciones para editar producto ////
+//****funciones para editar producto prima ////
 //agrergar productos
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/salidaProdEdit";
+  var appPath = "/dfrida/salidaMprimaEdit";
   if (currentPath == appPath) {
     // Definir un contador global para los IDs de formulario no tocar
     var formularioIngProdCounter = 1;
 
     // guardar los codigos de los productos agregados no tocar
     window.codigosProductosAgregados = new Set();
-    console.log(window.codigosProductosAgregados);
+    //console.log(window.codigosProductosAgregados);
     // Variable global acumulativa para almacenar datos del formulario, idProd y cantidad para validar cantidad maxima en almacen no tocar
     window.datosFormularios = [];
     //console.log(datosFormularios);
 
     //agregar producto de modal a formulario
-    $(".dataTableProductosSalidaAlmacen").on(
+    $(".dataTableProductosSalidaAlmacenMprima").on(
       "click",
       ".btnAddProdModalSal",
       function () {
@@ -469,7 +469,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var datos = new FormData();
         datos.append("codAddSalProdModal", codAddSalProdModal);
         $.ajax({
-          url: "ajax/salidaProd.ajax.php",
+          url: "ajax/salidaMprima.ajax.php",
           method: "POST",
           data: datos,
           cache: false,
@@ -477,13 +477,13 @@ document.addEventListener("DOMContentLoaded", function () {
           processData: false,
           dataType: "json",
           success: function (respuesta) {
-            var idProd = respuesta["idProd"];
-            var nombreProd = respuesta["nombreProdAlma"];
-            var codigoProd = respuesta["codigoProdAlma"];
-            var unidadProd = respuesta["unidadProdAlma"];
-            var precioProd = respuesta["precioProd"];
+            var idProd = respuesta["idMprima"];
+            var nombreProd = respuesta["nombreMprimaAlma"];
+            var codigoProd = respuesta["codigoMprimaAlma"];
+            var unidadProd = respuesta["unidadMprimaAlma"];
+            var precioProd = respuesta["precioMprima"];
             //cantidad
-            var cantidadProd = respuesta["cantidadProdAlma"];
+            var cantidadProd = respuesta["cantidadMprimaAlma"];
 
             // Crear un nuevo formulario para el producto con un ID único que incrementa en 1 cada vez que se agrega un producto
             var formularioID = "formularioIngProd" + formularioIngProdCounter++;
@@ -633,7 +633,7 @@ function actualizarPrecioYValidarCantidad(event) {
   var formularioID = "";
   var cantidadInicial = 0;
   window.datosFormularios.forEach(function (item) {
-    console.log(item);
+    //console.log(item);
     if (item[1] === idProd) {
       formularioID = item[0];
       cantidadInicial = item[2];
@@ -664,7 +664,7 @@ function actualizarPrecioYValidarCantidad(event) {
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/salidaProdEdit";
+  var appPath = "/dfrida/salidaMprimaEdit";
   if (currentPath == appPath) {
     //funcion para calcular los totales
     $(document).ready(function () {
@@ -696,11 +696,11 @@ document.addEventListener("DOMContentLoaded", function () {
         // Asignar un valor estático de 0 a igvIngProdAdd y actualizar el atributo 'value'
         $("#igvIngProdAdd").val(0).attr("value", 0);
         // Calcular el total como la suma de totalGeneral + igvIngProdAdd
-        //const igvIngProdAdd = parseFloat($("#igvIngProdAdd").val()) || 0;
+        const igvIngProdAdd = parseFloat($("#igvIngProdAdd").val()) || 0;
 
         // Calcular el 18% de totalGeneral para igvIngProdAdd y actualizar el atributo 'value'
-        const igvIngProdAdd = totalGeneral * 0.18;
-        $("#igvIngProdAdd").val(igvIngProdAdd).attr("value", igvIngProdAdd);
+        //const igvIngProdAdd = totalGeneral * 0.18;
+        //$("#igvIngProdAdd").val(igvIngProdAdd).attr("value", igvIngProdAdd);
 
         const totalIngProdAdd = totalGeneral + igvIngProdAdd;
 
@@ -725,12 +725,13 @@ document.addEventListener("DOMContentLoaded", function () {
 // Enviar código a la vista de editar tomadnodlo el valor del boton
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/salidaList";
+  var appPath = "/dfrida/salidaMprimaList";
   if (currentPath == appPath) {
-    $(".dataTableSalidasProd").on("click", ".btnEditarSalProd", function () {
+    $(".dataTableSalidasMprima").on("click", ".btnEditarSalProd", function () {
       swal
         .fire({
-          title: "¡Editar la Salida Puede generar negativos y exedentes!",
+          title:
+            "¡Editar la Salida Productos Prima Puede generar negativos y exedentes!",
           text: "¡Esta accion afectara directamente al almacen!",
           icon: "warning",
           showCancelButton: true,
@@ -741,10 +742,10 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then((result) => {
           if (result.isConfirmed) {
-            var codSalProd = $(this).attr("codSalProd");
+            var codSalMprima = $(this).attr("codSalMprima");
             // Usar la variable directamente en la URL de redirección
             window.location.href =
-              "/dfrida/salidaProdEdit?codSalProd=" + codSalProd;
+              "/dfrida/salidaMprimaEdit?codSalMprima=" + codSalMprima;
           }
         });
     });
@@ -766,15 +767,15 @@ window.formularioIngProdCounter = 1;
 
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/salidaProdEdit";
+  var appPath = "/dfrida/salidaMprimaEdit";
   if (currentPath == appPath) {
     // Función para obtener el valor de un parámetro por nombre
 
     // Extraer el valor de 'codFichaTec' de la URL
-    var codSalProd = getQueryParam("codSalProd");
-    if (codSalProd) {
+    var codSalMprima = getQueryParam("codSalMprima");
+    if (codSalMprima) {
       // Asignar el valor extraído al campo oculto
-      document.getElementById("codSalProd").value = codSalProd;
+      document.getElementById("codSalMprima").value = codSalMprima;
 
       // Eliminar el parámetro 'codFichaTec' de la URL
       var newUrl = window.location.pathname;
@@ -783,12 +784,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //editar ficha tecnica
     //obtener el valor guardado en el campo oculto cuando carga la pagina
-    var codSalProd = document.getElementById("codSalProd").value;
+    var codSalMprima = document.getElementById("codSalMprima").value;
     var data = new FormData();
-    data.append("codSalProd", codSalProd);
+    data.append("codSalMprima", codSalMprima);
     //visualizar los datos
     $.ajax({
-      url: "ajax/salidaProd.ajax.php",
+      url: "ajax/salidaMprima.ajax.php",
       method: "POST",
       data: data,
       cache: false,
@@ -796,17 +797,17 @@ document.addEventListener("DOMContentLoaded", function () {
       processData: false,
       dataType: "json",
       success: function (response) {
-        $("#codIngProd").val(response["idSalProd"]);
-        $("#tituloSalProdEdit").val(response["nombreSalProd"]);
-        $("#pedidoSalProdEdit").val(response["idPedido"]);
-        $("#fechaSalProdEdit").val(response["fechaSalProd"]);
-        $("#igvIngProdAdd").val(response["igvSalProd"]);
-        $("#subTotalIngProdAdd").val(response["subTotalSalProd"]);
-        $("#totalIngProdAdd").val(response["totalSalProd"]);
-        $("#totalIngProdAddList").val(response["totalSalProd"]);
-        $("#salidaAnteriorJsonEdit").val(response["salJsonProd"]);
-        if (response.hasOwnProperty("salJsonProd")) {
-          ingresoProductoEdit(response["salJsonProd"]);
+        $("#codSalMprima").val(response["idSalMprima"]);
+        $("#tituloSalProdEdit").val(response["nombreSalMprima"]);
+        $("#pedidoSalProdEdit").val(response["idProcOp"]);
+        $("#fechaSalProdEdit").val(response["fechaSalMprima"]);
+        $("#igvIngProdAdd").val(response["igvSalMprima"]);
+        $("#subTotalIngProdAdd").val(response["subTotalSalMprima"]);
+        $("#totalIngProdAdd").val(response["totalSalMprima"]);
+        $("#totalIngProdAddList").val(response["totalSalMprima"]);
+        $("#salidaAnteriorJsonEdit").val(response["salJsonMprima"]);
+        if (response.hasOwnProperty("salJsonMprima")) {
+          ingresoProductoEdit(response["salJsonMprima"]);
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -816,12 +817,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //promesa para obtener el stock de los productos de almacen y sumarlo ala cantidad de la salida para mostrar un maximo a editar y tambien el precio del porducto
     // Modificación de obtenerStock para que retorne una promesa la funcion retorana la cantidad ala funcion de *insertarFormulario*
-    function obtenerStock(codProdIng) {
+    function obtenerStockMprima(codProdIng) {
       return new Promise((resolve, reject) => {
         var data = new FormData();
         data.append("codProdIng", codProdIng);
         $.ajax({
-          url: "ajax/salidaProd.ajax.php",
+          url: "ajax/salidaMprima.ajax.php",
           method: "POST",
           data: data,
           cache: false,
@@ -830,8 +831,8 @@ document.addEventListener("DOMContentLoaded", function () {
           dataType: "json",
           success: function (response) {
             resolve({
-              cantidadProdAlma: response["cantidadProdAlma"],
-              precioProd: response["precioProd"],
+              cantidadProdAlma: response["cantidadMprimaAlma"],
+              precioProd: response["precioMprima"],
             }); // Resuelve la promesa con un objeto que contiene ambos valores
           },
           error: function (jqXHR, textStatus, errorThrown) {
@@ -844,9 +845,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Uso de async/await en ingresoProductoEdit para esperar la respuesta de obtenerStock
-    async function ingresoProductoEdit(salJsonProd) {
+    async function ingresoProductoEdit(salJsonMprima) {
       // Decodificar el JSON recibido de la respeusta de visualiar datos
-      const procesos = JSON.parse(salJsonProd);
+      const procesos = JSON.parse(salJsonMprima);
 
       // Mostrar el modal de carga por que la promesa es asincrona y espera la respuesta para crear el formulario
       //el usuario visualizara una demora en al carga de los datos
@@ -880,7 +881,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Esperar la respuesta de obtenerStock
         try {
           // Enviar el id de producto a la función de obtener stock para traer el stock del almacén
-          const { cantidadProdAlma, precioProd } = await obtenerStock(
+          const { cantidadProdAlma, precioProd } = await obtenerStockMprima(
             codProdIng
           );
           insertarFormulario(
@@ -914,7 +915,6 @@ document.addEventListener("DOMContentLoaded", function () {
       //valores para la varible global que espera estos datos para inicar la funcion de cantidades maximas editables
       cantidadProd = Number(cantidadProdStock) + Number(cantidadProdIng),
       idProd = codProdIng
-
     ) {
       var formularioID = "formularioIngProd" + formularioIngProdCounter++;
       var nuevoProductoHTML = `
@@ -992,12 +992,12 @@ document.addEventListener("DOMContentLoaded", function () {
       //fin agregar productos */
     }
     //enviar formulario al servidor para editar
-    $("#btnEditarSalidaProd").on("click", function () {
+    $("#btnEditarSalidaMprima").on("click", function () {
       //totales estén actualizados si el usuario no lo hizo
       document.getElementById("btnCalcularTotalIng").click();
       //obtener el formulario por id
 
-      var formulario = document.getElementById("formSalidaProdEdit");
+      var formulario = document.getElementById("formSalidaMprimaEdit");
       var datosFormulario = {};
       //obtener los elementos del formulario
       var elementosFormulario = formulario.querySelectorAll("input, select");
@@ -1018,7 +1018,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
         $.ajax({
-          url: "ajax/salidaProd.ajax.php",
+          url: "ajax/salidaMprima.ajax.php",
           method: "POST",
           data: {
             jsonEditarSalProd: jsonEditarSalProd,
@@ -1030,9 +1030,9 @@ document.addEventListener("DOMContentLoaded", function () {
               Swal.fire({
                 icon: "success",
                 title: "Correcto",
-                text: "Ingreso Producto Editado Correctamente",
+                text: "Salida Productos Prima Editado Correctamente",
               }).then(function () {
-                window.location.href = "/dfrida/salidaList";
+                window.location.href = "/dfrida/salidaMprimaList";
               });
             } else {
               Swal.fire(
@@ -1079,18 +1079,18 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //fin editar ingreso productos
 
-//****eliminar registro de salida****
+//****eliminar registro de salida prima****
 //borrar salida productos
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/salidaList";
+  var appPath = "/dfrida/salidaMprimaList";
   if (currentPath == appPath) {
-    $(".dataTableSalidasProd").on("click", ".btnDeleteSalProd", function () {
-      var codSalProd = $(this).attr("codSalProd");
+    $(".dataTableSalidasMprima").on("click", ".btnDeleteSalProd", function () {
+      var codSalMprima = $(this).attr("codSalMprima");
       swal
         .fire({
           title: "¿Está seguro de borrar la Salida? Puede generar exedentes",
-          text: "¡No podrá revertir el cambio esta accion afectara directamente al almacen!",
+          text: "¡No podrá revertir el cambio esta accion afectara directamente al almacen Prodcutos Prima!",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
@@ -1101,10 +1101,10 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((result) => {
           if (result.isConfirmed) {
             var jsonBorraSalProdcutos = JSON.stringify({
-              codSalProd: codSalProd,
+              codSalMprima: codSalMprima,
             });
             $.ajax({
-              url: "ajax/salidaProd.ajax.php",
+              url: "ajax/salidaMprima.ajax.php",
               method: "POST",
               data: { jsonBorraSalProdcutos: jsonBorraSalProdcutos },
               dataType: "json",
@@ -1112,7 +1112,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (response == "ok") {
                   Swal.fire(
                     "Correcto",
-                    "Salida de Productos eliminado correctamente",
+                    "Salida de Productos Prima eliminado correctamente",
                     "success"
                   ).then(function () {
                     window.location.reload(); // Recargar la página
@@ -1155,6 +1155,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+
 //cerrar salida productos
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
@@ -1169,16 +1170,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+
 //cerrar editar productos
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/ingresoProdEdit";
+  var appPath = "/dfrida/salidaMprimaEdit";
   if (currentPath == appPath) {
-    var btn = document.getElementById("btnCerrarEditIngresoProd");
+    var btn = document.getElementById("btnCerrarEditSalMprima");
     if (btn) {
       btn.addEventListener("click", function () {
-        window.location.href = "/dfrida/ingresoList";
+        window.location.href = "/dfrida/salidaMprimaList";
       });
     }
   }

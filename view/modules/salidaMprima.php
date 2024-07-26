@@ -31,7 +31,7 @@
 
         <div class="col-md-4">
           <label for="pedidoSalProdAdd" class="form-label" style="font-weight: bold">Proceso Operativo: </label>
-          <input type="text" class="form-control" id="pedidoSalProdAdd" name="pedidoSalProdAdd"
+          <input type="number" class="form-control" id="pedidoSalProdAdd" name="pedidoSalProdAdd"
             placeholder="Ingrese el proceso operativo correspondiente">
         </div>
 
@@ -45,7 +45,7 @@
 
       <!-- Productos -->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
-        <h3>Ingresar Productos de Almacen</h3>
+        <h3>Retirar Productos de Almacen</h3>
         <div class="d-inline-flex m-2">
           <button type="button" class="btn btn-warning" data-bs-toggle="modal"
             data-bs-target="#modalAddProdSali">Agregar Productos</button>
@@ -127,7 +127,7 @@
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
           id="btnCerrarSalidaMprima">Cerrar</button>
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success "
-          id="btnRegistrarSalidaProd">Registrar Salida</button>
+          id="btnRegistrarSalidaProd">Registrar Salida Prima</button>
       </div>
     </form>
   </main>
