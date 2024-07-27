@@ -100,6 +100,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
 <script src="dataTables/dt-ingresosMprima.js"></script>
 <script src="dataTables/dt-almacenMateriaPrima.js"></script>
 <script src="dataTables/dt-salidasMprima.js"></script>
+<script src="dataTables/dt-procesoOperativo.js"></script>
 
 
 <!-- funciones js -->

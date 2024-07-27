@@ -15,22 +15,27 @@
       </ol>
       <div class="d-flex m-2">
         <button type="button" class="btn btn-success" id="btnAddSalidaProd">
-          Registrar Salida de Productos del Inventario
+          Iniciar Proceso Operativo
+        </button>
+        <span style="margin-right: 10px;"></span>
+        <button type="button" class="btn btn-success" id="btnAddSalidaProd">
+          Tipo de Proceso Operativo
         </button>
       </div>
+      
       <div class="card mb-4">
         <div class="card-header">
-          <!--  Titulo dataTableSalidasProd -->
-          <h5 class="mt-4 tituloSalidas"></h5>
+          <!--  Titulo dataTableProcesoOperativo -->
+          <h5 class="mt-4 tituloProcOp"></h5>
         </div>
         <div class="card-body">
-          <!-- dataTableSalidasProd -->
-          <table id="dataTableSalidasProd" class="display dataTableSalidasProd">
+          <!-- dataTableProcesoOperativo -->
+          <table id="dataTableProcesoOperativo" class="display dataTableProcesoOperativo">
             <thead>
-              <!-- dataTableSalidasProd -->
+              <!-- dataTableProcesoOperativo -->
             </thead>
             <tbody>
-              <!--dataTableSalidasProd-->
+              <!--dataTableProcesoOperativo-->
             </tbody>
           </table>
           <!-- fin -->

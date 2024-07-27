@@ -11,7 +11,7 @@
  Target Server Version : 100432
  File Encoding         : 65001
 
- Date: 26/07/2024 17:32:40
+ Date: 27/07/2024 12:01:31
 */
 
 SET NAMES utf8mb4;
@@ -37,11 +37,11 @@ CREATE TABLE `almacen_mprima`  (
 -- ----------------------------
 -- Records of almacen_mprima
 -- ----------------------------
-INSERT INTO `almacen_mprima` VALUES (1, 29, 'HilNeg202503', 'Holi negro 3.5', 'Docena', '10', '400.00', '2024-07-25 10:14:28', '2024-07-26 13:24:28');
-INSERT INTO `almacen_mprima` VALUES (2, 28, 'RollTelCedBla202405', 'Rollo tela ceda blanco', 'Uni', '10', '9000.00', '2024-07-25 10:14:51', '2024-07-26 13:24:28');
-INSERT INTO `almacen_mprima` VALUES (3, 27, 'RollTelDri202405', 'Rollo tela dril azul', 'Uni', '10', '8000.00', '2024-07-25 10:15:01', '2024-07-26 13:24:16');
-INSERT INTO `almacen_mprima` VALUES (4, 26, 'Boto202405', 'Botones de pantalones hombre', 'Uni', '10', '13.00', '2024-07-25 10:15:02', '2024-07-26 13:24:16');
-INSERT INTO `almacen_mprima` VALUES (5, 25, 'CieCasProm202405', 'Cierre Casacas Promo', 'Uni', '10', '150.00', '2024-07-25 10:15:03', '2024-07-26 13:24:16');
+INSERT INTO `almacen_mprima` VALUES (1, 29, 'HilNeg202503', 'Holi negro 3.5', 'Docena', '9', '400.00', '2024-07-25 10:14:28', '2024-07-27 11:08:41');
+INSERT INTO `almacen_mprima` VALUES (2, 28, 'RollTelCedBla202405', 'Rollo tela ceda blanco', 'Uni', '9', '9000.00', '2024-07-25 10:14:51', '2024-07-27 11:08:41');
+INSERT INTO `almacen_mprima` VALUES (3, 27, 'RollTelDri202405', 'Rollo tela dril azul', 'Uni', '9', '8000.00', '2024-07-25 10:15:01', '2024-07-27 11:08:41');
+INSERT INTO `almacen_mprima` VALUES (4, 26, 'Boto202405', 'Botones de pantalones hombre', 'Uni', '9', '13.00', '2024-07-25 10:15:02', '2024-07-27 11:08:41');
+INSERT INTO `almacen_mprima` VALUES (5, 25, 'CieCasProm202405', 'Cierre Casacas Promo', 'Uni', '9', '150.00', '2024-07-25 10:15:03', '2024-07-27 11:08:41');
 
 -- ----------------------------
 -- Table structure for almacen_prod
@@ -178,7 +178,6 @@ INSERT INTO `cotizacion` VALUES (6, 'Voluptas corrupti n', '2009-01-12', 'Non ve
 INSERT INTO `cotizacion` VALUES (7, 'Quam impedit nobis ', '1981-12-02', 'Eligendi incidunt e', 'Et Nam et consequatu', 84, 'Ipsum dolorem corru', 28, 'Porro in vel at comm', 'Sed excepturi rerum ', 'Est id animi ipsum', '{\"producto0\":{\"codProdCoti\":\"33\",\"nombreProdCoti\":\"Kai Griffith\",\"unidadProdCoti\":\"Docena\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"761.00\"},\"producto1\":{\"codProdCoti\":\"33\",\"nombreProdCoti\":\"Kai Griffith\",\"unidadProdCoti\":\"Docena\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"761.00\"},\"producto2\":{\"codProdCoti\":\"34\",\"nombreProdCoti\":\"Jordan Cross\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"690.00\"},\"producto3\":{\"codProdCoti\":\"34\",\"nombreProdCoti\":\"Jordan Cross\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"690.00\"},\"producto4\":{\"codProdCoti\":\"33\",\"nombreProdCoti\":\"Kai Griffith\",\"unidadProdCoti\":\"Docena\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"761.00\"},\"producto5\":{\"codProdCoti\":\"33\",\"nombreProdCoti\":\"Kai Griffith\",\"unidadProdCoti\":\"Docena\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"761.00\"},\"producto6\":{\"codProdCoti\":\"34\",\"nombreProdCoti\":\"Jordan Cross\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"690.00\"},\"producto7\":{\"codProdCoti\":\"34\",\"nombreProdCoti\":\"Jordan Cross\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"690.00\"}}', '{\"productoPrima0\":{\"codProdMprimaCoti\":\"23\",\"nombreProdMprimaCoti\":\"Teegan Gay\",\"unidadProdMprimaCoti\":\"Metros\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"473.00\"},\"productoPrima1\":{\"codProdMprimaCoti\":\"23\",\"nombreProdMprimaCoti\":\"Teegan Gay\",\"unidadProdMprimaCoti\":\"Metros\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"473.00\"},\"productoPrima2\":{\"codProdMprimaCoti\":\"24\",\"nombreProdMprimaCoti\":\"Robin Dunn\",\"unidadProdMprimaCoti\":\"Uni\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"160.00\"},\"productoPrima3\":{\"codProdMprimaCoti\":\"24\",\"nombreProdMprimaCoti\":\"Robin Dunn\",\"unidadProdMprimaCoti\":\"Uni\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"160.00\"},\"productoPrima4\":{\"codProdMprimaCoti\":\"23\",\"nombreProdMprimaCoti\":\"Teegan Gay\",\"unidadProdMprimaCoti\":\"Metros\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"473.00\"},\"productoPrima5\":{\"codProdMprimaCoti\":\"23\",\"nombreProdMprimaCoti\":\"Teegan Gay\",\"unidadProdMprimaCoti\":\"Metros\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"473.00\"},\"productoPrima6\":{\"codProdMprimaCoti\":\"24\",\"nombreProdMprimaCoti\":\"Robin Dunn\",\"unidadProdMprimaCoti\":\"Uni\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"160.00\"},\"productoPrima7\":{\"codProdMprimaCoti\":\"24\",\"nombreProdMprimaCoti\":\"Robin Dunn\",\"unidadProdMprimaCoti\":\"Uni\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"160.00\"}}', 5804.00, 2532.00, 0.00, 8336.00, 8336.00, 2, '2024-07-05 16:50:05', '0000-00-00 00:00:00');
 INSERT INTO `cotizacion` VALUES (8, 'Quam impedit nobis ', '1981-12-02', 'Eligendi incidunt e', 'Et Nam et consequatu', 84, 'Ipsum dolorem corru', 28, 'Porro in vel at comm', 'Sed excepturi rerum ', 'Est id animi ipsum', '{\"producto0\":{\"codProdCoti\":\"33\",\"nombreProdCoti\":\"Kai Griffith\",\"unidadProdCoti\":\"Docena\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"761.00\"},\"producto1\":{\"codProdCoti\":\"33\",\"nombreProdCoti\":\"Kai Griffith\",\"unidadProdCoti\":\"Docena\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"761.00\"},\"producto2\":{\"codProdCoti\":\"34\",\"nombreProdCoti\":\"Jordan Cross\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"690.00\"},\"producto3\":{\"codProdCoti\":\"34\",\"nombreProdCoti\":\"Jordan Cross\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"690.00\"},\"producto4\":{\"codProdCoti\":\"33\",\"nombreProdCoti\":\"Kai Griffith\",\"unidadProdCoti\":\"Docena\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"761.00\"},\"producto5\":{\"codProdCoti\":\"33\",\"nombreProdCoti\":\"Kai Griffith\",\"unidadProdCoti\":\"Docena\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"761.00\"},\"producto6\":{\"codProdCoti\":\"34\",\"nombreProdCoti\":\"Jordan Cross\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"690.00\"},\"producto7\":{\"codProdCoti\":\"34\",\"nombreProdCoti\":\"Jordan Cross\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"690.00\"}}', '{\"productoPrima0\":{\"codProdMprimaCoti\":\"23\",\"nombreProdMprimaCoti\":\"Teegan Gay\",\"unidadProdMprimaCoti\":\"Metros\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"473.00\"},\"productoPrima1\":{\"codProdMprimaCoti\":\"23\",\"nombreProdMprimaCoti\":\"Teegan Gay\",\"unidadProdMprimaCoti\":\"Metros\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"473.00\"},\"productoPrima2\":{\"codProdMprimaCoti\":\"24\",\"nombreProdMprimaCoti\":\"Robin Dunn\",\"unidadProdMprimaCoti\":\"Uni\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"160.00\"},\"productoPrima3\":{\"codProdMprimaCoti\":\"24\",\"nombreProdMprimaCoti\":\"Robin Dunn\",\"unidadProdMprimaCoti\":\"Uni\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"160.00\"},\"productoPrima4\":{\"codProdMprimaCoti\":\"23\",\"nombreProdMprimaCoti\":\"Teegan Gay\",\"unidadProdMprimaCoti\":\"Metros\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"473.00\"},\"productoPrima5\":{\"codProdMprimaCoti\":\"23\",\"nombreProdMprimaCoti\":\"Teegan Gay\",\"unidadProdMprimaCoti\":\"Metros\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"473.00\"},\"productoPrima6\":{\"codProdMprimaCoti\":\"24\",\"nombreProdMprimaCoti\":\"Robin Dunn\",\"unidadProdMprimaCoti\":\"Uni\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"160.00\"},\"productoPrima7\":{\"codProdMprimaCoti\":\"24\",\"nombreProdMprimaCoti\":\"Robin Dunn\",\"unidadProdMprimaCoti\":\"Uni\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"160.00\"}}', 5804.00, 2532.00, 0.00, 8336.00, 8336.00, 2, '2024-07-05 16:50:05', '0000-00-00 00:00:00');
 INSERT INTO `cotizacion` VALUES (9, 'Eiusmod voluptatem ', '2007-12-26', 'Minus omnis sunt qu', 'Sunt quas rem blandi', 56, 'Neque qui aut sunt e', 47, 'Similique voluptatem', 'Qui consequat Sed r', 'Dolor quia duis temp', '{\"producto0\":{\"codProdCoti\":\"31\",\"nombreProdCoti\":\"Arsenio Gilliam\",\"unidadProdCoti\":\"1\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"92555.00\"},\"producto1\":{\"codProdCoti\":\"33\",\"nombreProdCoti\":\"Kai Griffith\",\"unidadProdCoti\":\"Docena\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"761.00\"},\"producto2\":{\"codProdCoti\":\"34\",\"nombreProdCoti\":\"Jordan Cross\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"690.00\"},\"producto3\":{\"codProdCoti\":\"34\",\"nombreProdCoti\":\"Jordan Cross\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"690.00\"}}', '{\"productoPrima0\":{\"codProdMprimaCoti\":\"23\",\"nombreProdMprimaCoti\":\"Teegan Gay\",\"unidadProdMprimaCoti\":\"Metros\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"473.00\"},\"productoPrima1\":{\"codProdMprimaCoti\":\"24\",\"nombreProdMprimaCoti\":\"Robin Dunn\",\"unidadProdMprimaCoti\":\"Uni\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"160.00\"},\"productoPrima2\":{\"codProdMprimaCoti\":\"24\",\"nombreProdMprimaCoti\":\"Robin Dunn\",\"unidadProdMprimaCoti\":\"Uni\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"160.00\"},\"productoPrima3\":{\"codProdMprimaCoti\":\"24\",\"nombreProdMprimaCoti\":\"Robin Dunn\",\"unidadProdMprimaCoti\":\"Uni\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"160.00\"}}', 94696.00, 953.00, 17216.82, 95649.00, 112865.82, 1, '2024-07-16 12:13:53', '0000-00-00 00:00:00');
-INSERT INTO `cotizacion` VALUES (10, 'Quis debitis velit ', '1973-09-28', 'Aut in adipisicing q', 'Consequat Error dol', 50, 'Repudiandae voluptat', 54, 'Facere quo consequun', 'Laboriosam veniam ', 'Tempora laboriosam ', '{\"producto0\":{\"codProdCoti\":\"35\",\"nombreProdCoti\":\"producto prueva\",\"unidadProdCoti\":\"Docena\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"200.00\"},\"producto1\":{\"codProdCoti\":\"33\",\"nombreProdCoti\":\"Kai Griffith\",\"unidadProdCoti\":\"Docena\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"761.00\"},\"producto2\":{\"codProdCoti\":\"31\",\"nombreProdCoti\":\"Arsenio Gilliam\",\"unidadProdCoti\":\"1\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"92555.00\"},\"producto3\":{\"codProdCoti\":\"33\",\"nombreProdCoti\":\"Kai Griffith\",\"unidadProdCoti\":\"Docena\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"761.00\"},\"producto4\":{\"codProdCoti\":\"34\",\"nombreProdCoti\":\"Jordan Cross\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"690.00\"},\"producto5\":{\"codProdCoti\":\"35\",\"nombreProdCoti\":\"producto prueva\",\"unidadProdCoti\":\"Docena\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"200.00\"}}', '{\"productoPrima0\":{\"codProdMprimaCoti\":\"24\",\"nombreProdMprimaCoti\":\"Robin Dunn\",\"unidadProdMprimaCoti\":\"Uni\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"160.00\"},\"productoPrima1\":{\"codProdMprimaCoti\":\"23\",\"nombreProdMprimaCoti\":\"Teegan Gay\",\"unidadProdMprimaCoti\":\"Metros\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"473.00\"},\"productoPrima2\":{\"codProdMprimaCoti\":\"23\",\"nombreProdMprimaCoti\":\"Teegan Gay\",\"unidadProdMprimaCoti\":\"Metros\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"473.00\"},\"productoPrima3\":{\"codProdMprimaCoti\":\"22\",\"nombreProdMprimaCoti\":\"Hop Powers\",\"unidadProdMprimaCoti\":\"34\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"196.00\"},\"productoPrima4\":{\"codProdMprimaCoti\":\"22\",\"nombreProdMprimaCoti\":\"Hop Powers\",\"unidadProdMprimaCoti\":\"34\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"196.00\"},\"productoPrima5\":{\"codProdMprimaCoti\":\"21\",\"nombreProdMprimaCoti\":\"Maya Fuller\",\"unidadProdMprimaCoti\":\"78\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"20.00\"},\"productoPrima6\":{\"codProdMprimaCoti\":\"20\",\"nombreProdMprimaCoti\":\"Ulla Yang\",\"unidadProdMprimaCoti\":\"65\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"555.00\"},\"productoPrima7\":{\"codProdMprimaCoti\":\"20\",\"nombreProdMprimaCoti\":\"Ulla Yang\",\"unidadProdMprimaCoti\":\"65\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"555.00\"},\"productoPrima8\":{\"codProdMprimaCoti\":\"19\",\"nombreProdMprimaCoti\":\"Megan Taylor\",\"unidadProdMprimaCoti\":\"21\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"183.00\"},\"productoPrima9\":{\"codProdMprimaCoti\":\"17\",\"nombreProdMprimaCoti\":\"tellaaaaaaaayyyy\",\"unidadProdMprimaCoti\":\"21\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"1.00\"},\"productoPrima10\":{\"codProdMprimaCoti\":\"16\",\"nombreProdMprimaCoti\":\"tellaaaaaaaa\",\"unidadProdMprimaCoti\":\"21\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"1.00\"},\"productoPrima11\":{\"codProdMprimaCoti\":\"15\",\"nombreProdMprimaCoti\":\"\",\"unidadProdMprimaCoti\":\"0\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"0.00\"},\"productoPrima12\":{\"codProdMprimaCoti\":\"13\",\"nombreProdMprimaCoti\":\"EPEPE\",\"unidadProdMprimaCoti\":\"10\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"542.00\"},\"productoPrima13\":{\"codProdMprimaCoti\":\"15\",\"nombreProdMprimaCoti\":\"\",\"unidadProdMprimaCoti\":\"0\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"0.00\"},\"productoPrima14\":{\"codProdMprimaCoti\":\"17\",\"nombreProdMprimaCoti\":\"tellaaaaaaaayyyy\",\"unidadProdMprimaCoti\":\"21\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"1.00\"},\"productoPrima15\":{\"codProdMprimaCoti\":\"1\",\"nombreProdMprimaCoti\":\"Cain Odonnell\",\"unidadProdMprimaCoti\":\"0\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"774.00\"},\"productoPrima16\":{\"codProdMprimaCoti\":\"2\",\"nombreProdMprimaCoti\":\"Guy Carr\",\"unidadProdMprimaCoti\":\"0\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"344.00\"}}', 95167.00, 4474.00, 17935.38, 99641.00, 117576.38, 1, '2024-07-19 16:47:36', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for desecho_merma
@@ -247,11 +246,12 @@ CREATE TABLE `ficha_tecnica`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idFichaTec`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 190 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 191 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ficha_tecnica
 -- ----------------------------
+INSERT INTO `ficha_tecnica` VALUES (190, 'Sed aliquam nihil es', '1975-02-01', 'Sint maiores ex in ', 'Consequuntur dolorem', 'Eveniet qui rerum i', 'Enim at qui ex dolor', 52, 'Mollit pariatur Sin', 'Do quod et nesciunt', '190_fichatectnica1.txt', 1, '2024-07-27 11:10:20', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for ingreso_mprima
@@ -368,11 +368,12 @@ CREATE TABLE `pedido`  (
   CONSTRAINT `fk_idCoti` FOREIGN KEY (`idCoti`) REFERENCES `cotizacion` (`idCoti`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_idFichaTec` FOREIGN KEY (`idFichaTec`) REFERENCES `ficha_tecnica` (`idFichaTec`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`idCli`) REFERENCES `cliente` (`idCli`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pedido
 -- ----------------------------
+INSERT INTO `pedido` VALUES (1, 11, 'pedido', 'pedido', '2024-02-16', '2024-02-16 12:09:23', '2024-02-16 12:09:23', 1, 190);
 
 -- ----------------------------
 -- Table structure for proceso_operativo
@@ -387,6 +388,10 @@ CREATE TABLE `proceso_operativo`  (
   `estadoProcOp` int NOT NULL,
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
+  `nombreProcOp` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `fechaRegistroProcOp` date NOT NULL,
+  `fechaInicioProcOp` date NOT NULL,
+  `fechaFinProcOp` date NOT NULL,
   PRIMARY KEY (`idProcOp`) USING BTREE,
   INDEX `idTipoProc`(`idTipoProc`) USING BTREE,
   INDEX `idPedido`(`idPedido`) USING BTREE,
@@ -394,11 +399,12 @@ CREATE TABLE `proceso_operativo`  (
   CONSTRAINT `proceso_operativo_ibfk_1` FOREIGN KEY (`idTipoProc`) REFERENCES `tipo_proceso` (`idTipoProc`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `proceso_operativo_ibfk_2` FOREIGN KEY (`idPedido`) REFERENCES `pedido` (`idPedido`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `proceso_operativo_ibfk_3` FOREIGN KEY (`idSalMprima`) REFERENCES `salida_mprima` (`idSalMprima`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of proceso_operativo
 -- ----------------------------
+INSERT INTO `proceso_operativo` VALUES (1, 1, 1, 5, 'camisas', 1, '2024-02-16 12:09:23', '2024-02-16 12:09:23', 'Camisas', '2024-02-16', '2024-02-16', '2024-02-16');
 
 -- ----------------------------
 -- Table structure for proceso_operativo_fin
@@ -406,16 +412,13 @@ CREATE TABLE `proceso_operativo`  (
 DROP TABLE IF EXISTS `proceso_operativo_fin`;
 CREATE TABLE `proceso_operativo_fin`  (
   `idProcOpFin` int NOT NULL AUTO_INCREMENT,
-  `idTipoProc` int NOT NULL,
   `idProcOp` int NOT NULL,
   `descripcionProcOpFin` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `estadoProcOpFin` int NOT NULL,
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idProcOpFin`) USING BTREE,
-  INDEX `idTipoProc`(`idTipoProc`) USING BTREE,
   INDEX `idProcOp`(`idProcOp`) USING BTREE,
-  CONSTRAINT `proceso_operativo_fin_ibfk_1` FOREIGN KEY (`idTipoProc`) REFERENCES `tipo_proceso` (`idTipoProc`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `proceso_operativo_fin_ibfk_2` FOREIGN KEY (`idProcOp`) REFERENCES `proceso_operativo` (`idProcOp`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
@@ -451,15 +454,12 @@ DROP TABLE IF EXISTS `produccion`;
 CREATE TABLE `produccion`  (
   `idProduccion` int NOT NULL AUTO_INCREMENT,
   `idProcOpFin` int NOT NULL,
-  `idPedido` int NULL DEFAULT NULL,
   `estadoProduccion` int NOT NULL,
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idProduccion`) USING BTREE,
   INDEX `idProcOpFin`(`idProcOpFin`) USING BTREE,
-  INDEX `idPedido`(`idPedido`) USING BTREE,
-  CONSTRAINT `produccion_ibfk_1` FOREIGN KEY (`idProcOpFin`) REFERENCES `proceso_operativo_fin` (`idProcOpFin`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `produccion_ibfk_2` FOREIGN KEY (`idPedido`) REFERENCES `pedido` (`idPedido`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `produccion_ibfk_1` FOREIGN KEY (`idProcOpFin`) REFERENCES `proceso_operativo_fin` (`idProcOpFin`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -540,11 +540,12 @@ CREATE TABLE `salida_mprima`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idSalMprima`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of salida_mprima
 -- ----------------------------
+INSERT INTO `salida_mprima` VALUES (5, 1, 'prueba 1', '2024-07-27', '0', '1756.30', '1756.30', '{\"producto0\":{\"codProdIng\":\"25\",\"nombreProdIng\":\"Cierre Casacas Promo\",\"codigoProdIng\":\"CieCasProm202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"15.00\"},\"producto1\":{\"codProdIng\":\"26\",\"nombreProdIng\":\"Botones de pantalones hombre\",\"codigoProdIng\":\"Boto202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"1.30\"},\"producto2\":{\"codProdIng\":\"27\",\"nombreProdIng\":\"Rollo tela dril azul\",\"codigoProdIng\":\"RollTelDri202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"800.00\"},\"producto3\":{\"codProdIng\":\"28\",\"nombreProdIng\":\"Rollo tela ceda blanco\",\"codigoProdIng\":\"RollTelCedBla202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"900.00\"},\"producto4\":{\"codProdIng\":\"29\",\"nombreProdIng\":\"Holi negro 3.5\",\"codigoProdIng\":\"HilNeg202503\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"40.00\"}}', '2024-07-27 11:08:41', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for salida_prod
@@ -583,11 +584,12 @@ CREATE TABLE `tipo_proceso`  (
   PRIMARY KEY (`idTipoProc`) USING BTREE,
   INDEX `fk_idFichaProc`(`idFichaProc`) USING BTREE,
   CONSTRAINT `fk_idFichaProc` FOREIGN KEY (`idFichaProc`) REFERENCES `ficha_proceso` (`idFichaProc`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tipo_proceso
 -- ----------------------------
+INSERT INTO `tipo_proceso` VALUES (1, 'proceso1', '2024-02-16 12:09:23', '2024-02-16 12:09:23', 3);
 
 -- ----------------------------
 -- Table structure for tipo_usuario
@@ -627,7 +629,7 @@ CREATE TABLE `usuario`  (
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
-INSERT INTO `usuario` VALUES (1, 1, 'dfrida', 'Administrador', 'administrador', '$argon2id$v=19$m=4096,t=2,p=2$ZURZWG0yNkNOZVJTLlg5Lw$MvzbwXUNlV+Inxssd1nN+A8EN5Il6CdSAs7pTc3szJk', '2024-07-26 08:40:14', '2024-02-16 12:09:23', '2024-02-16 12:09:23');
+INSERT INTO `usuario` VALUES (1, 1, 'dfrida', 'Administrador', 'administrador', '$argon2id$v=19$m=4096,t=2,p=2$ZURZWG0yNkNOZVJTLlg5Lw$MvzbwXUNlV+Inxssd1nN+A8EN5Il6CdSAs7pTc3szJk', '2024-07-27 10:01:58', '2024-02-16 12:09:23', '2024-02-16 12:09:23');
 INSERT INTO `usuario` VALUES (7, 2, 'alex', 'alex administrativo', 'flores', '$argon2id$v=19$m=4096,t=2,p=2$N0RQdHo5MXhOb1ZPdS45Wg$lk4EN49DUl5YTX+omAM/qpOZZG1P4adfpdAWl/IFSG4', '2024-07-16 15:02:17', '2024-07-16 15:02:09', '2024-07-16 15:02:09');
 
 SET FOREIGN_KEY_CHECKS = 1;

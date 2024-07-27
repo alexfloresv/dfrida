@@ -2,7 +2,7 @@
 --SHOW CREATE TABLE salida_mprima;
 
 --eliminar clave foranea 
---ALTER TABLE salida_mprima DROP FOREIGN KEY salida_mprima_ibfk_1;
+ALTER TABLE produccion DROP FOREIGN KEY produccion_ibfk_2;
 
 --eliminar campo de tabla 
 --ALTER TABLE tabla
@@ -19,11 +19,13 @@
 --ALTER TABLE tipo_proceso
 --ADD CONSTRAINT fk_idFichaProc FOREIGN KEY (idFichaProc) REFERENCES ficha_proceso(idFichaProc);
 -----------------------------------------------------
-ALTER TABLE pedido
-ADD COLUMN idFichaTec int (11) DEFAULT NULL;
+ALTER TABLE proceso_operativo
+ADD COLUMN nombreProcOp varchar(255) NOT NULL,
+ADD COLUMN fechaRegistroProcOp date NOT NULL,
+ADD COLUMN fechaInicioProcOp date NOT NULL,
+ADD COLUMN fechaFinProcOp date NOT NULL;
 
-ALTER TABLE pedido
-ADD CONSTRAINT fk_idFichaTec FOREIGN KEY (idFichaTec) REFERENCES ficha_tecnica (idFichaTec);
+------------------------------------------------------
 
 CREATE TABLE
     `tipo_Usuario` (
