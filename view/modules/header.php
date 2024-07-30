@@ -44,3 +44,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
  <!-- Incluir librerias para crear descargar zip -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+<!-- libreria xlsx exel upload -->
+<script src="libraryJs\xlsx.full.min.js"></script>

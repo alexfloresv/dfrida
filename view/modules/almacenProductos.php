@@ -14,8 +14,8 @@
    
       </ol>
       <div class="d-flex m-2">
-        <button type="button" class="btn btn-success" id="btnAddIngresoProd">
-         Descargar Iventario <i class="fa-solid fa-file-arrow-down fa-1x"></i>
+        <button type="button" class="btn btn-success" id="btnDescargarInventarioAlmacenProductos">
+         Descargar Inventario <i class="fa-solid fa-file-arrow-down fa-1x"></i>
         </button>
       </div>
       <div class="card mb-4">

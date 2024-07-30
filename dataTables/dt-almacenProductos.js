@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
       {
         data: "totalProdAlma",
         render: function (data, type, row) {
-          return "S/ " + data; 
+          return "S/ " + data;
         },
       },
     ];
@@ -66,6 +66,16 @@ document.addEventListener("DOMContentLoaded", function () {
         tableAlmacenProductos.clear();
         tableAlmacenProductos.rows.add(response);
         tableAlmacenProductos.draw();
+        // Evento para el botón de descarga
+        document
+          .getElementById("btnDescargarInventarioAlmacenProductos")
+          .addEventListener("click", function () {
+            crearArchivoExcel(
+              response,
+              "InventarioProductos",
+              "Inventario_Productos"
+            );
+          });
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log(jqXHR.responseText); // Procedencia de error
@@ -74,3 +84,68 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+// Función para crear archivo Excel con la data de la tabla de productos
+function crearArchivoExcel(data, nombreHoja, nombreArchivo) {
+  const cabecerasPersonalizadas = [
+    "ID Almacén Producto",
+    "ID Producto",
+    "Código Producto",
+    "Nombre Producto",
+    "Unidad de Medida",
+    "Cantidad",
+    "Precio",
+    "Fecha de Actualización",
+  ];
+
+  const clavesPermitidas = [
+    "idAlmaProd",
+    "idProd",
+    "codigoProdAlma",
+    "nombreProdAlma",
+    "unidadProdAlma",
+    "cantidadProdAlma",
+    "precioProdAlma",
+    "DateUpdate",
+  ];
+
+  const dataFiltrada = data.map((objeto) => {
+    const objetoFiltrado = {};
+    clavesPermitidas.forEach((clave) => {
+      objetoFiltrado[clave] =
+        objeto[clave] !== null && objeto[clave] !== ""
+          ? objeto[clave]
+          : "Sin Inf.";
+    });
+    return objetoFiltrado;
+  });
+
+  var workbook = XLSX.utils.book_new();
+
+  // Crear la hoja de cálculo con las cabeceras personalizadas
+  const ws = XLSX.utils.json_to_sheet(dataFiltrada, {
+    header: clavesPermitidas,
+  });
+
+  // Reemplazar las cabeceras por las personalizadas
+  XLSX.utils.sheet_add_aoa(ws, [cabecerasPersonalizadas], { origin: "A1" });
+
+  const date = new Date().toLocaleDateString().replaceAll("/", "-");
+  XLSX.utils.book_append_sheet(workbook, ws, nombreHoja);
+
+  var excelBuffer = XLSX.write(workbook, {
+    bookType: "xlsx",
+    type: "array",
+  });
+
+  var blob = new Blob([excelBuffer], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  });
+
+  var url = URL.createObjectURL(blob);
+  var link = document.createElement("a");
+  link.href = url;
+  link.download = nombreArchivo + ".xlsx";
+  link.click();
+
+  URL.revokeObjectURL(url);
+}
