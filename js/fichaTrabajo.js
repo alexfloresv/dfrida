@@ -529,7 +529,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     // Manejo de una respuesta no exitosa de la llamada AJAX.
                     Swal.fire(
                       "Error",
-                      "La ficha Trabajo no se pudo eliminar.",
+                      "La Ficha de Trabajo no se pudo eliminar Se esta usando en un Proceso Operativo Solo Puede editarla.",
                       "error"
                     );
                   }

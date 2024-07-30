@@ -11,38 +11,46 @@ class procesoOperativoModel
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
-  // //data table modal salidas almacen
-  public static function mdlDTableSalProdcuctosAlmacen($table)
+
+  //funcion para mostrar el selec2 de fichas de trabajo
+  public static function mdlSelect2FichTrabModal($table)
   {
-    $statement = Conexion::conn()->prepare("
-          SELECT 
-              a.idProd, 
-              a.nombreProdAlma, 
-              a.codigoProdAlma, 
-              a.precioProdAlma, 
-              a.cantidadProdAlma, 
-              p.precioProd 
-          FROM 
-              $table a
-          INNER JOIN 
-              producto p ON a.idProd = p.idProd
-          WHERE 
-              a.cantidadProdAlma > 0 
-          ORDER BY 
-              a.idAlmaProd DESC
-      ");
+    $statement = Conexion::conn()->prepare("SELECT idfichaProc, tituloFichaProc  FROM $table ORDER BY idfichaProc DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  //datatable  ingresos en el modal de ingresos productos
-  public static function mdlVerProductosSalidaModal($table, $codAllSalProd)
+  //crear el tipo de proceso operativo
+  public static function mdlCrearTipoProcModal($table, $dataCreate)
   {
-    $statement = Conexion::conn()->prepare("SELECT salJsonProd FROM $table WHERE idSalProd = :idSalProd");
-    $statement->bindParam(":idSalProd", $codAllSalProd, PDO::PARAM_INT);
-    $statement->execute();
-    return $statement->fetch(PDO::FETCH_ASSOC);
+    $statement = Conexion::conn()->prepare("INSERT INTO $table (nombreTipoProc, descripcionTipoProc,idFichaProc, DateCreate) VALUES(:nombreTipoProc, :descripcionTipoProc, :idFichaProc, :DateCreate)");
+    $statement->bindParam(":nombreTipoProc", $dataCreate["nombreTipoProc"], PDO::PARAM_STR);
+    $statement->bindParam(":descripcionTipoProc", $dataCreate["descripcionTipoProc"], PDO::PARAM_STR);
+    $statement->bindParam(":idFichaProc", $dataCreate["idFichaProc"], PDO::PARAM_STR);
+    $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
   }
+
+  //funcion para mostrar el selec2 de pedidos
+  public static function mdlSelect2Pedido($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idPedido, tituloPedido  FROM $table ORDER BY idPedido DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  //funcion para mostrar el selec2 de tipo de procesos
+  public static function mdlSelect2TiposProcesos($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idTipoProc, nombreTipoProc  FROM $table ORDER BY idTipoProc DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
   //verificar datos de productos en almacen
   public static function mdlStockAlmacen($table, $codProd)
   {

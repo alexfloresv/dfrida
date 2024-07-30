@@ -10,18 +10,43 @@ class procesoOperativoController
     $response = procesoOperativoModel::mdlDTableProcesosOperativos($table);
     return $response;
   }
-  //datatable de salidas productos alamcen modal
-  public static function ctrDTableSalProdcuctosAlmacen()
+  //funcion para mostrar el selec2 de fichas de trabajo
+  public static function ctrSelect2FichTrabModal()
   {
-    $table = "almacen_prod";
-    $response = procesoOperativoModel::mdlDTableSalProdcuctosAlmacen($table);
+    $table = "ficha_proceso";
+    $response = procesoOperativoModel::mdlSelect2FichTrabModal($table);
     return $response;
   }
-  //datatable  ingresos en el modal de ingresos productos
-  public static function ctrVerProductosSalidaModal($codAllSalProd)
+
+  //crear el tipo de proceso operativo
+  public static function ctrCrearTipoProcModal($jsonCrearTipoProceso)
   {
-    $table = "salida_prod";
-    $response = procesoOperativoModel::mdlVerProductosSalidaModal($table, $codAllSalProd);
+    $dataTipoProc = json_decode($jsonCrearTipoProceso, true);
+    $table = "tipo_proceso";
+
+    $dataCreate = array(
+      "nombreTipoProc" => $dataTipoProc["nombreTipoProcOpAdd"],
+      "descripcionTipoProc" => $dataTipoProc["descripcionTipoProcOpAdd"],
+      "idFichaProc" => $dataTipoProc["idFichTrabProcAdd"],
+      "DateCreate" => date("Y-m-d\TH:i:sP"),
+    );
+    $response = procesoOperativoModel::mdlCrearTipoProcModal($table, $dataCreate);
+    return $response;
+  }
+
+  //funcion para mostrar el selec2 de pedidos
+  public static function ctrSelect2Pedido()
+  {
+    $table = "pedido";
+    $response = procesoOperativoModel::mdlSelect2Pedido($table);
+    return $response;
+  }
+
+  //funcion para mostrar el selec2 de tipo de procesos
+  public static function ctrSelect2TiposProcesos()
+  {
+    $table = "tipo_proceso";
+    $response = procesoOperativoModel::mdlSelect2TiposProcesos($table);
     return $response;
   }
 
@@ -45,7 +70,7 @@ class procesoOperativoController
     }
     return $response;
   }
-//2024-02-16 12:09:23
+  //2024-02-16 12:09:23
 //prima 5
 //fchatec 190
 //coti 1

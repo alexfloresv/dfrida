@@ -87,13 +87,18 @@ class FichaTrabajoModel
   }
 
   //eliminar ficha trabajo
-  public static function mdlDeleteFichaTrabajo($table, $codFichTrab)
+ public static function mdlDeleteFichaTrabajo($table, $codFichTrab)
   {
-    $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE idFichaProc = :idFichaProc");
-    $statement->bindParam(":idFichaProc", $codFichTrab, PDO::PARAM_INT);
-    if ($statement->execute()) {
-      return "ok";
-    } else {
+    try {
+      $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE idFichaProc = :idFichaProc");
+      $statement->bindParam(":idFichaProc", $codFichTrab, PDO::PARAM_INT);
+      if ($statement->execute()) {
+        return "ok";
+      } else {
+        return "error";
+      }
+    } catch (PDOException $e) {
+      // Manejar el error de la base de datos que sera la clave foranea
       return "error";
     }
   }
