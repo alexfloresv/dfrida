@@ -1,11 +1,17 @@
+// funciond ata table para modales de categorias de productos crear y eliminar registros sina ctualizar la pagina
 document.addEventListener("DOMContentLoaded", function () {
+  //verrificar si la ruta es la correcta
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/almacenMateriaPrima";
   if (currentPath == appPath) {
+    //si es correcta la ruta inicializa el datatable
+
+    // Verifica si el DataTable ya está inicializado y destrúyelo si es así
     if ($.fn.DataTable.isDataTable("#dataTableAlmacenMateriaPrima")) {
       $("#dataTableAlmacenMateriaPrima").DataTable().destroy();
     }
 
+    // Estructura de dataTableAlmacenMateriaPrima
     $("#dataTableAlmacenMateriaPrima thead").html(`
         <tr>
           <th scope="col">#</th>
@@ -17,11 +23,12 @@ document.addEventListener("DOMContentLoaded", function () {
           </tr>
       `);
 
+    // Definición inicial de dataTableAlmacenMateriaPrima
     var columnDefsAlmacenMprima = [
       {
         data: null,
         render: function (data, type, row, meta) {
-          return meta.row + 1;
+          return meta.row + 1; // Para el número de fila
         },
       },
       { data: "nombreMprimaAlma" },
@@ -40,10 +47,12 @@ document.addEventListener("DOMContentLoaded", function () {
       columns: columnDefsAlmacenMprima,
     });
 
+    // Titulo dataTableAlmacenMateriaPrima
     $(".tituloAlmacenMateriaPrima").text(
       "Stock de Productos Almacen Productos Materia Prima"
     );
 
+    // Solicitud inicial de dataTableAlmacenMateriaPrima
     var data = new FormData();
     data.append("todosLosProductosAlmacenMprima", true);
 
@@ -59,12 +68,11 @@ document.addEventListener("DOMContentLoaded", function () {
         tableAlmacenMprima.clear();
         tableAlmacenMprima.rows.add(response);
         tableAlmacenMprima.draw();
-
         // Evento para el botón de descarga
         document
           .getElementById("btnDescargarInventarioProductosPrima")
           .addEventListener("click", function () {
-            crearArchivoExcel(
+            crearArchivoExcelInventarioMPrima(
               response,
               "InventarioProductosPrima",
               "Inventario_Productos_Prima"
@@ -72,18 +80,15 @@ document.addEventListener("DOMContentLoaded", function () {
           });
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        console.log(jqXHR.responseText);
+        console.log(jqXHR.responseText); // Procedencia de error
         console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
       },
     });
   }
 });
-
-// Descargar archivo Excel de la tabla de productos en almacen de materia prima
-const crearArchivoExcel = (data, nombreHoja, nombreArchivo) => {
+// funcion para exportar a excel
+const crearArchivoExcelInventarioMPrima = (data, nombreHoja, nombreArchivo) => {
   const cabecerasPersonalizadas = [
-    "ID Almacén Materia Prima",
-    "ID Materia Prima",
     "Código Materia Prima",
     "Nombre Materia Prima",
     "Unidad de Medida",
@@ -93,8 +98,6 @@ const crearArchivoExcel = (data, nombreHoja, nombreArchivo) => {
   ];
 
   const clavesPermitidas = [
-    "idAlmaMprima",
-    "idMprima",
     "codigoMprimaAlma",
     "nombreMprimaAlma",
     "unidadMprimaAlma",

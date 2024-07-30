@@ -14,8 +14,11 @@
         <!-- <li class="breadcrumb-item active">Todos los Usuarios</li> -->
       </ol>
       <div class="d-flex m-2">
-        <button type="button" class="btn btn-success" id="btnAddSalidaProd">
+        <button type="button" class="btn btn-primary me-4" id="btnAddSalidaProd">
           Registrar Salida de Productos del Inventario
+        </button>
+        <button type="button" class="btn btn-success" id="btnDescargarSalidasProd">
+          <i class="fas fa-file-excel me-2"></i> Descargar Salidas de Productos
         </button>
       </div>
       <div class="card mb-4">

@@ -277,4 +277,12 @@ class salidaProdModel
       return "error";
     }
   }
+  // Descargar excel datos de salida de productos por fecha
+  public static function  mdlObtenerDatosSalidaProductosporFecha($tabla, $fechaInicio,$fechaFin){
+    $statement = Conexion::conn()->prepare("SELECT salida_prod.idSalProd, salida_prod.idPedido, salida_prod.nombreSalProd, salida_prod.fechaSalProd, salida_prod.igvSalProd, salida_prod.subTotalSalProd, salida_prod.totalSalProd, salida_prod.salJsonProd FROM $tabla WHERE salida_prod.fechaSalProd BETWEEN :fechaInicio AND :fechaFin");
+    $statement->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+    $statement->bindParam(":fechaFin", $fechaFin, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

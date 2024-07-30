@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document
           .getElementById("btnDescargarInventarioAlmacenProductos")
           .addEventListener("click", function () {
-            crearArchivoExcel(
+            crearArchivoExcelAlmacenProductos(
               response,
               "InventarioProductos",
               "Inventario_Productos"
@@ -85,10 +85,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 // Función para crear archivo Excel con la data de la tabla de productos
-function crearArchivoExcel(data, nombreHoja, nombreArchivo) {
+function crearArchivoExcelAlmacenProductos(data, nombreHoja, nombreArchivo) {
   const cabecerasPersonalizadas = [
-    "ID Almacén Producto",
-    "ID Producto",
     "Código Producto",
     "Nombre Producto",
     "Unidad de Medida",
@@ -98,8 +96,6 @@ function crearArchivoExcel(data, nombreHoja, nombreArchivo) {
   ];
 
   const clavesPermitidas = [
-    "idAlmaProd",
-    "idProd",
     "codigoProdAlma",
     "nombreProdAlma",
     "unidadProdAlma",

@@ -441,6 +441,12 @@ class ingresoProdController
 
     return $response;
   }
-
+  // Descargar excel ingreso productos por fechas
+  public static function ctrObtenerDatosIngresoProductosporFecha($fechaInicio, $fechaFin)
+  {
+    $table = "ingreso_prod";
+    $response = ingresoProdModel::mdlObtenerDatosIngresoProductosporFecha($table, $fechaInicio, $fechaFin);
+    return $response;
+  }
 
 }

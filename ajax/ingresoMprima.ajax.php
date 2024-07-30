@@ -71,6 +71,13 @@ if (isset($_POST["jsonPdfCotizacion"])) {
   $pdf->jsonPdfCotizacion = $_POST["jsonPdfCotizacion"];
   $pdf->ajaxDescargarPdfCotizacion($_POST["jsonPdfCotizacion"]);
 }
+// Descargar Ingresos de Productos Prima por fecha
+if (isset($_POST["fechaInicioIngresoMPrima"]) && isset($_POST["fechaFinIngresoMPrima"])) {
+  $descargarIngresosMPrimaporFecha = new IngresoMprimaAjax();
+  $descargarIngresosMPrimaporFecha->fechaInicioIngresoMPrima = $_POST["fechaInicioIngresoMPrima"];
+  $descargarIngresosMPrimaporFecha->fechaFinIngresoMPrima = $_POST["fechaFinIngresoMPrima"];
+  $descargarIngresosMPrimaporFecha->ajaxObtenerDatosIngresosMPrimaporFechas();
+}
 /////////////////////////////
 
 class IngresoMprimaAjax
@@ -131,7 +138,7 @@ class IngresoMprimaAjax
     echo json_encode($response);
   }
 
-//Agregar Producto prima al ingreso
+  //Agregar Producto prima al ingreso
   public function ajaxAgregarIngProductoPrima($codAddIngProdModal)
   {
     $codIngMprimaucto = json_decode($codAddIngProdModal, true); // Decodificar la cadena de texto JSON en un array asociativo
@@ -145,6 +152,39 @@ class IngresoMprimaAjax
     $codCotiPdf = json_decode($jsonPdfCotizacion, true); // Decodificar la cadena de texto JSON en un array asociativo
     $response = ingresoMprimaController::ctrDescargarPdfCotizacion($codCotiPdf);
     echo json_encode($response);
+  }
+  public $fechaInicioIngresoMPrima;
+  public $fechaFinIngresoMPrima;
+  // Descargar Ingresos de Productos Prima por fecha
+  public function ajaxObtenerDatosIngresosMPrimaporFechas()
+  {
+    $fechaInicioIngresoMPrima = $this->fechaInicioIngresoMPrima;
+    $fechaFinIngresoMPrima = $this->fechaFinIngresoMPrima;
+    $response = ingresoMprimaController::ctrObtenerDatosIngresosMPrimaporFechas($fechaInicioIngresoMPrima, $fechaFinIngresoMPrima);
+
+    $dataFiltrada = [];
+
+    foreach ($response as $ingreso) {
+      $productos = json_decode($ingreso['ingJsonMprima'], true);
+      foreach ($productos as $producto) {
+        $dataFiltrada[] = [
+          'idIngMprima' => $ingreso['idIngMprima'],
+          'nombreIngMprima' => $ingreso['nombreIngMprima'],
+          'fechaIngMprima' => $ingreso['fechaIngMprima'],
+          'igvIngMprima' => $ingreso['igvIngMprima'],
+          'subTotalIngMprima' => $ingreso['subTotalIngMprima'],
+          'totalIngMprima' => $ingreso['totalIngMprima'],
+          'codProdIng' => $producto['codProdIng'],
+          'nombreProdIng' => $producto['nombreProdIng'],
+          'codigoProdIng' => $producto['codigoProdIng'],
+          'unidadProdIng' => $producto['unidadProdIng'],
+          'cantidadProdIng' => $producto['cantidadProdIng'],
+          'precioProdIng' => $producto['precioProdIng'],
+        ];
+      }
+    }
+
+    echo json_encode($dataFiltrada);
   }
 }
 

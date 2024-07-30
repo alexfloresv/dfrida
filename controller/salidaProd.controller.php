@@ -448,6 +448,12 @@ class salidaProdController
     $response = salidaProdModel::mdlAgregarSalProducto($table, $codSalProducto);
     return $response;
   }
-
+  // Descargar excel datos de salida de productos por fecha
+  public static function ctrObtenerDatosSalidaProductosporFecha($fechaInicio, $fechaFin)
+  {
+    $table = "salida_prod";
+    $response = salidaProdModel::mdlObtenerDatosSalidaProductosporFecha($table, $fechaInicio, $fechaFin);
+    return $response;
+  }
 
 }

@@ -216,4 +216,12 @@ class ingresoProdModel
       return "error";
     }
   }
+  // Descargar excel ingreso productos por fechas
+  public static function mdlObtenerDatosIngresoProductosporFecha($tabla, $fechaInicio, $fechaFin){
+    $statement = Conexion::conn()->prepare("SELECT ingreso_prod.idIngProd, ingreso_prod.nombreIngProd, ingreso_prod.fechaIngProd, ingreso_prod.igvIngProd, ingreso_prod.subTotalIngProd, ingreso_prod.totalIngProd, ingreso_prod.ingJsonProd FROM $tabla WHERE ingreso_prod.fechaIngProd BETWEEN :fechaInicio AND :fechaFin");
+    $statement->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+    $statement->bindParam(":fechaFin", $fechaFin, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

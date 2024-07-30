@@ -14,7 +14,7 @@
    
       </ol>
       <div class="d-flex m-2">
-        <button type="button" class="btn btn-success" id="btnDescargarInventarioProductosPrima">
+        <button type="button" class="btn btn-success " id="btnDescargarInventarioProductosPrima">
          Descargar Inventario <i class="fa-solid fa-file-arrow-down fa-1x"></i>
         </button>
       </div>

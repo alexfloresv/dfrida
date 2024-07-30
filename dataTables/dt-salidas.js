@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-//modal para ver productos de salida por el boton 
+//modal para ver productos de salida por el boton
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/salidaList";
@@ -335,3 +335,173 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 //fin
+
+// descargar salidas productos por fechas
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/salidaList";
+  if (currentPath == appPath) {
+    $(function () {
+      var boton = $("#btnDescargarSalidasProd");
+      boton.daterangepicker(
+        {
+          opens: "left",
+          autoApply: false,
+          locale: {
+            format: "YYYY-MM-DD",
+            cancelLabel: "Cancelar",
+            applyLabel: "Aplicar",
+            customRangeLabel: "Seleccionar rango",
+            daysOfWeek: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+            monthNames: [
+              "Enero",
+              "Febrero",
+              "Marzo",
+              "Abril",
+              "Mayo",
+              "Junio",
+              "Julio",
+              "Agosto",
+              "Septiembre",
+              "Octubre",
+              "Noviembre",
+              "Diciembre",
+            ],
+            firstDay: 1,
+          },
+          showDropdowns: true, // Habilitar el selector de año y mes
+          minYear: 2000, // Año mínimo
+          maxYear: parseInt(moment().format("YYYY"), 10) + 1, // Año máximo incrementado en 1
+        },
+        function (start, end) {
+          boton.val(
+            start.format("YYYY-MM-DD") + " - " + end.format("YYYY-MM-DD")
+          );
+        }
+      );
+
+      // Agrega la fecha actual si no se selecciona ninguna fecha al clickear en el botón apply
+      // También si solo se selecciona una sola fecha
+      boton.on("apply.daterangepicker", function (ev, picker) {
+        var rangoFechas = $(this).val().split(" - ");
+        var fechaInicioNot = rangoFechas[0];
+        var fechaFinNot = rangoFechas[1];
+        var fechaActualNot = new Date().toISOString().split("T")[0]; // obtiene la fecha actual en formato YYYY-MM-DD
+        if (!fechaInicioNot && !fechaFinNot) {
+          fechaInicioNot = fechaActualNot;
+          fechaFinNot = fechaActualNot;
+        } else if (!fechaFinNot) {
+          fechaFinNot = fechaInicioNot;
+        } else if (!fechaInicioNot) {
+          fechaInicioNot = fechaFinNot;
+        }
+        var data = new FormData();
+        data.append("fechaInicioSalidaProducto", fechaInicioNot);
+        data.append("fechaFinSalidaProducto", fechaFinNot);
+        $.ajax({
+          url: "ajax/salidaProd.ajax.php",
+          method: "POST",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (response) {
+            // Llama a la función para crear y descargar el archivo Excel
+            crearArchivoExcelSalidasProductosporFecha(
+              response,
+              "SalidasProductos",
+              "Salidas_Productos"
+            );
+            boton.val(""); // Limpia la selección del input
+            boton.data("daterangepicker").setStartDate(moment()); // Restablece la fecha de inicio
+            boton.data("daterangepicker").setEndDate(moment()); // Restablece la fecha de fin
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText); // Procedencia de error
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
+      });
+    });
+  }
+});
+// función para exportar a excel
+const crearArchivoExcelSalidasProductosporFecha = (
+  data,
+  nombreHoja,
+  nombreArchivo
+) => {
+  const cabecerasPersonalizadas = [
+    "Nombre Salida",
+    "Fecha Salida",
+    "IGV",
+    "Subtotal",
+    "Total",
+    "Código Producto",
+    "Nombre Producto",
+    "Código Producto Ingreso",
+    "Unidad Producto",
+    "Cantidad Producto",
+    "Precio Producto",
+  ];
+
+  const keys = [
+    "nombreSalProd",
+    "fechaSalProd",
+    "igvSalProd",
+    "subTotalSalProd",
+    "totalSalProd",
+    "codProdIng",
+    "nombreProdIng",
+    "codigoProdIng",
+    "unidadProdIng",
+    "cantidadProdIng",
+    "precioProdIng",
+  ];
+
+  // Filtrar los datos para incluir solo las claves especificadas
+  const filteredData = data.map((item) => {
+    let filteredItem = {};
+    keys.forEach((key) => {
+      if (item.hasOwnProperty(key)) {
+        filteredItem[key] = item[key];
+      }
+    });
+    return filteredItem;
+  });
+
+  var workbook = XLSX.utils.book_new();
+
+  // Crear la hoja de cálculo con las cabeceras personalizadas
+  const ws = XLSX.utils.json_to_sheet(filteredData, {
+    header: keys,
+  });
+
+  // Reemplazar las cabeceras por las personalizadas
+  XLSX.utils.sheet_add_aoa(ws, [cabecerasPersonalizadas], { origin: "A1" });
+
+  const date = new Date().toLocaleDateString().replaceAll("/", "-");
+  XLSX.utils.book_append_sheet(workbook, ws, nombreHoja);
+
+  var excelBuffer = XLSX.write(workbook, {
+    bookType: "xlsx",
+    type: "array",
+  });
+
+  var blob = new Blob([excelBuffer], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  });
+
+  var url = URL.createObjectURL(blob);
+  var link = document.createElement("a");
+  link.href = url;
+  link.download = nombreArchivo + ".xlsx";
+  link.click();
+
+  URL.revokeObjectURL(url);
+};

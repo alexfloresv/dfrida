@@ -448,6 +448,11 @@ class salidaMprimaController
     $response = salidaMprimaModel::mdlAgregarSalProducto($table, $codSalProducto);
     return $response;
   }
+  public static function ctrObtenerDatosSalidaProductosMPrimaporFecha($fechaInicio,$fechaFin){
+    $table = "salida_mprima";
+    $response = salidaMprimaModel::mdlObtenerDatosSalidaProductosMPrimaporFecha($table, $fechaInicio, $fechaFin);
+    return $response;
+  }
 
 
 }

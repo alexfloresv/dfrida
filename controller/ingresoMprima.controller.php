@@ -430,6 +430,12 @@ class ingresoMprimaController
     $response = ingresoMprimaModel::mdlAgregarIngProducto($table, $codIngProducto);
     return $response;
   }
-
+  // Descargar ingreso materia prima por fechas
+  public static function ctrObtenerDatosIngresosMPrimaporFechas($fechaInicio, $fechaFin)
+  {
+    $table = "ingreso_mprima";
+    $response = ingresoMprimaModel::mdlObtenerDatosIngresosMPrimaporFechas($table, $fechaInicio, $fechaFin);
+    return $response;
+  }
 
 }

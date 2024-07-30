@@ -217,4 +217,12 @@ class ingresoMprimaModel
       return "error";
     }
   }
+  // Descargar ingresos materia prima por fechas
+  public static function mdlObtenerDatosIngresosMPrimaporFechas($table,$fechaInicio, $fechaFin){
+    $statement = Conexion::conn()->prepare("SELECT ingreso_mprima.idIngMprima, ingreso_mprima.nombreIngMprima,  ingreso_mprima.fechaIngMprima, ingreso_mprima.igvIngMprima, ingreso_mprima.subTotalIngMprima, ingreso_mprima.totalIngMprima, ingreso_mprima.ingJsonMprima FROM $table WHERE ingreso_mprima.fechaIngMprima BETWEEN :fechaInicio AND :fechaFin");
+    $statement->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+    $statement->bindParam(":fechaFin", $fechaFin, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

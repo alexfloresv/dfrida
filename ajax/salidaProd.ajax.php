@@ -76,6 +76,13 @@ if (isset($_POST["jsonPdfCotizacion"])) {
   $pdf->jsonPdfCotizacion = $_POST["jsonPdfCotizacion"];
   $pdf->ajaxDescargarPdfCotizacion($_POST["jsonPdfCotizacion"]);
 }
+  // Descargar excel datos de salida de productos por fecha
+if (isset($_POST["fechaInicioSalidaProducto"]) && isset($_POST["fechaFinSalidaProducto"])) {
+  $datosSalidaProductosporFecha = new salidaProdAjax();
+  $datosSalidaProductosporFecha->fechaInicioSalidaProducto = $_POST["fechaInicioSalidaProducto"];
+  $datosSalidaProductosporFecha->fechaFinSalidaProducto = $_POST["fechaFinSalidaProducto"];
+  $datosSalidaProductosporFecha->ajaxObtenerDatosSalidaProductosporFecha();
+}
 /////////////////////////////
 
 class salidaProdAjax
@@ -152,7 +159,39 @@ class salidaProdAjax
     $response = salidaProdController::ctrAgregarSalProducto($codSalProducto);
     echo json_encode($response);
   }
+  // Descargar excel datos de salida de productos por fecha
+  public $fechaInicioSalidaProducto;
+  public $fechaFinSalidaProducto;
+  public function ajaxObtenerDatosSalidaProductosporFecha()
+  {
+    $fechaInicioSalidaProducto = $this->fechaInicioSalidaProducto;
+    $fechaFinSalidaProducto = $this->fechaFinSalidaProducto;
+    $response = salidaProdController::ctrObtenerDatosSalidaProductosporFecha($fechaInicioSalidaProducto, $fechaFinSalidaProducto);
 
+    $dataFiltrada = [];
 
+    foreach ($response as $salida) {
+      $productos = json_decode($salida['salJsonProd'], true);
+      foreach ($productos as $producto) {
+        $dataFiltrada[] = [
+          'idSalProd' => $salida['idSalProd'],
+          'idPedido' => $salida['idPedido'],
+          'nombreSalProd' => $salida['nombreSalProd'],
+          'fechaSalProd' => $salida['fechaSalProd'],
+          'igvSalProd' => $salida['igvSalProd'],
+          'subTotalSalProd' => $salida['subTotalSalProd'],
+          'totalSalProd' => $salida['totalSalProd'],
+          'codProdIng' => $producto['codProdIng'],
+          'nombreProdIng' => $producto['nombreProdIng'],
+          'codigoProdIng' => $producto['codigoProdIng'],
+          'unidadProdIng' => $producto['unidadProdIng'],
+          'cantidadProdIng' => $producto['cantidadProdIng'],
+          'precioProdIng' => $producto['precioProdIng'],
+        ];
+      }
+    }
+
+    echo json_encode($dataFiltrada);
+  }
 }
 

@@ -278,4 +278,24 @@ class salidaMprimaModel
       return "error";
     }
   }
+  public static function mdlObtenerDatosSalidaProductosMPrimaporFecha($table, $fechaInicioSalidaMPrima, $fechaFinSalidaMPrima)
+  {
+    $statement = Conexion::conn()->prepare("SELECT
+	salida_mprima.idSalMprima, 
+	salida_mprima.idProcOp, 
+	salida_mprima.nombreSalMprima, 
+	salida_mprima.fechaSalMprima, 
+	salida_mprima.igvSalMprima, 
+	salida_mprima.subTotalSalMprima, 
+	salida_mprima.totalSalMprima, 
+	salida_mprima.salJsonMprima
+FROM
+	salida_mprima
+	WHERE
+    salida_mprima.fechaSalMprima BETWEEN :fechaInicioSalidaMPrima AND :fechaFinSalidaMPrima ");
+    $statement->bindParam(":fechaInicioSalidaMPrima", $fechaInicioSalidaMPrima, PDO::PARAM_STR);
+    $statement->bindParam(":fechaFinSalidaMPrima", $fechaFinSalidaMPrima, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }
