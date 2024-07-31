@@ -60,20 +60,73 @@ class procesoOperativoModel
   }
   //verifi
 
-//crear  proceso operativo principal
+  //crear  proceso operativo principal
   public static function mdlCrearProcOpModal($table, $dataCreate)
   {
-    $statement = Conexion::conn()->prepare("INSERT INTO $table (nombreTipoProc, descripcionTipoProc,idFichaProc, DateCreate) VALUES(:nombreTipoProc, :descripcionTipoProc, :idFichaProc, :DateCreate)");
-    $statement->bindParam(":nombreTipoProc", $dataCreate["nombreTipoProc"], PDO::PARAM_STR);
-    $statement->bindParam(":descripcionTipoProc", $dataCreate["descripcionTipoProc"], PDO::PARAM_STR);
-    $statement->bindParam(":idFichaProc", $dataCreate["idFichaProc"], PDO::PARAM_STR);
-    $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
-    if ($statement->execute()) {
-      return "ok";
-    } else {
+    try {
+      $statement = Conexion::conn()->prepare("INSERT INTO $table (
+              nombreProcOp, 
+              descripcionProcOp, 
+              fechaRegistroProcOp, 
+              fechaFinProcOp, 
+              idSalMprima, 
+              idPedido, 
+              idTipoProc, 
+              estadoProcOp, 
+              DateCreate
+          ) VALUES (
+              :nombreProcOp, 
+              :descripcionProcOp, 
+              :fechaRegistroProcOp, 
+              :fechaFinProcOp, 
+              :idSalMprima, 
+              :idPedido, 
+              :idTipoProc, 
+              :estadoProcOp, 
+              :DateCreate
+          )");
+
+      $statement->bindParam(":nombreProcOp", $dataCreate["nombreProcOp"], PDO::PARAM_STR);
+      $statement->bindParam(":descripcionProcOp", $dataCreate["descripcionProcOp"], PDO::PARAM_STR);
+      $statement->bindParam(":fechaRegistroProcOp", $dataCreate["fechaRegistroProcOp"], PDO::PARAM_STR);
+      $statement->bindParam(":fechaFinProcOp", $dataCreate["fechaFinProcOp"], PDO::PARAM_STR);
+      $statement->bindParam(":idSalMprima", $dataCreate["idSalMprima"], PDO::PARAM_INT);
+      $statement->bindParam(":idPedido", $dataCreate["idPedido"], PDO::PARAM_INT);
+      $statement->bindParam(":idTipoProc", $dataCreate["idTipoProc"], PDO::PARAM_INT);
+      $statement->bindParam(":estadoProcOp", $dataCreate["estadoProcOp"], PDO::PARAM_INT);
+      $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
+
+      if ($statement->execute()) {
+        return "ok";
+      }
+    } catch (PDOException $e) {
       return "error";
     }
   }
+
+  //obtener el ultimo registro de proceso operativo
+  public static function mdlUltimoRegistroProcOp($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idProcOp FROM $table ORDER BY idProcOp DESC LIMIT 1");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+
+  }
+
+  //asignar proceso operativo a salida materia prima
+  public static function mdlAsignarSalMprima($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET idProcOp = :idProcOp, DateUpdate = :DateUpdate WHERE idSalMprima = :idSalMprima");
+    $statement->bindParam(":idProcOp", $dataUpdate["idProcOp"], PDO::PARAM_INT);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":idSalMprima", $dataUpdate["idSalMprima"], PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
   //////////////////////////////////////////////////////
 }

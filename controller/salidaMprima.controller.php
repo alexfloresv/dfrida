@@ -118,16 +118,33 @@ class salidaMprimaController
   public static function ctrRegistroSalidaProductos($salidaProdData, $jsonProductosSalidaProd)
   {
     $table = "salida_mprima";
-    $dataCreate = array(
-      "nombreSalMprima" => $salidaProdData["tituloSalProdAdd"],
-      "idProcOp" => $salidaProdData["pedidoSalProdAdd"],
-      "fechaSalMprima" => $salidaProdData["fechaSalProdAdd"],
-      "igvSalMprima" => $salidaProdData["igvIngProdAdd"],
-      "subTotalSalMprima" => $salidaProdData["subTotalIngProdAdd"],
-      "totalSalMprima" => $salidaProdData["totalIngProdAdd"],
-      "salJsonMprima" => $jsonProductosSalidaProd,
-      "DateCreate" => date("Y-m-d\TH:i:sP"),
-    );
+
+    if (isset($salidaProdData["pedidoSalProdAdd"])) {
+      // Si el campo está presente
+      $dataCreate = array(
+        "nombreSalMprima" => $salidaProdData["tituloSalProdAdd"],
+        "idProcOp" => $salidaProdData["pedidoSalProdAdd"],
+        "fechaSalMprima" => $salidaProdData["fechaSalProdAdd"],
+        "igvSalMprima" => $salidaProdData["igvIngProdAdd"],
+        "subTotalSalMprima" => $salidaProdData["subTotalIngProdAdd"],
+        "totalSalMprima" => $salidaProdData["totalIngProdAdd"],
+        "salJsonMprima" => $jsonProductosSalidaProd,
+        "DateCreate" => date("Y-m-d\TH:i:sP"),
+      );
+    } else {
+      // Si el campo no está presente o está vacío
+      $dataCreate = array(
+        "nombreSalMprima" => $salidaProdData["tituloSalProdAdd"],
+        "idProcOp" => null, // Asigna null o un valor vacío
+        "fechaSalMprima" => $salidaProdData["fechaSalProdAdd"],
+        "igvSalMprima" => $salidaProdData["igvIngProdAdd"],
+        "subTotalSalMprima" => $salidaProdData["subTotalIngProdAdd"],
+        "totalSalMprima" => $salidaProdData["totalIngProdAdd"],
+        "salJsonMprima" => $jsonProductosSalidaProd,
+        "DateCreate" => date("Y-m-d\TH:i:sP"),
+      );
+    }
+
     $response = salidaMprimaModel::mdlCrearSalidaProd($table, $dataCreate);
     return $response;
   }
@@ -378,8 +395,13 @@ class salidaMprimaController
   //borrar salida productos prima
   public static function ctrBorrarSalProductos($borrarSalProductos)
   {
+    //verificar si la salida esta asignada a un proceso operativo
+    $verificar = self::ctrVerificarSalidaProcOp($borrarSalProductos["codSalMprima"]);
+    if ($verificar) {
+      $response = "errorProcOp";
+    }
     //verificar si el usuario es administrador
-    if ($_SESSION["idTipoUsu"] == 1) {
+    else if ($_SESSION["idTipoUsu"] == 1) {
       $codSalProd = $borrarSalProductos["codSalMprima"];
       $table = "salida_mprima";
       //obtener el registro de productos 
@@ -391,6 +413,14 @@ class salidaMprimaController
     } else {
       $response = "error";
     }
+    return $response;
+  }
+  //verificar si la salida esta asignada a un proceso operativo
+  public static function ctrVerificarSalidaProcOp($codSalMprima)
+  {
+    $table = "proceso_operativo";
+    //recuperar los productos registrados en la salida
+    $response = salidaMprimaModel::mdlVerificarSalidaProcOp($table, $codSalMprima);
     return $response;
   }
 
@@ -453,7 +483,8 @@ class salidaMprimaController
     $response = salidaMprimaModel::mdlAgregarSalProducto($table, $codSalProducto);
     return $response;
   }
-  public static function ctrObtenerDatosSalidaProductosMPrimaporFecha($fechaInicio,$fechaFin){
+  public static function ctrObtenerDatosSalidaProductosMPrimaporFecha($fechaInicio, $fechaFin)
+  {
     $table = "salida_mprima";
     $response = salidaMprimaModel::mdlObtenerDatosSalidaProductosMPrimaporFecha($table, $fechaInicio, $fechaFin);
     return $response;

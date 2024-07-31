@@ -401,16 +401,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 html: "Proceso Operativo Creado Correctamente<br><strong>Administrelo desde la lista de Procesos</strong>",
                 confirmButtonText: "Ok",
               }).then(function () {
-                $("#formProcesoOpAdd").trigger("reset");
+                window.location.reload();
               });
             } else {
               Swal.fire({
                 icon: "error",
-                title: "Error",
-                html: "No se pudo crear el Proceso Operativo <strong>Intentelo otra vez</strong>.",
+                title: "Error!. No se pudo crear el Proceso Operativo",
+                html: "<strong>Asigne una Salida de Productos Prima, Un Pedido y Un tipo de proceso</strong>.",
                 confirmButtonText: "Ok",
               }).then(function () {
-                $("#formProcesoOpAdd").trigger("reset");
+                $("#modalCrearProcesoOp").modal("show");
               });
             }
           },

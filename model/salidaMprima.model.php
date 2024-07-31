@@ -177,6 +177,20 @@ class salidaMprimaModel
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
+  //verificar si la salida esta asignada a un proceso operativo
+  public static function mdlVerificarSalidaProcOp($table, $codSalMprima)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idSalMprima FROM $table WHERE idSalMprima = :idSalMprima");
+    $statement->bindParam(":idSalMprima", $codSalMprima, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    if ($result) {
+      return true; // El idSalMprima existe en la tabla
+    } else {
+      return false; // El idSalMprima no existe en la tabla
+    }
+  }
+
   //verificar datos de productos en almacen prima
   public static function mdlStockAlmacenSalida($table, $codProd)
   {
