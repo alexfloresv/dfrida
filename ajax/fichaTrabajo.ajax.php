@@ -56,6 +56,11 @@ if (isset($_POST["jsonPdfCotizacion"])) {
   $pdf->jsonPdfCotizacion = $_POST["jsonPdfCotizacion"];
   $pdf->ajaxDescargarPdfCotizacion($_POST["jsonPdfCotizacion"]);
 }
+//modal de tipos de procesos operativos modal
+if (isset($_POST["todasLasFichasTrabajoModal"])) {
+  $todasLasFichasTrabajoModal = new FichaTrabajoAjax();
+  $todasLasFichasTrabajoModal->ajaxDTableFrichasTrabajoModal();
+}
 /////////////////////////////
 
 class FichaTrabajoAjax
@@ -119,5 +124,16 @@ class FichaTrabajoAjax
     $response = FichaTrabajoController::ctrDescargarPdfCotizacion($codCotiPdf);
     echo json_encode($response);
   }
+    //datatable de fichas trabajo modal
+    public function ajaxDTableFrichasTrabajoModal()
+    {
+      $todasLasFichasTrabajoModal = FichaTrabajoController::ctrDTableFrichasTrabajo();
+      foreach ($todasLasFichasTrabajoModal as &$proces) {
+        $proces['buttons'] = FunctionFichaTrabajo::getBtnFichaTrabajoModal($proces["idFichaProc"]);
+        $proces['modalProcs'] = FunctionFichaTrabajo::getBtnVerProcesTrabajo($proces["idFichaProc"]);
+      }
+      //mostar todos los ProductosMprima DataTable
+      echo json_encode($todasLasFichasTrabajoModal);
+    }
 }
 

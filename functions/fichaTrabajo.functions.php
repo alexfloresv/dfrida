@@ -11,7 +11,6 @@ class FunctionFichaTrabajo
     <button class="btn btn-danger btnDeleteFichaTrabajo" codFichTrab="' . $codFichTrab . '"><i class="fa-solid fa-trash"></i></button>
     ';
     return $botones;
-
   }
   //boton ver procesos trabajo
   public static function getBtnVerProcesTrabajo($codFichTrab)
@@ -21,6 +20,13 @@ class FunctionFichaTrabajo
     ';
     return $botones;
   }
-
+  //boton pdf ver fichas de trajaoi modal
+  public static function getBtnFichaTrabajoModal($codFichTrab)
+  {
+    $botones = '
+       <button class="btn btn-primary btnDescargarFichaTrabajo" codFichTrab="' . $codFichTrab . '"><i class="fa-solid fa-file-pdf"></i></i></button>  
+    ';
+    return $botones;
+  }
 }
 

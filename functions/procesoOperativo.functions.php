@@ -6,13 +6,13 @@ class FunctionProcesoOperativo
   {
     if ($stateProcOp == 1) {
       $botones = '
-              <button class="btn btn-success btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalProdIngresados" codIniProcOp="' . $codIniProcOp . '">
+              <button class="btn btn-success btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalInicioProcesoOp" codIniProcOp="' . $codIniProcOp . '">
                   <i class="fa-solid fa-person-walking-arrow-right"></i>
               </button>
           ';
     } else {
       $botones = '
-              <button class="btn btn-secondary btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalProdIngresados" codIniProcOp="' . $codIniProcOp . '" disabled>
+              <button class="btn btn-secondary btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalInicioProcesoOp" codIniProcOp="' . $codIniProcOp . '" disabled>
                   <i class="fa-solid fa-person-walking-arrow-right"></i>
               </button>
           ';

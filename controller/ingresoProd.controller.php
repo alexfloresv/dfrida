@@ -361,6 +361,11 @@ class ingresoProdController
       $response = ingresoProdModel::mdlActualizarProductosIngresados($table, $dataActualizarProdAlamacen);
     }
 
+    //verificar si es verdadero o falso para editar el registro
+    if (is_array($dataFiltroIgual) && !empty($dataFiltroIgual)) {
+      return true;
+    }
+
     return $response;
   }
   //fin editar ingreso productos

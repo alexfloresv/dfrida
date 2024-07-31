@@ -13,69 +13,44 @@ if (isset($_POST["todosLosProcOp"])) {
   $todosLosProcOp->ajaxDTableProcOp();
 }
 
-//datatable de salidas productos alamcen modal
-if (isset($_POST["todosLosProductosAlmacen"])) {
-  $todosLosProductosAlmacen = new procesoOperativoAjax();
-  $todosLosProductosAlmacen->ajaxDTableSalProdcuctosAlmacen();
+//funcion para mostrar el selec2 de fichas de trabajo
+if (isset($_POST["todasLasFichasTrabajo"])) {
+  $todasLasFichasTrabajo = new procesoOperativoAjax();
+  $todasLasFichasTrabajo->ajaxSelect2FichTrabModal();
 }
 
-//visualizar salidas en el modal de salidas productos
-if (isset($_POST["codAllSalProd"])) {
+//crear el tipo de proceso operativo
+if (isset($_POST["jsonCrearTipoProceso"])) {
   $view = new procesoOperativoAjax();
-  $view->codAllSalProd = $_POST["codAllSalProd"];
-  $view->ajaxVerProductosSalidaModal($_POST["codAllSalProd"]);
+  $view->jsonCrearTipoProceso = $_POST["jsonCrearTipoProceso"];
+  $view->ajaxCrearTipoProcModal($_POST["jsonCrearTipoProceso"]);
 }
 
-//  crear salida de  productos
-if (isset($_POST["jsonCrearSalidaProd"], $_POST["jsonProductosSalidaProd"])) {
-  $create = new procesoOperativoAjax();
-  $create->jsonCrearSalidaProd = $_POST["jsonCrearSalidaProd"];
-  $create->jsonProductosSalidaProd = $_POST["jsonProductosSalidaProd"];
-  $create->ajaxCrearSalidaProd($_POST["jsonCrearSalidaProd"], $_POST["jsonProductosSalidaProd"]);
+//funcion para mostrar el selec2 de pedidos
+if (isset($_POST["todosLosPedidos"])) {
+  $todosLosPedidos = new procesoOperativoAjax();
+  $todosLosPedidos->ajaxSelect2Pedidos();
 }
 
-//visualizar datos para editar salidas productos
-if (isset($_POST["codSalProd"])) {
-  $viewData = new procesoOperativoAjax();
-  $viewData->codSalProd = $_POST["codSalProd"];
-  $viewData->ajaxVerDataSalProd($_POST["codSalProd"]);
+//funcion para mostrar el selec2 de tipo de procesos
+if (isset($_POST["todosLosTiposdeProcesos"])) {
+  $todosLosTiposdeProcesos = new procesoOperativoAjax();
+  $todosLosTiposdeProcesos->ajaxSelect2TiposProcesos();
 }
 
-//obtener stock de almacen para visualizar datos para editar salidas productos
-if (isset($_POST["codProdIng"])) {
-  $viewData = new procesoOperativoAjax();
-  $viewData->codProdIng = $_POST["codProdIng"];
-  $viewData->ajaxStockAlmacenEdit($_POST["codProdIng"]);
+//funcion para mostrar el selec2 de selecionar salida materia prima
+if (isset($_POST["todasLasSalidasMprima"])) {
+  $todasLasSalidasMprima = new procesoOperativoAjax();
+  $todasLasSalidasMprima->ajaxSelect2SalMprima();
 }
 
-//editar salida productos
-if (isset($_POST["jsonEditarSalProd"], $_POST["jsonEditarSalProductosForms"])) {
-  $edit = new procesoOperativoAjax();
-  $edit->jsonEditarSalProd = $_POST["jsonEditarSalProd"];
-  $edit->jsonEditarSalProductosForms = $_POST["jsonEditarSalProductosForms"];
-  $edit->ajaxEditarSalidaProd($_POST["jsonEditarSalProd"], $_POST["jsonEditarSalProductosForms"]);
+//crear  proceso operativo principal
+if (isset($_POST["jsonCrearProceso"])) {
+  $view = new procesoOperativoAjax();
+  $view->jsonCrearProceso = $_POST["jsonCrearProceso"];
+  $view->ajaxCrearProcOpModal($_POST["jsonCrearProceso"]);
 }
 
-//borrar salida productos
-if (isset($_POST["jsonBorraSalProdcutos"])) {
-  $delete = new procesoOperativoAjax();
-  $delete->jsonBorraSalProdcutos = $_POST["jsonBorraSalProdcutos"];
-  $delete->ajaxBorrarSalProductos($_POST["jsonBorraSalProdcutos"]);
-}
-
-//Agregar Producto de almacen ala salida
-if (isset($_POST["codAddSalProdModal"])) {
-  $add = new procesoOperativoAjax();
-  $add->codAddSalProdModal = $_POST["codAddSalProdModal"];
-  $add->ajaxAgregarSalProducto($_POST["codAddSalProdModal"]);
-}
-
-//  Descargar PDF de la cotizacion
-if (isset($_POST["jsonPdfCotizacion"])) {
-  $pdf = new procesoOperativoAjax();
-  $pdf->jsonPdfCotizacion = $_POST["jsonPdfCotizacion"];
-  $pdf->ajaxDescargarPdfCotizacion($_POST["jsonPdfCotizacion"]);
-}
 /////////////////////////////
 
 class procesoOperativoAjax
@@ -85,8 +60,8 @@ class procesoOperativoAjax
   {
     $todosLosProcOp = procesoOperativoController::ctrDTableProcesosOperativos();
     foreach ($todosLosProcOp as &$procesoOp) {
-      $procesoOp['btnIniProcOp'] = FunctionProcesoOperativo::getBtnInicioProc($procesoOp["idProcOp"],$procesoOp["estadoProcOp"]);
-      $procesoOp['btnFinProcOp'] = FunctionProcesoOperativo::getBtnFinProc($procesoOp["idProcOp"],$procesoOp["estadoProcOp"]);
+      $procesoOp['btnIniProcOp'] = FunctionProcesoOperativo::getBtnInicioProc($procesoOp["idProcOp"], $procesoOp["estadoProcOp"]);
+      $procesoOp['btnFinProcOp'] = FunctionProcesoOperativo::getBtnFinProc($procesoOp["idProcOp"], $procesoOp["estadoProcOp"]);
       $procesoOp['buttons'] = FunctionProcesoOperativo::getBtnProcOp($procesoOp["idProcOp"]);
       $procesoOp['modalTipoProc'] = FunctionProcesoOperativo::getBtnVerTipoProc($procesoOp["idTipoProc"]);
       $procesoOp['modalPedido'] = FunctionProcesoOperativo::getBtnVerPedido($procesoOp["idPedido"]);
@@ -101,66 +76,48 @@ class procesoOperativoAjax
     echo json_encode($todosLosProcOp);
   }
 
-  //datatable de salidas productos alamcen modal
-  public function ajaxDTableSalProdcuctosAlmacen()
+  //funcion para mostrar el selec2 de fichas de trabajo
+  public function ajaxSelect2FichTrabModal()
   {
-    $todosLosProductosAlmacen = procesoOperativoController::ctrDTableSalProdcuctosAlmacen();
-    echo json_encode($todosLosProductosAlmacen);
+    $todasLasFichasTrabajo = procesoOperativoController::ctrSelect2FichTrabModal();
+    echo json_encode($todasLasFichasTrabajo);
   }
 
-  //visualizar ingreos en el modal de salidas productos
-  public function ajaxVerProductosSalidaModal($codAllSalProd)
+  //crear el tipo de proceso operativo
+  public function ajaxCrearTipoProcModal($jsonCrearTipoProceso)
   {
-    $response = procesoOperativoController::ctrVerProductosSalidaModal($codAllSalProd);
+    $response = procesoOperativoController::ctrCrearTipoProcModal($jsonCrearTipoProceso);
     echo json_encode($response);
   }
 
-  //  crear salida de  productos
-  public function ajaxCrearSalidaProd($jsonCrearSalidaProd, $jsonProductosSalidaProd, )
+  //funcion para mostrar el selec2 de pedidos
+  public function ajaxSelect2Pedidos()
   {
-    $crearSalidaProd = json_decode($jsonCrearSalidaProd, true);
-
-    $response = procesoOperativoController::ctrCrearSalidaProd($crearSalidaProd, $jsonProductosSalidaProd);
-    echo json_encode($response);
+    $todosLosPedidos = procesoOperativoController::ctrSelect2Pedido();
+    echo json_encode($todosLosPedidos);
   }
 
-  //visualizar datos para editar salidas productos
-  public function ajaxVerDataSalProd($codSalProd)
+  //funcion para mostrar el selec2 de tipo de procesos
+  public function ajaxSelect2TiposProcesos()
   {
-    $response = procesoOperativoController::ctrVerDataIngProductos($codSalProd);
-    echo json_encode($response);
+    $todosLosTiposdeProcesos = procesoOperativoController::ctrSelect2TiposProcesos();
+    echo json_encode($todosLosTiposdeProcesos);
   }
 
-  //obtener stock de almacen para visualizar datos para editar salidas productos
-  public function ajaxStockAlmacenEdit($codProdIng)
+  //funcion para mostrar el selec2 de selecionar salida materia prima
+  public function ajaxSelect2SalMprima()
   {
-    $response = procesoOperativoController::ctrStockAlmacenEdit($codProdIng);
-    echo json_encode($response);
+    $todasLasSalidasMprima = procesoOperativoController::ctrSelect2SalMprima();
+    echo json_encode($todasLasSalidasMprima);
   }
 
-  //editar salida productos
-  public function ajaxEditarSalidaProd($jsonEditarSalProd, $jsonEditarSalProductosForms)
+//crear  proceso operativo principal
+  public function ajaxCrearProcOpModal($jsonCrearProceso)
   {
-    $editarSalProd = json_decode($jsonEditarSalProd, true); // Decodificar la cadena de texto JSON en un array asociativo
-    $response = procesoOperativoController::ctrEditarSalidaProd($editarSalProd, $jsonEditarSalProductosForms);
+    $response = procesoOperativoController::ctrCrearProcOpModal($jsonCrearProceso);
     echo json_encode($response);
   }
-
-  //borrar salida productos
-  public function ajaxBorrarSalProductos($jsonBorraSalProdcutos)
-  {
-    $borrarSalProductos = json_decode($jsonBorraSalProdcutos, true); // Decodificar la cadena de texto JSON en un array asociativo
-    $response = procesoOperativoController::ctrBorrarSalProductos($borrarSalProductos);
-    echo json_encode($response);
-  }
-
-  //Agregar Producto de almacen ala salida
-  public function ajaxAgregarSalProducto($codAddSalProdModal)
-  {
-    $codSalProducto = json_decode($codAddSalProdModal, true); // Decodificar la cadena de texto JSON en un array asociativo
-    $response = procesoOperativoController::ctrAgregarSalProducto($codSalProducto);
-    echo json_encode($response);
-  }
+ 
 
 
 }

@@ -109,15 +109,18 @@ class salidaMprimaModel
   public static function mdlVerDataSalidaRegistro($table, $codIdSalProd)
   {
     $statement = Conexion::conn()->prepare("SELECT
-     idSalMprima,
-     nombreSalMprima,
-     idProcOp,
-     fechaSalMprima,
-     igvSalMprima,
-     subTotalSalMprima,
-     totalSalMprima,
-     salJsonMprima
-     FROM $table WHERE idSalMprima = :idSalMprima");
+          s.idSalMprima,
+          s.nombreSalMprima,
+          s.idProcOp,
+          p.nombreProcOp,  -- Campo de la tabla proceso_operativo
+          s.fechaSalMprima,
+          s.igvSalMprima,
+          s.subTotalSalMprima,
+          s.totalSalMprima,
+          s.salJsonMprima
+          FROM $table s
+          LEFT JOIN proceso_operativo p ON s.idProcOp = p.idProcOp
+          WHERE s.idSalMprima = :idSalMprima");
     $statement->bindParam(":idSalMprima", $codIdSalProd, PDO::PARAM_INT);
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
@@ -295,6 +298,22 @@ FROM
     salida_mprima.fechaSalMprima BETWEEN :fechaInicioSalidaMPrima AND :fechaFinSalidaMPrima ");
     $statement->bindParam(":fechaInicioSalidaMPrima", $fechaInicioSalidaMPrima, PDO::PARAM_STR);
     $statement->bindParam(":fechaFinSalidaMPrima", $fechaFinSalidaMPrima, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  //funcion para mostrar el selec2 de selecionar proceso Operativo
+  public static function mdSelect2SalMprima($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idProcOp, nombreProcOp FROM $table WHERE idSalMprima IS NULL OR idSalMprima = 0 ORDER BY idProcOp DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  //funcion para mostrar el selec2 de selecionar proceso Operativo
+  public static function mdSelect2SalMprimaEdit($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idProcOp, nombreProcOp FROM $table ORDER BY idProcOp DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }

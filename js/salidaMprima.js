@@ -1,3 +1,84 @@
+//campo de proceso oprativo añadifo
+//funcion para mostrar el selec2 de selecionar proceso Operativo
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/salidaMprima";
+  if (currentPath == appPath) {
+    // Verificar si el botón existe en el DOM
+    var btnProcesoOperativoAdd = document.getElementById(
+      "btnProcesoOperativoAdd"
+    );
+    if (btnProcesoOperativoAdd) {
+      // Inicializar Select2
+      btnProcesoOperativoAdd.addEventListener("click", function () {
+        Swal.fire({
+          title: "¿Ya ha creado un Proceso Operativo para esta salida?",
+          text: "Puede asignar esta salida desde la creación del proceso operativo también. Puede omitir este paso con, No.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          cancelButtonText: "No, lo asignaré después.",
+          confirmButtonText: "Sí, asignar proceso ya creado.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Cambiar el botón por un campo select
+            var container = document.getElementById("procesoOperativoAdd");
+            container.innerHTML = `
+              <select class="form-control select2" id="pedidoSalProdAdd" name="pedidoSalProdAdd">
+                <option value="">Seleccione un proceso operativo</option>
+              </select>
+            `;
+
+            // Inicializar Select2 en el nuevo campo select
+            $("#pedidoSalProdAdd").select2();
+
+            // Cargar datos dinámicamente al confirmar
+            var data = new FormData();
+            data.append("todosLosProcesoOperativosMprima", true);
+
+            $.ajax({
+              url: "ajax/salidaMprima.ajax.php",
+              method: "POST",
+              data: data,
+              contentType: false,
+              processData: false,
+              dataType: "json",
+              success: function (data) {
+                // Limpiar las opciones actuales
+                $("#pedidoSalProdAdd").empty();
+                $("#pedidoSalProdAdd").append(
+                  '<option value="0">Seleccionar Proceso Operativo</option>'
+                );
+                // Agregar las nuevas opciones
+                $.each(data, function (key, value) {
+                  $("#pedidoSalProdAdd").append(
+                    '<option value="' +
+                      value.idProcOp +
+                      '">' +
+                      value.nombreProcOp +
+                      "</option>"
+                  );
+                });
+                // Actualizar Select2 después de agregar las opciones
+                $("#pedidoSalProdAdd").trigger("change");
+              },
+              error: function (xhr, status, error) {
+                console.error("Error al cargar los datos:", error);
+              },
+            });
+          }
+        });
+      });
+    } else {
+      console.error(
+        'El elemento con id "btnProcesoOperativoAdd" no se encontró en el DOM.'
+      );
+    }
+  }
+});
+//fin
+
 //agregar productos a ingreso productos prima****
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
@@ -771,6 +852,79 @@ document.addEventListener("DOMContentLoaded", function () {
   if (currentPath == appPath) {
     // Función para obtener el valor de un parámetro por nombre
 
+    //funcion para mostrar el selec2 de selecionar proceso Operativo edit
+
+    // Inicializar Select2
+    // Función para manejar el evento change
+    let warningConfirmed = false; // Variable de estado
+
+    function handleSelectOpening(e) {
+      if (warningConfirmed) {
+        // Si el mensaje ya fue confirmado, permitir la apertura del select2
+        warningConfirmed = false; // Resetear el estado para futuras interacciones
+        return;
+      }
+      e.preventDefault(); // Prevenir la apertura del select2
+      Swal.fire({
+        title: "Advertencia",
+        text: "Modificar este campo afectará al proceso operativo. ¿Desea continuar?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, modificar",
+        cancelButtonText: "No, cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Si el usuario confirma, permitir la apertura del select2
+          warningConfirmed = true; // Actualizar el estado
+          $("#pedidoSalProdEdit").select2("open");
+        }
+      });
+    }
+
+    function Select2EditMprima(id, nombre) {
+      $("#pedidoSalProdEdit").select2();
+      // Cargar datos dinámicamente al abrir el modal
+      var data = new FormData();
+      data.append("todosLosProcesoOperativosMprimaEdit", true);
+      $.ajax({
+        url: "ajax/salidaMprima.ajax.php",
+        method: "POST",
+        data: data,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (data) {
+          // Limpiar las opciones actuales
+          $("#pedidoSalProdEdit").empty();
+          // Agregar las nuevas opciones
+          $.each(data, function (key, value) {
+            $("#pedidoSalProdEdit").append(
+              '<option value="' +
+                value.idProcOp +
+                '">' +
+                value.nombreProcOp +
+                "</option>"
+            );
+          });
+
+          // Inicializar Select2 después de agregar las opciones
+          $("#pedidoSalProdEdit").select2();
+
+          // Seleccionar la opción específica
+          $("#pedidoSalProdEdit").val(id).trigger("change");
+
+          // Asignar la función handleSelectOpening al evento select2:opening solo si warningConfirmed es false
+          if (!warningConfirmed) {
+            $("#pedidoSalProdEdit").on("select2:opening", handleSelectOpening);
+          }
+        },
+
+        error: function (xhr, status, error) {
+          console.error("Error al cargar los datos:", error);
+        },
+      });
+    }
+    //fin
     // Extraer el valor de 'codFichaTec' de la URL
     var codSalMprima = getQueryParam("codSalMprima");
     if (codSalMprima) {
@@ -799,7 +953,6 @@ document.addEventListener("DOMContentLoaded", function () {
       success: function (response) {
         $("#codSalMprima").val(response["idSalMprima"]);
         $("#tituloSalProdEdit").val(response["nombreSalMprima"]);
-        $("#pedidoSalProdEdit").val(response["idProcOp"]);
         $("#fechaSalProdEdit").val(response["fechaSalMprima"]);
         $("#igvIngProdAdd").val(response["igvSalMprima"]);
         $("#subTotalIngProdAdd").val(response["subTotalSalMprima"]);
@@ -809,6 +962,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (response.hasOwnProperty("salJsonMprima")) {
           ingresoProductoEdit(response["salJsonMprima"]);
         }
+        // Llamar a la función Select2EditMprima con los datos recibidos
+        Select2EditMprima(response["idProcOp"], response["nombreProcOp"]);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
