@@ -57,74 +57,77 @@
       </div>
       <div class="modal-body" id="procesosTrabajoModal">
         <div class="container">
-
-          <div class="row">
-
-            <div class="col-md-6  mb-3">
-              <label for="nombreProcOpAdd" class="form-label" style="font-weight: bold">Nombre Del Proceso Operativo:
-              </label>
-              <input type="text" class="form-control" id="nombreProcOpAdd" name="nombreProcOpAdd"
-                placeholder="Ingrese el nombre del proceso operativo ">
-            </div>
-
-            <div class="col-md-6  mb-3">
-              <label for="descripcionProcOpAdd" class="form-label" style="font-weight: bold">Descripcion Proceso:
-              </label>
-              <input type="text" class="form-control" id="descripcionProcOpAdd" name="descripcionProcOpAdd"
-                placeholder="Ingrese una descripcion del proceso operativo ">
-            </div>
-
-            <div class="col-md-4 ">
-              <label for="fechaProcOpAdd" class="form-label" style="font-weight: bold">Ingrese Fecha Registro:</label>
-              <input type="date" class="form-control" id="fechaProcOpAdd" name="fechaProcOpAdd">
-            </div>
-
-            <!-- selecionar una salida de productos prima -->
-            <div class="col-md-6 ">
-              <div class="form-group">
-                <label for="idSalProdPrima">Selecionar Salida de Productos Prima</label>
-                <select class="form-select" id="idSalProdPrima" name="idSalProdPrima">
-                </select>
+          <form id="formProcesoOpAdd">
+            <div class="row">
+              <div class="col-md-6  mb-3">
+                <label for="nombreProcOpAdd" class="form-label" style="font-weight: bold">Nombre Del Proceso Operativo:
+                </label>
+                <input type="text" class="form-control" id="nombreProcOpAdd" name="nombreProcOpAdd"
+                  placeholder="Ingrese el nombre del proceso operativo ">
               </div>
-            </div>
 
-            <!-- ver las salidas de productos prima -->
-            <div class="col-md-2">
-              <div class="form-group">
-                <label for="codTipProc">Productos prima</label>
-                <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                  data-bs-target="#modalverSalidasMprima">
-                  Ver Salidas
-                </button>
+              <div class="col-md-6  mb-3">
+                <label for="descripcionProcOpAdd" class="form-label" style="font-weight: bold">Descripcion Proceso:
+                </label>
+                <input type="text" class="form-control" id="descripcionProcOpAdd" name="descripcionProcOpAdd"
+                  placeholder="Ingrese una descripcion del proceso operativo ">
               </div>
-            </div>
 
-            <!-- selec2 para pedidos -->
-            <div class="col-md-6  mb-3">
-              <div class="form-group">
-                <label for="idPedidoProcOp">Selecionar Pedido</label>
-                <select class="form-select" id="idPedidoProcOp" name="idPedidoProcOp">
-                </select>
+              <div class="col-md-2 ">
+                <label for="fechaRegProcOpAdd" class="form-label" style="font-weight: bold"> Fecha Registro:</label>
+                <input type="date" class="form-control" id="fechaRegProcOpAdd" name="fechaRegProcOpAdd">
               </div>
-            </div>
-            <!-- selec2 para tipos de procesos -->
-            <div class="col-md-6  mb-3">
-              <div class="form-group">
-                <label for="idTipoProcOp">Selecionar el Tipo de Proceso</label>
-                <select class="form-select" id="idTipoProcOp" name="idTipoProcOp">
-                </select>
+               <div class="col-md-2 ">
+                <label for="fechaFinProcOpAdd" class="form-label" style="font-weight: bold"> Fecha Fin Proceso:</label>
+                <input type="date" class="form-control" id="fechaFinProcOpAdd" name="fechaFinProcOpAdd">
               </div>
-            </div>
 
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-success">Iniciar</button>
-            </div>
+              <!-- selec2 selecionar una salida de productos prima -->
+              <div class="col-md-6 ">
+                <div class="form-group">
+                  <label for="idSalProdPrima">Selecionar Salida de Productos Prima</label>
+                  <select class="form-select" id="idSalProdPrima" name="idSalProdPrima">
+                  </select>
+                </div>
+              </div>
+
+              <!-- ver las salidas de productos prima -->
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="codTipProc">Productos prima</label>
+                  <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                    data-bs-target="#modalverSalidasMprima">
+                    Ver Salidas
+                  </button>
+                </div>
+              </div>
+
+              <!-- selec2 para pedidos -->
+              <div class="col-md-6  mb-3">
+                <div class="form-group">
+                  <label for="idPedidoProcOp">Selecionar Pedido</label>
+                  <select class="form-select" id="idPedidoProcOp" name="idPedidoProcOp">
+                  </select>
+                </div>
+              </div>
+              <!-- selec2 para tipos de procesos -->
+              <div class="col-md-6  mb-3">
+                <div class="form-group">
+                  <label for="idTipoProcOp">Selecionar el Tipo de Proceso</label>
+                  <select class="form-select" id="idTipoProcOp" name="idTipoProcOp">
+                  </select>
+                </div>
+              </div>
+          </form>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-success" id="crearProcOpModal">Crear Proceso Operativo</button>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
 <!-- fin -->
 
@@ -157,8 +160,7 @@
 <!-- Fin  -->
 
 <!-- Modal ver productos prima salidas del boton no tocar-->
-<div class="modal fade" id="modalProdSalidas" tabindex="-1" aria-labelledby="modalProdSalidasLabel"
-  aria-hidden="true">
+<div class="modal fade" id="modalProdSalidas" tabindex="-1" aria-labelledby="modalProdSalidasLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">

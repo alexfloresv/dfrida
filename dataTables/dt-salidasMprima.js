@@ -363,10 +363,10 @@ document.addEventListener("DOMContentLoaded", function () {
           <th scope="col">#</th>
           <th scope="col">Nombre Salida Producto</th>
           <th scope="col">Fecha Salida</th>
-            <th scope="col">Proceso Operativo</th>
+         
           <th scope="col">Salida Productos</th>
           <th scope="col">Total</th>
-          <th scope="col">Acciones</th>
+          
         </tr>
       `);
 
@@ -380,7 +380,7 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       { data: "nombreSalMprima" },
       { data: "fechaSalMprima" },
-      { data: "modalProcSalMprima" },
+      //{ data: "modalProcSalMprima" },
       { data: "modalSalMprima" },
       {
         data: "totalSalMprima",
@@ -388,7 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
           return "S/ " + data; // Coloca 'S/' delante del valor de la celda
         },
       },
-      { data: "buttons" },
+      //{ data: "buttons" },
     ];
 
     var tableSalProductosPrima = $("#dataTableSalidasMprima").DataTable({

@@ -150,35 +150,41 @@ document.addEventListener("DOMContentLoaded", function () {
 /* fin dunciones para tipo de proceso */
 
 /* funciones para proceso principal */
+
 //funcion para mostrar el modal de crear proceso operativo
-document
-  .getElementById("btnAddSalidaProd")
-  .addEventListener("click", function () {
-    Swal.fire({
-      title:
-        "Para crear un Proceso antes debe registrar un Tipo de Proceso Operativo.¿Ya registro Alguno?",
-      html: "Si ya registro algun tipo de proceso omita este mensje con <strong>Si.</strong> y <strong>No.</strong>",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      cancelButtonText: "No, crear tipo de proceso",
-      confirmButtonText: "Sí, usar un tipo existente",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Mostrar el modal para crear proceso operativo
-        $("#modalCrearProcesoOp").modal("show");
-      } else {
-        // Mostrar el modal para crear tipo de proceso
-        $("#modalTipoProcesoOp").modal("show");
-      }
-    });
-  });
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/procesosOperativos";
+  if (currentPath == appPath) {
+    document
+      .getElementById("btnAddSalidaProd")
+      .addEventListener("click", function () {
+        Swal.fire({
+          title:
+            "Crear un Nuevo Proceso Requiere de un Pedido una Salida de productos Prima y un Tipo de Proceso Operativo. ¿Registro un Tipo de Proceso?",
+          html: "Si ya registro un <strong>Tipo de proceso</strong> para este nuevo proceso Operativo omita este mensje con <strong>Si.</strong> y <strong>No.</strong>",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          cancelButtonText: "No, crear tipo de proceso",
+          confirmButtonText: "Sí, usar un tipo existente",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Mostrar el modal para crear proceso operativo
+            $("#modalCrearProcesoOp").modal("show");
+          } else {
+            // Mostrar el modal para crear tipo de proceso
+            $("#modalTipoProcesoOp").modal("show");
+          }
+        });
+      });
+  }
+});
 //fin
 
 //funcion para abrir el modal de tipo de proceso operativo
 document.addEventListener("DOMContentLoaded", function () {
-  // Verificar si la ruta es la correcta
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/procesosOperativos";
   if (currentPath == appPath) {
@@ -209,6 +215,55 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 //fin funcion abrir modal tipo de proceso operativo
+
+//funcion para mostrar el selec2 de selecionar salida materia prima
+document.addEventListener("DOMContentLoaded", function () {
+  $("#modalCrearProcesoOp").on("shown.bs.modal", function () {
+    // Verificar si la ruta es la correcta
+    var currentPath = window.location.pathname;
+    var appPath = "/dfrida/procesosOperativos";
+    if (currentPath == appPath) {
+      // Inicializar Select2
+      $("#idSalProdPrima").select2({
+        dropdownParent: $("#modalCrearProcesoOp"), // Asegurarse de que el dropdown se muestre dentro del modal
+      });
+
+      // Cargar datos dinámicamente al abrir el modal
+      var data = new FormData();
+      data.append("todasLasSalidasMprima", true);
+
+      $.ajax({
+        url: "ajax/procesoOperativo.ajax.php",
+        method: "POST",
+        data: data,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (data) {
+          // Limpiar las opciones actuales
+          $("#idSalProdPrima").empty();
+          $("#idSalProdPrima").append(
+            '<option value="0">Selecionar despues una salida de productos prima</option>'
+          );
+          // Agregar las nuevas opciones
+          $.each(data, function (key, value) {
+            $("#idSalProdPrima").append(
+              '<option value="' +
+                value.idSalMprima +
+                '">' +
+                value.nombreSalMprima +
+                "</option>"
+            );
+          });
+        },
+        error: function (xhr, status, error) {
+          console.error("Error al cargar los datos:", error);
+        },
+      });
+    }
+  });
+});
+//fin
 
 //funcion para mostrar el selec2 de pedidos
 document.addEventListener("DOMContentLoaded", function () {
@@ -308,17 +363,16 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //fin
 
-//crear   proceso operativo
+//crear  proceso operativo principal
 document.addEventListener("DOMContentLoaded", function () {
-  //si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/procesosOperativos";
   if (currentPath == appPath) {
     document
-      .getElementById("crearTipoProcModal")
+      .getElementById("crearProcOpModal")
       .addEventListener("click", function () {
         //recolectar los datos del formulario principal
-        var formulario = document.getElementById("formTipoProcesoOpAdd");
+        var formulario = document.getElementById("formProcesoOpAdd");
         var datosFormulario = {};
         var elementosFormulario = formulario.querySelectorAll(
           "input, select, textarea"
@@ -329,35 +383,34 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         });
         // Crear un JSON con los datos recolectados del formulario principal
-        var jsonCrearTipoProceso = JSON.stringify(datosFormulario);
-        //console.log(jsonCrearTipoProceso);
+        var jsonCrearProceso = JSON.stringify(datosFormulario);
+        //console.log(jsonCrearProceso);
         $.ajax({
           url: "ajax/procesoOperativo.ajax.php",
           method: "POST",
           data: {
-            jsonCrearTipoProceso: jsonCrearTipoProceso,
+            jsonCrearProceso: jsonCrearProceso,
           },
           dataType: "json",
           success: function (response) {
-            $("#modalTipoProcesoOp").modal("hide");
+            $("#modalCrearProcesoOp").modal("hide");
             if (response == "ok") {
               Swal.fire({
                 icon: "success",
                 title: "Correcto",
-                html: "Tipo Proceso Creado Correctamente<br><strong>Puede Agregarlo al Proceso Principal</strong><br> <strong>Se abrirá la ventana para Crear el Proceso Principal.</strong>",
+                html: "Proceso Operativo Creado Correctamente<br><strong>Administrelo desde la lista de Procesos</strong>",
                 confirmButtonText: "Ok",
               }).then(function () {
-                $("#formTipoProcesoOp").trigger("reset");
-                $("#modalCrearProcesoOp").modal("show");
+                $("#formProcesoOpAdd").trigger("reset");
               });
             } else {
               Swal.fire({
                 icon: "error",
                 title: "Error",
-                html: "No se pudo crear el Tipo proceso <strong>Intentelo otra vez</strong>.",
+                html: "No se pudo crear el Proceso Operativo <strong>Intentelo otra vez</strong>.",
                 confirmButtonText: "Ok",
               }).then(function () {
-                $("#formTipoProcesoOp").trigger("reset");
+                $("#formProcesoOpAdd").trigger("reset");
               });
             }
           },

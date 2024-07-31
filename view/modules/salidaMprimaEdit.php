@@ -24,15 +24,17 @@
 
 
         <div class="form-group col-md-6">
-          <label for="tituloSalProdEdit" class="form-label" style="font-weight: bold">Descripcion Salida productos Prima:</label>
+          <label for="tituloSalProdEdit" class="form-label" style="font-weight: bold">Descripcion Salida productos
+            Prima:</label>
           <input type="text" class="form-control" id="tituloSalProdEdit" name="tituloSalProdEdit"
             placeholder="Ingrese una una descripcion para el ingreso ">
         </div>
 
         <div class="col-md-4">
           <label for="pedidoSalProdEdit" class="form-label" style="font-weight: bold">Proceso Operativo: </label>
-          <input type="number" class="form-control" id="pedidoSalProdEdit" name="pedidoSalProdEdit"
-            placeholder="Ingrese el pedido correspondiente">
+          <select class="form-control select2" id="pedidoSalProdEdit" name="pedidoSalProdEdit">
+            <option value=""></option>
+          </select>
         </div>
 
         <div class="col-md-2">

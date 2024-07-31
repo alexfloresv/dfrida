@@ -365,6 +365,11 @@ class salidaMprimaController
       $response = salidaMprimaModel::mdlActualizarProductosIngresados($table, $dataActualizarProdAlamacen);
     }
 
+    //verificar si es verdadero o falso para editar el registro
+    if (is_array($dataFiltroIgual) && !empty($dataFiltroIgual)) {
+      return true;
+    }
+
     return $response;
   }
   //fin editar salida productos***
@@ -449,5 +454,20 @@ class salidaMprimaController
     return $response;
   }
 
+  //funcion para mostrar el selec2 de selecionar proceso Operativo
+  public static function ctrSelect2ProcOpMprima()
+  {
+    $table = "proceso_operativo";
+    $response = salidaMprimaModel::mdSelect2SalMprima($table);
+    return $response;
+  }
+
+  //funcion para mostrar el selec2 de selecionar proceso Operativo
+  public static function ctrSelect2ProcOpMprimaEdit()
+  {
+    $table = "proceso_operativo";
+    $response = salidaMprimaModel::mdSelect2SalMprimaEdit($table);
+    return $response;
+  }
 
 }

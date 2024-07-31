@@ -24,15 +24,18 @@
 
         <!-- datos de la cotizacion Enpresa -->
         <div class="form-group col-md-6">
-          <label for="tituloSalProdAdd" class="form-label" style="font-weight: bold">Descripcion Salida productos Prima:</label>
+          <label for="tituloSalProdAdd" class="form-label" style="font-weight: bold">Descripcion Salida productos
+            Prima:</label>
           <input type="text" class="form-control" id="tituloSalProdAdd" name="tituloSalProdAdd"
             placeholder="Ingrese una una descripcion para la salida ">
         </div>
 
         <div class="col-md-4">
-          <label for="pedidoSalProdAdd" class="form-label" style="font-weight: bold">Proceso Operativo: </label>
-          <input type="number" class="form-control" id="pedidoSalProdAdd" name="pedidoSalProdAdd"
-            placeholder="Ingrese el proceso operativo correspondiente">
+          <label for="procesoOperativoAdd" class="form-label" style="font-weight: bold">Proceso Operativo: </label>
+          <div id="procesoOperativoAdd">
+            <button type="button" class="btn btn-primary w-100" id="btnProcesoOperativoAdd">Agregar Proceso
+              Operativo</button>
+          </div>
         </div>
 
         <div class="col-md-2">

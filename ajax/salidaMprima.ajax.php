@@ -70,12 +70,18 @@ if (isset($_POST["codAddSalProdModal"])) {
   $add->ajaxAgregarSalProducto($_POST["codAddSalProdModal"]);
 }
 
-//  Descargar PDF de la cotizacion
-if (isset($_POST["jsonPdfCotizacion"])) {
-  $pdf = new salidaMprimaAjax();
-  $pdf->jsonPdfCotizacion = $_POST["jsonPdfCotizacion"];
-  $pdf->ajaxDescargarPdfCotizacion($_POST["jsonPdfCotizacion"]);
+//funcion para mostrar el selec2 de selecionar proceso Operativo
+if (isset($_POST["todosLosProcesoOperativosMprima"])) {
+  $todosLosProcesoOperativosMprima = new salidaMprimaAjax();
+  $todosLosProcesoOperativosMprima->ajaxSelect2ProcOpMprima();
 }
+
+//funcion para mostrar el selec2 de selecionar proceso Operativo edit
+if (isset($_POST["todosLosProcesoOperativosMprimaEdit"])) {
+  $todosLosProcesoOperativosMprimaEdit = new salidaMprimaAjax();
+  $todosLosProcesoOperativosMprimaEdit->ajaxSelect2ProcOpMprimaEdit();
+}
+
 /////////////////////////////
 
 class salidaMprimaAjax
@@ -153,6 +159,19 @@ class salidaMprimaAjax
     echo json_encode($response);
   }
 
+  //funcion para mostrar el selec2 de selecionar proceso Operativo
+  public function ajaxSelect2ProcOpMprima()
+  {
+    $todosLosProcesoOperativosMprima = salidaMprimaController::ctrSelect2ProcOpMprima();
+    echo json_encode($todosLosProcesoOperativosMprima);
+  }
+
+  //funcion para mostrar el selec2 de selecionar proceso Operativo
+  public function ajaxSelect2ProcOpMprimaEdit()
+  {
+    $todosLosProcesoOperativosMprimaEdit = salidaMprimaController::ctrSelect2ProcOpMprimaEdit();
+    echo json_encode($todosLosProcesoOperativosMprimaEdit);
+  }
 
 }
 
