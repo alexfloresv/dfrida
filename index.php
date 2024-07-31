@@ -22,6 +22,7 @@ require_once "controller/ingresoMprima.controller.php";
 require_once "controller/almacenMateriaPrima.controller.php";
 require_once "controller/salidaMprima.controller.php";
 require_once "controller/procesoOperativo.controller.php";
+require_once "controller/pedidos.controller.php";
 
 //+
 
@@ -45,6 +46,7 @@ require_once "model/ingresoMprima.model.php";
 require_once "model/almacenMateriaPrima.model.php";
 require_once "model/salidaMprima.model.php";
 require_once "model/procesoOperativo.model.php";
+require_once "model/pedidos.model.php";
 
 //+
 
@@ -67,6 +69,7 @@ require_once "functions/salidaProd.functions.php";
 require_once "functions/ingresoMprima.functions.php";
 require_once "functions/salidaMprima.functions.php";
 require_once "functions/procesoOperativo.functions.php";
+require_once "functions/pedidos.functions.php";
 //+
 $template = new TemplateController();
 $template -> ctrTemplate();
