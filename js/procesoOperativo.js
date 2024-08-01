@@ -401,16 +401,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 html: "Proceso Operativo Creado Correctamente<br><strong>Administrelo desde la lista de Procesos</strong>",
                 confirmButtonText: "Ok",
               }).then(function () {
-                $("#formProcesoOpAdd").trigger("reset");
+                window.location.reload();
               });
-            } else {
+            } else if (response == "errorPedido") {
               Swal.fire({
                 icon: "error",
-                title: "Error",
-                html: "No se pudo crear el Proceso Operativo <strong>Intentelo otra vez</strong>.",
+                title: "Error!. No se pudo asignar el pedido al proceso",
+                html: "<strong>Asignelo en la edicion del Proceso Operativo</strong>.",
                 confirmButtonText: "Ok",
               }).then(function () {
-                $("#formProcesoOpAdd").trigger("reset");
+                $("#modalCrearProcesoOp").modal("hide");
+              });
+            }
+            else {
+              Swal.fire({
+                icon: "error",
+                title: "Error!. No se pudo crear el Proceso Operativo",
+                html: "<strong>Asigne una Salida de Productos Prima, Un Pedido y Un tipo de proceso</strong>.",
+                confirmButtonText: "Ok",
+              }).then(function () {
+                $("#modalCrearProcesoOp").modal("show");
               });
             }
           },

@@ -11,7 +11,7 @@
  Target Server Version : 100432
  File Encoding         : 65001
 
- Date: 30/07/2024 17:33:10
+ Date: 01/08/2024 12:01:38
 */
 
 SET NAMES utf8mb4;
@@ -41,7 +41,7 @@ INSERT INTO `almacen_mprima` VALUES (1, 29, 'HilNeg202503', 'Holi negro 3.5', 'D
 INSERT INTO `almacen_mprima` VALUES (2, 28, 'RollTelCedBla202405', 'Rollo tela ceda blanco', 'Uni', '9', '9000.00', '2024-07-25 10:14:51', '2024-07-27 11:08:41');
 INSERT INTO `almacen_mprima` VALUES (3, 27, 'RollTelDri202405', 'Rollo tela dril azul', 'Uni', '9', '8000.00', '2024-07-25 10:15:01', '2024-07-27 11:08:41');
 INSERT INTO `almacen_mprima` VALUES (4, 26, 'Boto202405', 'Botones de pantalones hombre', 'Uni', '9', '13.00', '2024-07-25 10:15:02', '2024-07-27 11:08:41');
-INSERT INTO `almacen_mprima` VALUES (5, 25, 'CieCasProm202405', 'Cierre Casacas Promo', 'Uni', '9', '150.00', '2024-07-25 10:15:03', '2024-07-27 11:08:41');
+INSERT INTO `almacen_mprima` VALUES (5, 25, 'CieCasProm202405', 'Cierre Casacas Promo', 'Uni', '7', '150.00', '2024-07-25 10:15:03', '2024-08-01 10:33:34');
 
 -- ----------------------------
 -- Table structure for almacen_prod
@@ -362,6 +362,7 @@ CREATE TABLE `pedido`  (
   `DateUpdate` datetime NOT NULL,
   `idCoti` int NULL DEFAULT NULL,
   `idFichaTec` int NULL DEFAULT NULL,
+  `estadoPedido` int NOT NULL,
   PRIMARY KEY (`idPedido`) USING BTREE,
   INDEX `idCli`(`idCli`) USING BTREE,
   INDEX `fk_idCoti`(`idCoti`) USING BTREE,
@@ -374,7 +375,7 @@ CREATE TABLE `pedido`  (
 -- ----------------------------
 -- Records of pedido
 -- ----------------------------
-INSERT INTO `pedido` VALUES (1, 11, 'pedido', 'pedido', '2024-02-16', '2024-02-16 12:09:23', '2024-02-16 12:09:23', 1, 190);
+INSERT INTO `pedido` VALUES (1, 11, 'pedido', 'pedido', '2024-02-16', '2024-02-16 12:09:23', '2024-08-01 10:35:16', 1, 190, 2);
 
 -- ----------------------------
 -- Table structure for proceso_operativo
@@ -384,28 +385,27 @@ CREATE TABLE `proceso_operativo`  (
   `idProcOp` int NOT NULL AUTO_INCREMENT,
   `idTipoProc` int NOT NULL,
   `idPedido` int NOT NULL,
-  `idSalMprima` int NOT NULL,
+  `idSalMprima` int NULL DEFAULT NULL,
   `descripcionProcOp` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `estadoProcOp` int NOT NULL,
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   `nombreProcOp` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `fechaRegistroProcOp` date NOT NULL,
-  `fechaInicioProcOp` date NOT NULL,
+  `fechaInicioProcOp` date NULL DEFAULT NULL,
   `fechaFinProcOp` date NOT NULL,
   PRIMARY KEY (`idProcOp`) USING BTREE,
   INDEX `idTipoProc`(`idTipoProc`) USING BTREE,
   INDEX `idPedido`(`idPedido`) USING BTREE,
   INDEX `idSalMprima`(`idSalMprima`) USING BTREE,
   CONSTRAINT `proceso_operativo_ibfk_1` FOREIGN KEY (`idTipoProc`) REFERENCES `tipo_proceso` (`idTipoProc`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `proceso_operativo_ibfk_2` FOREIGN KEY (`idPedido`) REFERENCES `pedido` (`idPedido`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `proceso_operativo_ibfk_3` FOREIGN KEY (`idSalMprima`) REFERENCES `salida_mprima` (`idSalMprima`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+  CONSTRAINT `proceso_operativo_ibfk_2` FOREIGN KEY (`idPedido`) REFERENCES `pedido` (`idPedido`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of proceso_operativo
 -- ----------------------------
-INSERT INTO `proceso_operativo` VALUES (1, 1, 1, 5, 'camisas', 1, '2024-02-16 12:09:23', '2024-02-16 12:09:23', 'Camisas', '2024-02-16', '2024-02-16', '2024-02-16');
+INSERT INTO `proceso_operativo` VALUES (24, 1, 1, 0, '', 1, '2024-08-01 10:35:16', '0000-00-00 00:00:00', '', '0000-00-00', NULL, '0000-00-00');
 
 -- ----------------------------
 -- Table structure for proceso_operativo_fin
@@ -541,12 +541,14 @@ CREATE TABLE `salida_mprima`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idSalMprima`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of salida_mprima
 -- ----------------------------
 INSERT INTO `salida_mprima` VALUES (5, 1, 'prueba 1', '2024-07-27', '0', '1756.30', '1756.30', '{\"producto0\":{\"codProdIng\":\"25\",\"nombreProdIng\":\"Cierre Casacas Promo\",\"codigoProdIng\":\"CieCasProm202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"15.00\"},\"producto1\":{\"codProdIng\":\"26\",\"nombreProdIng\":\"Botones de pantalones hombre\",\"codigoProdIng\":\"Boto202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"1.30\"},\"producto2\":{\"codProdIng\":\"27\",\"nombreProdIng\":\"Rollo tela dril azul\",\"codigoProdIng\":\"RollTelDri202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"800.00\"},\"producto3\":{\"codProdIng\":\"28\",\"nombreProdIng\":\"Rollo tela ceda blanco\",\"codigoProdIng\":\"RollTelCedBla202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"900.00\"},\"producto4\":{\"codProdIng\":\"29\",\"nombreProdIng\":\"Holi negro 3.5\",\"codigoProdIng\":\"HilNeg202503\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"40.00\"}}', '2024-07-27 11:08:41', '0000-00-00 00:00:00');
+INSERT INTO `salida_mprima` VALUES (7, 10, 'In sit aut eligendi ', '2013-12-09', '0', '15.00', '15.00', '{\"producto0\":{\"codProdIng\":\"25\",\"nombreProdIng\":\"Cierre Casacas Promo\",\"codigoProdIng\":\"CieCasProm202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"15.00\"}}', '2024-07-31 17:20:23', '2024-07-31 17:21:26');
+INSERT INTO `salida_mprima` VALUES (8, NULL, 'Minima necessitatibu', '1990-12-10', '0', '15.00', '15.00', '{\"producto0\":{\"codProdIng\":\"25\",\"nombreProdIng\":\"Cierre Casacas Promo\",\"codigoProdIng\":\"CieCasProm202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"15.00\"}}', '2024-08-01 10:33:34', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for salida_prod
@@ -586,12 +588,13 @@ CREATE TABLE `tipo_proceso`  (
   PRIMARY KEY (`idTipoProc`) USING BTREE,
   INDEX `fk_idFichaProc`(`idFichaProc`) USING BTREE,
   CONSTRAINT `fk_idFichaProc` FOREIGN KEY (`idFichaProc`) REFERENCES `ficha_proceso` (`idFichaProc`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tipo_proceso
 -- ----------------------------
 INSERT INTO `tipo_proceso` VALUES (1, 'proceso1', '2024-02-16 12:09:23', '2024-02-16 12:09:23', 3, 'proceso ya adjuntado xd');
+INSERT INTO `tipo_proceso` VALUES (10, 'pruevea de proceso op', '2024-08-01 11:56:46', '0000-00-00 00:00:00', 10, 'proceso oeprativo prueva');
 
 -- ----------------------------
 -- Table structure for tipo_usuario
@@ -631,7 +634,7 @@ CREATE TABLE `usuario`  (
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
-INSERT INTO `usuario` VALUES (1, 1, 'dfrida', 'Administrador', 'administrador', '$argon2id$v=19$m=4096,t=2,p=2$ZURZWG0yNkNOZVJTLlg5Lw$MvzbwXUNlV+Inxssd1nN+A8EN5Il6CdSAs7pTc3szJk', '2024-07-30 08:35:55', '2024-02-16 12:09:23', '2024-02-16 12:09:23');
+INSERT INTO `usuario` VALUES (1, 1, 'dfrida', 'Administrador', 'administrador', '$argon2id$v=19$m=4096,t=2,p=2$ZURZWG0yNkNOZVJTLlg5Lw$MvzbwXUNlV+Inxssd1nN+A8EN5Il6CdSAs7pTc3szJk', '2024-08-01 09:20:36', '2024-02-16 12:09:23', '2024-02-16 12:09:23');
 INSERT INTO `usuario` VALUES (7, 2, 'alex', 'alex administrativo', 'flores', '$argon2id$v=19$m=4096,t=2,p=2$N0RQdHo5MXhOb1ZPdS45Wg$lk4EN49DUl5YTX+omAM/qpOZZG1P4adfpdAWl/IFSG4', '2024-07-16 15:02:17', '2024-07-16 15:02:09', '2024-07-16 15:02:09');
 
 SET FOREIGN_KEY_CHECKS = 1;

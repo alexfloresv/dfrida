@@ -1272,7 +1272,16 @@ document.addEventListener("DOMContentLoaded", function () {
                   ).then(function () {
                     window.location.reload(); // Recargar la página
                   });
-                } else {
+                }  else if (response == "errorProcOp") {
+                  Swal.fire(
+                    "Error",
+                    "La Salida de Productos Prima no se puede eliminar, actualmente esta asignada a un proceso operativo",
+                    "error"
+                  ).then(function () {
+                    //window.location.reload(); // Recargar la página
+                  });
+                } 
+                else  {
                   Swal.fire(
                     "Error",
                     "Necesita permisos de administrador para realizar esta acción",
