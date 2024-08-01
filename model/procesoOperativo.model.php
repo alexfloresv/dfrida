@@ -11,6 +11,13 @@ class procesoOperativoModel
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  //data table tipos de procesos operativos
+  public static function mdlDTableTiposProcesosOperativos($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idTipoProc, descripcionTipoProc, idFichaProc, nombreTipoProc FROM $table ORDER BY idTipoProc DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 
   //funcion para mostrar el selec2 de fichas de trabajo
   public static function mdlSelect2FichTrabModal($table)
@@ -33,6 +40,15 @@ class procesoOperativoModel
     } else {
       return "error";
     }
+  }
+
+  //// visualizar datos para editar tipo de proceso operativo
+  public static function mdlViewDataTipoProcOp($table, $codTipoProc)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idTipoProc, descripcionTipoProc, idFichaProc, nombreTipoProc FROM $table WHERE idTipoProc = :idTipoProc");
+    $statement->bindParam(":idTipoProc", $codTipoProc, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
   //funcion para mostrar el selec2 de pedidos
@@ -139,7 +155,36 @@ class procesoOperativoModel
       return false;
     }
   }
-
+  //editar  tipo de proceso operativo 
+  public static function mdlEditarTipoProc($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET nombreTipoProc = :nombreTipoProc, descripcionTipoProc = :descripcionTipoProc, idFichaProc = :idFichaProc, DateUpdate = :DateUpdate WHERE idTipoProc = :idTipoProc");
+    $statement->bindParam(":nombreTipoProc", $dataUpdate["nombreTipoProc"], PDO::PARAM_STR);
+    $statement->bindParam(":descripcionTipoProc", $dataUpdate["descripcionTipoProc"], PDO::PARAM_STR);
+    $statement->bindParam(":idFichaProc", $dataUpdate["idFichaProc"], PDO::PARAM_INT);
+    $statement->bindParam(":idTipoProc", $dataUpdate["idTipoProc"], PDO::PARAM_INT);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+  //borrar  tipo de proceso operativo 
+  public static function mdlBorrarTipoProc($table, $codTipoProcDelet)
+  {
+    try {
+      $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE idTipoProc = :idTipoProc");
+      $statement->bindParam(":idTipoProc", $codTipoProcDelet, PDO::PARAM_INT);
+      if ($statement->execute()) {
+        return "ok";
+      } else {
+        return "error";
+      }
+    } catch (Exception $e) {
+      return "error";
+    }
+  }
 
   //////////////////////////////////////////////////////
 }

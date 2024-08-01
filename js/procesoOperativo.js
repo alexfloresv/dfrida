@@ -117,8 +117,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if (response == "ok") {
               Swal.fire({
                 icon: "success",
-                title: "Correcto",
-                html: "Tipo Proceso Creado Correctamente<br><strong>Puede Agregarlo al Proceso Principal</strong><br> <strong>Se abrirá la ventana para Crear el Proceso Principal.</strong>",
+                title: "Correcto. Tipo Proceso Creado Correctamente",
+                html: "Puede Agregarlo al Proceso Principal<br><strong>Se abrirá la ventana para Crear el Proceso Principal.</strong>",
                 confirmButtonText: "Ok",
               }).then(function () {
                 $("#formTipoProcesoOp").trigger("reset");
@@ -128,10 +128,10 @@ document.addEventListener("DOMContentLoaded", function () {
               Swal.fire({
                 icon: "error",
                 title: "Error",
-                html: "No se pudo crear el Tipo proceso <strong>Intentelo otra vez</strong>.",
+                html: "No se pudo crear el Tipo proceso <strong>Selecione una Ficha de trabajo</strong>.",
                 confirmButtonText: "Ok",
               }).then(function () {
-                $("#formTipoProcesoOp").trigger("reset");
+                $("#modalTipoProcesoOp").modal("show");
               });
             }
           },
@@ -147,10 +147,272 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 });
-/* fin dunciones para tipo de proceso */
+//fin
+
+// Inicializar Select2 para edit de tipo de proceso operativo
+
+// Función para manejar el evento change
+let warningConfirmed = false; // Variable de estado
+
+if (!warningConfirmed) {
+  $("#idFichTrabProcEdit").on("select2:opening", mensajeSelecionarOtroDato);
+}
+
+//funcion que se incia al precioanr el select2
+function mensajeSelecionarOtroDato(e) {
+  if (warningConfirmed) {
+    // Si el mensaje ya fue confirmado, permitir la apertura del select2
+    warningConfirmed = false; // Resetear el estado para futuras interacciones
+    return;
+  }
+  e.preventDefault(); // Prevenir la apertura del select2
+  Swal.fire({
+    title: "Advertencia",
+    text: "Modificar este campo afectará al proceso operativo. ¿Desea continuar?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, modificar",
+    cancelButtonText: "No, cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Si el usuario confirma, permitir la apertura del select2
+      warningConfirmed = true; // Actualizar el estado
+      $("#idFichTrabProcEdit").select2("open");
+    }
+  });
+}
+
+//funcion para mostrar el selec2 de fichas de trabajo
+function Select2EditTipoProc(id) {
+  // Mover la inicialización de Select2 y la carga de datos dentro del evento shown.bs.modal
+  $("#modalEditTipoProcesoOp").on("shown.bs.modal", function () {
+    // Inicializar Select2
+    $("#idFichTrabProcEdit").select2({
+      dropdownParent: $("#modalEditTipoProcesoOp"), // Asegurarse de que el dropdown se muestre dentro del modal
+    });
+
+    var data = new FormData();
+    data.append("todasLasFichasTrabajo", true);
+    $.ajax({
+      url: "ajax/procesoOperativo.ajax.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (data) {
+        // Limpiar las opciones actuales
+        $("#idFichTrabProcEdit").empty();
+        $("#idFichTrabProcEdit").append(
+          '<option value="0">Seleccione la Ficha de Trabajo</option>'
+        );
+        // Agregar las nuevas opciones
+        $.each(data, function (key, value) {
+          $("#idFichTrabProcEdit").append(
+            '<option value="' +
+              value.idfichaProc +
+              '">' +
+              value.tituloFichaProc +
+              "</option>"
+          );
+        });
+        // Seleccionar la opción específica
+        $("#idFichTrabProcEdit").val(id).trigger("change");
+        // Asignar la función mensajeSelecionarOtroDato al evento select2:opening solo si warningConfirmed es false
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al cargar los datos:", error);
+      },
+    });
+  });
+
+  // Mostrar el modal
+  $("#modalEditTipoProcesoOp").modal("show");
+}
+
+//fin
+
+//  funcion editar tipo de proceso operativo
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/procesosOperativos";
+  if (currentPath == appPath) {
+    $(".modalDataTableTiposDeProceso").on(
+      "click",
+      ".btnEditarTipoProcOp",
+      function () {
+        $("#modalEditTipoProcesoOp").modal("show");
+        var codTipoProc = $(this).attr("codTipoProc");
+        var data = new FormData();
+        data.append("codTipoProc", codTipoProc);
+        //visualizar los datos del usuario en el modal
+        $.ajax({
+          url: "ajax/procesoOperativo.ajax.php",
+          method: "POST",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (response) {
+            $("#nombreTipoProcOpEdit").val(response["nombreTipoProc"]);
+            $("#descripcionTipoProcOpEdit").val(
+              response["descripcionTipoProc"]
+            );
+            $("#codTipoProc").val(response["idTipoProc"]);
+            // Llamar a la función Select2EditMprima con los datos recibidos
+            Select2EditTipoProc(response["idFichaProc"]);
+            //fin
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
+      }
+    );
+    //fin visualizar los datos del usuario en el modal
+
+    //editar si se da clic en el boton editar
+    $("#editarTipoProcModal").on("click", function () {
+      //obtener el formulario por id
+      var formulario = document.getElementById("formTipoProcesoOpEdit");
+      var datosFormulario = {};
+      //obtener los elementos del formulario
+      var elementosFormulario = formulario.querySelectorAll("input, select");
+      //for each para recorrer los elementos del formulario y asignarle la clave como si id y su valor
+      elementosFormulario.forEach(function (elemento) {
+        if (elemento.id) {
+          datosFormulario[elemento.id] = elemento.value;
+        }
+      });
+      //crear el json
+      var jsonEditarTipoProc = JSON.stringify(datosFormulario);
+      //enviar el json por ajax
+      $.ajax({
+        url: "ajax/procesoOperativo.ajax.php",
+        method: "POST",
+        data: { jsonEditarTipoProc: jsonEditarTipoProc },
+        dataType: "json",
+        success: function (response) {
+          $("#modalEditTipoProcesoOp").modal("hide");
+          if (response == "ok") {
+            Swal.fire(
+              "Correcto",
+              "Tipo Proceso editado correctamente",
+              "success"
+            ).then(function () {
+              $("#modalDataTableTipoProcesoOp").modal("show");
+            });
+          } else {
+            Swal.fire(
+              "Error",
+              "El Tipo Proceso no se ha podido editar asegurese de seleccionar una ficha de trabajo",
+              "error"
+            ).then(function () {
+              $("#modalEditTipoProcesoOp").modal("show");
+            });
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    });
+  }
+});
+//fin
+//funcion para cerrar el modal de editar tipo de proceso y abri la lista
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/procesosOperativos";
+  if (currentPath == appPath) {
+    $("#cerrarModalEditTipoProc").on("click", () =>
+      $("#modalEditTipoProcesoOp").data("botonCerrar", true).modal("hide")
+    );
+    $("#modalEditTipoProcesoOp").on("hidden.bs.modal", function () {
+      $(this).data("botonCerrar") &&
+        $("#modalDataTableTipoProcesoOp").modal("show");
+    });
+  }
+});
+//fin
+
+//eliminar tipo de proceso operativo
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/procesosOperativos";
+  if (currentPath == appPath) {
+    $(".modalDataTableTiposDeProceso").on(
+      "click",
+      ".btnDeleteTipoProcOp",
+      function () {
+        var codTipoProc = $(this).attr("codTipoProc");
+        $("#modalDataTableTipoProcesoOp").modal("hide");
+        Swal.fire({
+          title: "¿Está seguro de eliminar el Tipo de Proceso?",
+          text: "¡Esto Puede generar inconsistencias en los procesos operativos activos!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "¡Sí, eliminar Tipo de Proceso!",
+          cancelButtonText: "¡No, cancelar acción!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            var data = new FormData();
+            data.append("codTipoProcDelet", codTipoProc);
+            $.ajax({
+              url: "ajax/procesoOperativo.ajax.php",
+              method: "POST",
+              data: data,
+              cache: false,
+              contentType: false,
+              processData: false,
+              dataType: "json",
+              success: function (response) {
+                if (response == "ok") {
+                  Swal.fire(
+                    "¡Eliminado!",
+                    "El Tipo de Proceso ha sido eliminado.",
+                    "success"
+                  ).then(function () {
+                    $("#modalDataTableTipoProcesoOp").modal("show");
+                  });
+                }else{
+                  Swal.fire(
+                    "¡Error!",
+                    "El Tipo de Proceso no se puede eliminar se encuentra asignado a un proceso operativo.",
+                    "error"
+                  ).then(function () {
+                    $("#modalDataTableTipoProcesoOp").modal("show");
+                  });
+                }
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                console.log(
+                  "Error en la solicitud AJAX: ",
+                  textStatus,
+                  errorThrown
+                );
+              },
+            });
+          } else {
+            // Si el usuario cancela la acción, volver a mostrar el modal
+            $("#modalDataTableTipoProcesoOp").modal("show");
+          }
+        });
+      }
+    );
+  }
+});
+//fin
+/* fin funciones para tipo de proceso */
 
 /* funciones para proceso principal */
-
 //funcion para mostrar el modal de crear proceso operativo
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
@@ -412,8 +674,7 @@ document.addEventListener("DOMContentLoaded", function () {
               }).then(function () {
                 $("#modalCrearProcesoOp").modal("hide");
               });
-            }
-            else {
+            } else {
               Swal.fire({
                 icon: "error",
                 title: "Error!. No se pudo crear el Proceso Operativo",
@@ -437,4 +698,97 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 //fin crear el tipo de proceso operativo
+//  funcion editar proceso operativo principal
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/procesosOperativos";
+  if (currentPath == appPath) {
+    $(".dataTableProcesoOperativo").on(
+      "click",
+      ".btnEditarProcOp",
+      function () {
+        $("#modalEditarProcesoOp").modal("show");
+        var codProcOp = $(this).attr("codProcOp");
+        var data = new FormData();
+        data.append("codProcOp", codProcOp);
+        //visualizar los datos del usuario en el modal
+        $.ajax({
+          url: "ajax/procesoOperativo.ajax.php",
+          method: "POST",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (response) {
+            $("#nombreTipoProcOpEdit").val(response["nombreTipoProc"]);
+            $("#descripcionTipoProcOpEdit").val(
+              response["descripcionTipoProc"]
+            );
+            $("#codTipoProc").val(response["idTipoProc"]);
+            // Llamar a la función Select2EditMprima con los datos recibidos
+            Select2EditTipoProc(response["idFichaProc"]);
+            //fin
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
+      }
+    );
+    //fin visualizar los datos del usuario en el modal
+
+    //editar si se da clic en el boton editar
+    $("#editarTipoProcModal").on("click", function () {
+      //obtener el formulario por id
+      var formulario = document.getElementById("formTipoProcesoOpEdit");
+      var datosFormulario = {};
+      //obtener los elementos del formulario
+      var elementosFormulario = formulario.querySelectorAll("input, select");
+      //for each para recorrer los elementos del formulario y asignarle la clave como si id y su valor
+      elementosFormulario.forEach(function (elemento) {
+        if (elemento.id) {
+          datosFormulario[elemento.id] = elemento.value;
+        }
+      });
+      //crear el json
+      var jsonEditarTipoProc = JSON.stringify(datosFormulario);
+      //enviar el json por ajax
+      $.ajax({
+        url: "ajax/procesoOperativo.ajax.php",
+        method: "POST",
+        data: { jsonEditarTipoProc: jsonEditarTipoProc },
+        dataType: "json",
+        success: function (response) {
+          $("#modalEditTipoProcesoOp").modal("hide");
+          if (response == "ok") {
+            Swal.fire(
+              "Correcto",
+              "Tipo Proceso editado correctamente",
+              "success"
+            ).then(function () {
+              $("#modalDataTableTipoProcesoOp").modal("show");
+            });
+          } else {
+            Swal.fire(
+              "Error",
+              "El Tipo Proceso no se ha podido editar asegurese de seleccionar una ficha de trabajo",
+              "error"
+            ).then(function () {
+              $("#modalEditTipoProcesoOp").modal("show");
+            });
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    });
+  }
+});
+//fin
 /* fin funciones para proceso principal */

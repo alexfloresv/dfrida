@@ -23,8 +23,8 @@
           Crear Tipo de Proceso Operativo
         </button>
         <span style="margin-right: 10px;"></span>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDataTableTipoProcesoOp"
-          id="btnViewTiposDeProcesos">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+          data-bs-target="#modalDataTableTipoProcesoOp" id="btnViewTiposDeProcesos">
           Todos los Tipos de Procesos
         </button>
       </div>
@@ -127,6 +127,93 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
             <button type="button" class="btn btn-success" id="crearProcOpModal">Crear Proceso Operativo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- fin -->
+<!-- Modal Editar proceso operativo-->
+<div class="modal fade" id="modalEditarProcesoOp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalEditarProcesoOp" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 text-center w-100" id="modalCrearProcesoOpH1">Editar Proceso Operativo</h1>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <form id="formProcesoOpEdit">
+            <div class="row">
+              <div class="col-md-6  mb-3">
+                <label for="nombreProcOpAdd" class="form-label" style="font-weight: bold">Nombre Del Proceso Operativo:
+                </label>
+                <input type="text" class="form-control" id="nombreProcOpAdd" name="nombreProcOpAdd"
+                  placeholder="Ingrese el nombre del proceso operativo ">
+              </div>
+
+              <div class="col-md-6  mb-3">
+                <label for="descripcionProcOpEdit" class="form-label" style="font-weight: bold">Descripcion Proceso:
+                </label>
+                <input type="text" class="form-control" id="descripcionProcOpEdit" name="descripcionProcOpEdit"
+                  placeholder="Ingrese una descripcion del proceso operativo ">
+              </div>
+
+              <div class="col-md-2 ">
+                <label for="fechaRegProcOpEdit" class="form-label" style="font-weight: bold"> Fecha Registro:</label>
+                <input type="date" class="form-control" id="fechaRegProcOpEdit" name="fechaRegProcOpEdit">
+              </div>
+              <div class="col-md-2 ">
+                <label for="fechaFinProcOpEdit" class="form-label" style="font-weight: bold"> Fecha Fin Proceso:</label>
+                <input type="date" class="form-control" id="fechaFinProcOpEdit" name="fechaFinProcOpEdit">
+              </div>
+
+              <!-- selec2 selecionar una salida de productos prima -->
+              <div class="col-md-6 ">
+                <div class="form-group">
+                  <label for="idSalProdPrimaEdit">Selecionar Salida de Productos Prima</label>
+                  <select class="form-select" id="idSalProdPrimaEdit" name="idSalProdPrimaEdit">
+                  </select>
+                </div>
+              </div>
+
+              <!-- ver las salidas de productos prima -->
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="codTipProc">Productos prima</label>
+                  <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                    data-bs-target="#modalverSalidasMprima">
+                    Ver Salidas
+                  </button>
+                </div>
+              </div>
+
+              <!-- selec2 para pedidos -->
+              <div class="col-md-6  mb-3">
+                <div class="form-group">
+                  <label for="idPedidoProcOpEdit">Selecionar Pedido</label>
+                  <select class="form-select" id="idPedidoProcOpEdit" name="idPedidoProcOpEdit">
+                  </select>
+                </div>
+              </div>
+
+              <!-- selec2 para tipos de procesos -->
+              <div class="col-md-6  mb-3">
+                <div class="form-group">
+                  <label for="idTipoProcOpEdit">Selecionar el Tipo de Proceso</label>
+                  <select class="form-select" id="idTipoProcOpEdit" name="idTipoProcOpEdit">
+                  </select>
+                </div>
+              </div>
+
+              <!-- campo que guarde el id del registro-->
+              <input type="hidden" class="form-control" id="codProcOp" name="codProcOp">
+          </form>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" id="cerrarProcOpModalEdit">Cerrar</button>
+            <button type="button" class="btn btn-success" id="editarProcOpModal">Editar Proceso Operativo</button>
           </div>
         </div>
       </div>
@@ -249,6 +336,69 @@
 </div>
 </div>
 <!-- fin -->
+<!-- modal editar Tipo de  Proceso Operativo-->
+<div class="modal fade" id="modalEditTipoProcesoOp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalEditTipoProcesoOp" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 text-center w-100" id="modalEditTipoProcesoOp">Editar Tipo de Proceso Operativo</h1>
+      </div>
+      <div class="modal-body" id="procesosTrabajoModal">
+        <div class="container">
+          <form id="formTipoProcesoOpEdit">
+            <div class="row">
+              <!-- nombre de tipo de proceso operativo -->
+              <div class="col-md-6  mb-3">
+                <label for="nombreTipoProcOpEdit" class="form-label" style="font-weight: bold">Nombre Tipo de Proceso
+                  Operativo:
+                </label>
+                <input type="text" class="form-control" id="nombreTipoProcOpEdit" name="nombreTipoProcOpEdit"
+                  placeholder="Ingrese el nombre del tipo de proceso operativo ">
+              </div>
+              <!-- descripcion del tipo de proceso operativo -->
+              <div class="col-md-6  mb-3">
+                <label for="descripcionTipoProcOpEdit" class="form-label" style="font-weight: bold">Descripcion Tipo de
+                  Proceso:
+                </label>
+                <input type="text" class="form-control" id="descripcionTipoProcOpEdit" name="descripcionTipoProcOpEdit"
+                  placeholder="Ingrese una descripcion del tipo de proceso operativo ">
+              </div>
+              <!-- selecionar la fichas de trabajo creadas -->
+              <div class="col-md-6  mb-3">
+                <div class="form-group">
+                  <label for="idFichTrabProcEdit">Selecionar Ficha de Trabajo</label>
+                  <select id="idFichTrabProcEdit" style="width: 100%;"></select>
+                </div>
+              </div>
+
+              <!-- campo que guarde el id del registro-->
+              <input type="hidden" class="form-control" id="codTipoProc" name="codTipoProc">
+
+              <!-- ver las fichas de trabajo creadas -->
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label for="codTipProc">Ver las Fichas de Trabajo Registradas</label>
+                  <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                    data-bs-target="#modalverFichasTrabajo">
+                    Ver Todas las Fichas de Trabajo
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+              id="cerrarModalEditTipoProc">Cerrar</button>
+            <button type="button" class="btn btn-primary" id="editarTipoProcModal">Editar Tipo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- fin editar-->
 
 <!-- modal data table  ver todas las fichas de trabajo creadas no tocar-->
 <div class="modal fade" id="modalverFichasTrabajo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -327,12 +477,12 @@
       </div>
       <div class="modal-body" id="procesosTrabajoModal">
 
-        <table id="ModalDataTableTiposDeProceso" class="display ModalDataTableTiposDeProceso">
+        <table id="modalDataTableTiposDeProceso" class="display modalDataTableTiposDeProceso">
           <thead>
-            <!-- ModalDataTableTiposDeProceso -->
+            <!-- modalDataTableTiposDeProceso -->
           </thead>
           <tbody>
-            <!--ModalDataTableTiposDeProceso-->
+            <!--modalDataTableTiposDeProceso-->
           </tbody>
         </table>
       </div>

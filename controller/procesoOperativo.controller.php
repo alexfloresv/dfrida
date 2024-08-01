@@ -23,14 +23,33 @@ class procesoOperativoController
   {
     $dataTipoProc = json_decode($jsonCrearTipoProceso, true);
     $table = "tipo_proceso";
+    if (!empty($dataTipoProc["idFichTrabProcAdd"]) && $dataTipoProc["idFichTrabProcAdd"] != 0) {
+      $dataCreate = array(
+        "nombreTipoProc" => $dataTipoProc["nombreTipoProcOpAdd"],
+        "descripcionTipoProc" => $dataTipoProc["descripcionTipoProcOpAdd"],
+        "idFichaProc" => $dataTipoProc["idFichTrabProcAdd"],
+        "DateCreate" => date("Y-m-d\TH:i:sP"),
+      );
+      $response = procesoOperativoModel::mdlCrearTipoProcModal($table, $dataCreate);
+    } else {
+      $response = "error";
+    }
+    return $response;
+  }
 
-    $dataCreate = array(
-      "nombreTipoProc" => $dataTipoProc["nombreTipoProcOpAdd"],
-      "descripcionTipoProc" => $dataTipoProc["descripcionTipoProcOpAdd"],
-      "idFichaProc" => $dataTipoProc["idFichTrabProcAdd"],
-      "DateCreate" => date("Y-m-d\TH:i:sP"),
-    );
-    $response = procesoOperativoModel::mdlCrearTipoProcModal($table, $dataCreate);
+  //data table tipos de procesos operativos
+  public static function ctrDTableTiposProcesosOperativos()
+  {
+    $table = "tipo_proceso";
+    $response = procesoOperativoModel::mdlDTableTiposProcesosOperativos($table);
+    return $response;
+  }
+
+  //// visualizar datos para editar tipo de proceso operativo
+  public static function ctrViewDataTipoProcOp($codTipoProc)
+  {
+    $table = "tipo_proceso";
+    $response = procesoOperativoModel::mdlViewDataTipoProcOp($table, $codTipoProc);
     return $response;
   }
 
@@ -141,7 +160,32 @@ class procesoOperativoController
     return $response;
 
   }
-
+  //editar  tipo de proceso operativo 
+  public static function ctrEditarTipoProc($jsonEditarTipoProc)
+  {
+    $dataEditTipoProc = json_decode($jsonEditarTipoProc, true);
+    $table = "tipo_proceso";
+    if (!empty($dataEditTipoProc["idFichTrabProcEdit"]) && $dataEditTipoProc["idFichTrabProcEdit"] != 0) {
+      $dataUpdate = array(
+        "idTipoProc" => $dataEditTipoProc["codTipoProc"],
+        "nombreTipoProc" => $dataEditTipoProc["nombreTipoProcOpEdit"],
+        "descripcionTipoProc" => $dataEditTipoProc["descripcionTipoProcOpEdit"],
+        "idFichaProc" => $dataEditTipoProc["idFichTrabProcEdit"],
+        "DateUpdate" => date("Y-m-d\TH:i:sP"),
+      );
+      $response = procesoOperativoModel::mdlEditarTipoProc($table, $dataUpdate);
+    } else {
+      $response = "error";
+    }
+    return $response;
+  }
+  //borrar  tipo de proceso operativo 
+  public static function ctrBorrarTipoProc($codTipoProcDelet)
+  {
+    $table = "tipo_proceso";
+    $response = procesoOperativoModel::mdlBorrarTipoProc($table, $codTipoProcDelet);
+    return $response;
+  }
   ///////////////////////////////////////////////////
 
 

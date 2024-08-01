@@ -1,6 +1,23 @@
 <?php
 class FunctionProcesoOperativo
 {
+  //botones aciones de tipos de procesos op
+  public static function getBtnTipoProcOp($codTipoProc)
+  {
+    $botones = '
+       <button class="btn btn-warning btnEditarTipoProcOp" data-bs-toggle="modal" data-bs-target="#modalEditTipoProcesoOp" codTipoProc="' . $codTipoProc . '"><i class="fa-solid fa-pencil"></i></i></button>
+        <button class="btn btn-danger btnDeleteTipoProcOp" codTipoProc="' . $codTipoProc . '"><i class="fa-solid fa-trash"></i></button>
+      ';
+    return $botones;
+  }
+
+  public static function getBtnDescargarFichaTrabajoModalTipoProc($codFichTrab)
+  {
+    $botones = '
+       <button class="btn btn-primary btnDescargarFichaTrabajo" codFichTrab="' . $codFichTrab . '"><i class="fa-solid fa-file-pdf"></i></i></button>';
+    return $botones;
+  }
+
   //boton para inio de proceso oeprativo
   public static function getBtnInicioProc($codIniProcOp, $stateProcOp)
   {
@@ -105,5 +122,7 @@ class FunctionProcesoOperativo
     }
     return $estado;
   }
+
+
 }
 

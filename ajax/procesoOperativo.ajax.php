@@ -21,9 +21,15 @@ if (isset($_POST["todasLasFichasTrabajo"])) {
 
 //crear el tipo de proceso operativo
 if (isset($_POST["jsonCrearTipoProceso"])) {
-  $view = new procesoOperativoAjax();
-  $view->jsonCrearTipoProceso = $_POST["jsonCrearTipoProceso"];
-  $view->ajaxCrearTipoProcModal($_POST["jsonCrearTipoProceso"]);
+  $create = new procesoOperativoAjax();
+  $create->jsonCrearTipoProceso = $_POST["jsonCrearTipoProceso"];
+  $create->ajaxCrearTipoProcModal($_POST["jsonCrearTipoProceso"]);
+}
+
+//data table tipos de procesos operativos
+if (isset($_POST["todosLosTiposProcOp"])) {
+  $todosLosTiposProcOp = new procesoOperativoAjax();
+  $todosLosTiposProcOp->ajaxDTableTipoProcOp();
 }
 
 //funcion para mostrar el selec2 de pedidos
@@ -46,9 +52,30 @@ if (isset($_POST["todasLasSalidasMprima"])) {
 
 //crear  proceso operativo principal
 if (isset($_POST["jsonCrearProceso"])) {
+  $create = new procesoOperativoAjax();
+  $create->jsonCrearProceso = $_POST["jsonCrearProceso"];
+  $create->ajaxCrearProcOpModal($_POST["jsonCrearProceso"]);
+}
+
+//// visualizar datos para editar tipo de proceso operativo
+if (isset($_POST["codTipoProc"])) {
   $view = new procesoOperativoAjax();
-  $view->jsonCrearProceso = $_POST["jsonCrearProceso"];
-  $view->ajaxCrearProcOpModal($_POST["jsonCrearProceso"]);
+  $view->codTipoProc = $_POST["codTipoProc"];
+  $view->ajaxViewDataTipoProcOp($_POST["codTipoProc"]);
+}
+
+//editar  tipo de proceso operativo 
+if (isset($_POST["jsonEditarTipoProc"])) {
+  $edit = new procesoOperativoAjax();
+  $edit->jsonEditarTipoProc = $_POST["jsonEditarTipoProc"];
+  $edit->ajaxEditarTipoProc($_POST["jsonEditarTipoProc"]);
+}
+
+//borrar  tipo de proceso operativo 
+if (isset($_POST["codTipoProcDelet"])) {
+  $delete = new procesoOperativoAjax();
+  $delete->codTipoProcDelet = $_POST["codTipoProcDelet"];
+  $delete->ajaxBorrarTipoProc($_POST["codTipoProcDelet"]);
 }
 
 /////////////////////////////
@@ -82,6 +109,18 @@ class procesoOperativoAjax
     $todasLasFichasTrabajo = procesoOperativoController::ctrSelect2FichTrabModal();
     echo json_encode($todasLasFichasTrabajo);
   }
+  //data table tipos de procesos operativos
+  public function ajaxDTableTipoProcOp()
+  {
+    $todosLosTiposProcOp = procesoOperativoController::ctrDTableTiposProcesosOperativos();
+    foreach ($todosLosTiposProcOp as &$tipoProcesoOp) {
+      $tipoProcesoOp['btns'] = FunctionProcesoOperativo::getBtnTipoProcOp($tipoProcesoOp["idTipoProc"]);
+      $tipoProcesoOp['descFichTrab'] = FunctionProcesoOperativo::getBtnDescargarFichaTrabajoModalTipoProc($tipoProcesoOp["idFichaProc"]);
+    }
+    //unset($procesoOp["idProcOp"]);
+
+    echo json_encode($todosLosTiposProcOp);
+  }
 
   //crear el tipo de proceso operativo
   public function ajaxCrearTipoProcModal($jsonCrearTipoProceso)
@@ -111,14 +150,30 @@ class procesoOperativoAjax
     echo json_encode($todasLasSalidasMprima);
   }
 
-//crear  proceso operativo principal
+  //crear  proceso operativo principal
   public function ajaxCrearProcOpModal($jsonCrearProceso)
   {
     $response = procesoOperativoController::ctrCrearProcOpModal($jsonCrearProceso);
     echo json_encode($response);
   }
- 
+  //// visualizar datos para editar tipo de proceso operativo
+  public function ajaxViewDataTipoProcOp($codTipoProc)
+  {
+    $todosLosTiposProcOp = procesoOperativoController::ctrViewDataTipoProcOp($codTipoProc);
+    echo json_encode($todosLosTiposProcOp);
+  }
 
-
+  //editar  tipo de proceso operativo 
+  public function ajaxEditarTipoProc($jsonEditarTipoProc)
+  {
+    $response = procesoOperativoController::ctrEditarTipoProc($jsonEditarTipoProc);
+    echo json_encode($response);
+  }
+  //borrar  tipo de proceso operativo 
+  public function ajaxBorrarTipoProc($codTipoProcDelet)
+  {
+    $response = procesoOperativoController::ctrBorrarTipoProc($codTipoProcDelet);
+    echo json_encode($response);
+  }
 }
 
