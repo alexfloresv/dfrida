@@ -22,6 +22,11 @@
           id="btnAddSalidaProd">
           Crear Tipo de Proceso Operativo
         </button>
+        <span style="margin-right: 10px;"></span>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalDataTableTipoProcesoOp"
+          id="btnViewTiposDeProcesos">
+          Todos los Tipos de Procesos
+        </button>
       </div>
 
       <div class="card mb-4">
@@ -77,7 +82,7 @@
                 <label for="fechaRegProcOpAdd" class="form-label" style="font-weight: bold"> Fecha Registro:</label>
                 <input type="date" class="form-control" id="fechaRegProcOpAdd" name="fechaRegProcOpAdd">
               </div>
-               <div class="col-md-2 ">
+              <div class="col-md-2 ">
                 <label for="fechaFinProcOpAdd" class="form-label" style="font-weight: bold"> Fecha Fin Proceso:</label>
                 <input type="date" class="form-control" id="fechaFinProcOpAdd" name="fechaFinProcOpAdd">
               </div>
@@ -300,6 +305,34 @@
           </thead>
           <tbody>
             <!--ModalDataTableProcesoTrabajo-->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin ver todas las fichas de trabajo creadas -->
+
+<!-- Modal ver todos los tipos de procesos-->
+<div class="modal fade" id="modalDataTableTipoProcesoOp" tabindex="-1" aria-labelledby="modalDataTableTipoProcesoOp"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalDataTableTipoProcesoOp">Tipos de Procesos Operativos</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="procesosTrabajoModal">
+
+        <table id="ModalDataTableTiposDeProceso" class="display ModalDataTableTiposDeProceso">
+          <thead>
+            <!-- ModalDataTableTiposDeProceso -->
+          </thead>
+          <tbody>
+            <!--ModalDataTableTiposDeProceso-->
           </tbody>
         </table>
       </div>

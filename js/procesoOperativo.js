@@ -403,7 +403,17 @@ document.addEventListener("DOMContentLoaded", function () {
               }).then(function () {
                 window.location.reload();
               });
-            } else {
+            } else if (response == "errorPedido") {
+              Swal.fire({
+                icon: "error",
+                title: "Error!. No se pudo asignar el pedido al proceso",
+                html: "<strong>Asignelo en la edicion del Proceso Operativo</strong>.",
+                confirmButtonText: "Ok",
+              }).then(function () {
+                $("#modalCrearProcesoOp").modal("hide");
+              });
+            }
+            else {
               Swal.fire({
                 icon: "error",
                 title: "Error!. No se pudo crear el Proceso Operativo",

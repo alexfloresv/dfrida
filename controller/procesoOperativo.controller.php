@@ -68,26 +68,30 @@ class procesoOperativoController
 
     // Obtener el último registro de proceso operativo
     $ultimoRegistro = self::ctrUltimoRegistroProcOp();
+    // actualizar estado de pedido
+    $updateEstadoPedido = self::ctrActualizarPedidoProcOp($dataProcOp["idPedidoProcOp"]);
 
-    // Verificar si idSalProdPrima tiene un valor válido
-    if (!empty($dataProcOp["idSalProdPrima"]) && $dataProcOp["idSalProdPrima"] != 0) {
-      // Asignar proceso operativo a salida materia prima
-      $salidaMPrimaProcOp = self::ctrAsignarAsalMprima($ultimoRegistro["idProcOp"], $dataProcOp["idSalProdPrima"]);
-
-      // Si salidaMPrimaProcOp es verdadero, retornar addProcOp "ok"
-      if ($salidaMPrimaProcOp) {
-        return $addProcOp;
+    if ($updateEstadoPedido = true) {
+      // Verificar si idSalProdPrima tiene un valor válido
+      if (!empty($dataProcOp["idSalProdPrima"]) && $dataProcOp["idSalProdPrima"] != 0) {
+        // Asignar proceso operativo a salida materia prima
+        $salidaMPrimaProcOp = self::ctrAsignarAsalMprima($ultimoRegistro["idProcOp"], $dataProcOp["idSalProdPrima"]);
+        // Si salidaMPrimaProcOp es verdadero, retornar addProcOp "ok"
+        if ($salidaMPrimaProcOp) {
+          return $addProcOp;
+        } else {
+          return "error";
+        }
       } else {
-        return "error";
+        // Si el valor de idSalProdPrima es null, vacío o 0, retornar addProcOp "ok"
+        return $addProcOp;
       }
     } else {
-      // Si el valor de idSalProdPrima es null, vacío o 0, retornar addProcOp "ok"
-      return $addProcOp;
+      return "errorPedido";
     }
-
   }
 
-  //asignar proceso operativo a pedido
+  //crear proceso operativo
   public static function ctrCrearRegistro($dataProcOp)
   {
     $table = "proceso_operativo";
@@ -112,7 +116,18 @@ class procesoOperativoController
     $response = procesoOperativoModel::mdlUltimoRegistroProcOp($table);
     return $response;
   }
-
+  // actualizar estado de pedido
+  public static function ctrActualizarPedidoProcOp($idPedido)
+  {
+    $table = "pedido";
+    $dataUpdate = array(
+      "idPedido" => $idPedido,
+      "estadoPedido" => 2,//en proceso
+      "DateUpdate" => date("Y-m-d\TH:i:sP"),
+    );
+    $response = procesoOperativoModel::mdlActualizarPedidoProcOp($table, $dataUpdate);
+    return $response;
+  }
   //asignar proceso operativo a salida materia prima
   public static function ctrAsignarAsalMprima($idProcOp, $idSalProdPrima)
   {

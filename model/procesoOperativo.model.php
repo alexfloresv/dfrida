@@ -38,7 +38,7 @@ class procesoOperativoModel
   //funcion para mostrar el selec2 de pedidos
   public static function mdlSelect2Pedido($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT idPedido, tituloPedido  FROM $table ORDER BY idPedido DESC");
+    $statement = Conexion::conn()->prepare("SELECT idPedido, tituloPedido FROM $table WHERE estadoPedido = 1 ORDER BY idPedido DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -111,6 +111,19 @@ class procesoOperativoModel
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
 
+  }
+  // actualizar estado de pedido
+  public static function mdlActualizarPedidoProcOp($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoPedido = :estadoPedido, DateUpdate = :DateUpdate WHERE idPedido = :idPedido");
+    $statement->bindParam(":estadoPedido", $dataUpdate["estadoPedido"], PDO::PARAM_INT);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":idPedido", $dataUpdate["idPedido"], PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   //asignar proceso operativo a salida materia prima
