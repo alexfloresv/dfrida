@@ -18,6 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
           <th scope="col">Ttulo Pedido</th>
           <th scope="col">Nombre Pedido</th>
           <th scope="col">Fecha</th>
+          <th scope="col">Cliente</th>
+          <th scope="col">Productos</th>
+          <th scope="col">Productos Prima</th>
           <th scope="col">Estado</th>
           <th scope="col">Acciones</th>
         </tr>
@@ -34,6 +37,9 @@ document.addEventListener("DOMContentLoaded", function () {
         { data: "tituloPedido" },
         { data: "nombrePedido" },
         { data: "fechaPedido" },
+        {data: "clientePedido"},
+        { data: "productosPedido" },
+        { data: "productosPrimaPedido" },
 /*         { data: "nombreCoti" },
         { data: "celularCoti" },
         {

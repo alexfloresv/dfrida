@@ -26,5 +26,36 @@ class FunctionPedidos
     return $botones;
     /* <button class="btn btn-warning btnEditCotizacion" codCoti="' . $codCoti . '" ><i class="fa-solid fa-pencil"></i></button> */
   }
+  //boton para ver el cliente del pedido
+  public static function getBtnVerClientePedido($codPed, $idCli)
+  {
+    $botones = '
+         <button class="btn btn-success btnVerClientePedido" data-bs-toggle="modal" data-bs-target="#modalProdSalidas" codPed="' . $codPed . '" idCli="' . $idCli . '">
+         <i class="fa-solid fa-user-tie"></i>
+         </button>
+        ';
+    return $botones;
+  }
+  //boton para ver el cliente del pedido
+  public static function getBtnVerProductosPedido($codPed, $idCoti)
+  {
+    $botones = '
+             <button class="btn btn-primary btnVerProductosPedido" data-bs-toggle="modal" data-bs-target="#modalVerProdCotiPedidos" codPed="' . $codPed . '" idCoti="' . $idCoti . '">
+             <i class="fa-solid fa-boxes-packing"></i>
+             </button>
+            ';
+    return $botones;
+  }
+  //boton para ver el cliente del pedido
+  public static function getBtnVerProductosPrimaPedido($codPed, $idCoti)
+  {
+    $botones = '
+         <button class="btn btn-warning btnVerProductosPrimaPedido" data-bs-toggle="modal" data-bs-target="#modalProdSalidas" codPed="' . $codPed . '" idCoti="' . $idCoti . '">
+         <i class="fa-solid fa-box-archive"></i>
+         </button>
+        ';
+    return $botones;
+  }
+
 }
 
