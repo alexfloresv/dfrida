@@ -277,51 +277,57 @@ document.addEventListener("DOMContentLoaded", function () {
     //fin visualizar los datos del usuario en el modal
 
     //editar si se da clic en el boton editar
-    $("#editarTipoProcModal").on("click", function () {
-      //obtener el formulario por id
-      var formulario = document.getElementById("formTipoProcesoOpEdit");
-      var datosFormulario = {};
-      //obtener los elementos del formulario
-      var elementosFormulario = formulario.querySelectorAll("input, select");
-      //for each para recorrer los elementos del formulario y asignarle la clave como si id y su valor
-      elementosFormulario.forEach(function (elemento) {
-        if (elemento.id) {
-          datosFormulario[elemento.id] = elemento.value;
-        }
-      });
-      //crear el json
-      var jsonEditarTipoProc = JSON.stringify(datosFormulario);
-      //enviar el json por ajax
-      $.ajax({
-        url: "ajax/procesoOperativo.ajax.php",
-        method: "POST",
-        data: { jsonEditarTipoProc: jsonEditarTipoProc },
-        dataType: "json",
-        success: function (response) {
-          $("#modalEditTipoProcesoOp").modal("hide");
-          if (response == "ok") {
-            Swal.fire(
-              "Correcto",
-              "Tipo Proceso editado correctamente",
-              "success"
-            ).then(function () {
-              $("#modalDataTableTipoProcesoOp").modal("show");
-            });
-          } else {
-            Swal.fire(
-              "Error",
-              "El Tipo Proceso no se ha podido editar asegurese de seleccionar una ficha de trabajo",
-              "error"
-            ).then(function () {
-              $("#modalEditTipoProcesoOp").modal("show");
-            });
+    document
+      .getElementById("editarTipoProcModal")
+      .addEventListener("click", function () {
+        //obtener el formulario por id
+        var formulario = document.getElementById("formTipoProcesoOpEdit");
+        var datosFormulario = {};
+        //obtener los elementos del formulario
+        var elementosFormulario = formulario.querySelectorAll("input, select");
+        //for each para recorrer los elementos del formulario y asignarle la clave como si id y su valor
+        elementosFormulario.forEach(function (elemento) {
+          if (elemento.id) {
+            datosFormulario[elemento.id] = elemento.value;
           }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-        },
+        });
+        //crear el json
+        var jsonEditarTipoProc = JSON.stringify(datosFormulario);
+        //enviar el json por ajax
+        $.ajax({
+          url: "ajax/procesoOperativo.ajax.php",
+          method: "POST",
+          data: { jsonEditarTipoProc: jsonEditarTipoProc },
+          dataType: "json",
+          success: function (response) {
+            $("#modalEditTipoProcesoOp").modal("hide");
+            if (response == "ok") {
+              Swal.fire(
+                "Correcto",
+                "Tipo Proceso editado correctamente",
+                "success"
+              ).then(function () {
+                $("#modalDataTableTipoProcesoOp").modal("show");
+              });
+            } else {
+              Swal.fire(
+                "Error",
+                "El Tipo Proceso no se ha podido editar asegurese de seleccionar una ficha de trabajo",
+                "error"
+              ).then(function () {
+                $("#modalEditTipoProcesoOp").modal("show");
+              });
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
       });
-    });
   }
 });
 //fin
@@ -382,7 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   ).then(function () {
                     $("#modalDataTableTipoProcesoOp").modal("show");
                   });
-                }else{
+                } else {
                   Swal.fire(
                     "¡Error!",
                     "El Tipo de Proceso no se puede eliminar se encuentra asignado a un proceso operativo.",
@@ -697,7 +703,261 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 });
-//fin crear el tipo de proceso operativo
+//fin
+/* Funciones para editar el proceso operativo */
+
+////////////////funciones de select para editar
+// Función para mostrar select tipo proceso operativo
+let confirmarIdTipoProc = false; // Variable de estado
+
+if (!confirmarIdTipoProc) {
+  $("#idTipoProcOpEdit").on(
+    "select2:opening",
+    mensajeSelecionarOtroDatoIdtipoProc
+  );
+}
+
+//funcion que se incia al precioanr el select2
+function mensajeSelecionarOtroDatoIdtipoProc(e) {
+  if (confirmarIdTipoProc) {
+    // Si el mensaje ya fue confirmado, permitir la apertura del select2
+    confirmarIdTipoProc = false; // Resetear el estado para futuras interacciones
+    return;
+  }
+  e.preventDefault(); // Prevenir la apertura del select2
+  Swal.fire({
+    title: "Advertencia",
+    text: "Modificar este campo afectará al proceso operativo. ¿Desea continuar?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, modificar",
+    cancelButtonText: "No, cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Si el usuario confirma, permitir la apertura del select2
+      confirmarIdTipoProc = true; // Actualizar el estado
+      $("#idTipoProcOpEdit").select2("open");
+    }
+  });
+}
+
+//funcion para mostrar el selec2
+function Select2EditTipoProcProcOp(id) {
+  // Mover la inicialización de Select2 y la carga de datos dentro del evento shown.bs.modal
+  $("#modalEditarProcesoOp").on("shown.bs.modal", function () {
+    // Inicializar Select2
+    $("#idTipoProcOpEdit").select2({
+      dropdownParent: $("#modalEditarProcesoOp"), // Asegurarse de que el dropdown se muestre dentro del modal
+    });
+
+    var data = new FormData();
+    data.append("todosLosTiposdeProcesos", true);
+    $.ajax({
+      url: "ajax/procesoOperativo.ajax.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (data) {
+        // Limpiar las opciones actuales
+        $("#idTipoProcOpEdit").empty();
+        $("#idTipoProcOpEdit").append(
+          '<option value="0">Selecionar el Tipo de Proceso</option>'
+        );
+        // Agregar las nuevas opciones
+        $.each(data, function (key, value) {
+          $("#idTipoProcOpEdit").append(
+            '<option value="' +
+              value.idTipoProc +
+              '">' +
+              value.nombreTipoProc +
+              "</option>"
+          );
+        });
+        // Seleccionar la opción específica
+        $("#idTipoProcOpEdit").val(id).trigger("change");
+        // Asignar la función mensajeSelecionarOtroDato al evento select2:opening solo si warningConfirmed es false
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al cargar los datos:", error);
+      },
+    });
+  });
+
+  // Mostrar el modal
+  $("#modalEditarProcesoOp").modal("show");
+}
+//fin
+
+// Función para mostrar select salida de productos materia prima
+let confirmarIdMprima = false; // Variable de estado
+
+if (!confirmarIdMprima) {
+  $("#idSalProdPrimaEdit").on(
+    "select2:opening",
+    mensajeSelecionarOtroDatoIdMprima
+  );
+}
+
+//funcion que se incia al precioanr el select2
+function mensajeSelecionarOtroDatoIdMprima(e) {
+  if (confirmarIdMprima) {
+    // Si el mensaje ya fue confirmado, permitir la apertura del select2
+    confirmarIdMprima = false; // Resetear el estado para futuras interacciones
+    return;
+  }
+  e.preventDefault(); // Prevenir la apertura del select2
+  Swal.fire({
+    title: "Advertencia",
+    text: "Modificar este campo afectará al proceso operativo. ¿Desea continuar?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, modificar",
+    cancelButtonText: "No, cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Si el usuario confirma, permitir la apertura del select2
+      confirmarIdMprima = true; // Actualizar el estado
+      $("#idSalProdPrimaEdit").select2("open");
+    }
+  });
+}
+
+//funcion para mostrar el selec2
+function Select2EdiProcOpIdMprima(id) {
+  // Mover la inicialización de Select2 y la carga de datos dentro del evento shown.bs.modal
+  $("#modalEditarProcesoOp").on("shown.bs.modal", function () {
+    // Inicializar Select2
+    $("#idSalProdPrimaEdit").select2({
+      dropdownParent: $("#modalEditarProcesoOp"), // Asegurarse de que el dropdown se muestre dentro del modal
+    });
+
+    var data = new FormData();
+    data.append("todasLasSalidasMprimaEdit", true);
+    $.ajax({
+      url: "ajax/procesoOperativo.ajax.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (data) {
+        // Limpiar las opciones actuales
+        $("#idSalProdPrimaEdit").empty();
+        $("#idSalProdPrimaEdit").append(
+          '<option value="0">Selecionar despues una salida de productos prima</option>'
+        );
+        // Agregar las nuevas opciones
+        $.each(data, function (key, value) {
+          $("#idSalProdPrimaEdit").append(
+            '<option value="' +
+              value.idSalMprima +
+              '">' +
+              value.nombreSalMprima +
+              "</option>"
+          );
+        });
+        // Seleccionar la opción específica
+        $("#idSalProdPrimaEdit").val(id).trigger("change");
+        // Asignar la función mensajeSelecionarOtroDato al evento select2:opening solo si warningConfirmed es false
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al cargar los datos:", error);
+      },
+    });
+  });
+
+  // Mostrar el modal
+  $("#modalEditarProcesoOp").modal("show");
+}
+//fin
+
+// Función para mostrar select2 de pedidos
+let confirmarPedidos = false; // Variable de estado
+
+if (!confirmarPedidos) {
+  $("#idPedidoProcOpEdit").on(
+    "select2:opening",
+    mensajeSelecionarOtroDatoIdPedido
+  );
+}
+
+//funcion que se incia al precioanr el select2
+function mensajeSelecionarOtroDatoIdPedido(e) {
+  if (confirmarPedidos) {
+    // Si el mensaje ya fue confirmado, permitir la apertura del select2
+    confirmarPedidos = false; // Resetear el estado para futuras interacciones
+    return;
+  }
+  e.preventDefault(); // Prevenir la apertura del select2
+  Swal.fire({
+    title: "Advertencia",
+    text: "Modificar este campo afectará al proceso operativo. ¿Desea continuar?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, modificar",
+    cancelButtonText: "No, cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Si el usuario confirma, permitir la apertura del select2
+      confirmarPedidos = true; // Actualizar el estado
+      $("#idPedidoProcOpEdit").select2("open");
+    }
+  });
+}
+
+//funcion para mostrar el selec2 pedido
+function Select2EdiProcOpIdPedido(id) {
+  // Mover la inicialización de Select2 y la carga de datos dentro del evento shown.bs.modal
+  $("#modalEditarProcesoOp").on("shown.bs.modal", function () {
+    // Inicializar Select2
+    $("#idPedidoProcOpEdit").select2({
+      dropdownParent: $("#modalEditarProcesoOp"), // Asegurarse de que el dropdown se muestre dentro del modal
+    });
+
+    var data = new FormData();
+    data.append("todosLosPedidosEdit", true);
+    $.ajax({
+      url: "ajax/procesoOperativo.ajax.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (data) {
+        // Limpiar las opciones actuales
+        $("#idPedidoProcOpEdit").empty();
+        $("#idPedidoProcOpEdit").append(
+          '<option value="0">Seleccione un Pedido para el proceso</option>'
+        );
+        // Agregar las nuevas opciones
+        $.each(data, function (key, value) {
+          $("#idPedidoProcOpEdit").append(
+            '<option value="' +
+              value.idPedido +
+              '">' +
+              value.tituloPedido +
+              "</option>"
+          );
+        });
+        // Seleccionar la opción específica
+        $("#idPedidoProcOpEdit").val(id).trigger("change");
+        // Asignar la función mensajeSelecionarOtroDato al evento select2:opening solo si warningConfirmed es false
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al cargar los datos:", error);
+      },
+    });
+  });
+
+  // Mostrar el modal
+  $("#modalEditarProcesoOp").modal("show");
+}
+//fin
+
+/////////////////fin
+
 //  funcion editar proceso operativo principal
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
@@ -710,7 +970,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#modalEditarProcesoOp").modal("show");
         var codProcOp = $(this).attr("codProcOp");
         var data = new FormData();
-        data.append("codProcOp", codProcOp);
+        data.append("codProcOpEditView", codProcOp);
         //visualizar los datos del usuario en el modal
         $.ajax({
           url: "ajax/procesoOperativo.ajax.php",
@@ -721,13 +981,19 @@ document.addEventListener("DOMContentLoaded", function () {
           processData: false,
           dataType: "json",
           success: function (response) {
-            $("#nombreTipoProcOpEdit").val(response["nombreTipoProc"]);
-            $("#descripcionTipoProcOpEdit").val(
-              response["descripcionTipoProc"]
-            );
-            $("#codTipoProc").val(response["idTipoProc"]);
+            $("#nombreProcOpEdit").val(response["nombreProcOp"]);
+            $("#descripcionProcOpEdit").val(response["descripcionProcOp"]);
+            $("#fechaRegProcOpEdit").val(response["fechaRegistroProcOp"]);
+            $("#fechaFinProcOpEdit").val(response["fechaFinProcOp"]);
+            $("#codProcOpEdit").val(response["idProcOp"]);
             // Llamar a la función Select2EditMprima con los datos recibidos
-            Select2EditTipoProc(response["idFichaProc"]);
+            Select2EditTipoProcProcOp(response["idTipoProc"]);
+            //fin
+            // Llamar a la función Select2EditMprima con los datos recibidos
+            Select2EdiProcOpIdMprima(response["idSalMprima"]);
+            //fin
+            // Llamar a la función Select2EditMprima con los datos recibidos
+            Select2EdiProcOpIdPedido(response["idPedido"]);
             //fin
           },
           error: function (jqXHR, textStatus, errorThrown) {
@@ -743,52 +1009,59 @@ document.addEventListener("DOMContentLoaded", function () {
     //fin visualizar los datos del usuario en el modal
 
     //editar si se da clic en el boton editar
-    $("#editarTipoProcModal").on("click", function () {
-      //obtener el formulario por id
-      var formulario = document.getElementById("formTipoProcesoOpEdit");
-      var datosFormulario = {};
-      //obtener los elementos del formulario
-      var elementosFormulario = formulario.querySelectorAll("input, select");
-      //for each para recorrer los elementos del formulario y asignarle la clave como si id y su valor
-      elementosFormulario.forEach(function (elemento) {
-        if (elemento.id) {
-          datosFormulario[elemento.id] = elemento.value;
-        }
-      });
-      //crear el json
-      var jsonEditarTipoProc = JSON.stringify(datosFormulario);
-      //enviar el json por ajax
-      $.ajax({
-        url: "ajax/procesoOperativo.ajax.php",
-        method: "POST",
-        data: { jsonEditarTipoProc: jsonEditarTipoProc },
-        dataType: "json",
-        success: function (response) {
-          $("#modalEditTipoProcesoOp").modal("hide");
-          if (response == "ok") {
-            Swal.fire(
-              "Correcto",
-              "Tipo Proceso editado correctamente",
-              "success"
-            ).then(function () {
-              $("#modalDataTableTipoProcesoOp").modal("show");
-            });
-          } else {
-            Swal.fire(
-              "Error",
-              "El Tipo Proceso no se ha podido editar asegurese de seleccionar una ficha de trabajo",
-              "error"
-            ).then(function () {
-              $("#modalEditTipoProcesoOp").modal("show");
-            });
+    document
+      .getElementById("editarProcOpModal")
+      .addEventListener("click", function () {
+        //obtener el formulario por id
+        var formulario = document.getElementById("formProcesoOpEdit");
+        var datosFormulario = {};
+        //obtener los elementos del formulario
+        var elementosFormulario = formulario.querySelectorAll("input, select");
+        //for each para recorrer los elementos del formulario y asignarle la clave como si id y su valor
+        elementosFormulario.forEach(function (elemento) {
+          if (elemento.id) {
+            datosFormulario[elemento.id] = elemento.value;
           }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-        },
+        });
+        //crear el json
+        var jsonEditarProcOp = JSON.stringify(datosFormulario);
+        //enviar el json por ajax
+        $.ajax({
+          url: "ajax/procesoOperativo.ajax.php",
+          method: "POST",
+          data: { jsonEditarProcOp: jsonEditarProcOp },
+          dataType: "json",
+          success: function (response) {
+            $("#modalEditarProcesoOp").modal("hide");
+            if (response == "ok") {
+              Swal.fire(
+                "Correcto",
+                "Proceso Operativo editado correctamente",
+                "success"
+              ).then(function () {
+                window.location.reload();
+              });
+            } else {
+              Swal.fire(
+                "Error",
+                "Llene todos los campos requeridos para editar el Proceso Operativo Correctamente",
+                "error"
+              ).then(function () {
+                $("#modalEditarProcesoOp").modal("show");
+              });
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
       });
-    });
   }
 });
 //fin
+
 /* fin funciones para proceso principal */

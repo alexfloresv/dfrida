@@ -148,9 +148,9 @@
           <form id="formProcesoOpEdit">
             <div class="row">
               <div class="col-md-6  mb-3">
-                <label for="nombreProcOpAdd" class="form-label" style="font-weight: bold">Nombre Del Proceso Operativo:
+                <label for="nombreProcOpEdit" class="form-label" style="font-weight: bold">Nombre Del Proceso Operativo:
                 </label>
-                <input type="text" class="form-control" id="nombreProcOpAdd" name="nombreProcOpAdd"
+                <input type="text" class="form-control" id="nombreProcOpEdit" name="nombreProcOpEdit"
                   placeholder="Ingrese el nombre del proceso operativo ">
               </div>
 
@@ -209,10 +209,10 @@
               </div>
 
               <!-- campo que guarde el id del registro-->
-              <input type="hidden" class="form-control" id="codProcOp" name="codProcOp">
+              <input type="hidden" class="form-control" id="codProcOpEdit" name="codProcOpEdit">
           </form>
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" id="cerrarProcOpModalEdit">Cerrar</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
             <button type="button" class="btn btn-success" id="editarProcOpModal">Editar Proceso Operativo</button>
           </div>
         </div>

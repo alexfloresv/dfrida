@@ -78,6 +78,30 @@ if (isset($_POST["codTipoProcDelet"])) {
   $delete->ajaxBorrarTipoProc($_POST["codTipoProcDelet"]);
 }
 
+//funcion visualizar datos para editar proceso operativo principal
+if (isset($_POST["codProcOpEditView"])) {
+  $view = new procesoOperativoAjax();
+  $view->codProcOpEditView = $_POST["codProcOpEditView"];
+  $view->ajaxViewDataProcOp($_POST["codProcOpEditView"]);
+}
+
+//funcion para mostrar el selec2 de selecionar salida materia prima edit
+if (isset($_POST["todasLasSalidasMprimaEdit"])) {
+  $todasLasSalidasMprimaEdit = new procesoOperativoAjax();
+  $todasLasSalidasMprimaEdit->ajaxSelect2SalMprimaEdit();
+}
+//funcion para mostrar el selec2 de pedidos edit
+if (isset($_POST["todosLosPedidosEdit"])) {
+  $todosLosPedidosEdit = new procesoOperativoAjax();
+  $todosLosPedidosEdit->ajaxSelect2PedidosEdit();
+}
+
+//editar proceso operativo 
+if (isset($_POST["jsonEditarProcOp"])) {
+  $edit = new procesoOperativoAjax();
+  $edit->jsonEditarProcOp = $_POST["jsonEditarProcOp"];
+  $edit->ajaxEditarProcOp($_POST["jsonEditarProcOp"]);
+}
 /////////////////////////////
 
 class procesoOperativoAjax
@@ -173,6 +197,31 @@ class procesoOperativoAjax
   public function ajaxBorrarTipoProc($codTipoProcDelet)
   {
     $response = procesoOperativoController::ctrBorrarTipoProc($codTipoProcDelet);
+    echo json_encode($response);
+  }
+  //funcion visualizar datos para editar proceso operativo principal
+  public function ajaxViewDataProcOp($codProcOpEditView)
+  {
+    $response = procesoOperativoController::ctrViewDataProcOp($codProcOpEditView);
+    echo json_encode($response);
+  }
+  //funcion para mostrar el selec2 de selecionar salida materia prima edit
+  public function ajaxSelect2SalMprimaEdit()
+  {
+    $todasLasSalidasMprimaEdit = procesoOperativoController::ctrSelect2SalMprimaEdit();
+    echo json_encode($todasLasSalidasMprimaEdit);
+  }
+  //funcion para mostrar el selec2 de pedidos edit
+  public function ajaxSelect2PedidosEdit()
+  {
+    $todosLosPedidosEdit = procesoOperativoController::ctrSelect2PedidoEdit();
+    echo json_encode($todosLosPedidosEdit);
+  }
+
+  //editar proceso operativo 
+  public function ajaxEditarProcOp($jsonEditarProcOp)
+  {
+    $response = procesoOperativoController::ctrEditarProcOp($jsonEditarProcOp);
     echo json_encode($response);
   }
 }

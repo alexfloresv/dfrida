@@ -186,6 +186,190 @@ class procesoOperativoController
     $response = procesoOperativoModel::mdlBorrarTipoProc($table, $codTipoProcDelet);
     return $response;
   }
+  //funcion visualizar datos para editar proceso operativo principal
+  public static function ctrViewDataProcOp($codProcOpEditView)
+  {
+    $table = "proceso_operativo";
+    $response = procesoOperativoModel::mdlViewDataProcOp($table, $codProcOpEditView);
+    return $response;
+  }
+
+  //funcion para mostrar el selec2 de selecionar salida materia prima edit
+  public static function ctrSelect2SalMprimaEdit()
+  {
+    $table = "salida_mprima";
+    $response = procesoOperativoModel::mdSelect2SalMprimaEdit($table);
+    return $response;
+  }
+  //funcion para mostrar el selec2 de pedidos edit
+  public static function ctrSelect2PedidoEdit()
+  {
+    $table = "pedido";
+    $response = procesoOperativoModel::mdlSelect2PedidoEdit($table);
+    return $response;
+  }
+  public static function ctrEditarProcOp($jsonEditarProcOp)
+  {
+    $dataEditProcOp = json_decode($jsonEditarProcOp, true);
+    //registro actual de proceso operativo
+    $registroAcutalProcOp = self::ctrViewRegDataProcOp($dataEditProcOp["codProcOpEdit"]);
+    //validar si se selecciona valores 0 de los selct2
+    if (!empty($dataEditProcOp["idSalProdPrimaEdit"]) && $dataEditProcOp["idSalProdPrimaEdit"] != 0 && !empty($dataEditProcOp["idTipoProcOpEdit"]) && $dataEditProcOp["idTipoProcOpEdit"] != 0 && !empty($dataEditProcOp["idPedidoProcOpEdit"]) && $dataEditProcOp["idPedidoProcOpEdit"] != 0) {
+      //actualizar salida materia prima
+      $updateSalidaMprima = self::updateSalidaMprima($dataEditProcOp["idSalProdPrimaEdit"], $dataEditProcOp["codProcOpEdit"]);
+
+      if ($updateSalidaMprima) {
+        //actualizar pedido
+        $updatePedido = self::updatePedido($dataEditProcOp["idPedidoProcOpEdit"], $registroAcutalProcOp["idPedido"], $dataEditProcOp["codProcOpEdit"]);
+
+        if ($updatePedido) {
+          $table = "proceso_operativo";
+          $dataCreate = array(
+            "idProcOp" => $dataEditProcOp["codProcOpEdit"],
+            "nombreProcOp" => $dataEditProcOp["nombreProcOpEdit"],
+            "descripcionProcOp" => $dataEditProcOp["descripcionProcOpEdit"],
+            "fechaRegistroProcOp" => $dataEditProcOp["fechaRegProcOpEdit"],
+            "fechaFinProcOp" => $dataEditProcOp["fechaFinProcOpEdit"],
+            "idTipoProc" => $dataEditProcOp["idTipoProcOpEdit"],
+            "DateUpdate" => date("Y-m-d\TH:i:sP"),
+          );
+          //editar proceso operativo
+          $response = procesoOperativoModel::mdlEditarProcOp($table, $dataCreate);
+          return $response;
+        } else {
+          return "errorasignarPedido";
+        }
+      } else {
+        return "errorAsignarSalida";
+      }
+    } else {
+      // Si algun valor es 0
+      return "error";
+    }
+  }
+  //registro actual de proceso operativo
+  public static function ctrViewRegDataProcOp($idProcOp)
+  {
+    $table = "proceso_operativo";
+    $response = procesoOperativoModel::mdlViewRegDataProcOp($table, $idProcOp);
+    return $response;
+  }
+  //actualizar salida materia prima
+  public static function updateSalidaMprima($codMprima, $idProcOp)
+  {
+    //obtener registro actual de proceso operativo
+    $tableProcOP = "proceso_operativo";
+    $registroProcOpActualMprima = procesoOperativoModel::mdlRegistroActualProcOp($tableProcOP, $idProcOp);
+
+    //no tiene registro de salida materia prima agregado
+    if ($registroProcOpActualMprima["idSalMprima"] == 0) {
+      //asignar idProcOp a salida materia prima
+      $addSalMprima = self::ctrAsignarProcOpSalMprima($idProcOp, $codMprima);
+      if ($addSalMprima) {
+        //asignar salida a proceso operativo
+        $dataUpdate = array(
+          "idProcOp" => $idProcOp,//wehere
+          "idSalMprima" => $codMprima,//update
+          "DateUpdate" => date("Y-m-d\TH:i:sP"),
+        );
+        $response = procesoOperativoModel::mdlAsignarSalMprimaProcOp($tableProcOP, $dataUpdate);
+        return $response;
+      }
+
+    } else {
+
+      $updateSalMprima = self::ctrActualizarSalMprima($idProcOp, $codMprima, $registroProcOpActualMprima["idSalMprima"]);
+
+      if ($updateSalMprima) {
+        return $updateSalMprima;
+      }
+    }
+  }
+
+  //asignar proceso operativo a salida materia prima
+  public static function ctrAsignarProcOpSalMprima($idProcOp, $codMprima)
+  {
+    $table = "salida_mprima";
+    $dataUpdate = array(
+      "idProcOp" => $idProcOp,//update
+      "idSalMprima" => $codMprima,//where
+      "DateUpdate" => date("Y-m-d\TH:i:sP"),
+    );
+    $response = procesoOperativoModel::mdlAsignarProcOpSalMprima($table, $dataUpdate);
+    return $response;
+  }
+
+  //actualizar salida materia prima si selecciona otra salida
+  public static function ctrActualizarSalMprima($idProcOp, $nuevoMprima, $actualMprima)
+  {
+    if ($nuevoMprima == $actualMprima) {
+      return true;
+
+    } else {
+
+      $table = "salida_mprima";
+      //quitar registro proc op actual de salida materia prima
+      $updateActualMprima = self::ctrQuitarSalMprimaProcOp($actualMprima, $table);
+      //agregar nuevo registro de proc op a salida materia prima
+      if ($updateActualMprima) {
+        $dataUpdate = array(
+          "idProcOp" => $idProcOp,//update
+          "idSalMprima" => $nuevoMprima,//where
+          "DateUpdate" => date("Y-m-d\TH:i:sP"),
+        );
+        $response = procesoOperativoModel::mdlAddUpdateSalMprimaProcOp($table, $dataUpdate);
+        return $response;
+      }
+    }
+  }
+
+  //quitar registro proc op actual de salida materia prima
+  public static function ctrQuitarSalMprimaProcOp($actualMprima, $table)
+  {
+    $dataUpdate = array(
+      "idSalMprima" => $actualMprima,
+      "idProcOp" => 0,
+      "DateUpdate" => date("Y-m-d\TH:i:sP"),
+    );
+    $response = procesoOperativoModel::mdlQuitarSalMprimaProcOp($table, $dataUpdate);
+    return $response;
+  }
+
+  //actualizar pedido
+  public static function updatePedido($nuevoPedido, $actualPedido, $idProcOp)
+  {
+    if ($nuevoPedido == $actualPedido) {
+      return true;
+    } else {
+      //quitar perdido anterior
+      $updatePedidoAnterior = self::ctrQuitarPedidoAnterior($actualPedido);
+
+      if ($updatePedidoAnterior) {
+        //agregar nuevo pedido a proceso operativo
+        $table = "proceso_operativo";
+        $dataUpdate = array(
+          "idProcOp" => $idProcOp,
+          "idPedido" => $nuevoPedido,
+          "DateUpdate" => date("Y-m-d\TH:i:sP"),
+        );
+        $response = procesoOperativoModel::mdlAddPedidoNewProcOp($table, $dataUpdate);
+        return $response;
+      }
+    }
+
+  }
+  //quitar perdido anterior
+  public static function ctrQuitarPedidoAnterior($actualPedido)
+  {
+    $table = "pedido";
+    $dataUpdate = array(
+      "idPedido" => $actualPedido,
+      "estadoPedido" => 1,
+      "DateUpdate" => date("Y-m-d\TH:i:sP"),
+    );
+    $response = procesoOperativoModel::mdlQuitarPedidoAnterior($table, $dataUpdate);
+    return $response;
+  }
   ///////////////////////////////////////////////////
 
 
