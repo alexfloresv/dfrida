@@ -112,5 +112,10 @@ class ProductMprimaController
     $response = ProductMprimaModel::mdlAlmacenMpProductStock($table, $codProductMp);
     return $response;
   }
-
+  // Obtener productos prima de una cotización para la vista pedidos
+  public static function ctrObtenerProductosPrimaCotizacionPedidos($codPed, $idCoti){
+    $table = "cotizacion";
+    $response = ProductMprimaModel::mdlObtenerProductosPrimaCotizacionPedidos($table, $codPed, $idCoti);
+    return $response;
+  }
 }

@@ -30,7 +30,7 @@ class FunctionPedidos
   public static function getBtnVerClientePedido($codPed, $idCli)
   {
     $botones = '
-         <button class="btn btn-success btnVerClientePedido" data-bs-toggle="modal" data-bs-target="#modalProdSalidas" codPed="' . $codPed . '" idCli="' . $idCli . '">
+         <button class="btn btn-success btnVerClientePedido" data-bs-toggle="modal" data-bs-target="#modalVerClientePedidos" codPed="' . $codPed . '" idCli="' . $idCli . '">
          <i class="fa-solid fa-user-tie"></i>
          </button>
         ';
@@ -50,7 +50,7 @@ class FunctionPedidos
   public static function getBtnVerProductosPrimaPedido($codPed, $idCoti)
   {
     $botones = '
-         <button class="btn btn-warning btnVerProductosPrimaPedido" data-bs-toggle="modal" data-bs-target="#modalProdSalidas" codPed="' . $codPed . '" idCoti="' . $idCoti . '">
+         <button class="btn btn-warning btnVerProductosPrimaPedido" data-bs-toggle="modal" data-bs-target="#modalVerProdPrimaCotiPedidos" codPed="' . $codPed . '" idCoti="' . $idCoti . '">
          <i class="fa-solid fa-box-archive"></i>
          </button>
         ';

@@ -247,3 +247,47 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 //fin eliminar Clientes
+//  editar Clientes
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/pedidosList";
+  if (currentPath == appPath) {
+    $(".dataTablePedidos").on("click", ".btnVerClientePedido", function () {
+      var idCli = $(this).attr("idCli");
+      var data = new FormData();
+      data.append("codCli", idCli);
+      //visualizar los datos del Clientes en el modal
+      $.ajax({
+        url: "ajax/clients.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          $("#VerRuPedido").val(response["rucCli"]);
+          $("#VerRazonSocialPedido").val(response["RazonSocialCli"]);
+          $("#VerNameCliPedido").val(response["nombreCli"]);
+          $("#VerEmailCliPedido").val(response["correoCli"]);
+          $("#VerAddressCliPedido").val(response["direccionCli"]);
+          $("#VerPhoneCliPedido").val(response["celularCli"]);
+          $("#VerDetallCliPedido").val(response["detalleCli"]);
+          $("#codClient").val(response["idCli"]);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    });
+    $("#modalVerClientePedidos").on(
+      "click",
+      "#btnCerrarVerClientesPedidos",
+      function () {
+        $("#modalVerClientePedidos").modal("hide");
+      }
+    );
+  }
+});
+
+//fin visualizar los datos del Clientes en el modal
