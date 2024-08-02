@@ -967,42 +967,52 @@ document.addEventListener("DOMContentLoaded", function () {
       "click",
       ".btnEditarProcOp",
       function () {
-        $("#modalEditarProcesoOp").modal("show");
-        var codProcOp = $(this).attr("codProcOp");
-        var data = new FormData();
-        data.append("codProcOpEditView", codProcOp);
-        //visualizar los datos del usuario en el modal
-        $.ajax({
-          url: "ajax/procesoOperativo.ajax.php",
-          method: "POST",
-          data: data,
-          cache: false,
-          contentType: false,
-          processData: false,
-          dataType: "json",
-          success: function (response) {
-            $("#nombreProcOpEdit").val(response["nombreProcOp"]);
-            $("#descripcionProcOpEdit").val(response["descripcionProcOp"]);
-            $("#fechaRegProcOpEdit").val(response["fechaRegistroProcOp"]);
-            $("#fechaFinProcOpEdit").val(response["fechaFinProcOp"]);
-            $("#codProcOpEdit").val(response["idProcOp"]);
-            // Llamar a la función Select2EditMprima con los datos recibidos
-            Select2EditTipoProcProcOp(response["idTipoProc"]);
-            //fin
-            // Llamar a la función Select2EditMprima con los datos recibidos
-            Select2EdiProcOpIdMprima(response["idSalMprima"]);
-            //fin
-            // Llamar a la función Select2EditMprima con los datos recibidos
-            Select2EdiProcOpIdPedido(response["idPedido"]);
-            //fin
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            console.log(
-              "Error en la solicitud AJAX: ",
-              textStatus,
-              errorThrown
-            );
-          },
+        // Mensaje de advertencia con SweetAlert2
+        Swal.fire({
+          title: "Advertencia",
+          text: "Modificar el proceso operativo afectará a todo el proceso y subprocesos. ¿Desea continuar?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Sí, modificar",
+          cancelButtonText: "No, cancelar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Si el usuario confirma, se ejecuta el flujo de código existente
+            $("#modalEditarProcesoOp").modal("show");
+            var codProcOp = $(this).attr("codProcOp");
+            var data = new FormData();
+            data.append("codProcOpEditView", codProcOp);
+            // Visualizar los datos del usuario en el modal
+            $.ajax({
+              url: "ajax/procesoOperativo.ajax.php",
+              method: "POST",
+              data: data,
+              cache: false,
+              contentType: false,
+              processData: false,
+              dataType: "json",
+              success: function (response) {
+                $("#nombreProcOpEdit").val(response["nombreProcOp"]);
+                $("#descripcionProcOpEdit").val(response["descripcionProcOp"]);
+                $("#fechaRegProcOpEdit").val(response["fechaRegistroProcOp"]);
+                $("#fechaFinProcOpEdit").val(response["fechaFinProcOp"]);
+                $("#codProcOpEdit").val(response["idProcOp"]);
+                // Llamar a la función Select2EditTipoProcProcOp con los datos recibidos
+                Select2EditTipoProcProcOp(response["idTipoProc"]);
+                // Llamar a la función Select2EdiProcOpIdMprima con los datos recibidos
+                Select2EdiProcOpIdMprima(response["idSalMprima"]);
+                // Llamar a la función Select2EdiProcOpIdPedido con los datos recibidos
+                Select2EdiProcOpIdPedido(response["idPedido"]);
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                console.log(
+                  "Error en la solicitud AJAX: ",
+                  textStatus,
+                  errorThrown
+                );
+              },
+            });
+          }
         });
       }
     );
@@ -1063,5 +1073,145 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 //fin
+//eliminar proceso operativo principal
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/procesosOperativos";
+  if (currentPath == appPath) {
+    $(".dataTableProcesoOperativo").on(
+      "click",
+      ".btnDeleteProcOp",
+      function () {
+        var codProcOp = $(this).attr("codProcOp");
 
+        Swal.fire({
+          title: "¿Está seguro de eliminar el Proceso Operativo?",
+          text: "¡Esto Puede generar inconsistencias en los procesos operativos activos!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "¡Sí, eliminar Proceso!",
+          cancelButtonText: "¡No, cancelar acción!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            var data = new FormData();
+            data.append("codProcDelet", codProcOp);
+            $.ajax({
+              url: "ajax/procesoOperativo.ajax.php",
+              method: "POST",
+              data: data,
+              cache: false,
+              contentType: false,
+              processData: false,
+              dataType: "json",
+              success: function (response) {
+                if (response == "ok") {
+                  Swal.fire(
+                    "¡Eliminado!",
+                    "El Proceso ha sido eliminado. Se ha liberado la salida de productos prima y el pedido.",
+                    "success"
+                  ).then(function () {
+                    window.location.reload();
+                  });
+                } else if (response == "noAdmin") {
+                  Swal.fire(
+                    "¡Error!",
+                    "Necesita permisos de administrador para esta acción.",
+                    "error"
+                  ).then(function () {
+                    window.location.reload();
+                  });
+                } else {
+                  Swal.fire(
+                    "¡Error!",
+                    "El Proceso no se puede eliminar, se encuentra activo y asignado a una salida o pedido.",
+                    "error"
+                  ).then(function () {
+                    window.location.reload();
+                  });
+                }
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                console.log(
+                  "Error en la solicitud AJAX: ",
+                  textStatus,
+                  errorThrown
+                );
+              },
+            });
+          }
+        });
+      }
+    );
+  }
+});
+//fin
 /* fin funciones para proceso principal */
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/procesosOperativos";
+  if (currentPath == appPath) {
+    $(".dataTableProcesoOperativo").on(
+      "click",
+      ".btnIniciarProcesoOp",
+      function () {
+        var codIniProcOp = $(this).attr("codIniProcOp");
+
+        Swal.fire({
+          title: "¿Inicar Proceso Operativo?",
+          text: "Al iniciar el proceso operativo no se podra eliminar mas este proceso",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "¡Sí, inicar Proceso!",
+          cancelButtonText: "¡No, cancelar acción!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $("#modalInicioProcesoOp").modal("show");
+            var data = new FormData();
+            data.append("codIniProcOp", codIniProcOp);
+            $.ajax({
+              url: "ajax/procesoOperativo.ajax.php",
+              method: "POST",
+              data: data,
+              cache: false,
+              contentType: false,
+              processData: false,
+              dataType: "json",
+              success: function (response) {
+                if (response == "ok") {
+                  Swal.fire(
+                    "¡Iniciado!",
+                    "El Proceso ha sido iniciado satisfactoriamente. Ahora puede hacer el seguimiento del proceso oeprativo.",
+                    "success"
+                  ).then(function () {
+                    window.location.reload();
+                  });
+                } else {
+                  Swal.fire(
+                    "¡Error!",
+                    "El Proceso No sido iniciado.",
+                    "error"
+                  ).then(function () {
+                    window.location.reload();
+                  });
+                }
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                console.log(
+                  "Error en la solicitud AJAX: ",
+                  textStatus,
+                  errorThrown
+                );
+              },
+            });
+          }
+        });
+      }
+    );
+  }
+});
+
+/* fin funciones inicio de proceso */

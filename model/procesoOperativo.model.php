@@ -323,6 +323,29 @@ class procesoOperativoModel
     }
   }
 
+  //obtener registro actual de proceso operativo para borrar
+  public static function mdlViewRegDataProcOpDelet($table, $codProcDelet)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idPedido, idSalMprima FROM $table WHERE idProcOp = :idProcOp");
+    $statement->bindParam(":idProcOp", $codProcDelet, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  //borrar  tipo de proceso operativo 
+  public static function mdlBorrarProcOp($table, $codProcDelet)
+  {
+    try {
+      $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE idProcOp = :idProcOp");
+      $statement->bindParam(":idProcOp", $codProcDelet, PDO::PARAM_INT);
+      if ($statement->execute()) {
+        return "ok";
+      } else {
+        return "error";
+      }
+    } catch (Exception $e) {
+      return "error";
+    }
+  }
 
   //////////////////////////////////////////////////////
 }

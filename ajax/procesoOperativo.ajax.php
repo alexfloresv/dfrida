@@ -102,6 +102,14 @@ if (isset($_POST["jsonEditarProcOp"])) {
   $edit->jsonEditarProcOp = $_POST["jsonEditarProcOp"];
   $edit->ajaxEditarProcOp($_POST["jsonEditarProcOp"]);
 }
+
+//borrar  proceso operativo 
+if (isset($_POST["codProcDelet"])) {
+  $delete = new procesoOperativoAjax();
+  $delete->codProcDelet = $_POST["codProcDelet"];
+  $delete->ajaxBorrarProcOp($_POST["codProcDelet"]);
+}
+
 /////////////////////////////
 
 class procesoOperativoAjax
@@ -224,5 +232,11 @@ class procesoOperativoAjax
     $response = procesoOperativoController::ctrEditarProcOp($jsonEditarProcOp);
     echo json_encode($response);
   }
+   //borrar  proceso operativo 
+   public function ajaxBorrarProcOp($codProcDelet)
+   {
+     $response = procesoOperativoController::ctrBorrarProcOp($codProcDelet);
+     echo json_encode($response);
+   }
 }
 

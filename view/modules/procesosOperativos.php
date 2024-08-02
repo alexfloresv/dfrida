@@ -494,7 +494,33 @@
 </div>
 <!-- Fin ver todas las fichas de trabajo creadas -->
 
+<!-- Modal ver productos prima salidas del boton de proceso operativo no tocar-->
+<div class="modal fade" id="modalProdSalidasProcOP" tabindex="-1" aria-labelledby="modalProdSalidasProcOP"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Productos salida de Almacen</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="">
 
+        <table id="modalDataTableProdSalidaProcOp" class="display modalDataTableProdSalidaProcOp">
+          <thead>
+            <!-- modalDataTableProdSalidaProcOp -->
+          </thead>
+          <tbody>
+            <!--modalDataTableProdSalidaProcOp-->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin -->
 
 <!-- Inciar Proceso Operativo aun sin funcionalidad beta-->
 <div class="modal fade" id="modalInicioProcesoOp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -506,27 +532,33 @@
       </div>
       <div class="modal-body" id="procesosTrabajoModal">
         <div class="container">
+          <form id="formIniciarProcesoOperativo">
+            <div class="row">
 
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="codTipProc">Tipo de Proceso</label>
-                <select class="form-select" id="codTipProc" name="codTipProc">
-                  <option value="0">Seleccione Tipo de Proceso</option>
-                  <!-- <option value="1">Proceso de Producción</option>
-                  <option value="2">Proceso de Envasado</option>
-                  <option value="3">Proceso de Almacenamiento</option> -->
-                </select>
+
+              <div class="col-md-6 ">
+                <label for="fechaFinProcOpAdd" class="form-label" style="font-weight: bold"> Fecha Inicio
+                  Proceso:</label>
+                <input type="date" class="form-control" id="fechaFinProcOpAdd" name="fechaFinProcOpAdd">
               </div>
-            </div>
 
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-              <button type="button" class="btn btn-success">Iniciar</button>
-            </div>
+              <!-- selec2 para tipos de procesos -->
+              <div class="col-md-6  mb-3">
+                <div class="form-group">
+                  <label for="idTipoProcOp">Selecionar el Proceso Inicial</label>
+                  <select class="form-select" id="idTipoProcOp" name="idTipoProcOp">
+                  </select>
+                </div>
+              </div>
+          </form>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-success">Iniciar</button>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>

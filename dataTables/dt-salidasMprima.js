@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre Salida Producto</th>
+           <th scope="col">Estado Salida</th>
           <th scope="col">Fecha Salida</th>
             <th scope="col">Proceso Operativo</th>
           <th scope="col">Salida Productos</th>
@@ -33,6 +34,16 @@ document.addEventListener("DOMContentLoaded", function () {
         },
       },
       { data: "nombreSalMprima" },
+      {
+        data: "idProcOp",
+        render: function (data, type, row) {
+          if (data === null) {
+            return '<span class="text-danger">Salida sin Asignar</span>';
+          } else {
+            return '<span class="text-success">Salida en Produccion</span>';
+          }
+        },
+      },
       { data: "fechaSalMprima" },
       { data: "modalProcSalMprima" },
       { data: "modalSalMprima" },
@@ -531,9 +542,10 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre Salida Producto</th>
+           <th scope="col">Estado</th>
           <th scope="col">Fecha Salida</th>
          
-          <th scope="col">Salida Productos</th>
+          <th scope="col">Salidas Productos</th>
           <th scope="col">Total</th>
           
         </tr>
@@ -548,6 +560,16 @@ document.addEventListener("DOMContentLoaded", function () {
         },
       },
       { data: "nombreSalMprima" },
+      {
+        data: "idProcOp",
+        render: function (data, type, row) {
+          if (data === null) {
+            return '<span class="text-danger">Salida sin Asignar</span>';
+          } else {
+            return '<span class="text-success">Salida en Produccion</span>';
+          }
+        },
+      },
       { data: "fechaSalMprima" },
       //{ data: "modalProcSalMprima" },
       { data: "modalSalMprima" },
@@ -850,5 +872,3 @@ const crearArchivoExcelSalidaMPrimaporFecha = (
 
   URL.revokeObjectURL(url);
 };
-
-

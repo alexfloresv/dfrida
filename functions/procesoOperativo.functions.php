@@ -23,13 +23,13 @@ class FunctionProcesoOperativo
   {
     if ($stateProcOp == 1) {
       $botones = '
-              <button class="btn btn-success btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalInicioProcesoOp" codIniProcOp="' . $codIniProcOp . '">
+              <button class="btn btn-success btnIniciarProcesoOp"  codIniProcOp="' . $codIniProcOp . '">
                   <i class="fa-solid fa-person-walking-arrow-right"></i>
               </button>
           ';
     } else {
       $botones = '
-              <button class="btn btn-secondary btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalInicioProcesoOp" codIniProcOp="' . $codIniProcOp . '" disabled>
+              <button class="btn btn-secondary btnIniciarProcesoOp" codIniProcOp="' . $codIniProcOp . '" disabled>
                   <i class="fa-solid fa-person-walking-arrow-right"></i>
               </button>
           ';
@@ -81,7 +81,7 @@ class FunctionProcesoOperativo
   public static function getBtnVerPedido($codPed)
   {
     $botones = '
-       <button class="btn btn-success btnVerSalProd" data-bs-toggle="modal" data-bs-target="#modalProdSalidas" codPed="' . $codPed . '">
+       <button class="btn btn-success btnVerPedido" data-bs-toggle="modal" data-bs-target="#" codPed="' . $codPed . '">
        <i class="fa-solid fa-cart-shopping"></i>
        </button>
       ';
@@ -92,7 +92,7 @@ class FunctionProcesoOperativo
   public static function getBtnVerSalProdPrima($codSalProdMprima)
   {
     $botones = '
-        <button class="btn btn-success btnVerSalProd" data-bs-toggle="modal" data-bs-target="#modalProdSalidas" codSalProdMprima="' . $codSalProdMprima . '">
+        <button class="btn btn-success btnVerSalProdProcOp" data-bs-toggle="modal" data-bs-target="#modalProdSalidasProcOP" codSalProdMprimaProcOP="' . $codSalProdMprima . '">
         <i class="fa-solid fa-boxes-stacked"></i>
         </i></button>
        ';

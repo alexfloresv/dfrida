@@ -309,7 +309,7 @@ class procesoOperativoController
 
       $table = "salida_mprima";
       //quitar registro proc op actual de salida materia prima
-      $updateActualMprima = self::ctrQuitarSalMprimaProcOp($actualMprima, $table);
+      $updateActualMprima = self::ctrQuitarSalMprimaProcOp($actualMprima);
       //agregar nuevo registro de proc op a salida materia prima
       if ($updateActualMprima) {
         $dataUpdate = array(
@@ -324,8 +324,9 @@ class procesoOperativoController
   }
 
   //quitar registro proc op actual de salida materia prima
-  public static function ctrQuitarSalMprimaProcOp($actualMprima, $table)
+  public static function ctrQuitarSalMprimaProcOp($actualMprima)
   {
+    $table = "salida_mprima";
     $dataUpdate = array(
       "idSalMprima" => $actualMprima,
       "idProcOp" => 0,
@@ -368,6 +369,35 @@ class procesoOperativoController
       "DateUpdate" => date("Y-m-d\TH:i:sP"),
     );
     $response = procesoOperativoModel::mdlQuitarPedidoAnterior($table, $dataUpdate);
+    return $response;
+  }
+
+  //borrar  proceso operativo 
+  public static function ctrBorrarProcOp($codProcDelet)
+  {
+    if ($_SESSION["idTipoUsu"] == 1) {
+      //obtener registro actual de proceso operativo para borrar
+      $registroProcOpActual = self::ctrViewRegDataProcOpDelet($codProcDelet);
+
+      $idPedido = $registroProcOpActual["idPedido"];
+      $idSalMprima = $registroProcOpActual["idSalMprima"];
+      //actualizar tablas relacionadas
+      $updatePedido = self::ctrQuitarPedidoAnterior($idPedido);
+      $updateSalMprima = self::ctrQuitarSalMprimaProcOp($idSalMprima);
+
+      $table = "proceso_operativo";
+      $response = procesoOperativoModel::mdlBorrarProcOp($table, $codProcDelet);
+      return $response;
+      
+    } else {
+      return "noAdmin";
+    }
+  }
+  //obtener registro actual de proceso operativopara borrar
+  public static function ctrViewRegDataProcOpDelet($codProcDelet)
+  {
+    $table = "proceso_operativo";
+    $response = procesoOperativoModel::mdlViewRegDataProcOpDelet($table, $codProcDelet);
     return $response;
   }
   ///////////////////////////////////////////////////

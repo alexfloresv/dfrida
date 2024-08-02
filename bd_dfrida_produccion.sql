@@ -11,7 +11,7 @@
  Target Server Version : 100432
  File Encoding         : 65001
 
- Date: 01/08/2024 12:01:38
+ Date: 02/08/2024 17:36:01
 */
 
 SET NAMES utf8mb4;
@@ -37,11 +37,11 @@ CREATE TABLE `almacen_mprima`  (
 -- ----------------------------
 -- Records of almacen_mprima
 -- ----------------------------
-INSERT INTO `almacen_mprima` VALUES (1, 29, 'HilNeg202503', 'Holi negro 3.5', 'Docena', '9', '400.00', '2024-07-25 10:14:28', '2024-07-27 11:08:41');
-INSERT INTO `almacen_mprima` VALUES (2, 28, 'RollTelCedBla202405', 'Rollo tela ceda blanco', 'Uni', '9', '9000.00', '2024-07-25 10:14:51', '2024-07-27 11:08:41');
-INSERT INTO `almacen_mprima` VALUES (3, 27, 'RollTelDri202405', 'Rollo tela dril azul', 'Uni', '9', '8000.00', '2024-07-25 10:15:01', '2024-07-27 11:08:41');
-INSERT INTO `almacen_mprima` VALUES (4, 26, 'Boto202405', 'Botones de pantalones hombre', 'Uni', '9', '13.00', '2024-07-25 10:15:02', '2024-07-27 11:08:41');
-INSERT INTO `almacen_mprima` VALUES (5, 25, 'CieCasProm202405', 'Cierre Casacas Promo', 'Uni', '7', '150.00', '2024-07-25 10:15:03', '2024-08-01 10:33:34');
+INSERT INTO `almacen_mprima` VALUES (1, 29, 'HilNeg202503', 'Holi negro 3.5', 'Docena', '8', '400.00', '2024-07-25 10:14:28', '2024-08-02 17:02:47');
+INSERT INTO `almacen_mprima` VALUES (2, 28, 'RollTelCedBla202405', 'Rollo tela ceda blanco', 'Uni', '8', '9000.00', '2024-07-25 10:14:51', '2024-08-02 17:02:47');
+INSERT INTO `almacen_mprima` VALUES (3, 27, 'RollTelDri202405', 'Rollo tela dril azul', 'Uni', '8', '8000.00', '2024-07-25 10:15:01', '2024-08-02 17:02:47');
+INSERT INTO `almacen_mprima` VALUES (4, 26, 'Boto202405', 'Botones de pantalones hombre', 'Uni', '8', '13.00', '2024-07-25 10:15:02', '2024-08-02 17:02:47');
+INSERT INTO `almacen_mprima` VALUES (5, 25, 'CieCasProm202405', 'Cierre Casacas Promo', 'Uni', '6', '150.00', '2024-07-25 10:15:03', '2024-08-02 17:02:47');
 
 -- ----------------------------
 -- Table structure for almacen_prod
@@ -370,12 +370,14 @@ CREATE TABLE `pedido`  (
   CONSTRAINT `fk_idCoti` FOREIGN KEY (`idCoti`) REFERENCES `cotizacion` (`idCoti`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_idFichaTec` FOREIGN KEY (`idFichaTec`) REFERENCES `ficha_tecnica` (`idFichaTec`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`idCli`) REFERENCES `cliente` (`idCli`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pedido
 -- ----------------------------
-INSERT INTO `pedido` VALUES (1, 11, 'pedido', 'pedido', '2024-02-16', '2024-02-16 12:09:23', '2024-08-01 10:35:16', 1, 190, 2);
+INSERT INTO `pedido` VALUES (1, 11, 'pedido', 'pedido', '2024-02-16', '2024-02-16 12:09:23', '2024-08-02 16:58:25', 1, 190, 2);
+INSERT INTO `pedido` VALUES (2, 11, 'pedido prueba 2', 'pedido prueba 2', '2024-02-16', '2024-02-16 12:09:23', '2024-08-02 16:59:03', 1, 190, 2);
+INSERT INTO `pedido` VALUES (3, 11, 'pedido prueba 3', 'pedido prueba 3', '2024-02-16', '2024-02-16 12:09:23', '2024-08-02 16:58:39', 1, 190, 2);
 
 -- ----------------------------
 -- Table structure for proceso_operativo
@@ -400,12 +402,14 @@ CREATE TABLE `proceso_operativo`  (
   INDEX `idSalMprima`(`idSalMprima`) USING BTREE,
   CONSTRAINT `proceso_operativo_ibfk_1` FOREIGN KEY (`idTipoProc`) REFERENCES `tipo_proceso` (`idTipoProc`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `proceso_operativo_ibfk_2` FOREIGN KEY (`idPedido`) REFERENCES `pedido` (`idPedido`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of proceso_operativo
 -- ----------------------------
-INSERT INTO `proceso_operativo` VALUES (24, 1, 1, 0, '', 1, '2024-08-01 10:35:16', '0000-00-00 00:00:00', '', '0000-00-00', NULL, '0000-00-00');
+INSERT INTO `proceso_operativo` VALUES (31, 1, 1, 5, 'tipo proceso editado', 1, '2024-08-02 16:58:25', '2024-08-02 16:59:45', 'tipo proceso editado', '2024-08-02', NULL, '2024-08-02');
+INSERT INTO `proceso_operativo` VALUES (32, 15, 3, 8, 'PRUEBA EDITAR PROCESO OPERATIVO', 1, '2024-08-02 16:58:39', '2024-08-02 16:59:30', 'PRUEBA EDITAR PROCESO OPERATIVO', '2024-08-02', NULL, '2024-08-02');
+INSERT INTO `proceso_operativo` VALUES (33, 15, 2, 7, 'Exercitation consect', 1, '2024-08-02 16:59:03', '0000-00-00 00:00:00', 'Corporis cillum assu', '2014-05-24', NULL, '1981-03-28');
 
 -- ----------------------------
 -- Table structure for proceso_operativo_fin
@@ -541,14 +545,15 @@ CREATE TABLE `salida_mprima`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idSalMprima`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of salida_mprima
 -- ----------------------------
-INSERT INTO `salida_mprima` VALUES (5, 1, 'prueba 1', '2024-07-27', '0', '1756.30', '1756.30', '{\"producto0\":{\"codProdIng\":\"25\",\"nombreProdIng\":\"Cierre Casacas Promo\",\"codigoProdIng\":\"CieCasProm202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"15.00\"},\"producto1\":{\"codProdIng\":\"26\",\"nombreProdIng\":\"Botones de pantalones hombre\",\"codigoProdIng\":\"Boto202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"1.30\"},\"producto2\":{\"codProdIng\":\"27\",\"nombreProdIng\":\"Rollo tela dril azul\",\"codigoProdIng\":\"RollTelDri202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"800.00\"},\"producto3\":{\"codProdIng\":\"28\",\"nombreProdIng\":\"Rollo tela ceda blanco\",\"codigoProdIng\":\"RollTelCedBla202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"900.00\"},\"producto4\":{\"codProdIng\":\"29\",\"nombreProdIng\":\"Holi negro 3.5\",\"codigoProdIng\":\"HilNeg202503\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"40.00\"}}', '2024-07-27 11:08:41', '0000-00-00 00:00:00');
-INSERT INTO `salida_mprima` VALUES (7, 10, 'In sit aut eligendi ', '2013-12-09', '0', '15.00', '15.00', '{\"producto0\":{\"codProdIng\":\"25\",\"nombreProdIng\":\"Cierre Casacas Promo\",\"codigoProdIng\":\"CieCasProm202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"15.00\"}}', '2024-07-31 17:20:23', '2024-07-31 17:21:26');
-INSERT INTO `salida_mprima` VALUES (8, NULL, 'Minima necessitatibu', '1990-12-10', '0', '15.00', '15.00', '{\"producto0\":{\"codProdIng\":\"25\",\"nombreProdIng\":\"Cierre Casacas Promo\",\"codigoProdIng\":\"CieCasProm202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"15.00\"}}', '2024-08-01 10:33:34', '0000-00-00 00:00:00');
+INSERT INTO `salida_mprima` VALUES (5, 31, 'prueba 1', '2024-07-27', '0', '1756.30', '1756.30', '{\"producto0\":{\"codProdIng\":\"25\",\"nombreProdIng\":\"Cierre Casacas Promo\",\"codigoProdIng\":\"CieCasProm202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"15.00\"},\"producto1\":{\"codProdIng\":\"26\",\"nombreProdIng\":\"Botones de pantalones hombre\",\"codigoProdIng\":\"Boto202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"1.30\"},\"producto2\":{\"codProdIng\":\"27\",\"nombreProdIng\":\"Rollo tela dril azul\",\"codigoProdIng\":\"RollTelDri202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"800.00\"},\"producto3\":{\"codProdIng\":\"28\",\"nombreProdIng\":\"Rollo tela ceda blanco\",\"codigoProdIng\":\"RollTelCedBla202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"900.00\"},\"producto4\":{\"codProdIng\":\"29\",\"nombreProdIng\":\"Holi negro 3.5\",\"codigoProdIng\":\"HilNeg202503\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"40.00\"}}', '2024-07-27 11:08:41', '2024-08-02 16:58:25');
+INSERT INTO `salida_mprima` VALUES (7, 33, 'In sit aut eligendi ', '2013-12-09', '0', '15.00', '15.00', '{\"producto0\":{\"codProdIng\":\"25\",\"nombreProdIng\":\"Cierre Casacas Promo\",\"codigoProdIng\":\"CieCasProm202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"15.00\"}}', '2024-07-31 17:20:23', '2024-08-02 16:59:03');
+INSERT INTO `salida_mprima` VALUES (8, 32, 'Minima necessitatibu', '1990-12-10', '0', '15.00', '15.00', '{\"producto0\":{\"codProdIng\":\"25\",\"nombreProdIng\":\"Cierre Casacas Promo\",\"codigoProdIng\":\"CieCasProm202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"15.00\"}}', '2024-08-01 10:33:34', '2024-08-02 16:58:39');
+INSERT INTO `salida_mprima` VALUES (9, NULL, 'Aliquid qui est enim', '2009-06-12', '0', '1756.30', '1756.30', '{\"producto0\":{\"codProdIng\":\"25\",\"nombreProdIng\":\"Cierre Casacas Promo\",\"codigoProdIng\":\"CieCasProm202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"15.00\"},\"producto1\":{\"codProdIng\":\"26\",\"nombreProdIng\":\"Botones de pantalones hombre\",\"codigoProdIng\":\"Boto202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"1.30\"},\"producto2\":{\"codProdIng\":\"27\",\"nombreProdIng\":\"Rollo tela dril azul\",\"codigoProdIng\":\"RollTelDri202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"800.00\"},\"producto3\":{\"codProdIng\":\"28\",\"nombreProdIng\":\"Rollo tela ceda blanco\",\"codigoProdIng\":\"RollTelCedBla202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"900.00\"},\"producto4\":{\"codProdIng\":\"29\",\"nombreProdIng\":\"Holi negro 3.5\",\"codigoProdIng\":\"HilNeg202503\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"40.00\"}}', '2024-08-02 17:02:47', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for salida_prod
@@ -588,13 +593,13 @@ CREATE TABLE `tipo_proceso`  (
   PRIMARY KEY (`idTipoProc`) USING BTREE,
   INDEX `fk_idFichaProc`(`idFichaProc`) USING BTREE,
   CONSTRAINT `fk_idFichaProc` FOREIGN KEY (`idFichaProc`) REFERENCES `ficha_proceso` (`idFichaProc`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of tipo_proceso
 -- ----------------------------
 INSERT INTO `tipo_proceso` VALUES (1, 'proceso1', '2024-02-16 12:09:23', '2024-02-16 12:09:23', 3, 'proceso ya adjuntado xd');
-INSERT INTO `tipo_proceso` VALUES (10, 'pruevea de proceso op', '2024-08-01 11:56:46', '0000-00-00 00:00:00', 10, 'proceso oeprativo prueva');
+INSERT INTO `tipo_proceso` VALUES (15, 'proceso prueve edit', '2024-08-02 12:28:09', '0000-00-00 00:00:00', 9, 'proceso prueve edit');
 
 -- ----------------------------
 -- Table structure for tipo_usuario
@@ -634,7 +639,7 @@ CREATE TABLE `usuario`  (
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
-INSERT INTO `usuario` VALUES (1, 1, 'dfrida', 'Administrador', 'administrador', '$argon2id$v=19$m=4096,t=2,p=2$ZURZWG0yNkNOZVJTLlg5Lw$MvzbwXUNlV+Inxssd1nN+A8EN5Il6CdSAs7pTc3szJk', '2024-08-01 09:20:36', '2024-02-16 12:09:23', '2024-02-16 12:09:23');
+INSERT INTO `usuario` VALUES (1, 1, 'dfrida', 'Administrador', 'administrador', '$argon2id$v=19$m=4096,t=2,p=2$ZURZWG0yNkNOZVJTLlg5Lw$MvzbwXUNlV+Inxssd1nN+A8EN5Il6CdSAs7pTc3szJk', '2024-08-02 08:59:40', '2024-02-16 12:09:23', '2024-02-16 12:09:23');
 INSERT INTO `usuario` VALUES (7, 2, 'alex', 'alex administrativo', 'flores', '$argon2id$v=19$m=4096,t=2,p=2$N0RQdHo5MXhOb1ZPdS45Wg$lk4EN49DUl5YTX+omAM/qpOZZG1P4adfpdAWl/IFSG4', '2024-07-16 15:02:17', '2024-07-16 15:02:09', '2024-07-16 15:02:09');
 
 SET FOREIGN_KEY_CHECKS = 1;
