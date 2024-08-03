@@ -1018,6 +1018,29 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     //fin visualizar los datos del usuario en el modal
 
+    //funcion para abrir modal de editar proceso operativo
+    document.addEventListener("DOMContentLoaded", function () {
+      var currentPath = window.location.pathname;
+      var appPath = "/dfrida/procesosOperativos";
+      if (currentPath == appPath) {
+        // Obtener referencias a los modales
+        var modalVerSalidasMprima = new bootstrap.Modal(
+          document.getElementById("modalverSalidasMprima")
+        );
+        var modalEditarProcesoOp = new bootstrap.Modal(
+          document.getElementById("modalEditarProcesoOp")
+        );
+
+        // Abrir el modal de editar al cerrar el modal de ver salidas
+        document
+          .getElementById("modalverSalidasMprima")
+          .addEventListener("hidden.bs.modal", function () {
+            modalEditarProcesoOp.show();
+          });
+      }
+    });
+    //fin funcion
+
     //editar si se da clic en el boton editar
     document
       .getElementById("editarProcOpModal")
@@ -1073,6 +1096,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 //fin
+
 //eliminar proceso operativo principal
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
@@ -1086,7 +1110,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         Swal.fire({
           title: "¿Está seguro de eliminar el Proceso Operativo?",
-          text: "¡Esto Puede generar inconsistencias en los procesos operativos activos!",
+          text: "¡Esta accion liberara el pedido y la salida de productos prima de este proceso operativo!",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
@@ -1147,7 +1171,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 //fin
-/* fin funciones para proceso principal */
+
+/* fin funciones para proceso inicar principal */
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/procesosOperativos";
@@ -1169,7 +1194,7 @@ document.addEventListener("DOMContentLoaded", function () {
           cancelButtonText: "¡No, cancelar acción!",
         }).then((result) => {
           if (result.isConfirmed) {
-            $("#modalInicioProcesoOp").modal("show");
+            // $("#modalInicioProcesoOp").modal("show");
             var data = new FormData();
             data.append("codIniProcOp", codIniProcOp);
             $.ajax({
@@ -1184,11 +1209,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (response == "ok") {
                   Swal.fire(
                     "¡Iniciado!",
-                    "El Proceso ha sido iniciado satisfactoriamente. Ahora puede hacer el seguimiento del proceso oeprativo.",
+                    "El Proceso ha sido iniciado satisfactoriamente. Ahora puede hacer el seguimiento del proceso operativo.",
                     "success"
                   ).then(function () {
                     window.location.reload();
                   });
+                } else if (response == "errorIniSalMprima") {
+                  Swal.fire(
+                    "¡Error!",
+                    "El Proceso no a iniciado es nesesario adjuntar una SALIDA DE PRODUCTOS PRIMA. Adjunte uno en la edicion del proceso operativo.",
+                    "error"
+                  ).then(function () {});
                 } else {
                   Swal.fire(
                     "¡Error!",
@@ -1213,5 +1244,140 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   }
 });
-
 /* fin funciones inicio de proceso */
+
+/* funciones para finalizar proceso principal */
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/procesosOperativos";
+  if (currentPath == appPath) {
+    $(".dataTableProcesoOperativo").on(
+      "click",
+      ".btnFinProcesoOp",
+      function () {
+        var codFinProcOp = $(this).attr("codFinProcOp");
+
+        Swal.fire({
+          title: "¿Finalizar el Proceso Operativo?",
+          text: "Al Finalizar el proceso ya no se podra realizar cambios. Este pasara a la lista de Produccion.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "¡Sí, finalizar Proceso!",
+          cancelButtonText: "¡No, verificar proceso!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // $("#modalInicioProcesoOp").modal("show");
+            var data = new FormData();
+            data.append("codFinProcOp", codFinProcOp);
+            $.ajax({
+              url: "ajax/procesoOperativo.ajax.php",
+              method: "POST",
+              data: data,
+              cache: false,
+              contentType: false,
+              processData: false,
+              dataType: "json",
+              success: function (response) {
+                if (response == "ok") {
+                  Swal.fire(
+                    "Finalizado!",
+                    "El Proceso ha finalizado con exito. Gestione estos productos en Produccion para almacenarlos.",
+                    "success"
+                  ).then(function () {
+                    window.location.reload();
+                  });
+                } else if (response == "errorSnSalida") {
+                  Swal.fire(
+                    "¡Error!",
+                    "No Puede finalizar el proceso por que no tiene una salida de productos prima adjuntado al proceo operativo.",
+                    "error"
+                  ).then(function () {
+                    window.location.reload();
+                  });
+                } else if (response == "errorActPedido") {
+                  Swal.fire(
+                    "¡Error no se pudo finalizar el proceso!",
+                    "No se pudo actualiza el PEDIDO a Finalizado Asegurese de que no se aya eliminado o editado.",
+                    "error"
+                  ).then(function () {
+                    window.location.reload();
+                  });
+                } else {
+                  Swal.fire(
+                    "¡Error!",
+                    "Al finalizar el proceso falta finalizar otro sub proceso.",
+                    "error"
+                  ).then(function () {
+                    window.location.reload();
+                  });
+                }
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                console.log(
+                  "Error en la solicitud AJAX: ",
+                  textStatus,
+                  errorThrown
+                );
+              },
+            });
+          }
+        });
+      }
+    );
+  }
+});
+
+/* fin funciones Fin de proceso */
+
+//funciones para modificar el estado de los proceso operativos
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/procesosOperativos";
+  if (currentPath == appPath) {
+    $(".dataTableProcesoOperativo").on(
+      "click",
+      ".btnEstadosProcOp",
+      function () {
+        // Abrir el modal
+        $("#modalEstadosProcesosOp").modal("show");
+
+        // Obtener los datos del botón
+        var codProcOp = $(this).attr("codProcOp");
+        var codFinProcOp = $(this).attr("codFinProcOp");
+
+        // Crear el objeto FormData
+        var jsonEstadosProcOp = JSON.stringify({
+          codProcOp: codProcOp,
+          codFinProcOp: codFinProcOp,
+        });
+
+        // Realizar la solicitud AJAX
+        $.ajax({
+          url: "ajax/procesoOperativo.ajax.php",
+          method: "POST",
+          data: { jsonEstadosProcOp: jsonEstadosProcOp },
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (response) {
+            // Llamar a la función Select2EdiProcOpIdMprima con los datos recibidos
+            Select2EdiProcOpIdMprima(response["idSalMprima"]);
+            // Llamar a la función Select2EdiProcOpIdPedido con los datos recibidos
+            Select2EdiProcOpIdPedido(response["idPedido"]);
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.error(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
+      }
+    );
+  }
+});
+//fin estados procesos

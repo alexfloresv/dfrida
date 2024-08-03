@@ -184,7 +184,7 @@
                 <div class="form-group">
                   <label for="codTipProc">Productos prima</label>
                   <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                    data-bs-target="#modalverSalidasMprima">
+                    data-bs-target="#modalverSalidasMprimaEdit">
                     Ver Salidas
                   </button>
                 </div>
@@ -229,7 +229,7 @@
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalverSalidasMprima">Todas las Salidas de Almacen Producto Prima</h1>
+        <h1 class="modal-title fs-5" id="">Todas las Salidas de Almacen Producto Prima</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="">
@@ -240,6 +240,34 @@
           </thead>
           <tbody>
             <!--dataTableSalidasMprima-->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin  -->
+
+<!-- Modal ver todas las salidas de productos prima no tocar-->
+<div class="modal fade" id="modalverSalidasMprimaEdit" tabindex="-1" aria-labelledby="modalverSalidasMprimaEdit"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalverSalidasMprimaEdit">Todas las Salidas de Almacen Producto Prima</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="">
+
+        <table id="dataTableSalidasMprimaEdit" class="display dataTableSalidasMprimaEdit">
+          <thead>
+            <!-- dataTableSalidasMprimaEdit -->
+          </thead>
+          <tbody>
+            <!--dataTableSalidasMprimaEdit-->
           </tbody>
         </table>
       </div>
@@ -522,34 +550,100 @@
 </div>
 <!-- Fin -->
 
-<!-- Inciar Proceso Operativo aun sin funcionalidad beta-->
-<div class="modal fade" id="modalInicioProcesoOp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="modalInicioProcesoOp" aria-hidden="true">
+<!-- modal de estados de procesos operativos -->
+<div class="modal fade" id="modalEstadosProcesosOp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalEstadosProcesosOp" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5 text-center w-100" id="modalInicioProcesoOpH1">Iniciar Proceso Operativo</h1>
+        <h1 class="modal-title fs-5 text-center w-100" id="">Proceso Operativo en Ejecucion</h1>
       </div>
-      <div class="modal-body" id="procesosTrabajoModal">
+      <div class="modal-body" id="">
         <div class="container">
-          <form id="formIniciarProcesoOperativo">
+          <form id="formEstadosProcesosOp">
             <div class="row">
 
 
-              <div class="col-md-6 ">
+              <div class="col-md-6 mb-3">
                 <label for="fechaFinProcOpAdd" class="form-label" style="font-weight: bold"> Fecha Inicio
                   Proceso:</label>
-                <input type="date" class="form-control" id="fechaFinProcOpAdd" name="fechaFinProcOpAdd">
+                <input type="date" class="form-control" id="fechaFinProcOpAdd" name="fechaFinProcOpAdd" disabled>
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="fechaFinProcOpAdd" class="form-label" style="font-weight: bold"> Fecha Fin
+                  Proceso:</label>
+                <input type="date" class="form-control" id="fechaFinProcOpAdd" name="fechaFinProcOpAdd" disabled>
               </div>
 
               <!-- selec2 para tipos de procesos -->
-              <div class="col-md-6  mb-3">
+              <div class="col-md-12  mb-3">
                 <div class="form-group">
-                  <label for="idTipoProcOp">Selecionar el Proceso Inicial</label>
+                  <label for="idTipoProcOp">Tipo de proceso adjunto</label>
+                  <input type="text" class="form-control" id="fechaFinProcOpAdd" name="fechaFinProcOpAdd" disabled>
+                </div>
+              </div>
+
+              <div class="col-md-12  mb-3">
+                <div class="form-group">
+                  <label for="idTipoProcOp">Agregar Proceso de trabajo</label>
                   <select class="form-select" id="idTipoProcOp" name="idTipoProcOp">
                   </select>
                 </div>
               </div>
+
+              <div class="col-md-4  mb-3">
+                <div class="form-group">
+                  <label for="idTipoProcOp">Proceso Activo</label>
+                  <select class="form-select" id="idTipoProcOp" name="idTipoProcOp">
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-4  mb-3">
+                <div class="form-group">
+                  <label for="idTipoProcOp">Cambiar estado al proceso activo </label>
+                  <select class="form-select" id="idTipoProcOp" name="idTipoProcOp">
+                    <option value="3">En Proceso</option>
+                    <option value="3">Detenido</option>
+                    <option value="4">Terminado</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- ver todos los proceso adjuntos  -->
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label for="codTipProc">Todos los procesos de Trabajo</label>
+                  <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                    data-bs-target="#modalverProcesoTrabajo">
+                    Ver procesos de Trabajo Adjuntos
+                  </button>
+                </div>
+              </div>
+
+              <div class="col-md-6  mb-3">
+                <div class="form-group">
+                  <label for="estadoPrincipal">Cambiar estado al proceso principal</label>
+                  <select class="form-select" id="estadoPrincipal" name="estadoPrincipal">
+                    <option value="3">En ejecucion</option>
+                    <option value="4">Listo</option>
+                    <option value="3">Detenido</option>
+                    <option value="6">Retrasado</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- ver todos los proceso adjuntos  -->
+              <div class="col-md-4 mb-3">
+                <div class="form-group">
+                  <label for="">Finalizar Todo el proceso operativo</label>
+                  <button type="button" class="btn btn-success">
+                    Finalizar proceso Operativo
+                  </button>
+                </div>
+              </div>
+
           </form>
 
           <div class="modal-footer">
@@ -561,4 +655,41 @@
     </div>
   </div>
 </div>
+</div>
+<!-- fin de estados de procesos operativos -->
+
+<!-- modal data table  ver todas las fichas de trabajo creadas no tocar-->
+<div class="modal fade" id="modalverProcesoTrabajo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalverProcesoTrabajo" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 text-center w-100" id="">Todos los procesos de trabajo</h1>
+      </div>
+      <div class="modal-body" id="">
+        <div class="container">
+
+          <div class="row">
+
+            <div class="card-body">
+              <!-- dataTableAllProcesosDeTrabajo -->
+              <table id="dataTableAllProcesosDeTrabajo" class="display dataTableAllProcesosDeTrabajo">
+                <thead>
+                  <!-- dataTableAllProcesosDeTrabajo -->
+                </thead>
+                <tbody>
+                  <!--dataTableAllProcesosDeTrabajo-->
+                </tbody>
+              </table>
+              <!-- fin -->
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" id="" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

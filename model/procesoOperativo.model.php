@@ -347,5 +347,48 @@ class procesoOperativoModel
     }
   }
 
+  //iniciar proceso operativo
+  public static function mdlIniciarProcesoOperativo($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoProcOp = :estadoProcOp, fechaInicioProcOp = :fechaInicioProcOp, DateUpdate = :DateUpdate WHERE idProcOp = :idProcOp");
+    $statement->bindParam(":estadoProcOp", $dataUpdate["estadoProcOp"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaInicioProcOp", $dataUpdate["fechaInicioProcOp"], PDO::PARAM_STR);
+    $statement->bindParam(":idProcOp", $dataUpdate["idProcOp"], PDO::PARAM_INT);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  //finalizar proceso operativo
+  public static function mdlFinalizarProcesoOperativo($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoProcOp = :estadoProcOp, DateUpdate = :DateUpdate WHERE idProcOp = :idProcOp");
+    $statement->bindParam(":estadoProcOp", $dataUpdate["estadoProcOp"], PDO::PARAM_INT);
+    $statement->bindParam(":idProcOp", $dataUpdate["idProcOp"], PDO::PARAM_INT);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  //actualziar estado de pedido a finalizado
+  public static function mdlActualizarPedidoProcOpFin($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoPedido = :estadoPedido, DateUpdate = :DateUpdate WHERE idPedido = :idPedido");
+    $statement->bindParam(":estadoPedido", $dataUpdate["estadoPedido"], PDO::PARAM_INT);
+    $statement->bindParam(":idPedido", $dataUpdate["idPedido"], PDO::PARAM_INT);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   //////////////////////////////////////////////////////
 }

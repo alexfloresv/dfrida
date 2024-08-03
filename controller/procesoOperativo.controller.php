@@ -388,7 +388,7 @@ class procesoOperativoController
       $table = "proceso_operativo";
       $response = procesoOperativoModel::mdlBorrarProcOp($table, $codProcDelet);
       return $response;
-      
+
     } else {
       return "noAdmin";
     }
@@ -400,6 +400,69 @@ class procesoOperativoController
     $response = procesoOperativoModel::mdlViewRegDataProcOpDelet($table, $codProcDelet);
     return $response;
   }
+
+  //iniciar proceso operativo
+  public static function ctrIniciarProcesoOperativo($codIniProcOp)
+  {
+    //obtener registro actual de proceso operativo para borrar
+    $registroProcOpActual = self::ctrViewRegDataProcOpDelet($codIniProcOp);
+    $idSalMprima = $registroProcOpActual["idSalMprima"];
+
+    if ($idSalMprima != 0) {
+      $table = "proceso_operativo";
+      $dataUpdate = array(
+        "idProcOp" => $codIniProcOp,
+        "fechaInicioProcOp" => date("Y-m-d"),
+        "estadoProcOp" => 2,//en proceso
+        "DateUpdate" => date("Y-m-d\TH:i:sP"),
+      );
+      $response = procesoOperativoModel::mdlIniciarProcesoOperativo($table, $dataUpdate);
+      return $response;
+    } else {
+      return "errorIniSalMprima";
+    }
+  }
+
+  //finalizar proceso operativo
+  public static function ctrFinalizarProcesoOperativo($codIniProcOp)
+  {
+    //obtener registro actual de proceso operativo para borrar
+    $registroProcOpActual = self::ctrViewRegDataProcOpDelet($codIniProcOp);
+    $idPedido = $registroProcOpActual["idPedido"];
+    $idSalMprima = $registroProcOpActual["idSalMprima"];
+
+    if ($idSalMprima != 0) {
+      //actualziar estado de pedido a finalizado
+      $statePedidoUpdate = self::ctrActualizarPedidoProcOpFin($idPedido);
+      if ($statePedidoUpdate) {
+        $table = "proceso_operativo";
+        $dataUpdate = array(
+          "idProcOp" => $codIniProcOp,
+          "estadoProcOp" => 5,//finalizado
+          "DateUpdate" => date("Y-m-d\TH:i:sP"),
+        );
+        $response = procesoOperativoModel::mdlFinalizarProcesoOperativo($table, $dataUpdate);
+        return $response;
+      } {
+        return "errorActPedido";
+      }
+    } else {
+      return "errorSnSalida";
+    }
+  }
+  //actualziar estado de pedido a finalizado
+  public static function ctrActualizarPedidoProcOpFin($idPedido)
+  {
+    $table = "pedido";
+    $dataUpdate = array(
+      "idPedido" => $idPedido,
+      "estadoPedido" => 3,//finalizado
+      "DateUpdate" => date("Y-m-d\TH:i:sP"),
+    );
+    $response = procesoOperativoModel::mdlActualizarPedidoProcOpFin($table, $dataUpdate);
+    return $response;
+  }
+
   ///////////////////////////////////////////////////
 
 

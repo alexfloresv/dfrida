@@ -110,6 +110,20 @@ if (isset($_POST["codProcDelet"])) {
   $delete->ajaxBorrarProcOp($_POST["codProcDelet"]);
 }
 
+//iniciar proceso operativo
+if (isset($_POST["codIniProcOp"])) {
+  $inicio = new procesoOperativoAjax();
+  $inicio->codIniProcOp = $_POST["codIniProcOp"];
+  $inicio->ajaxIniciarProcesoOperativo($_POST["codIniProcOp"]);
+}
+
+//finalizar proceso operativo
+if (isset($_POST["codFinProcOp"])) {
+  $fin = new procesoOperativoAjax();
+  $fin->codFinProcOp = $_POST["codFinProcOp"];
+  $fin->ajaxFinalizarProcesoOperativo($_POST["codFinProcOp"]);
+}
+
 /////////////////////////////
 
 class procesoOperativoAjax
@@ -121,8 +135,8 @@ class procesoOperativoAjax
     foreach ($todosLosProcOp as &$procesoOp) {
       $procesoOp['btnIniProcOp'] = FunctionProcesoOperativo::getBtnInicioProc($procesoOp["idProcOp"], $procesoOp["estadoProcOp"]);
       $procesoOp['btnFinProcOp'] = FunctionProcesoOperativo::getBtnFinProc($procesoOp["idProcOp"], $procesoOp["estadoProcOp"]);
-      $procesoOp['buttons'] = FunctionProcesoOperativo::getBtnProcOp($procesoOp["idProcOp"]);
-      $procesoOp['modalTipoProc'] = FunctionProcesoOperativo::getBtnVerTipoProc($procesoOp["idTipoProc"]);
+      $procesoOp['buttons'] = FunctionProcesoOperativo::getBtnProcOp($procesoOp["idProcOp"], $procesoOp["estadoProcOp"]);
+      $procesoOp['modalTipoProc'] = FunctionProcesoOperativo::getBtnVerTipoProc($procesoOp["idProcOp"], $procesoOp["idTipoProc"], $procesoOp["estadoProcOp"]);
       $procesoOp['modalPedido'] = FunctionProcesoOperativo::getBtnVerPedido($procesoOp["idPedido"]);
       $procesoOp['modalSalProdMprima'] = FunctionProcesoOperativo::getBtnVerSalProdPrima($procesoOp["idSalMprima"]);
       $procesoOp['estado'] = FunctionProcesoOperativo::getEstadoProcOp($procesoOp["estadoProcOp"]);
@@ -232,11 +246,25 @@ class procesoOperativoAjax
     $response = procesoOperativoController::ctrEditarProcOp($jsonEditarProcOp);
     echo json_encode($response);
   }
-   //borrar  proceso operativo 
-   public function ajaxBorrarProcOp($codProcDelet)
-   {
-     $response = procesoOperativoController::ctrBorrarProcOp($codProcDelet);
-     echo json_encode($response);
-   }
+  //borrar  proceso operativo 
+  public function ajaxBorrarProcOp($codProcDelet)
+  {
+    $response = procesoOperativoController::ctrBorrarProcOp($codProcDelet);
+    echo json_encode($response);
+  }
+
+  //iniciar proceso operativo
+  public function ajaxIniciarProcesoOperativo($codIniProcOp)
+  {
+    $response = procesoOperativoController::ctrIniciarProcesoOperativo($codIniProcOp);
+    echo json_encode($response);
+  }
+
+ //finalizar proceso operativo
+  public function ajaxFinalizarProcesoOperativo($codFinProcOp)
+  {
+    $response = procesoOperativoController::ctrFinalizarProcesoOperativo($codFinProcOp);
+    echo json_encode($response);
+  }
 }
 

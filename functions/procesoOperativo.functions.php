@@ -38,44 +38,77 @@ class FunctionProcesoOperativo
   }
 
   //boton para fin de proceso oeprativo
-  public static function getBtnFinProc($codIniProcOp, $stateProcOp)
+  public static function getBtnFinProc($codFinProcOp, $stateProcOp)
   {
-    if ($stateProcOp == 5) {
+    if ($stateProcOp == 1 || $stateProcOp == 5) {
       $botones = '
-                <button class="btn btn-success btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalProdIngresados" codIniProcOp="' . $codIniProcOp . '">
-                   <i class="fa-solid fa-hand-holding-medical"></i>
-                </button>
-            ';
+              <button class="btn btn-secondary btnFinProcesoOp" codFinProcOp="' . $codFinProcOp . '" disabled>
+                  <i class="fa-solid fa-hand-holding-medical"></i>
+              </button>
+          ';
     } else {
       $botones = '
-                <button class="btn btn-secondary btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalProdIngresados" codIniProcOp="' . $codIniProcOp . '" disabled>
-                    <i class="fa-solid fa-hand-holding-medical"></i>
-                </button>
-            ';
+              <button class="btn btn-danger btnFinProcesoOp" codFinProcOp="' . $codFinProcOp . '">
+                  <i class="fa-solid fa-hand-holding-medical"></i>
+              </button>
+          ';
     }
     return $botones;
   }
 
   //botones aciones de proc Op
-  public static function getBtnProcOp($codProcOp)
+  public static function getBtnProcOp($codProcOp, $stateProcOp)
   {
-    $botones = '
-     <button class="btn btn-warning btnEditarProcOp" codProcOp="' . $codProcOp . '"><i class="fa-solid fa-pencil"></i></i></button>
-      <button class="btn btn-danger btnDeleteProcOp" codProcOp="' . $codProcOp . '"><i class="fa-solid fa-trash"></i></button>
-    ';
+    if ($stateProcOp == 1) {
+      $botones = '
+              <button class="btn btn-warning btnEditarProcOp" codProcOp="' . $codProcOp . '">
+                  <i class="fa-solid fa-pencil"></i>
+              </button>
+              <button class="btn btn-danger btnDeleteProcOp" codProcOp="' . $codProcOp . '">
+                  <i class="fa-solid fa-trash"></i>
+              </button>
+          ';
+    } elseif ($stateProcOp == 5) {
+      $botones = '
+              <button class="btn btn-secondary btnEditarProcOp" codProcOp="' . $codProcOp . '" disabled>
+                  <i class="fa-solid fa-pencil"></i>
+              </button>
+              <button class="btn btn-secondary btnDeleteProcOp" codProcOp="' . $codProcOp . '" disabled>
+                  <i class="fa-solid fa-trash"></i>
+              </button>
+          ';
+    } else {
+      $botones = '
+              <button class="btn btn-warning btnEditarProcOp" codProcOp="' . $codProcOp . '">
+                  <i class="fa-solid fa-pencil"></i>
+              </button>
+              <button class="btn btn-secondary btnDeleteProcOp" codProcOp="' . $codProcOp . '" disabled>
+                  <i class="fa-solid fa-trash"></i>
+              </button>
+          ';
+    }
     return $botones;
   }
 
   //boton para Tipo Proc
-  public static function getBtnVerTipoProc($codTipProc)
+  public static function getBtnVerTipoProc($codProcOp, $codTipProc, $stateProcOp)
   {
-    $botones = '
-        <button class="btn btn-warning btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalProdIngresados" codTipProc="' . $codTipProc . '">
-        <i class="fa-solid fa-network-wired"></i>
-        </button>
-       ';
+    if ($stateProcOp == 1 || $stateProcOp == 5) {
+      $botones = '
+              <button class="btn btn-secondary btnEstadosProcOp" codProcOp="' . $codProcOp . '" codTipProc="' . $codTipProc . '" disabled>
+                  <i class="fa-solid fa-network-wired"></i>
+              </button>
+          ';
+    } else {
+      $botones = '
+              <button class="btn btn-warning btnEstadosProcOp" codProcOp="' . $codProcOp . '" codTipProc="' . $codTipProc . '">
+                  <i class="fa-solid fa-network-wired"></i>
+              </button>
+          ';
+    }
     return $botones;
   }
+
 
   //boton para ver pedido
   public static function getBtnVerPedido($codPed)
@@ -102,27 +135,24 @@ class FunctionProcesoOperativo
   //  Estados del proc dependiendo del tipo de proc
   public static function getEstadoProcOp($stateValue)
   {
+    $estado = ''; // Inicializar la variable $estado
+
     if ($stateValue == 1) {
-      $estado = '<span class="badge rounded-pill bg-success">REGISTRADO</span>';
-    }
-    if ($stateValue == 2) {
-      $estado = '<span class="badge rounded-pill bg-danger">EJECUTADO</span>';
-    }
-    if ($stateValue > 3) {
-      $estado = '<span class="badge rounded-pill bg-warning">DETENIDO</span>';
-    }
-    if ($stateValue > 4) {
+      $estado = '<span class="badge rounded-pill bg-primary">REGISTRADO</span>';
+    } elseif ($stateValue == 2) {
+      $estado = '<span class="badge rounded-pill bg-warning">EN EJECUCION</span>';
+    } elseif ($stateValue == 3) {
+      $estado = '<span class="badge rounded-pill bg-danger">DETENIDO</span>';
+    } elseif ($stateValue == 4) {
       $estado = '<span class="badge rounded-pill bg-warning">LISTO</span>';
+    } elseif ($stateValue == 5) {
+      $estado = '<span class="badge rounded-pill bg-success">FINALIZADO</span>';
+    } elseif ($stateValue == 6) {
+      $estado = '<span class="badge rounded-pill bg-danger">RETRASADO</span>';
     }
-    if ($stateValue > 5) {
-      $estado = '<span class="badge rounded-pill bg-warning">FINALIZADO</span>';
-    }
-    if ($stateValue > 6) {
-      $estado = '<span class="badge rounded-pill bg-warning">RETRASADO</span>';
-    }
+
     return $estado;
   }
-
 
 }
 
