@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <th scope="col">#</th>
           <th scope="col">Iniciar Proceso</th>
           <th scope="col">Estado Actual</th>
-          <th scope="col">Proceso Actual</th>
+          <th scope="col">Actualizar Proceso</th>
           <th scope="col">Nombre Proceso</th>
           <th scope="col">Descripcion</th>
           <th scope="col">Fecha Registro</th>
@@ -52,7 +52,11 @@ document.addEventListener("DOMContentLoaded", function () {
       {
         data: "fechaInicioProcOp",
         render: function (data, type, row) {
-          return '<span class="text-success">' + data + "</span>";
+          if (data === null) {
+            return '<span class="text-success">Por iniciar</span>';
+          } else {
+            return '<span class="text-success">' + data + "</span>";
+          }
         },
       },
       {
@@ -102,69 +106,49 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // data table modal todos los tipos de procesos
 document.addEventListener("DOMContentLoaded", function () {
-  $("#modalAddProdSali").on("shown.bs.modal", function () {
+  $("#modalDataTableTipoProcesoOp").on("shown.bs.modal", function () {
     // Verificar si la ruta es la correcta al mostrar el modal
     var currentPath = window.location.pathname;
-    var appPath = "/dfrida/salidaProdEdit";
+    var appPath = "/dfrida/procesosOperativos";
     if (currentPath == appPath) {
       // Verifica si el DataTable ya está inicializado y destrúyelo si es así
-      if ($.fn.DataTable.isDataTable("#dataTableProductosSalidaAlmacen")) {
-        $("#dataTableProductosSalidaAlmacen").DataTable().destroy();
+      if ($.fn.DataTable.isDataTable("#modalDataTableTiposDeProceso")) {
+        $("#modalDataTableTiposDeProceso").DataTable().destroy();
       }
-      // Estructura de dataTableProductosSalidaAlmacen
-      $("#dataTableProductosSalidaAlmacen thead").html(`
+      // Estructura de modalDataTableTiposDeProceso
+      $("#modalDataTableTiposDeProceso thead").html(`
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Nombre Producto</th>
-          <th scope="col">Codigo</th>
-           <th scope="col">Cantidad Almacenada</th>
-          <th scope="col">Precio</th>
-          <th scope="col">Agregar</th>
+          <th scope="col">Nombre Tipo Proceso</th>
+             <th scope="col">Descripcion</th>
+          <th scope="col">Ficha Trabajo</th>
+          <th scope="col">Aciones</th>
         </tr>
       `);
 
-      // Definición inicial de dataTableProductosSalidaAlmacen
-      var columnDefsProductos = [
+      // Definición inicial de modalDataTableTiposDeProceso
+      var columnDefsTiposProcOp = [
         {
           data: null,
           render: function (data, type, row, meta) {
             return meta.row + 1;
           },
         },
-        { data: "nombreProdAlma" },
-        { data: "codigoProdAlma" },
-        { data: "cantidadProdAlma" },
-        {
-          data: "precioProdAlma",
-          render: function (data, type, row) {
-            return "S/ " + data; // Coloca 'S/' delante del valor de la celda
-          },
-        },
-        {
-          data: "idProd",
-          render: function (data, type, row) {
-            return (
-              '<button class="btn btn-success btnAddProdModalSal" codAddSalProdModal="' +
-              data +
-              '"><i class="fa-solid fa-clipboard-check"></i></button>'
-            );
-          },
-        },
+        { data: "nombreTipoProc" },
+        { data: "descripcionTipoProc" },
+        { data: "descFichTrab" },
+        { data: "btns" },
       ];
 
-      var tableProductos = $("#dataTableProductosSalidaAlmacen").DataTable({
-        columns: columnDefsProductos,
+      var tableTiposProcOp = $("#modalDataTableTiposDeProceso").DataTable({
+        columns: columnDefsTiposProcOp,
       });
-
-      // Titulo dataTableProductosSalidaAlmacen
-      //$(".tituloProductos").text("Todos los Productos");
-
-      // Solicitud inicial de dataTableProductosSalidaAlmacen
+      //data table tipos de procesos operativos
       var data = new FormData();
-      data.append("todosLosProductosAlmacen", true);
+      data.append("todosLosTiposProcOp", true);
 
       $.ajax({
-        url: "ajax/salidaProd.ajax.php",
+        url: "ajax/procesoOperativo.ajax.php",
         method: "POST",
         data: data,
         cache: false,
@@ -172,9 +156,9 @@ document.addEventListener("DOMContentLoaded", function () {
         processData: false,
         dataType: "json",
         success: function (response) {
-          tableProductos.clear();
-          tableProductos.rows.add(response);
-          tableProductos.draw();
+          tableTiposProcOp.clear();
+          tableTiposProcOp.rows.add(response);
+          tableTiposProcOp.draw();
         },
         error: function (jqXHR, textStatus, errorThrown) {
           console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
@@ -188,258 +172,100 @@ document.addEventListener("DOMContentLoaded", function () {
 //modal para ver productos de salida por el boton
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/salidaList";
+  var appPath = "/dfrida/procesosOperativos";
   if (currentPath == appPath) {
-    $(".dataTableProcesoOperativo").on("click", ".btnVerSalProd", function () {
-      var codAllSalProd = $(this).attr("codAllSalProd");
+    
+    $(".dataTableProcesoOperativo").on("click", ".btnVerSalProdProcOp", function () {
+      var codSalProdMprimaProcOP = $(this).attr("codSalProdMprimaProcOP");
 
-      $("#modalDataTableProdSalida thead").html(`
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Nombre Producto</th>
-          <th scope="col">Codigo Producto</th>
-          <th scope="col">Unidad Producto</th>
-          <th scope="col">Cantidad Producto</th>
-          <th scope="col">Precio Prodcuto</th>
-        </tr>
-      `);
+      $("#modalProdSalidasProcOP").on("shown.bs.modal", function () {
+        // Verifica si el DataTable ya está inicializado y destrúyelo si es así
+        if ($.fn.DataTable.isDataTable("#modalDataTableProdSalidaProcOp")) {
+          $("#modalDataTableProdSalidaProcOp").DataTable().destroy();
+        }
 
-      var columnDefsProdIngresados = [
-        {
-          data: null,
-          render: function (data, type, row, meta) {
-            return meta.row + 1;
+        $("#modalDataTableProdSalidaProcOp thead").html(`
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Producto Prima</th>
+            <th scope="col">Codigo Producto</th>
+            <th scope="col">Unidad Producto</th>
+            <th scope="col">Cantidad Producto</th>
+            <th scope="col">Precio Prodcuto</th>
+          </tr>
+        `);
+
+        var columnDefsProdIngresados = [
+          {
+            data: null,
+            render: function (data, type, row, meta) {
+              return meta.row + 1;
+            },
           },
-        },
-        { data: "nombreProd" },
-        { data: "codigoProd" },
-        { data: "unidadProd" },
-        { data: "cantidadProd" },
-        {
-          data: "precioProd",
-          render: function (data, type, row) {
-            return "S/ " + data;
+          { data: "nombreProd" },
+          { data: "codigoProd" },
+          { data: "unidadProd" },
+          { data: "cantidadProd" },
+          {
+            data: "precioProd",
+            render: function (data, type, row) {
+              return "S/ " + data;
+            },
           },
-        },
-      ];
+        ];
 
-      var tableProdIngresados = $("#modalDataTableProdSalida").DataTable({
-        columns: columnDefsProdIngresados,
-        destroy: true, // Asegúrate de destruir la instancia anterior para evitar problemas de inicialización
-      });
+        var tableProdIngresados = $("#modalDataTableProdSalidaProcOp").DataTable({
+          columns: columnDefsProdIngresados,
+          destroy: true, // Asegúrate de destruir la instancia anterior para evitar problemas de inicialización
+        });
 
-      var data = new FormData();
-      data.append("codAllSalProd", codAllSalProd);
+        var data = new FormData();
+        data.append("codAllSalMprima", codSalProdMprimaProcOP);
 
-      $.ajax({
-        url: "ajax/salidaProd.ajax.php",
-        method: "POST",
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-        success: function (response) {
-          // Asumiendo que la respuesta incluye el JSON en un campo llamado ingJsonProd
-          var decodedJson = JSON.parse(response.salJsonProd);
-          var dataArray = [];
+        $.ajax({
+          url: "ajax/salidaMprima.ajax.php",
+          method: "POST",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (response) {
+            // Asumiendo que la respuesta incluye el JSON en un campo llamado ingJsonProd
+            var decodedJson = JSON.parse(response.salJsonMprima);
+            var dataArray = [];
 
-          // Transformar el objeto JSON en un array de objetos
-          for (var key in decodedJson) {
-            if (decodedJson.hasOwnProperty(key)) {
-              var item = decodedJson[key];
-              dataArray.push({
-                // Ajusta estos campos según la estructura de tu JSON
-                nombreProd: item.nombreProdIng,
-                codigoProd: item.codigoProdIng,
-                unidadProd: item.unidadProdIng,
-                cantidadProd: item.cantidadProdIng,
-                precioProd: item.precioProdIng,
-              });
+            // Transformar el objeto JSON en un array de objetos
+            for (var key in decodedJson) {
+              if (decodedJson.hasOwnProperty(key)) {
+                var item = decodedJson[key];
+                dataArray.push({
+                  // Ajusta estos campos según la estructura de tu JSON
+                  nombreProd: item.nombreProdIng,
+                  codigoProd: item.codigoProdIng,
+                  unidadProd: item.unidadProdIng,
+                  cantidadProd: item.cantidadProdIng,
+                  precioProd: item.precioProdIng,
+                });
+              }
             }
-          }
 
-          // Limpia el DataTable antes de añadir los nuevos datos
-          tableProdIngresados.clear();
+            // Limpia el DataTable antes de añadir los nuevos datos
+            tableProdIngresados.clear();
 
-          // Añade los nuevos datos y redibuja la tabla
-          tableProdIngresados.rows.add(dataArray);
-          tableProdIngresados.draw();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-        },
+            // Añade los nuevos datos y redibuja la tabla
+            tableProdIngresados.rows.add(dataArray);
+            tableProdIngresados.draw();
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+          },
+        });
       });
+
+      // Forzar la apertura del modal para que se dispare el evento shown.bs.modal
+      $("#modalProdSalidasProcOP").modal('show');
     });
   }
-});
-
-// //data table modal salidas almacen
-document.addEventListener("DOMContentLoaded", function () {
-  $("#modalAddProdSali").on("shown.bs.modal", function () {
-    // Verificar si la ruta es la correcta al mostrar el modal
-    var currentPath = window.location.pathname;
-    var appPath = "/dfrida/salidaProd";
-    if (currentPath == appPath) {
-      // Verifica si el DataTable ya está inicializado y destrúyelo si es así
-      if ($.fn.DataTable.isDataTable("#dataTableProductosSalidaAlmacen")) {
-        $("#dataTableProductosSalidaAlmacen").DataTable().destroy();
-      }
-      // Estructura de dataTableProductosSalidaAlmacen
-      $("#dataTableProductosSalidaAlmacen thead").html(`
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Nombre Producto</th>
-          <th scope="col">Codigo</th>
-           <th scope="col">Cantidad Almacenada</th>
-          <th scope="col">Precio</th>
-          <th scope="col">Agregar</th>
-        </tr>
-      `);
-
-      // Definición inicial de dataTableProductosSalidaAlmacen
-      var columnDefsProductos = [
-        {
-          data: null,
-          render: function (data, type, row, meta) {
-            return meta.row + 1;
-          },
-        },
-        { data: "nombreProdAlma" },
-        { data: "codigoProdAlma" },
-        { data: "cantidadProdAlma" },
-        {
-          data: "precioProd",
-          render: function (data, type, row) {
-            return "S/ " + data; // Coloca 'S/' delante del valor de la celda
-          },
-        },
-        {
-          data: "idProd",
-          render: function (data, type, row) {
-            return (
-              '<button class="btn btn-success btnAddProdModalSal" codAddSalProdModal="' +
-              data +
-              '"><i class="fa-solid fa-clipboard-check"></i></button>'
-            );
-          },
-        },
-      ];
-
-      var tableProductos = $("#dataTableProductosSalidaAlmacen").DataTable({
-        columns: columnDefsProductos,
-      });
-
-      // Titulo dataTableProductosSalidaAlmacen
-      //$(".tituloProductos").text("Todos los Productos");
-
-      // Solicitud inicial de dataTableProductosSalidaAlmacen
-      var data = new FormData();
-      data.append("todosLosProductosAlmacen", true);
-
-      $.ajax({
-        url: "ajax/salidaProd.ajax.php",
-        method: "POST",
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-        success: function (response) {
-          tableProductos.clear();
-          tableProductos.rows.add(response);
-          tableProductos.draw();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-        },
-      });
-    }
-  });
-});
-//fin
-
-// //data table modal  salidas
-document.addEventListener("DOMContentLoaded", function () {
-  $("#modalAddProdSali").on("shown.bs.modal", function () {
-    // Verificar si la ruta es la correcta al mostrar el modal
-    var currentPath = window.location.pathname;
-    var appPath = "/dfrida/salidaProdEdit";
-    if (currentPath == appPath) {
-      // Verifica si el DataTable ya está inicializado y destrúyelo si es así
-      if ($.fn.DataTable.isDataTable("#dataTableProductosSalidaAlmacen")) {
-        $("#dataTableProductosSalidaAlmacen").DataTable().destroy();
-      }
-      // Estructura de dataTableProductosSalidaAlmacen
-      $("#dataTableProductosSalidaAlmacen thead").html(`
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Nombre Producto</th>
-          <th scope="col">Codigo</th>
-           <th scope="col">Cantidad Almacenada</th>
-          <th scope="col">Precio</th>
-          <th scope="col">Agregar</th>
-        </tr>
-      `);
-
-      // Definición inicial de dataTableProductosSalidaAlmacen
-      var columnDefsProductos = [
-        {
-          data: null,
-          render: function (data, type, row, meta) {
-            return meta.row + 1;
-          },
-        },
-        { data: "nombreProdAlma" },
-        { data: "codigoProdAlma" },
-        { data: "cantidadProdAlma" },
-        {
-          data: "precioProdAlma",
-          render: function (data, type, row) {
-            return "S/ " + data; // Coloca 'S/' delante del valor de la celda
-          },
-        },
-        {
-          data: "idProd",
-          render: function (data, type, row) {
-            return (
-              '<button class="btn btn-success btnAddProdModalSal" codAddSalProdModal="' +
-              data +
-              '"><i class="fa-solid fa-clipboard-check"></i></button>'
-            );
-          },
-        },
-      ];
-
-      var tableProductos = $("#dataTableProductosSalidaAlmacen").DataTable({
-        columns: columnDefsProductos,
-      });
-
-      // Titulo dataTableProductosSalidaAlmacen
-      //$(".tituloProductos").text("Todos los Productos");
-
-      // Solicitud inicial de dataTableProductosSalidaAlmacen
-      var data = new FormData();
-      data.append("todosLosProductosAlmacen", true);
-
-      $.ajax({
-        url: "ajax/salidaProd.ajax.php",
-        method: "POST",
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-        success: function (response) {
-          tableProductos.clear();
-          tableProductos.rows.add(response);
-          tableProductos.draw();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-        },
-      });
-    }
-  });
 });
 //fin
