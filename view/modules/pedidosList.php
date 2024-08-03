@@ -149,64 +149,64 @@
     </div>
   </div>
 </div>
-<!-- Modal Crear Pedido-->
-<div class="modal fade" id="modalCrearPedido" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="modalCrearPedido" aria-hidden="true">
+<!-- Modal Crear Pedido -->
+<div class="modal fade" id="modalCrearPedido" tabindex="-1" aria-labelledby="modalCrearPedidoLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5 text-center w-100" id="modalCrearPedido">Crear Pedido</h1>
+        <h1 class="modal-title fs-5 text-center w-100" id="modalCrearPedidoLabel">Crear Pedido</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" id="creacionPedidoModal">
+      <div class="modal-body">
         <div class="container">
           <form id="formPedidoAdd">
             <div class="row">
-              <div class="col-md-6  mb-3">
-                <label for="tituloPedidoAdd" class="form-label" style="font-weight: bold">Titulo Del Pedido:
-                </label>
-                <input type="text" class="form-control" id="nombrePedidoAdd" name="nombrePedidoAdd"
-                  placeholder="Ingrese el titulo del pedido ">
+              <div class="col-md-6 mb-3">
+                <label for="tituloPedidoAdd" class="form-label" style="font-weight: bold">Titulo Del Pedido:</label>
+                <input type="text" class="form-control" id="tituloPedidoAdd" name="tituloPedidoAdd"
+                  placeholder="Ingrese el titulo del pedido">
               </div>
 
-              <div class="col-md-6  mb-3">
-                <label for="nombrePedidoAdd" class="form-label" style="font-weight: bold">Nombre Del Pedido:
-                </label>
+              <div class="col-md-6 mb-3">
+                <label for="nombrePedidoAdd" class="form-label" style="font-weight: bold">Nombre Del Pedido:</label>
                 <input type="text" class="form-control" id="nombrePedidoAdd" name="nombrePedidoAdd"
-                  placeholder="Ingrese el nombre del pedido ">
+                  placeholder="Ingrese el nombre del pedido">
               </div>
 
-              <div class="col-md-2 ">
-                <label for="fechaPedidoAdd" class="form-label" style="font-weight: bold"> Fecha Del Pedido:</label>
+              <div class="col-md-2 mb-3">
+                <label for="fechaPedidoAdd" class="form-label" style="font-weight: bold">Fecha Del Pedido:</label>
                 <input type="date" class="form-control" id="fechaPedidoAdd" name="fechaPedidoAdd">
               </div>
 
-              <!-- ver las salidas de productos prima -->
-              <div class="col-md-2">
+              <!-- Ver las salidas de productos prima -->
+              <div class="col-md-2 mb-3">
                 <div class="form-group">
-                  <label for="codTipProc">Cotizaciones</label>
-                  <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                    data-bs-target="#modalSeleccionarCotizacionPedidos" id="verCotizacionesPedidoAdd">
+                  <label for="verCotizacionesPedidoAdd">Cotizaciones</label>
+                  <button type="button" class="btn btn-warning" id="verCotizacionesPedidoAdd" data-bs-toggle="modal"
+                    data-bs-target="#modalSeleccionarCotizacionPedidos">
                     Ver Cotizaciones
                   </button>
                 </div>
               </div>
 
-              <!-- selec2 para pedidos -->
-              <div class="col-md-4  mb-3">
+              <!-- Select2 para pedidos -->
+              <div class="col-md-4 mb-3">
                 <div class="form-group">
-                  <label for="idClienteAddPedido">Selecionar Cliente:</label>
+                  <label for="idClienteAddPedido">Seleccionar Cliente:</label>
                   <select class="form-select" id="idClienteAddPedido" name="idClienteAddPedido">
                   </select>
                 </div>
               </div>
-              <!-- selec2 para tipos de procesos -->
-              <div class="col-md-4  mb-3">
+
+              <!-- Select2 para tipos de procesos -->
+              <div class="col-md-4 mb-3">
                 <div class="form-group">
-                  <label for="idFichaTecnicaAddPedido">Selecionar Ficha Técnica:</label>
+                  <label for="idFichaTecnicaAddPedido">Seleccionar Ficha Técnica:</label>
                   <select class="form-select" id="idFichaTecnicaAddPedido" name="idFichaTecnicaAddPedido">
                   </select>
                 </div>
               </div>
+            </div>
           </form>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
@@ -219,17 +219,16 @@
 </div>
 
 <!-- Modal cotizaciones para la vista de pedidos -->
-<div class="modal fade" id="modalSeleccionarCotizacionPedidos" tabindex="-1" aria-labelledby="modalSeleccionarCotizacionPedidos"
-  aria-hidden="true">
+<div class="modal fade" id="modalSeleccionarCotizacionPedidos" tabindex="-1"
+  aria-labelledby="modalSeleccionarCotizacionPedidosLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg"> <!-- Clase "modal-lg" agregada aquí -->
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalSeleccionarCotizacionPedidos">Lista Productos Prima </h1>
+        <h1 class="modal-title fs-5" id="titleModalSeleccionarCotizacionPedidosLabel">Lista Productos Prima</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <table id="dataTableSeleccionarCotizacionPedidos"
-          class="display dataTableSeleccionarCotizacionPedidos">
+        <table id="dataTableSeleccionarCotizacionPedidos" class="display dataTableSeleccionarCotizacionPedidos">
           <thead>
             <!-- dataTableProductos -->
           </thead>
@@ -239,6 +238,7 @@
         </table>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="seleccionarCotizaciónparaPedido">Seleccionar Cotización</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>

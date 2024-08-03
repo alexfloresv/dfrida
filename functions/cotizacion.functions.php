@@ -51,5 +51,13 @@ class FunctionCotizacion
     return $botones;
     /* <button class="btn btn-warning btnEditCotizacion" codCoti="' . $codCoti . '" ><i class="fa-solid fa-pencil"></i></button> */
   }
+  // Botones de Cotizacion para la vista de Pedidos
+  public static function getBtnCotizacionPedidosVista($codCoti)
+  {
+    $botones = '
+     <button class="btn btn-danger btnDescargarCotiPedidosList" codCoti="' . $codCoti . '"><i class="fa-solid fa-file-pdf"></i></button>
+    ';
+    return $botones;
+  }
 }
 
