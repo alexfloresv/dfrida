@@ -181,9 +181,8 @@
               <!-- Ver las salidas de productos prima -->
               <div class="col-md-2 mb-3">
                 <div class="form-group">
-                  <label for="verCotizacionesPedidoAdd">Cotizaciones</label>
-                  <button type="button" class="btn btn-warning" id="verCotizacionesPedidoAdd" data-bs-toggle="modal"
-                    data-bs-target="#modalSeleccionarCotizacionPedidos">
+                  <label for="btnVerCotizacionesPedidoAdd">Cotizaciones</label>
+                  <button type="button" class="btn btn-warning" id="btnVerCotizacionesPedidoAdd" idCoti="">
                     Ver Cotizaciones
                   </button>
                 </div>
@@ -210,7 +209,7 @@
           </form>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-success" id="crearPedidoModal">Crear Pedido</button>
+            <button type="button" class="btn btn-success" id="btncrearPedidoModal">Crear Pedido</button>
           </div>
         </div>
       </div>
@@ -238,8 +237,8 @@
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="seleccionarCotizaciónparaPedido">Seleccionar Cotización</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" id="btnSeleccionarCotizaciónparaPedido">Seleccionar Cotización</button>
+        <button type="button" class="btn btn-secondary" id="btnCerrarModalSeleccionarCotizacionPedidos" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
