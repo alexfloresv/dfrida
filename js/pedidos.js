@@ -197,26 +197,21 @@ document.addEventListener("DOMContentLoaded", function () {
           }
 
           if (isValid) {
-            // Recopilar los valores de los campos del formulario en un objeto
-            var formData = {
-              tituloPedido: $("#tituloPedidoAdd").val().trim(),
-              nombrePedido: $("#nombrePedidoAdd").val().trim(),
-              fechaPedido: $("#fechaPedidoAdd").val().trim(),
-              idCliente: $("#idClienteAddPedido").val().trim(),
-              idFichaTecnica: $("#idFichaTecnicaAddPedido").val().trim(),
-              idCoti: idCoti,
-            };
-
-            // Convertir el objeto formData a una cadena JSON
-            var jsonData = JSON.stringify(formData);
-
-            // Crear un objeto FormData y agregar los datos del formulario
+            // Crear un objeto FormData y agregar los datos del formulario con identificadores únicos
             var data = new FormData();
-            data.append("crearPedido", jsonData);
+            data.append("tituloPedido", $("#tituloPedidoAdd").val().trim());
+            data.append("nombrePedido", $("#nombrePedidoAdd").val().trim());
+            data.append("fechaPedido", $("#fechaPedidoAdd").val().trim());
+            data.append("idCliente", $("#idClienteAddPedido").val().trim());
+            data.append(
+              "idFichaTecnica",
+              $("#idFichaTecnicaAddPedido").val().trim()
+            );
+            data.append("idCoti", idCoti);
 
             // Enviar datos del formulario al servidor
             $.ajax({
-              url: "ajax/pedidos.ajax.php", 
+              url: "ajax/pedidos.ajax.php",
               method: "POST",
               data: data,
               cache: false,

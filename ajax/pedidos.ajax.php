@@ -16,10 +16,26 @@ if (isset($_POST["todosLosPedidos"])) {
 }
 
 // Crear pedido
-if (isset($_POST["crearPedido"])) {
-  // Decodificar el JSON recibido
-  $jsonData = json_decode($_POST["crearPedido"], true);
-  // Pasar los datos decodificados al controlador
+if (isset($_POST["tituloPedido"]) && isset($_POST["nombrePedido"]) && isset($_POST["fechaPedido"]) && isset($_POST["idCliente"]) && isset($_POST["idFichaTecnica"]) && isset($_POST["idCoti"])) {
+  // Recibir los datos del formulario
+  $tituloPedido = $_POST["tituloPedido"];
+  $nombrePedido = $_POST["nombrePedido"];
+  $fechaPedido = $_POST["fechaPedido"];
+  $idCliente = $_POST["idCliente"];
+  $idFichaTecnica = $_POST["idFichaTecnica"];
+  $idCoti = $_POST["idCoti"];
+
+  // Crear un array con los datos recibidos
+  $jsonData = array(
+    "tituloPedido" => $tituloPedido,
+    "nombrePedido" => $nombrePedido,
+    "fechaPedido" => $fechaPedido,
+    "idCliente" => $idCliente,
+    "idFichaTecnica" => $idFichaTecnica,
+    "idCoti" => $idCoti
+  );
+
+  // Pasar los datos al controlador
   $crearPedido = new PedidosAjax();
   $crearPedido->jsonDataPedidos = $jsonData;
   $crearPedido->ajaxCrearPedidosJson();
