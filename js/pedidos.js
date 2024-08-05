@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Crear un objeto FormData y agregar los datos del formulario
             var data = new FormData();
-            data.append("crearPedido", $("#tituloPedidoAdd").val().trim());
+            data.append("crearPedido", jsonData);
 
             // Enviar datos del formulario al servidor
             $.ajax({
