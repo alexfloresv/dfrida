@@ -12,7 +12,7 @@ class PedidosModel
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
   // Crear pedido
-  public static function mdlCrearPedido($table, $jsonData){
+  public static function ctrCrearPedidoJson($table, $jsonData){
     $statement = Conexion::conn()->prepare("INSERT INTO $table (idCli, tituloPedido, nombrePedido, fechaPedido, DateCreate, DateUpdate, idCoti, idFichaTec, estadoPedido) VALUES (:idCli, :tituloPedido, :nombrePedido, :fechaPedido, :DateCreate, :DateUpdate, :idCoti, :idFichaTec, :estadoPedido)");
     $statement->bindParam(":idCli", $jsonData['idCliente'], PDO::PARAM_INT);
     $statement->bindParam(":tituloPedido", $jsonData['tituloPedido'], PDO::PARAM_STR);

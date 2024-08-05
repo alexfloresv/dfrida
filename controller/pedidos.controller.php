@@ -11,7 +11,7 @@ class PedidosController
     return $response;
   }
   // Crear pedido
-  public static function ctrCrearPedido($jsonData)
+  public static function ctrCrearPedidoJson($jsonData)
   {
     // Agregar la fecha actual en el formato requerido
     $currentDateTime = date('Y-m-d H:i:s');
@@ -22,7 +22,7 @@ class PedidosController
     $jsonData['estadoPedido'] = 1;
 
     $table = "pedido";
-    $response = PedidosModel::mdlCrearPedido($table, $jsonData);
+    $response = PedidosModel::ctrCrearPedidoJson($table, $jsonData);
     return $response;
   }
 }
