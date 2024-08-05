@@ -315,7 +315,6 @@ document.addEventListener("DOMContentLoaded", function () {
           <th scope="col">Unidad</th>
           <th scope="col">Cantidad</th>
           <th scope="col">Precio</th>
-          <th scope="col">Acciones</th>
         </tr>
       `);
 
