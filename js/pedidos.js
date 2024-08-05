@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // Restaurar el valor seleccionado si existe
           var selectedCliente = $("#idClienteAddPedido").attr("data-selected");
           if (selectedCliente) {
-            $("#idClienteAddPedido").val(selectedCliente).trigger('change');
+            $("#idClienteAddPedido").val(selectedCliente).trigger("change");
           }
         },
         error: function (xhr, status, error) {
@@ -94,9 +94,13 @@ document.addEventListener("DOMContentLoaded", function () {
           });
 
           // Restaurar el valor seleccionado si existe
-          var selectedFichaTecnica = $("#idFichaTecnicaAddPedido").attr("data-selected");
+          var selectedFichaTecnica = $("#idFichaTecnicaAddPedido").attr(
+            "data-selected"
+          );
           if (selectedFichaTecnica) {
-            $("#idFichaTecnicaAddPedido").val(selectedFichaTecnica).trigger('change');
+            $("#idFichaTecnicaAddPedido")
+              .val(selectedFichaTecnica)
+              .trigger("change");
           }
         },
         error: function (xhr, status, error) {
@@ -109,32 +113,36 @@ document.addEventListener("DOMContentLoaded", function () {
 // Fin
 
 // Evento para guardar los valores seleccionados antes de abrir el modal de cotizaciones
-document.getElementById('btnVerCotizacionesPedidoAdd').addEventListener('click', function() {
-  var clienteSelect = document.getElementById('idClienteAddPedido');
-  var fichaTecnicaSelect = document.getElementById('idFichaTecnicaAddPedido');
-  
-  clienteSelect.setAttribute('data-selected', clienteSelect.value);
-  fichaTecnicaSelect.setAttribute('data-selected', fichaTecnicaSelect.value);
-});
+document
+  .getElementById("btnVerCotizacionesPedidoAdd")
+  .addEventListener("click", function () {
+    var clienteSelect = document.getElementById("idClienteAddPedido");
+    var fichaTecnicaSelect = document.getElementById("idFichaTecnicaAddPedido");
+
+    clienteSelect.setAttribute("data-selected", clienteSelect.value);
+    fichaTecnicaSelect.setAttribute("data-selected", fichaTecnicaSelect.value);
+  });
 //Fin
 
 // Evento para restaurar los valores seleccionados cuando se cierra el modal de cotizaciones
-document.getElementById('modalSeleccionarCotizacionPedidos').addEventListener('hidden.bs.modal', function() {
-  var clienteSelect = document.getElementById('idClienteAddPedido');
-  var fichaTecnicaSelect = document.getElementById('idFichaTecnicaAddPedido');
-  
-  var selectedCliente = clienteSelect.getAttribute('data-selected');
-  var selectedFichaTecnica = fichaTecnicaSelect.getAttribute('data-selected');
-  
-  if (selectedCliente) {
-    clienteSelect.value = selectedCliente;
-    $(clienteSelect).trigger('change');
-  }
-  if (selectedFichaTecnica) {
-    fichaTecnicaSelect.value = selectedFichaTecnica;
-    $(fichaTecnicaSelect).trigger('change');
-  }
-});
+document
+  .getElementById("modalSeleccionarCotizacionPedidos")
+  .addEventListener("hidden.bs.modal", function () {
+    var clienteSelect = document.getElementById("idClienteAddPedido");
+    var fichaTecnicaSelect = document.getElementById("idFichaTecnicaAddPedido");
+
+    var selectedCliente = clienteSelect.getAttribute("data-selected");
+    var selectedFichaTecnica = fichaTecnicaSelect.getAttribute("data-selected");
+
+    if (selectedCliente) {
+      clienteSelect.value = selectedCliente;
+      $(clienteSelect).trigger("change");
+    }
+    if (selectedFichaTecnica) {
+      fichaTecnicaSelect.value = selectedFichaTecnica;
+      $(fichaTecnicaSelect).trigger("change");
+    }
+  });
 // Fin
 // Validacion de datos del formulario mas creación de pedido
 document.addEventListener("DOMContentLoaded", function () {
@@ -208,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Enviar datos del formulario al servidor
             $.ajax({
-              url: "ajax/pedidos.ajax.php",
+              url: "http://localhost/dfrida/ajax/pedidos.ajax.php", // Cambia esta URL si es necesario
               method: "POST",
               data: data,
               contentType: false,
@@ -234,6 +242,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     text: respuesta,
                   });
                 }
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                Swal.fire({
+                  icon: "error",
+                  title: "Error de conexión",
+                  text: "No se pudo conectar al servidor. Por favor, verifica tu conexión a Internet.",
+                });
               },
             });
           } else {
