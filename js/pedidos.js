@@ -211,8 +211,6 @@ document.addEventListener("DOMContentLoaded", function () {
               url: "ajax/pedidos.ajax.php",
               method: "POST",
               data: data,
-              contentType: false,
-              processData: false,
               dataType: "json",
               success: function (respuesta) {
                 if (respuesta == "ok") {
