@@ -37,7 +37,7 @@
         style="margin-left: 5px;">Fichas de Trabajo</span></a>
     <a class="nav-link" href="cotizacionList"><i class="fa-solid fa-file-signature"></i><span
         style="margin-left: 5px;">Cotizaciones</span></a>
-    <a class="nav-link" href="categorias"><i class="fa-solid fa-cart-plus"></i><span
+    <a class="nav-link" href="pedidosList"><i class="fa-solid fa-cart-plus"></i><span
         style="margin-left: 5px;">Pedido</span></a>
   </nav>
 </div>

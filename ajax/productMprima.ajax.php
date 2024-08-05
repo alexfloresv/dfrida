@@ -36,6 +36,13 @@ if (isset($_POST["jsonBorraProductoMprima"])) {
   $delete->jsonBorraProductoMprima = $_POST["jsonBorraProductoMprima"];
   $delete->ajaxBorrarProductoMprima($_POST["jsonBorraProductoMprima"]);
 }
+// Obtener productos prima de una cotización para la vista pedidos
+if (isset($_POST["codPedProductosMateriaPrimaPedidos"]) && isset($_POST["idCotiProductosMateriaPrimaPedidos"])) {
+  $productosMateriaPrimaPedido = new ProductMprimaAjax();
+  $productosMateriaPrimaPedido->codPedProductosMateriaPrimaPedidos = $_POST["codPedProductosMateriaPrimaPedidos"];
+  $productosMateriaPrimaPedido->idCotiProductosMateriaPrimaPedidos = $_POST["idCotiProductosMateriaPrimaPedidos"];
+  $productosMateriaPrimaPedido->ajaxObtenerProductosPrimaCotizacionPedidos();
+}
 /////////////////////////////
 
 class ProductMprimaAjax
@@ -90,6 +97,44 @@ class ProductMprimaAjax
     $response = ProductMprimaController::ctrDeleteProductMprima($borrarProductoMprima);
     echo json_encode($response);
   }
+  // Obtener productos prima de una cotización para la vista pedidos
+  public $codPedProductosMateriaPrimaPedidos;
+  public $idCotiProductosMateriaPrimaPedidos;
+  public function ajaxObtenerProductosPrimaCotizacionPedidos()
+  {
+    $codPed = $this->codPedProductosMateriaPrimaPedidos;
+    $idCoti = $this->idCotiProductosMateriaPrimaPedidos;
+    $response = ProductMprimaController::ctrObtenerProductosPrimaCotizacionPedidos($codPed, $idCoti);
+    // Verificar si $response contiene el campo 'productsCoti'
+    if (isset($response['productsMprimaCoti'])) {
+      // Decodificar el JSON contenido en 'productsCoti'
+      $productos = json_decode($response['productsMprimaCoti'], true);
 
+      // Verificar si la decodificación fue exitosa
+      if (is_array($productos)) {
+        // Crear un array para almacenar los productos trabajados
+        $productosMateriaPrimaTrabajados = [];
+
+        // Recorrer los productos y extraer la información necesaria
+        foreach ($productos as $key => $producto) {
+          $productosMateriaPrimaTrabajados[] = [
+            'codProdMprimaCoti' => $producto['codProdMprimaCoti'],
+            'nombreProdMprimaCoti' => $producto['nombreProdMprimaCoti'],
+            'unidadProdMprimaCoti' => $producto['unidadProdMprimaCoti'],
+            'cantidadProdMprimaCoti' => $producto['cantidadProdMprimaCoti'],
+            'precioProdMprimaCoti' => $producto['precioProdMprimaCoti']
+          ];
+        }
+
+        // Devolver el JSON trabajado
+        echo json_encode($productosMateriaPrimaTrabajados);
+      } else {
+        // Manejar el caso en que la decodificación falle
+        echo json_encode(['error' => 'Invalid JSON format in productsCoti']);
+      }
+    } else {
+      // Manejar el caso en que 'productsCoti' no esté presente
+      echo json_encode(['error' => 'productsCoti field not found']);
+    }
+  }
 }
-

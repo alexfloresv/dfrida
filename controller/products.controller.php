@@ -113,5 +113,11 @@ class ProductsController
     $response = ProductsModel::mdlAlamacenProductStock($table, $codProduct);
     return $response;
   }
+  // Obtener productos de una cotización para la vista pedidos
+  public static function ctrMostrarDatosProductosCotizacionPedido($codPed, $idCoti){
+    $table = "cotizacion";
+    $response = ProductsModel::mdlMostrarDatosProductosCotizacionPedido($table, $codPed, $idCoti);
+    return $response;
+  }
 
 }

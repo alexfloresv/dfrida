@@ -8,7 +8,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 //funciones para escuchar entrada de datos desde $.ajax de jquery
 //datatable de Cotizaciones
-if (isset($_POST["todasLasCotizaciones"])) {
+if (isset($_POST["todasLasCotizaciones"]) || isset($_POST["todasLasCotizacionesPedidosVista"])) {
   $todasLasCotizaciones = new CotizacionAjax();
   $todasLasCotizaciones->ajaxDTableCotizaciones();
 }
@@ -59,11 +59,20 @@ class CotizacionAjax
   //datatable de cotizaciones
   public function ajaxDTableCotizaciones()
   {
+
     $todasLasCotizaciones = CotizacionController::ctrDTableCotizaciones();
-    foreach ($todasLasCotizaciones as &$cotizacion) {
-      $cotizacion['buttons'] = FunctionCotizacion::getBtnCotizacion($cotizacion["idCoti"]);
-      $cotizacion['estadoCoti'] = FunctionCotizacion::getEstadoCoti($cotizacion["estadoCoti"]);
+    if (isset($_POST["todasLasCotizacionesPedidosVista"])) {
+      foreach ($todasLasCotizaciones as &$cotizacion) {
+        $cotizacion['buttons'] = FunctionCotizacion::getBtnCotizacionPedidosVista($cotizacion["idCoti"]);
+      }
+    } else {
+      foreach ($todasLasCotizaciones as &$cotizacion) {
+        $cotizacion['buttons'] = FunctionCotizacion::getBtnCotizacion($cotizacion["idCoti"]);
+        $cotizacion['estadoCoti'] = FunctionCotizacion::getEstadoCoti($cotizacion["estadoCoti"]);
+      }
     }
+
+
     //mostar todos los ProductosMprima DataTable
     echo json_encode($todasLasCotizaciones);
   }

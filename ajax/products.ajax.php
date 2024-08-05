@@ -36,6 +36,14 @@ if (isset($_POST["jsonBorraProducto"])) {
   $delete->jsonBorraProducto = $_POST["jsonBorraProducto"];
   $delete->ajaxBorrarProducto($_POST["jsonBorraProducto"]);
 }
+// Obtener productos de una cotización para la vista pedidos
+if (isset($_POST["codPedDatosPedidos"]) && isset($_POST["idCotiDatosPedidos"])) {
+  $productosPedido = new ProductAjax();
+  $productosPedido->codPedDatosPedidos = $_POST["codPedDatosPedidos"];
+  $productosPedido->idCotiDatosPedidos = $_POST["idCotiDatosPedidos"];
+  $productosPedido->ajaxMostrarDatosProductosCotizacionPedido();
+
+}
 /////////////////////////////
 
 class ProductAjax
@@ -89,6 +97,47 @@ class ProductAjax
     $borrarProducto = json_decode($jsonBorraProducto, true); // Decodificar la cadena de texto JSON en un array asociativo
     $response = ProductsController::ctrDeleteProduct($borrarProducto);
     echo json_encode($response);
+  }
+  // Obtener productos de una cotización para la vista pedidos
+  public $codPedDatosPedidos;
+  public $idCotiDatosPedidos;
+  public function ajaxMostrarDatosProductosCotizacionPedido()
+  {
+    $codPed = $this->codPedDatosPedidos;
+    $idCoti = $this->idCotiDatosPedidos;
+    $response = ProductsController::ctrMostrarDatosProductosCotizacionPedido($codPed, $idCoti);
+
+    // Verificar si $response contiene el campo 'productsCoti'
+    if (isset($response['productsCoti'])) {
+      // Decodificar el JSON contenido en 'productsCoti'
+      $productos = json_decode($response['productsCoti'], true);
+
+      // Verificar si la decodificación fue exitosa
+      if (is_array($productos)) {
+        // Crear un array para almacenar los productos trabajados
+        $productosTrabajados = [];
+
+        // Recorrer los productos y extraer la información necesaria
+        foreach ($productos as $key => $producto) {
+          $productosTrabajados[] = [
+            'codProdCoti' => $producto['codProdCoti'],
+            'nombreProdCoti' => $producto['nombreProdCoti'],
+            'unidadProdCoti' => $producto['unidadProdCoti'],
+            'cantidadProdCoti' => $producto['cantidadProdCoti'],
+            'precioProdCoti' => $producto['precioProdCoti']
+          ];
+        }
+
+        // Devolver el JSON trabajado
+        echo json_encode($productosTrabajados);
+      } else {
+        // Manejar el caso en que la decodificación falle
+        echo json_encode(['error' => 'Invalid JSON format in productsCoti']);
+      }
+    } else {
+      // Manejar el caso en que 'productsCoti' no esté presente
+      echo json_encode(['error' => 'productsCoti field not found']);
+    }
   }
 
 }
