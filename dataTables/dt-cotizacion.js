@@ -80,6 +80,98 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+// Abrir modal de cotizaciones
+function abrirModalCotizaciones() {
+  $("#modalCrearPedido").modal("hide");
+  $("#modalSeleccionarCotizacionPedidos").modal("show");
+  if (
+    $.fn.DataTable.isDataTable("#dataTableSeleccionarCotizacionPedidos")
+  ) {
+    $("#dataTableSeleccionarCotizacionPedidos").DataTable().destroy();
+  }
+
+  // Estructura de dataTableCotizaciones
+  $("#dataTableSeleccionarCotizacionPedidos thead").html(`
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Titulo Cotizacion</th>
+      <th scope="col">Nombre Comercial</th>
+      <th scope="col">Fecha</th>
+      <th scope="col">Nombre Solicitante</th>
+      <th scope="col">Total</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  `);
+
+  // Definición inicial de dataTableCotizaciones
+  var columnDefsCotizacion = [
+    {
+      data: null,
+      render: function (data, type, row, meta) {
+        return (
+          '<input type="radio" name="selectRow" class="selectRow" value="' +
+          row.idCoti +
+          '">'
+        );
+      },
+      orderable: false,
+    },
+    { data: "tituloCoti" },
+    { data: "nombreComercialCoti" },
+    { data: "fechaCoti" },
+    { data: "nombreCoti" },
+    {
+      data: "totalCoti",
+      render: function (data, type, row) {
+        return "S/ " + data;
+      },
+    },
+    { data: "buttons" },
+  ];
+
+  var tableCotizacion = $(
+    "#dataTableSeleccionarCotizacionPedidos"
+  ).DataTable({
+    columns: columnDefsCotizacion,
+  });
+
+  // Titulo dataTableCotizaciones
+  $("#titleModalSeleccionarCotizacionPedidosLabel").text(
+    "Seleccione una Cotización"
+  );
+
+  // Solicitud inicial de dataTableCotizaciones
+  var data = new FormData();
+  data.append("todasLasCotizacionesPedidosVista", true);
+
+  $.ajax({
+    url: "ajax/cotizacion.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (response) {
+      tableCotizacion.clear();
+      tableCotizacion.rows.add(response);
+      tableCotizacion.draw();
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR.responseText); // Procedencia de error
+      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+    },
+  });
+
+  // Evento para seleccionar solo una fila a la vez
+  $("#dataTableSeleccionarCotizacionPedidos tbody").on(
+    "change",
+    'input[type="radio"]',
+    function () {
+      $('input[type="radio"]').not(this).prop("checked", false);
+    }
+  );
+}
 
 // funcionalidad para data table para modal  de categorias de productos crear y eliminar registros sin actualizar la pagina
 document.addEventListener("DOMContentLoaded", function () {
@@ -115,6 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       );
     });
+
 
     // Evento para el botón de seleccionar cotización
     $("#modalSeleccionarCotizacionPedidos").on(
@@ -158,91 +251,3 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   }
 });
-// Function abrir modal de cotizaciones pedidos
-function abrirModalCotizaciones() {
-  $("#modalCrearPedido").modal("hide");
-  $("#modalSeleccionarCotizacionPedidos").modal("show");
-  if ($.fn.DataTable.isDataTable("#dataTableSeleccionarCotizacionPedidos")) {
-    $("#dataTableSeleccionarCotizacionPedidos").DataTable().destroy();
-  }
-
-  // Estructura de dataTableCotizaciones
-  $("#dataTableSeleccionarCotizacionPedidos thead").html(`
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Titulo Cotizacion</th>
-      <th scope="col">Nombre Comercial</th>
-      <th scope="col">Fecha</th>
-      <th scope="col">Nombre Solicitante</th>
-      <th scope="col">Total</th>
-      <th scope="col">Acciones</th>
-    </tr>
-  `);
-
-  // Definición inicial de dataTableCotizaciones
-  var columnDefsCotizacion = [
-    {
-      data: null,
-      render: function (data, type, row, meta) {
-        return (
-          '<input type="radio" name="selectRow" class="selectRow" value="' +
-          row.idCoti +
-          '">'
-        );
-      },
-      orderable: false,
-    },
-    { data: "tituloCoti" },
-    { data: "nombreComercialCoti" },
-    { data: "fechaCoti" },
-    { data: "nombreCoti" },
-    {
-      data: "totalCoti",
-      render: function (data, type, row) {
-        return "S/ " + data;
-      },
-    },
-    { data: "buttons" },
-  ];
-
-  var tableCotizacion = $("#dataTableSeleccionarCotizacionPedidos").DataTable({
-    columns: columnDefsCotizacion,
-  });
-
-  // Titulo dataTableCotizaciones
-  $("#titleModalSeleccionarCotizacionPedidosLabel").text(
-    "Seleccione una Cotización"
-  );
-
-  // Solicitud inicial de dataTableCotizaciones
-  var data = new FormData();
-  data.append("todasLasCotizacionesPedidosVista", true);
-
-  $.ajax({
-    url: "ajax/cotizacion.ajax.php",
-    method: "POST",
-    data: data,
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: "json",
-    success: function (response) {
-      tableCotizacion.clear();
-      tableCotizacion.rows.add(response);
-      tableCotizacion.draw();
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR.responseText); // Procedencia de error
-      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-    },
-  });
-
-  // Evento para seleccionar solo una fila a la vez
-  $("#dataTableSeleccionarCotizacionPedidos tbody").on(
-    "change",
-    'input[type="radio"]',
-    function () {
-      $('input[type="radio"]').not(this).prop("checked", false);
-    }
-  );
-}
