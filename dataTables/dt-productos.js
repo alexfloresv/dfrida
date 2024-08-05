@@ -336,16 +336,6 @@ document.addEventListener("DOMContentLoaded", function () {
           return "S/ " + data; // Coloca 'S/' delante del valor de la celda
         },
       },
-      {
-        data: "codProdCoti",
-        render: function (data, type, row) {
-          return (
-            '<button class="btn btn-success btnAddProdModalCoti" codAddProdModalCoti="' +
-            data +
-            '"><i class="fa-solid fa-clipboard-check"></i></button>'
-          );
-        },
-      },
     ];
 
     var tableProductos = $("#dataTableProductosCotizacionPedidos").DataTable({
