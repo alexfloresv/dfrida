@@ -216,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Enviar datos del formulario al servidor
             $.ajax({
-              url: "http://localhost/dfrida/ajax/pedidos.ajax.php", // Cambia esta URL si es necesario
+              url: "ajax/pedidos.ajax.php", 
               method: "POST",
               data: data,
               contentType: false,
