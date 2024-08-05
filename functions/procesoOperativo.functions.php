@@ -90,7 +90,7 @@ class FunctionProcesoOperativo
     return $botones;
   }
 
-  //boton para Tipo Proc
+  //boton para editar el estado del proceso en con el Tipo Proceso
   public static function getBtnVerTipoProc($codProcOp, $codTipProc, $stateProcOp)
   {
     if ($stateProcOp == 1 || $stateProcOp == 5) {

@@ -1331,7 +1331,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /* fin funciones Fin de proceso */
 
-//funciones para modificar el estado de los proceso operativos
+//funciones para modificar visualizar el estado de los proceso operativos
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/procesosOperativos";
@@ -1345,12 +1345,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Obtener los datos del botón
         var codProcOp = $(this).attr("codProcOp");
-        var codFinProcOp = $(this).attr("codFinProcOp");
+        var codTipProc = $(this).attr("codTipProc");
 
         // Crear el objeto FormData
         var jsonEstadosProcOp = JSON.stringify({
           codProcOp: codProcOp,
-          codFinProcOp: codFinProcOp,
+          codTipProc: codTipProc,
         });
 
         // Realizar la solicitud AJAX
@@ -1358,15 +1358,19 @@ document.addEventListener("DOMContentLoaded", function () {
           url: "ajax/procesoOperativo.ajax.php",
           method: "POST",
           data: { jsonEstadosProcOp: jsonEstadosProcOp },
-          cache: false,
-          contentType: false,
-          processData: false,
           dataType: "json",
           success: function (response) {
+            $("#tipoPorcesoOpNombreEstate").val(response["nombreTipoProc"]);
+            $("#fechaInicioProcOpEstate").val(response["fechaInicioProcOp"]);
+            $("#fechaFinProcOpEstate").val(response["fechaFinProcOp"]);
+            $("#estadoPrincipalProcOP").val(response["estadoProcOp"]);
+          
+            $("#btnFichaTrabEstate").data("id-ficha", response["idFichaProc"]);
+            $("#btnFichaTrabEstate").data("id-proc-op", response["idProcOp"]);
+              //btnFinalizarProcesoOp
+            $("#btnFinalizarProcOpEstate").val(response["idProcOp"]);
             // Llamar a la función Select2EdiProcOpIdMprima con los datos recibidos
-            Select2EdiProcOpIdMprima(response["idSalMprima"]);
-            // Llamar a la función Select2EdiProcOpIdPedido con los datos recibidos
-            Select2EdiProcOpIdPedido(response["idPedido"]);
+            //Select2EdiProcOpIdMprima(response["idSalMprima"]);
           },
           error: function (jqXHR, textStatus, errorThrown) {
             console.error(
@@ -1381,3 +1385,24 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 //fin estados procesos
+
+//funcion para abri y cerrar el modal
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/procesosOperativos";
+  if (currentPath == appPath) {
+    // Escuchar el clic del botón cerrarProcTrabAcitvos
+    document
+      .getElementById("cerrarProcTrabAcitvos")
+      .addEventListener("click", function () {
+        // Acción a realizar cuando se presione el botón
+        $("#modalVerProcesoTrabajo").modal("hide");
+        $("#modalEstadosProcesosOp").modal("show");
+      });
+  }
+});
+// fin funcion
+
+//funcion visualizar procesos de trabajo activos
+
+//fin funcion

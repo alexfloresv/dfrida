@@ -366,8 +366,8 @@ class procesoOperativoModel
   public static function mdlFinalizarProcesoOperativo($table, $dataUpdate)
   {
     $statement = Conexion::conn()->prepare("UPDATE $table SET estadoProcOp = :estadoProcOp, DateUpdate = :DateUpdate WHERE idProcOp = :idProcOp");
-    $statement->bindParam(":estadoProcOp", $dataUpdate["estadoProcOp"], PDO::PARAM_INT);
-    $statement->bindParam(":idProcOp", $dataUpdate["idProcOp"], PDO::PARAM_INT);
+    $statement->bindParam(":estadoProcOp", $dataUpdate["estadoProcOp"], PDO::PARAM_STR);
+    $statement->bindParam(":idProcOp", $dataUpdate["idProcOp"], PDO::PARAM_STR);
     $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
     if ($statement->execute()) {
       return "ok";
@@ -375,6 +375,39 @@ class procesoOperativoModel
       return "error";
     }
   }
+  // registrar finalaizacion en tabla proceso operativo finalizado
+  public static function mdlRegistrarProcOpFinalizado($table, $dataCreate)
+  {
+    $statement = Conexion::conn()->prepare("INSERT INTO $table (idProcOp, estadoProcOpFin, DateCreate) VALUES(:idProcOp, :estadoProcOpFin, :DateCreate)");
+    $statement->bindParam(":idProcOp", $dataCreate["idProcOp"], PDO::PARAM_STR);
+    $statement->bindParam(":estadoProcOpFin", $dataCreate["estadoProcOpFin"], PDO::PARAM_STR);
+    $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  //ultimo registro de proceso operativo finalizado
+  public static function mdlUltimoRegProcOpFin($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idProcOpFin FROM $table ORDER BY idProcOpFin DESC LIMIT 1");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+   //registro de produccion
+    public static function mdlRegistrarProduccion($table, $dataCreate)
+    {
+      $statement = Conexion::conn()->prepare("INSERT INTO $table (idProcOpFin, estadoProduccion, DateCreate) VALUES(:idProcOpFin, :estadoProduccion, :DateCreate)");
+      $statement->bindParam(":idProcOpFin", $dataCreate["idProcOpFin"], PDO::PARAM_STR);
+      $statement->bindParam(":estadoProduccion", $dataCreate["estadoProduccion"], PDO::PARAM_STR);
+      $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
+      if ($statement->execute()) {
+        return true;
+      } else {
+        return false;
+      }
+    }
 
   //actualziar estado de pedido a finalizado
   public static function mdlActualizarPedidoProcOpFin($table, $dataUpdate)
@@ -390,5 +423,47 @@ class procesoOperativoModel
     }
   }
 
+  //visualizar datos estados de proceso operativo principal
+  public static function mdlViewDataEstadosProcesoOperativo($table, $idProcOp)
+  {
+    $statement = Conexion::conn()->prepare("
+         SELECT 
+             po.idProcOp, 
+             po.idTipoProc, 
+             po.fechaInicioProcOp, 
+             po.fechaFinProcOp, 
+             po.estadoProcOp,
+             tp.nombreTipoProc,
+             tp.idFichaProc
+         FROM $table po
+         INNER JOIN tipo_proceso tp ON po.idTipoProc = tp.idTipoProc
+         WHERE po.idProcOp = :idProcOp
+     ");
+    $statement->bindParam(":idProcOp", $idProcOp, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
+  //visualizar procesos en el modal de procesos trabajo del proceso operativo
+  public static function mdlVerProcesosTrabajo($table, $idFichaProc)
+  {
+    $statement = Conexion::conn()->prepare("SELECT 
+     procesoFichaProcJson
+     FROM $table WHERE idFichaProc = :idFichaProc");
+    $statement->bindParam(":idFichaProc", $idFichaProc, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    return $result;
+  }
+  public static function mdlOptenerEstadoDeprocesoOp($table, $idProcOp)
+  {
+    $statement = Conexion::conn()->prepare("SELECT 
+     estadoProcOp
+     FROM $table WHERE idProcOp = :idProcOp");
+    $statement->bindParam(":idProcOp", $idProcOp, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    return $result;
+  }
   //////////////////////////////////////////////////////
 }

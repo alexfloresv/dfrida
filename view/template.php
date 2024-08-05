@@ -53,6 +53,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
       $_GET["ruta"] == "salidaMprima" ||
       $_GET["ruta"] == "salidaMprimaEdit" ||
       $_GET["ruta"] == "procesosOperativos" ||
+      $_GET["ruta"] == "produccionList" ||
 
       $_GET["ruta"] == "signout"
     ) {
@@ -101,6 +102,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
 <script src="dataTables/dt-almacenMateriaPrima.js"></script>
 <script src="dataTables/dt-salidasMprima.js"></script>
 <script src="dataTables/dt-procesoOperativo.js"></script>
+<script src="dataTables/dt-produccion.js"></script>
 
 
 <!-- funciones js -->

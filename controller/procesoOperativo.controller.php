@@ -435,20 +435,60 @@ class procesoOperativoController
       //actualziar estado de pedido a finalizado
       $statePedidoUpdate = self::ctrActualizarPedidoProcOpFin($idPedido);
       if ($statePedidoUpdate) {
-        $table = "proceso_operativo";
-        $dataUpdate = array(
-          "idProcOp" => $codIniProcOp,
-          "estadoProcOp" => 5,//finalizado
-          "DateUpdate" => date("Y-m-d\TH:i:sP"),
-        );
-        $response = procesoOperativoModel::mdlFinalizarProcesoOperativo($table, $dataUpdate);
-        return $response;
+        //crear registro de finalizacion de proceso operativo
+        $createRegFinProceso = self::ctrRegistroProcOpFinalizado($codIniProcOp);
+
+        if ($createRegFinProceso) {
+          $table = "proceso_operativo";
+          $dataUpdate = array(
+            "idProcOp" => $codIniProcOp,
+            "estadoProcOp" => 5,//finalizado
+            "DateUpdate" => date("Y-m-d\TH:i:sP"),
+          );
+          $response = procesoOperativoModel::mdlFinalizarProcesoOperativo($table, $dataUpdate);
+          return $response;
+        }
+        ;
       } {
         return "errorActPedido";
       }
     } else {
       return "errorSnSalida";
     }
+  }
+
+  //crear registro de finalizacion de proceso operativo
+  public static function ctrRegistroProcOpFinalizado($codProcOp)
+  {
+
+    $table = "proceso_operativo_fin";
+    $dataCreate = array(
+      "idProcOp" => $codProcOp,
+      "estadoProcOpFin" => 1,//finalizdo
+      "DateCreate" => date("Y-m-d\TH:i:sP"),
+    );
+    $createRegFinProceso = procesoOperativoModel::mdlRegistrarProcOpFinalizado($table, $dataCreate);
+    if ($createRegFinProceso) {
+      //ultimo registro de proceso operativo finalizado
+      $obtenerUltimoRegistro = self::ctrUltimoRegProcOpFin();
+      //registro de produccion
+      $tableProducc = "produccion";
+      $dataCreateProducc = array(
+        "idProcOpFin" => $obtenerUltimoRegistro["idProcOpFin"],
+        "estadoProduccion" => 1,//finalizdo
+        "DateCreate" => date("Y-m-d\TH:i:sP"),
+      );
+      $response = procesoOperativoModel::mdlRegistrarProduccion($tableProducc, $dataCreateProducc);
+    }
+    return $response;
+
+  }
+  //ultimo registro de proceso operativo finalizado
+  public static function ctrUltimoRegProcOpFin()
+  {
+    $table = "proceso_operativo_fin";
+    $response = procesoOperativoModel::mdlUltimoRegProcOpFin($table);
+    return $response;
   }
   //actualziar estado de pedido a finalizado
   public static function ctrActualizarPedidoProcOpFin($idPedido)
@@ -463,6 +503,36 @@ class procesoOperativoController
     return $response;
   }
 
+  //visualizar datos estados de proceso operativo principal
+  public static function ctrViewDataEstadosProcesoOperativo($dataEstadosProcOp)
+  {
+    $idProcOp = $dataEstadosProcOp["codProcOp"];
+    $idTipoProc = $dataEstadosProcOp["codTipProc"];
+    $table = "proceso_operativo";
+    $response = procesoOperativoModel::mdlViewDataEstadosProcesoOperativo($table, $idProcOp);
+    return $response;
+  }
+
+  //visualizar procesos en el modal de procesos trabajo del proceso operativo
+  public static function ctrVerProcesosTrabajo($dataEstadosFichTrab)
+  {
+    $idFichaProc = $dataEstadosFichTrab["idFichaProc"];
+    $idProcOp = $dataEstadosFichTrab["idProcOp"];
+    $estadoProcOp = self::ctrOptenerEstadoDeprocesoOp($idProcOp);
+    $table = "ficha_proceso";
+    $procesosTrabajo = procesoOperativoModel::mdlVerProcesosTrabajo($table, $idFichaProc);
+
+    $response = array_merge(['estadosProcOpTrab' => $estadoProcOp], $procesosTrabajo);
+
+    return $response;
+  }
+  //obtener estado de proceso operativo
+  public static function ctrOptenerEstadoDeprocesoOp($idProcOp)
+  {
+    $table = "proceso_operativo";
+    $response = procesoOperativoModel::mdlOptenerEstadoDeprocesoOp($table, $idProcOp);
+    return $response;
+  }
   ///////////////////////////////////////////////////
 
 
