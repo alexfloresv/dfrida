@@ -219,6 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
               url: "ajax/pedidos.ajax.php", 
               method: "POST",
               data: data,
+              cache: false,
               contentType: false,
               processData: false,
               dataType: "json",
