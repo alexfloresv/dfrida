@@ -59,7 +59,6 @@ class PedidosAjax
     // Mostrar todos los productos en datatable
     echo json_encode($todosLosPedidos);
   }
-
   public function ajaxCrearPedidosJson()
   {
     $jsonDataPedidos = $this->jsonDataPedidos;
