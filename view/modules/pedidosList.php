@@ -150,7 +150,7 @@
 </div>
 <!-- Modal Crear Pedido -->
 <div class="modal fade" id="modalCrearPedido" tabindex="-1" aria-labelledby="modalCrearPedidoLabel" aria-hidden="true"
-  data-bs-backdrop="static">
+  data-bs-backdrop="static" inert>
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
