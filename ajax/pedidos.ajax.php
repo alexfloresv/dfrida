@@ -12,6 +12,14 @@ if (isset($_POST["todosLosPedidos"])) {
   $todosLosPedidos = new PedidosAjax();
   $todosLosPedidos->ajaxDTablePedidos();
 }
+// Crear pedido
+if (isset($_POST["crearPedido"])) {
+  // Decodificar el JSON recibido
+  $jsonData = json_decode($_POST["crearPedido"], true);
+  // Pasar los datos decodificados al controlador
+  $crearPedido = new PedidosAjax();
+  $crearPedido->ajaxCrearPedido($jsonData);
+}
 /////////////////////////////
 
 class PedidosAjax
@@ -29,6 +37,11 @@ class PedidosAjax
     }
     //mostar todos los productos datatable
     echo json_encode($todosLosPedidos);
+  }
+  public function ajaxCrearPedido($jsonData)
+  {
+    $respuesta = PedidosController::ctrCrearPedido($jsonData);
+    echo json_encode($respuesta);
   }
 }
 

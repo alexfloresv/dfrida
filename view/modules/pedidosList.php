@@ -141,7 +141,6 @@
           <input type="text" class="form-control" id="VerDetallCliPedido" name="VerDetallCliPedido" readonly>
         </div>
         <div class="modal-footer">
-          <input type="hidden" id="codClient" name="codClient" class="codClient">
           <button type="button" class="btn btn-secondary" data-dismiss="modal"
             id="btnCerrarVerClientesPedidos">Cerrar</button>
         </div>
@@ -150,7 +149,8 @@
   </div>
 </div>
 <!-- Modal Crear Pedido -->
-<div class="modal fade" id="modalCrearPedido" tabindex="-1" aria-labelledby="modalCrearPedidoLabel" aria-hidden="true">
+<div class="modal fade" id="modalCrearPedido" tabindex="-1" aria-labelledby="modalCrearPedidoLabel" aria-hidden="true"
+  data-bs-backdrop="static">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
@@ -192,7 +192,7 @@
               <div class="col-md-4 mb-3">
                 <div class="form-group">
                   <label for="idClienteAddPedido">Seleccionar Cliente:</label>
-                  <select class="form-select" id="idClienteAddPedido" name="idClienteAddPedido">
+                  <select class="form-select" id="idClienteAddPedido" name="idClienteAddPedido" data-selected="">
                   </select>
                 </div>
               </div>
@@ -201,7 +201,8 @@
               <div class="col-md-4 mb-3">
                 <div class="form-group">
                   <label for="idFichaTecnicaAddPedido">Seleccionar Ficha Técnica:</label>
-                  <select class="form-select" id="idFichaTecnicaAddPedido" name="idFichaTecnicaAddPedido">
+                  <select class="form-select" id="idFichaTecnicaAddPedido" name="idFichaTecnicaAddPedido"
+                    data-selected="">
                   </select>
                 </div>
               </div>
@@ -219,7 +220,7 @@
 
 <!-- Modal cotizaciones para la vista de pedidos -->
 <div class="modal fade" id="modalSeleccionarCotizacionPedidos" tabindex="-1"
-  aria-labelledby="modalSeleccionarCotizacionPedidosLabel" aria-hidden="true">
+  aria-labelledby="modalSeleccionarCotizacionPedidosLabel" aria-hidden="true" data-bs-backdrop="static">
   <div class="modal-dialog modal-lg"> <!-- Clase "modal-lg" agregada aquí -->
     <div class="modal-content">
       <div class="modal-header">
@@ -237,8 +238,10 @@
         </table>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="btnSeleccionarCotizaciónparaPedido">Seleccionar Cotización</button>
-        <button type="button" class="btn btn-secondary" id="btnCerrarModalSeleccionarCotizacionPedidos" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" id="btnSeleccionarCotizaciónparaPedido">Seleccionar
+          Cotización</button>
+        <button type="button" class="btn btn-secondary" id="btnCerrarModalSeleccionarCotizacionPedidos"
+          data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

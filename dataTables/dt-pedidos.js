@@ -84,8 +84,22 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     // Evento para limpiar el atributo idCoti del botón #verCotizacionesPedidoAdd
     $("#btnAddPedido").on("click", function () {
-      $("#btnVerCotizacionesPedidoAdd").attr("idCoti", "");
+      // Limpiar el formulario
+      $("#formPedidoAdd")[0].reset();
+
+      // Restablecer los valores seleccionados en los elementos <select>
+      $("#idClienteAddPedido").val("").trigger("change");
+      $("#idFichaTecnicaAddPedido").val("").trigger("change");
+
+      // Limpiar el atributo data-selected
+      $("#idClienteAddPedido").attr("data-selected", "");
+      $("#idFichaTecnicaAddPedido").attr("data-selected", "");
+
+      // Establecer la fecha actual en el campo de fecha
       $("#fechaPedidoAdd").val(new Date().toISOString().slice(0, 10));
+
+      // Limpiar el idCoti del botón de cotizaciones
+      $("#btnVerCotizacionesPedidoAdd").attr("idCoti", "");
     });
   }
 });
