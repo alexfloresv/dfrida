@@ -113,36 +113,53 @@ document.addEventListener("DOMContentLoaded", function () {
 // Fin
 
 // Evento para guardar los valores seleccionados antes de abrir el modal de cotizaciones
-document
-  .getElementById("btnVerCotizacionesPedidoAdd")
-  .addEventListener("click", function () {
-    var clienteSelect = document.getElementById("idClienteAddPedido");
-    var fichaTecnicaSelect = document.getElementById("idFichaTecnicaAddPedido");
+// Verificar si la ruta es la correcta
+var currentPath = window.location.pathname;
+var appPath = "/dfrida/pedidosList";
+if (currentPath == appPath) {
+  document
+    .getElementById("btnVerCotizacionesPedidoAdd")
+    .addEventListener("click", function () {
+      var clienteSelect = document.getElementById("idClienteAddPedido");
+      var fichaTecnicaSelect = document.getElementById(
+        "idFichaTecnicaAddPedido"
+      );
 
-    clienteSelect.setAttribute("data-selected", clienteSelect.value);
-    fichaTecnicaSelect.setAttribute("data-selected", fichaTecnicaSelect.value);
-  });
+      clienteSelect.setAttribute("data-selected", clienteSelect.value);
+      fichaTecnicaSelect.setAttribute(
+        "data-selected",
+        fichaTecnicaSelect.value
+      );
+    });
+}
 //Fin
 
 // Evento para restaurar los valores seleccionados cuando se cierra el modal de cotizaciones
-document
-  .getElementById("modalSeleccionarCotizacionPedidos")
-  .addEventListener("hidden.bs.modal", function () {
-    var clienteSelect = document.getElementById("idClienteAddPedido");
-    var fichaTecnicaSelect = document.getElementById("idFichaTecnicaAddPedido");
+var currentPath = window.location.pathname;
+var appPath = "/dfrida/pedidosList";
+if (currentPath == appPath) {
+  document
+    .getElementById("modalSeleccionarCotizacionPedidos")
+    .addEventListener("hidden.bs.modal", function () {
+      var clienteSelect = document.getElementById("idClienteAddPedido");
+      var fichaTecnicaSelect = document.getElementById(
+        "idFichaTecnicaAddPedido"
+      );
 
-    var selectedCliente = clienteSelect.getAttribute("data-selected");
-    var selectedFichaTecnica = fichaTecnicaSelect.getAttribute("data-selected");
+      var selectedCliente = clienteSelect.getAttribute("data-selected");
+      var selectedFichaTecnica =
+        fichaTecnicaSelect.getAttribute("data-selected");
 
-    if (selectedCliente) {
-      clienteSelect.value = selectedCliente;
-      $(clienteSelect).trigger("change");
-    }
-    if (selectedFichaTecnica) {
-      fichaTecnicaSelect.value = selectedFichaTecnica;
-      $(fichaTecnicaSelect).trigger("change");
-    }
-  });
+      if (selectedCliente) {
+        clienteSelect.value = selectedCliente;
+        $(clienteSelect).trigger("change");
+      }
+      if (selectedFichaTecnica) {
+        fichaTecnicaSelect.value = selectedFichaTecnica;
+        $(fichaTecnicaSelect).trigger("change");
+      }
+    });
+}
 // Fin
 // Validacion de datos del formulario mas creación de pedido
 document.addEventListener("DOMContentLoaded", function () {
@@ -216,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Enviar datos del formulario al servidor
             $.ajax({
-              url: "ajax/pedidos.ajax.php", 
+              url: "ajax/pedidos.ajax.php",
               method: "POST",
               data: data,
               cache: false,

@@ -125,7 +125,7 @@ class CotizacionController
   {
     $codCoti = $codCotiPdf["codCoti"];
     //cambiar estado de la cotizacion al descargar
-    $newEstadoCoti = self::ctrEstadoDescargaPdfCotizacion($codCoti);
+    //$newEstadoCoti = self::ctrEstadoDescargaPdfCotizacion($codCoti);
     $table = "cotizacion";
     $response = CotizacionModel::mdlDescargarPdfCotizacion($table, $codCoti);
 

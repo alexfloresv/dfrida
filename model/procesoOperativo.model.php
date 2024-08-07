@@ -395,19 +395,19 @@ class procesoOperativoModel
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
-   //registro de produccion
-    public static function mdlRegistrarProduccion($table, $dataCreate)
-    {
-      $statement = Conexion::conn()->prepare("INSERT INTO $table (idProcOpFin, estadoProduccion, DateCreate) VALUES(:idProcOpFin, :estadoProduccion, :DateCreate)");
-      $statement->bindParam(":idProcOpFin", $dataCreate["idProcOpFin"], PDO::PARAM_STR);
-      $statement->bindParam(":estadoProduccion", $dataCreate["estadoProduccion"], PDO::PARAM_STR);
-      $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
-      if ($statement->execute()) {
-        return true;
-      } else {
-        return false;
-      }
+  //registro de produccion
+  public static function mdlRegistrarProduccion($table, $dataCreate)
+  {
+    $statement = Conexion::conn()->prepare("INSERT INTO $table (idProcOpFin, estadoProduccion, DateCreate) VALUES(:idProcOpFin, :estadoProduccion, :DateCreate)");
+    $statement->bindParam(":idProcOpFin", $dataCreate["idProcOpFin"], PDO::PARAM_STR);
+    $statement->bindParam(":estadoProduccion", $dataCreate["estadoProduccion"], PDO::PARAM_STR);
+    $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return true;
+    } else {
+      return false;
     }
+  }
 
   //actualziar estado de pedido a finalizado
   public static function mdlActualizarPedidoProcOpFin($table, $dataUpdate)
@@ -455,6 +455,7 @@ class procesoOperativoModel
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result;
   }
+    //obtener estado de proceso operativo
   public static function mdlOptenerEstadoDeprocesoOp($table, $idProcOp)
   {
     $statement = Conexion::conn()->prepare("SELECT 
@@ -465,5 +466,20 @@ class procesoOperativoModel
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result;
   }
+  //finalizar proceso operativo modal estados
+  public static function mdlActualizarEstadoProcesoOperativo($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoProcOp = :estadoProcOp, fechaFinProcOp = :fechaFinProcOp, DateUpdate = :DateUpdate WHERE idProcOp = :idProcOp");
+    $statement->bindParam(":estadoProcOp", $dataUpdate["estadoProcOp"], PDO::PARAM_INT);
+    $statement->bindParam(":idProcOp", $dataUpdate["idProcOp"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaFinProcOp", $dataUpdate["fechaFinProcOp"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
   //////////////////////////////////////////////////////
 }

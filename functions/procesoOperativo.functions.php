@@ -140,13 +140,13 @@ class FunctionProcesoOperativo
     if ($stateValue == 1) {
       $estado = '<span class="badge rounded-pill bg-primary">REGISTRADO</span>';
     } elseif ($stateValue == 2) {
-      $estado = '<span class="badge rounded-pill bg-warning">EN EJECUCION</span>';
+      $estado = '<span class="badge rounded-pill bg-warning">EN PROCESO</span>';
     } elseif ($stateValue == 3) {
-      $estado = '<span class="badge rounded-pill bg-danger">DETENIDO</span>';
+      $estado = '<span class="badge rounded-pill bg-danger">CUELLO DE BOTELLA</span>';
     } elseif ($stateValue == 4) {
       $estado = '<span class="badge rounded-pill bg-warning">LISTO</span>';
     } elseif ($stateValue == 5) {
-      $estado = '<span class="badge rounded-pill bg-success">FINALIZADO</span>';
+      $estado = '<span class="badge rounded-pill bg-success">PRENDA TERMINADA</span>';
     } elseif ($stateValue == 6) {
       $estado = '<span class="badge rounded-pill bg-danger">RETRASADO</span>';
     }

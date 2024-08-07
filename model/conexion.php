@@ -13,8 +13,8 @@ class Conexion
 }
 
 //hostinguer
-/* 
-class Conexion
+
+/* class Conexion
 {
   static public function conn()
   {

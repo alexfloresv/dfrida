@@ -137,6 +137,18 @@ if (isset($_POST["jsonEstadosFichTrab"])) {
   $view->jsonEstadosFichTrab = $_POST["jsonEstadosFichTrab"];
   $view->ajaxVerProcesosTrabajo($_POST["jsonEstadosFichTrab"]);
 }
+//finalizar proceso operativo modal estados
+if (isset($_POST["jsonFinEstadoProcOp"])) {
+  $end = new procesoOperativoAjax();
+  $end->jsonFinEstadoProcOp = $_POST["jsonFinEstadoProcOp"];
+  $end->ajaxBtnFinalizarProcesoOperativo($_POST["jsonFinEstadoProcOp"]);
+}
+//actualizar estado de proceso operativo modal estados
+if (isset($_POST["jsonEditarEstadoProcOp"])) {
+  $end = new procesoOperativoAjax();
+  $end->jsonEditarEstadoProcOp = $_POST["jsonEditarEstadoProcOp"];
+  $end->ajaxActualizarEstadoProcesoOperativo($_POST["jsonEditarEstadoProcOp"]);
+}
 
 /////////////////////////////
 
@@ -294,6 +306,22 @@ class procesoOperativoAjax
   {
     $dataEstadosFichTrab = json_decode($jsonEstadosFichTrab, true);
     $response = procesoOperativoController::ctrVerProcesosTrabajo($dataEstadosFichTrab);
+    echo json_encode($response);
+  }
+
+  //finalizar proceso operativo modal estados
+  public function ajaxBtnFinalizarProcesoOperativo($jsonFinEstadoProcOp)
+  {
+    $idProcOpFin = json_decode($jsonFinEstadoProcOp, true);
+    $response = procesoOperativoController::ctrBtnFinalizarProcesoOperativo($idProcOpFin);
+    echo json_encode($response);
+  }
+
+  //actualizar estado de proceso operativo modal estados
+  public function ajaxActualizarEstadoProcesoOperativo($jsonEditarEstadoProcOp)
+  {
+    $dataActProcOp = json_decode($jsonEditarEstadoProcOp, true);
+    $response = procesoOperativoController::ctrActualizarEstadoProcesoOperativo($dataActProcOp);
     echo json_encode($response);
   }
 }
