@@ -533,6 +533,34 @@ class procesoOperativoController
     $response = procesoOperativoModel::mdlOptenerEstadoDeprocesoOp($table, $idProcOp);
     return $response;
   }
+
+  //finalizar proceso operativo modal estados
+  public static function ctrBtnFinalizarProcesoOperativo($idProcOpFin)
+  {
+    $idProcOp = $idProcOpFin["idProcOp"];
+    //funcion para finalizar proceso operativo 
+    $response = self::ctrFinalizarProcesoOperativo($idProcOp);
+    return $response;
+  }
+
+  //actualizar estado de proceso operativo modal estados
+  public static function ctrActualizarEstadoProcesoOperativo($dataActProcOp)
+  {
+    $table = "proceso_operativo";
+
+    $idProcOp = $dataActProcOp["codProcOpEst"];
+    $estadoProcOp = $dataActProcOp["estadoPrincipalProcOP"];
+    $fechaFinAct = $dataActProcOp["fechaFinProcOpEstate"];
+
+    $dataUpdate = array(
+      "fechaFinProcOp" => $fechaFinAct,
+      "idProcOp" => $idProcOp,
+      "estadoProcOp" => $estadoProcOp,
+      "DateUpdate" => date("Y-m-d\TH:i:sP"),
+    );
+    $response = procesoOperativoModel::mdlActualizarEstadoProcesoOperativo($table, $dataUpdate);
+    return $response;
+  }
   ///////////////////////////////////////////////////
 
 

@@ -10,7 +10,11 @@ document.addEventListener("DOMContentLoaded", function () {
       <label for="procesosAdd" class="form-label" style="font-weight: bold">Nombre Proceso a Agregar:</label>
       <input type="text" class="form-control mb-3" id="procesosAddModal" name="procesosAdd" placeholder="Ingrese el nombre del proceso">
       <label for="tiempoAdd" class="form-label" style="font-weight: bold">Tiempo:</label>
-      <input type="text" class="form-control mb-3" id="tiempoAddModal" name="tiempoAdd" placeholder="Ingrese tiempo en minutos/horas/dias/etc">
+      <input type="number" class="form-control mb-3" id="tiempoAddModal" name="tiempoAdd" placeholder="Ingrese tiempo en Horas/Dias  1Horas 1Dias">
+      <select class="form-select" id="tiempoProduccion" name="tiempoProduccion">
+      <option value="Horas">Horas</option>
+      <option value="Dias">Dias</option>                              
+      </select>
       <label for="observacionAdd" class="form-label" style="font-weight: bold">Observación:</label>
       <textarea class="form-control mb-3" id="observacionAddModal" name="observacionAdd" placeholder="Ingrese observacion de proceso de trabajo opcional" rows="4"></textarea>
       <br>`;
@@ -25,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .addEventListener("click", function () {
         var nombreProceso = document.getElementById("procesosAddModal");
         var tiempoProceso = document.getElementById("tiempoAddModal");
+        var tiempoProduccion = document.getElementById("tiempoProduccion"); // Obtener el valor del select
         var observacionProceso = document.getElementById("observacionAddModal");
         // Contar campos vacíos
         var camposVacios = [
@@ -45,7 +50,10 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
-        // Crear un nuevo formulario para el producto con un ID único
+        // Concatenar el valor del select al valor del tiempo
+        var tiempoConUnidad = `${tiempoProceso.value} ${tiempoProduccion.value}`;
+
+        // Crear un nuevo formulario para el proceso con un ID único
         var formularioID = "formularioProceso" + formularioProcesoCounter++;
         var nuevoProductoHTML = `
         <form id="${formularioID}" class="row procesoRow" style="padding:5px 15px">
@@ -53,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <input type="text" class="form-control " id="procesosAdd" value="${nombreProceso.value}" >
           </div>
           <div class="col-lg-2">
-            <input type="text" class="form-control " id="tiempoAdd" value="${tiempoProceso.value}" >
+            <input type="text" class="form-control " id="tiempoAdd" value="${tiempoConUnidad}" >
           </div>
           <div class="col-lg-4">
             <input type="text" class="form-control " id="observacionAdd" value="${observacionProceso.value}">
@@ -67,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
         nombreProceso.value = "";
         tiempoProceso.value = "";
         observacionProceso.value = "";
+        tiempoProduccion.value = "Horas"; // Resetear el select a su valor por defecto
       });
     // Eliminar el producto
     $(document).on("click", ".deleteProcesoAdd", function () {
@@ -329,7 +338,9 @@ document.addEventListener("DOMContentLoaded", function () {
       var formulario = document.getElementById("formProcesoTrabajoEdit");
       var datosFormulario = {};
       //obtener los elementos del formulario
-      var elementosFormulario = formulario.querySelectorAll("input, select, textarea");
+      var elementosFormulario = formulario.querySelectorAll(
+        "input, select, textarea"
+      );
       //for each para recorrer los elementos del formulario y asignarle la clave como su id y su valor
       elementosFormulario.forEach(function (elemento) {
         if (elemento.id) {
@@ -419,7 +430,11 @@ document.addEventListener("DOMContentLoaded", function () {
       <label for="procesosAdd" class="form-label" style="font-weight: bold">Nombre Proceso a Agregar:</label>
       <input type="text" class="form-control mb-3" id="procesosAddModal" name="procesosAdd" placeholder="Ingrese el nombre del proceso">
       <label for="tiempoAdd" class="form-label" style="font-weight: bold">Tiempo:</label>
-      <input type="text" class="form-control mb-3" id="tiempoAddModal" name="tiempoAdd" placeholder="Ingrese tiempo en minutos/horas/dias/etc">
+      <input type="number" class="form-control mb-3" id="tiempoAddModal" name="tiempoAdd" placeholder="Ingrese tiempo en Horas/Dias  1Horas 1Dias">
+      <select class="form-select" id="tiempoProduccion" name="tiempoProduccion">
+      <option value="Horas">Horas</option>
+      <option value="Dias">Dias</option>                              
+      </select>
       <label for="observacionAdd" class="form-label" style="font-weight: bold">Observación:</label>
       <textarea class="form-control mb-3" id="observacionAddModal" name="observacionAdd" placeholder="Ingrese observacion de proceso de trabajo opcional" rows="4"></textarea>
       <br>`;
@@ -434,6 +449,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .addEventListener("click", function () {
         var nombreProceso = document.getElementById("procesosAddModal");
         var tiempoProceso = document.getElementById("tiempoAddModal");
+        var tiempoProduccion = document.getElementById("tiempoProduccion"); // Obtener el valor del select
         var observacionProceso = document.getElementById("observacionAddModal");
         // Contar campos vacíos
         var camposVacios = [
@@ -454,7 +470,10 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
-        // Crear un nuevo formulario para el producto con un ID único
+        // Concatenar el valor del select al valor del tiempo
+        var tiempoConUnidad = `${tiempoProceso.value} ${tiempoProduccion.value}`;
+
+        // Crear un nuevo formulario para el proceso con un ID único
         var formularioID = "formularioProceso" + formularioProcesoCounterEdit++;
         var nuevoProductoHTML = `
         <form id="${formularioID}" class="row procesoRow" style="padding:5px 15px">
@@ -462,7 +481,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <input type="text" class="form-control " id="procesosAdd" value="${nombreProceso.value}" >
           </div>
           <div class="col-lg-2">
-            <input type="text" class="form-control " id="tiempoAdd" value="${tiempoProceso.value}" >
+            <input type="text" class="form-control " id="tiempoAdd" value="${tiempoConUnidad}" >
           </div>
           <div class="col-lg-4">
             <input type="text" class="form-control " id="observacionAdd" value="${observacionProceso.value}">
@@ -476,6 +495,7 @@ document.addEventListener("DOMContentLoaded", function () {
         nombreProceso.value = "";
         tiempoProceso.value = "";
         observacionProceso.value = "";
+        tiempoProduccion.value = "Horas"; // Resetear el select a su valor por defecto
       });
     // Eliminar el producto
     $(document).on("click", ".deleteProcesoAdd", function () {

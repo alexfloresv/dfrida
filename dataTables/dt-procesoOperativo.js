@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var idFichaProc = $("#btnFichaTrabEstate").data("id-ficha");
         var idProcOp = $("#btnFichaTrabEstate").data("id-proc-op");
 
-        // Abre el modal
+        // cierra el modal
         $("#modalEstadosProcesosOp").modal("hide");
         // Abre el modal
         $("#modalVerProcesoTrabajo").modal("show");
@@ -327,17 +327,17 @@ document.addEventListener("DOMContentLoaded", function () {
               data: "estadoProcOp",
               render: function (data, type, row) {
                 if (data === 1) {
-                  return '<span class="text-success">REGISTRADO</span>';
+                  return '<span class="text-primary">REGISTRADO</span>';
                 } else if (data === 2) {
-                  return '<span class="text-success">EN EJECUCION</span>';
+                  return '<span class="text-warning">EN PROCESO</span>';
                 } else if (data === 3) {
-                  return '<span class="text-success">DETENIDO</span>';
+                  return '<span class="text-danger">CUELLO DE BOTELLA</span>';
                 } else if (data === 4) {
-                  return '<span class="text-success">LISTO </span>';
+                  return '<span class="text-warning">LISTO </span>';
                 } else if (data === 5) {
-                  return '<span class="text-success">FINALIZADO</span>';
+                  return '<span class="text-success">PRENDA TERMINADA</span>';
                 } else {
-                  return '<span class="text-success">RETRASADO</span>';
+                  return '<span class="text-danger">RETRASADO</span>';
                 }
               },
             },
