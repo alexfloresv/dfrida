@@ -59,20 +59,24 @@ class CotizacionAjax
   //datatable de cotizaciones
   public function ajaxDTableCotizaciones()
   {
-
-    $todasLasCotizaciones = CotizacionController::ctrDTableCotizaciones();
     if (isset($_POST["todasLasCotizacionesPedidosVista"])) {
-      foreach ($todasLasCotizaciones as &$cotizacion) {
+      $todasLasCotizaciones = CotizacionController::ctrDTableCotizaciones();
+      // Filtrar las cotizaciones cuyo estadoAsignacionCoti sea igual a 1
+      $cotizacionesFiltradas = array_filter($todasLasCotizaciones, function ($cotizacion) {
+        return $cotizacion['estadoAsignacionCoti'] == 1;
+      });
+
+      // Agregar los botones solo a las cotizaciones filtradas
+      foreach ($cotizacionesFiltradas as &$cotizacion) {
         $cotizacion['buttons'] = FunctionCotizacion::getBtnCotizacionPedidosVista($cotizacion["idCoti"]);
       }
     } else {
+      $todasLasCotizaciones = CotizacionController::ctrDTableCotizaciones();
       foreach ($todasLasCotizaciones as &$cotizacion) {
         $cotizacion['buttons'] = FunctionCotizacion::getBtnCotizacion($cotizacion["idCoti"]);
         $cotizacion['estadoCoti'] = FunctionCotizacion::getEstadoCoti($cotizacion["estadoCoti"]);
       }
     }
-
-
     //mostar todos los ProductosMprima DataTable
     echo json_encode($todasLasCotizaciones);
   }

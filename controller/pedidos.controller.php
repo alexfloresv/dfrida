@@ -23,6 +23,9 @@ class PedidosController
 
     $table = "pedido";
     $response = PedidosModel::ctrCrearPedidoJson($table, $jsonData);
+    if($response =="ok"){
+      $response = CotizacionController::ctrActualizarEstadoAsignacionCoti($jsonData['idCoti']);
+    }
     return $response;
   }
 }

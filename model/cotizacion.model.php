@@ -12,6 +12,13 @@ class CotizacionModel
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  public static function mdlDTableCotizacionesSinAsignarPedidos($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idCoti, tituloCoti, nombreComercialCoti, fechaCoti, nombreCoti, celularCoti, totalCoti, estadoCoti FROM $table WHERE estadoCoti = 1 ORDER BY idCoti DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
   // Crear nueva cotizacion
   public static function mdlCrearCrearCotizacion($table, $dataCotizacion)
   {
@@ -120,6 +127,18 @@ class CotizacionModel
   {
     $statement = Conexion::conn()->prepare("UPDATE $table SET estadoCoti = '2' WHERE idCoti = :idCoti");
     $statement->bindParam(":idCoti", $codCoti, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+  //cambiar estado de asginacion de la cotizacion
+  public static function mdlActualizarEstadoAsignacionCoti($table, $dataActualizarEstado)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoCoti = '2', DateUpdate =:DateUpdate WHERE idCoti = :idCoti");
+    $statement->bindParam(":idCoti", $dataActualizarEstado["idCoti"], PDO::PARAM_INT);
+    $statement->bindParam(":DateUpdate", $dataActualizarEstado["DateUpdate"], PDO::PARAM_STR);
     if ($statement->execute()) {
       return "ok";
     } else {

@@ -2,6 +2,8 @@
 require_once "../controller/pedidos.controller.php";
 require_once "../model/pedidos.model.php";
 require_once "../functions/pedidos.functions.php";
+require_once "../controller/cotizacion.controller.php";
+require_once "../model/cotizacion.model.php";
 
 // Inicio de sesión
 if (session_status() == PHP_SESSION_NONE) {
@@ -43,7 +45,7 @@ class PedidosAjax
     // Mostrar todos los productos en datatable
     echo json_encode($todosLosPedidos);
   }
-
+  // Crear pedido
   public function ajaxCrearPedidosJson()
   {
     $jsonDataPedidos = $this->jsonDataPedidos;

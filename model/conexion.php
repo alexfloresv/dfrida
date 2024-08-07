@@ -2,7 +2,7 @@
 
 //hostin local
 
-/* class Conexion
+class Conexion
  {
   static public function conn()
   {
@@ -10,10 +10,10 @@
     $link->exec("set names utf8");
     return $link;
   }
-} */
+}
 
 //hostinguer
-
+/* 
 class Conexion
 {
   static public function conn()
@@ -22,4 +22,4 @@ class Conexion
     $link->exec("set names utf8");
     return $link;
   }
-}
+} */
