@@ -415,10 +415,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       $("#modalVerProductosPedido").on("shown.bs.modal", function () {
 
-        if ($.fn.DataTable.isDataTable("#dataTableProcesosDeTrabajoActivo")) {
-          $("#dataTableProcesosDeTrabajoActivo").DataTable().destroy();
+        // Destruir el DataTable solo cuando se abre el modal
+        if ($.fn.DataTable.isDataTable("#dataTableProductosActivosConfeccion")) {
+          $("#dataTableProductosActivosConfeccion").DataTable().destroy();
         }
-        
+
+        // Limpiar el encabezado de la tabla
         $("#dataTableProductosActivosConfeccion thead").html(`
         <tr>
           <th scope="col">#</th>
@@ -428,7 +430,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <th scope="col">Cantidad Producto</th>
           <th scope="col">Precio Prodcuto</th>
         </tr>
-      `);
+        `);
 
         var columnDefsProdPedido = [
           {
@@ -449,9 +451,10 @@ document.addEventListener("DOMContentLoaded", function () {
           },
         ];
 
-        var tableProdPedido = $(
-          "#dataTableProductosActivosConfeccion"
-        ).DataTable({
+        // Suprimir advertencias de DataTables
+        $.fn.dataTable.ext.errMode = 'none';
+
+        var tableProdPedido = $("#dataTableProductosActivosConfeccion").DataTable({
           columns: columnDefsProdPedido,
           destroy: true, // Asegúrate de destruir la instancia anterior para evitar problemas de inicialización
         });
@@ -476,7 +479,7 @@ document.addEventListener("DOMContentLoaded", function () {
             for (var key in decodedJson) {
               if (decodedJson.hasOwnProperty(key)) {
                 var item = decodedJson[key];
-                var codigoProd = await ingresoProductoEdit(item.codProdCoti); 
+                var codigoProd = await ingresoProductoEdit(item.codProdCoti);
                 dataArray.push({
                   // Ajusta estos campos según la estructura de tu JSON
                   nombreProd: item.nombreProdCoti,
