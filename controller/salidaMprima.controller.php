@@ -506,4 +506,19 @@ class salidaMprimaController
     return $response;
   }
 
+  //funcion para mostrar el selec2 de selecionar  pedido
+  public static function ctrSelect2PedidosDisp()
+  {
+    $table = "pedido";
+    $response = salidaMprimaModel::mdSelect2PedidosDisp($table);
+    return $response;
+  }
+
+  //funcion para trear los productos de la cotizacion
+ public static function ctrTraerPedidoDisponible($codPedidoSalMp)
+  {
+    $table = "pedido";
+    $response = salidaMprimaModel::mdlTraerPedidoDisponible($table, $codPedidoSalMp);
+    return $response;
+  }
 }

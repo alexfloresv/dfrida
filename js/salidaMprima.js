@@ -1272,7 +1272,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   ).then(function () {
                     window.location.reload(); // Recargar la página
                   });
-                }  else if (response == "errorProcOp") {
+                } else if (response == "errorProcOp") {
                   Swal.fire(
                     "Error",
                     "La Salida de Productos Prima no se puede eliminar, actualmente esta asignada a un proceso operativo",
@@ -1280,8 +1280,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   ).then(function () {
                     //window.location.reload(); // Recargar la página
                   });
-                } 
-                else  {
+                } else {
                   Swal.fire(
                     "Error",
                     "Necesita permisos de administrador para realizar esta acción",
@@ -1304,6 +1303,268 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+//fin eliminar registro de salida prima
+//funcion para traer productos prima de pedido / cotizacion
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/salidaMprima";
+  if (currentPath == appPath) {
+    // Verificar si el botón existe en el DOM
+    var btnPedidoMprimaAdd = document.getElementById("btnPedidoMprimaAdd");
+    if (btnPedidoMprimaAdd) {
+      // Inicializar Select2
+      btnPedidoMprimaAdd.addEventListener("click", function () {
+        Swal.fire({
+          title:
+            "¿Agregar productos prima de Pedido a salida de productos prima?",
+          text: "Selecione un pedido para registrar los productos prima, recuerde que puede crear salidas de materia prima sin esta restriccion y despues asignarla a un proceso.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          cancelButtonText: "No, asignaré esta salida en proceso operativo.",
+          confirmButtonText: "Sí, asignar pedido ya creado.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Cambiar el botón por un campo select
+            var container = document.getElementById("pedidoAsignarAdd");
+            container.innerHTML = `
+              <select class="form-control select2" id="pedidoSalAdd" name="pedidoSalAdd">
+                <option value="">Seleccione un pedido</option>
+              </select>
+            `;
+
+            // Inicializar Select2 en el nuevo campo select
+            $("#pedidoSalAdd").select2();
+
+            // Cargar datos dinámicamente al confirmar
+            var data = new FormData();
+            data.append("todosLosPedidosDisponibles", true);
+
+            $.ajax({
+              url: "ajax/salidaMprima.ajax.php",
+              method: "POST",
+              data: data,
+              contentType: false,
+              processData: false,
+              dataType: "json",
+              success: function (data) {
+                // Limpiar las opciones actuales
+                $("#pedidoSalAdd").empty();
+                $("#pedidoSalAdd").append(
+                  '<option value="0">Seleccionar Proceso Operativo</option>'
+                );
+                // Agregar las nuevas opciones
+                $.each(data, function (key, value) {
+                  $("#pedidoSalAdd").append(
+                    '<option value="' +
+                      value.idPedido +
+                      '">' +
+                      value.nombrePedido +
+                      "</option>"
+                  );
+                });
+                // Actualizar Select2 después de agregar las opciones
+                $("#pedidoSalAdd").trigger("change");
+
+                // Agregar evento change para capturar el valor seleccionado
+                $("#pedidoSalAdd").on("change", function () {
+                  var codPedidoSalMp = $(this).val();
+                  console.log("Valor seleccionado:", codPedidoSalMp);
+                  // Aquí puedes agregar cualquier lógica adicional que necesites
+                  productosPrimaPedido(codPedidoSalMp);
+                });
+              },
+              error: function (xhr, status, error) {
+                console.error("Error al cargar los datos:", error);
+              },
+            });
+          }
+        });
+      });
+    } else {
+      console.error(
+        'El elemento con id "btnProcesoOperativoAdd" no se encontró en el DOM.'
+      );
+    }
+  }
+});
+//fin funcion
+
+//funcion para trear los productos de la cotizacion
+function productosPrimaPedido(codPedidoSalMp) {
+  var data = new FormData();
+  data.append("codPedidoSalMp", codPedidoSalMp);
+  //visualizar los datos
+  $.ajax({
+    url: "ajax/salidaMprima.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (response) {
+      if (response.hasOwnProperty("productsMprimaCoti")) {
+        ingresoProductoMprima(response["productsMprimaCoti"]);
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+    },
+  });
+}
+
+//promesa para obtener el stock de los productos de almacen y sumarlo a la cantidad de la salida para mostrar un máximo a editar y también el precio del producto
+// Modificación de obtenerStock para que retorne una promesa la función retorna la cantidad a la función de *insertarFormulario*
+function obtenerStockMprima(codProdIng) {
+  return new Promise((resolve, reject) => {
+    var data = new FormData();
+    data.append("codProdIng", codProdIng);
+    $.ajax({
+      url: "ajax/salidaMprima.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        resolve({
+          cantidadProdAlma: response["cantidadMprimaAlma"],
+          precioProd: response["precioMprima"],
+        }); // Resuelve la promesa con un objeto que contiene ambos valores
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        reject(
+          "Error en la solicitud AJAX: " + textStatus + " " + errorThrown
+        ); // Rechaza la promesa si hay un error
+      },
+    });
+  });
+}
+
+// Uso de async/await en ingresoProductoEdit para esperar la respuesta de obtenerStock
+async function ingresoProductoMprima(productsMprimaCoti) {
+  // Decodificar el JSON recibido de la respuesta de visualizar datos
+  const procesos = JSON.parse(productsMprimaCoti);
+
+  // Mostrar el modal de carga porque la promesa es asíncrona y espera la respuesta para crear el formulario
+  //el usuario visualizará una demora en la carga de los datos
+  Swal.fire({
+    title: "Cargando...",
+    text: "Por favor, espere mientras se procesan los datos.",
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+  //recorre todos los arrays decodificados del json para crear un formulario por cada producto resuelto
+  for (const proceso of Object.values(procesos)) {
+    const {
+      codProdMprimaCoti,
+      nombreProdMprimaCoti,
+      unidadProdMprimaCoti,
+      cantidadProdMprimaCoti,
+      precioProdMprimaCoti,
+    } = proceso;
+
+    // Convertir el código del producto a entero antes de agregarlo a la variable global
+    //que valida los productos agregados a la lista
+    var codProdIngInt = parseInt(codProdMprimaCoti, 10);
+    codAddSalProdModal = codProdIngInt;
+    // Agregar el código del producto a la variable global
+    codigosProductosAgregados.add(codAddSalProdModal);
+    //console.log(codigosProductosAgregados); // Mostrar el estado actual
+
+    // Esperar la respuesta de obtenerStock
+    try {
+      // Enviar el id de producto a la función de obtener stock para traer el stock del almacén
+      const { cantidadProdAlma, precioProd } = await obtenerStockMprima(
+        codProdMprimaCoti
+      );
+      insertarFormulario(
+        codProdMprimaCoti,
+        nombreProdMprimaCoti,
+        unidadProdMprimaCoti,
+        cantidadProdMprimaCoti,
+        precioProdMprimaCoti,
+        cantidadProdAlma,
+        precioProd
+      );
+    } catch (error) {
+      console.error(error); // Manejar el error si la promesa es rechazada
+    }
+  }
+
+  // Cerrar el modal de carga una vez que se haya completado el procesamiento
+  Swal.close();
+}
+
+function insertarFormulario(
+  codProdIng,
+  nombreProdIng,
+  codigoProdIng,
+  unidadProdIng,
+  cantidadProdIng,
+  precioProdIng,
+  cantidadProdStock,
+  precioProd,
+  //valores para la variable global que espera estos datos para iniciar la función de cantidades máximas editables
+  cantidadProd = Number(cantidadProdStock) + Number(cantidadProdIng),
+  idProd = codProdIng
+) {
+  var formularioID = "formularioIngProd" + formularioIngProdCounter++;
+  var nuevoProductoHTML = `
+    <form id="${formularioID}" class="row productoRow" style="padding:5px 15px">
+      <div class="col-lg-2">
+        <!-- id del producto -->
+        <input type="hidden" class="form-control" id="codProdIng" value="${idProd}">
+        <!-- nombre del producto -->
+        <input type="text" class="form-control" id="nombreProdIng" value="${nombreProdIng}" readonly>
+      </div>
+      <!-- codigo del producto -->
+      <div class="col-lg-2">
+        <input type="text" class="form-control" id="codigoProdIng" value="${codigoProdIng}" readonly>
+      </div>
+      <!-- unidad del tipo de producto -->
+      <div class="col-lg-2">
+        <input type="text" class="form-control" id="unidadProdIng" value="${unidadProdIng}" readonly>
+      </div>
+      <!-- cantidad editable inicia en 1 -->
+      <div class="col-lg-2">
+        <input type="number" class="form-control cantidadProdIng" id="cantidadProdIng" value="${cantidadProdIng}" min="1" step="1" data-original-idProd="${idProd}">
+      </div>
+      <!-- precio -->
+      <div class="col-lg-2">
+        <input type="text" class="form-control precioProdIng" id="precioProdIng" value="${precioProdIng}" data-original-precio="${precioProd}" readonly>
+      </div>
+      <!-- boton de eliminar -->
+      <div class="col-lg-1">
+        <button type="button" class="btn btn-danger btn-xs deleteNuevoIngresoProd" value="${codProdIng}"><i class="fa fa-times"></i></button>
+      </div>
+    </form>`;
+
+  // Agregar el nuevo formulario al contenedor
+  $(".AddProductoSalida").append(nuevoProductoHTML);
+
+  //agregar la cantidad a la variable global contadora
+  var nuevoDatoFormulario = [
+    formularioID,
+    Number(idProd),
+    String(cantidadProd),
+  ];
+  window.datosFormularios.push(nuevoDatoFormulario);
+  //console.log(datosFormularios);
+
+  //llama a la función de editar cantidad y precio para que valide la cantidad máxima
+  $(document).on(
+    "input",
+    ".cantidadProdIng",
+    actualizarPrecioYValidarCantidad
+  );
+}
+//fin funcion
 
 //vista de agregar productos a los ingresos de productos a el almacen
 document.addEventListener("DOMContentLoaded", function () {

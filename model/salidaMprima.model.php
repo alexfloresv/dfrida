@@ -331,4 +331,24 @@ FROM
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  //funcion para mostrar el selec2 de selecionar  pedido
+  public static function mdSelect2PedidosDisp($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idPedido, nombrePedido FROM $table WHERE estadoPedido = 1 ORDER BY idPedido DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public static function mdlTraerPedidoDisponible($table, $codPedidoSalMp)
+  {
+      $statement = Conexion::conn()->prepare("
+          SELECT p.idPedido, c.productsMprimaCoti 
+          FROM $table p
+          INNER JOIN cotizacion c ON p.idCoti = c.idCoti
+          WHERE p.idPedido = :idPedido
+      ");
+      $statement->bindParam(":idPedido", $codPedidoSalMp, PDO::PARAM_INT);
+      $statement->execute();
+      return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }

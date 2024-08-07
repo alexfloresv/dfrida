@@ -81,11 +81,24 @@ if (isset($_POST["todosLosProcesoOperativosMprimaEdit"])) {
   $todosLosProcesoOperativosMprimaEdit = new salidaMprimaAjax();
   $todosLosProcesoOperativosMprimaEdit->ajaxSelect2ProcOpMprimaEdit();
 }
-if(isset($_POST["fechaInicioSalidaMPrima"]) && isset($_POST["fechaFinSalidaMPrima"])){
+if (isset($_POST["fechaInicioSalidaMPrima"]) && isset($_POST["fechaFinSalidaMPrima"])) {
   $datosProductosSalidaMPrima = new salidaMprimaAjax();
   $datosProductosSalidaMPrima->fechaInicioSalidaMPrima = $_POST["fechaInicioSalidaMPrima"];
   $datosProductosSalidaMPrima->fechaFinSalidaMPrima = $_POST["fechaFinSalidaMPrima"];
   $datosProductosSalidaMPrima->ajaxObtenerDatosSalidaProductosMPrimaporFecha();
+}
+
+//funcion para mostrar el selec2 de selecionar  pedido
+if (isset($_POST["todosLosPedidosDisponibles"])) {
+  $todosLosPedidosDisponibles = new salidaMprimaAjax();
+  $todosLosPedidosDisponibles->ajaxSelect2PedidosDisp();
+}
+
+//funcion para trear los productos de la cotizacion
+if (isset($_POST["codPedidoSalMp"])) {
+  $add = new salidaMprimaAjax();
+  $add->codPedidoSalMp = $_POST["codPedidoSalMp"];
+  $add->ajaxTraerPedidoDisponible($_POST["codPedidoSalMp"]);
 }
 
 /////////////////////////////
@@ -166,7 +179,8 @@ class salidaMprimaAjax
   }
   public $fechaInicioSalidaMPrima;
   public $fechaFinSalidaMPrima;
-  public function ajaxObtenerDatosSalidaProductosMPrimaporFecha(){
+  public function ajaxObtenerDatosSalidaProductosMPrimaporFecha()
+  {
     $fechaInicioSalidaMPrima = $this->fechaInicioSalidaMPrima;
     $fechaFinSalidaMPrima = $this->fechaFinSalidaMPrima;
     $response = salidaMprimaController::ctrObtenerDatosSalidaProductosMPrimaporFecha($fechaInicioSalidaMPrima, $fechaFinSalidaMPrima);
@@ -207,6 +221,17 @@ class salidaMprimaAjax
     $todosLosProcesoOperativosMprimaEdit = salidaMprimaController::ctrSelect2ProcOpMprimaEdit();
     echo json_encode($todosLosProcesoOperativosMprimaEdit);
   }
-
+  //funcion para mostrar el selec2 de selecionar  pedido
+  public function ajaxSelect2PedidosDisp()
+  {
+    $todosLosPedidosDisponibles = salidaMprimaController::ctrSelect2PedidosDisp();
+    echo json_encode($todosLosPedidosDisponibles);
+  }
+  //funcion para trear los productos de la cotizacion
+  public function ajaxTraerPedidoDisponible($codPedidoSalMp)
+  {
+    $codPedidoSalMp = salidaMprimaController::ctrTraerPedidoDisponible($codPedidoSalMp);
+    echo json_encode($codPedidoSalMp);
+  }
 }
 
