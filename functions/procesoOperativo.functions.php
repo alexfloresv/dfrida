@@ -114,7 +114,7 @@ class FunctionProcesoOperativo
   public static function getBtnVerPedido($codPed)
   {
     $botones = '
-       <button class="btn btn-success btnVerPedido" data-bs-toggle="modal" data-bs-target="#" codPed="' . $codPed . '">
+       <button class="btn btn-success btnVerPedido" data-bs-toggle="modal" data-bs-target="#modalVerProductosPedido" codPed="' . $codPed . '">
        <i class="fa-solid fa-cart-shopping"></i>
        </button>
       ';

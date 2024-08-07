@@ -145,11 +145,24 @@ if (isset($_POST["jsonFinEstadoProcOp"])) {
 }
 //actualizar estado de proceso operativo modal estados
 if (isset($_POST["jsonEditarEstadoProcOp"])) {
-  $end = new procesoOperativoAjax();
-  $end->jsonEditarEstadoProcOp = $_POST["jsonEditarEstadoProcOp"];
-  $end->ajaxActualizarEstadoProcesoOperativo($_POST["jsonEditarEstadoProcOp"]);
+  $edit = new procesoOperativoAjax();
+  $edit->jsonEditarEstadoProcOp = $_POST["jsonEditarEstadoProcOp"];
+  $edit->ajaxActualizarEstadoProcesoOperativo($_POST["jsonEditarEstadoProcOp"]);
 }
 
+//ver productos en proceso de confeccion
+if (isset($_POST["codPed"])) {
+  $end = new procesoOperativoAjax();
+  $end->codPed = $_POST["codPed"];
+  $end->ajaxViewProdProcOpConfecion($_POST["codPed"]);
+}
+
+//obtener codigo de producto
+if (isset($_POST["codProdCoti"])) {
+  $view = new procesoOperativoAjax();
+  $view->codProdCoti = $_POST["codProdCoti"];
+  $view->ajaxObtenerCodigoProd($_POST["codProdCoti"]);
+}
 /////////////////////////////
 
 class procesoOperativoAjax
@@ -324,5 +337,20 @@ class procesoOperativoAjax
     $response = procesoOperativoController::ctrActualizarEstadoProcesoOperativo($dataActProcOp);
     echo json_encode($response);
   }
+
+  //ver productos en proceso de confeccion
+  public function ajaxViewProdProcOpConfecion($codPed)
+  {
+    $response = procesoOperativoController::ctrViewProdProcOpConfecion($codPed);
+    echo json_encode($response);
+  }
+
+  //obtener codigo de producto
+  public function ajaxObtenerCodigoProd($codProdCoti)
+  {
+    $response = procesoOperativoController::ctrObtenerCodigoProd($codProdCoti);
+    echo json_encode($response);
+  }
+
 }
 

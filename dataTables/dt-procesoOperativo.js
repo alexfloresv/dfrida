@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //fin
 
-//modal para ver productos de salida por el boton
+//modal para ver productos prima de salida por el boton
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/procesosOperativos";
@@ -195,9 +195,9 @@ document.addEventListener("DOMContentLoaded", function () {
             <th scope="col">Cantidad Producto</th>
             <th scope="col">Precio Prodcuto</th>
           </tr>
-        `);
+         `);
 
-          var columnDefsProdIngresados = [
+          var columnDefsProdSalidaMprima = [
             {
               data: null,
               render: function (data, type, row, meta) {
@@ -216,10 +216,10 @@ document.addEventListener("DOMContentLoaded", function () {
             },
           ];
 
-          var tableProdIngresados = $(
+          var tableProdSalidaMprima = $(
             "#modalDataTableProdSalidaProcOp"
           ).DataTable({
-            columns: columnDefsProdIngresados,
+            columns: columnDefsProdSalidaMprima,
             destroy: true, // Asegúrate de destruir la instancia anterior para evitar problemas de inicialización
           });
 
@@ -255,11 +255,11 @@ document.addEventListener("DOMContentLoaded", function () {
               }
 
               // Limpia el DataTable antes de añadir los nuevos datos
-              tableProdIngresados.clear();
+              tableProdSalidaMprima.clear();
 
               // Añade los nuevos datos y redibuja la tabla
-              tableProdIngresados.rows.add(dataArray);
-              tableProdIngresados.draw();
+              tableProdSalidaMprima.rows.add(dataArray);
+              tableProdSalidaMprima.draw();
             },
             error: function (jqXHR, textStatus, errorThrown) {
               console.log(
@@ -404,3 +404,143 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //fin funcion
+
+//funcion ver productos de pedido / cotizacion
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/procesosOperativos";
+  if (currentPath == appPath) {
+    $(".dataTableProcesoOperativo").on("click", ".btnVerPedido", function () {
+      var codPed = $(this).attr("codPed");
+
+      $("#modalVerProductosPedido").on("shown.bs.modal", function () {
+
+        if ($.fn.DataTable.isDataTable("#dataTableProcesosDeTrabajoActivo")) {
+          $("#dataTableProcesosDeTrabajoActivo").DataTable().destroy();
+        }
+        
+        $("#dataTableProductosActivosConfeccion thead").html(`
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre Producto</th>
+          <th scope="col">Codigo Producto</th>
+          <th scope="col">Unidad Producto</th>
+          <th scope="col">Cantidad Producto</th>
+          <th scope="col">Precio Prodcuto</th>
+        </tr>
+      `);
+
+        var columnDefsProdPedido = [
+          {
+            data: null,
+            render: function (data, type, row, meta) {
+              return meta.row + 1;
+            },
+          },
+          { data: "nombreProd" },
+          { data: "codigoProd" },
+          { data: "unidadProd" },
+          { data: "cantidadProd" },
+          {
+            data: "precioProd",
+            render: function (data, type, row) {
+              return "S/ " + data;
+            },
+          },
+        ];
+
+        var tableProdPedido = $(
+          "#dataTableProductosActivosConfeccion"
+        ).DataTable({
+          columns: columnDefsProdPedido,
+          destroy: true, // Asegúrate de destruir la instancia anterior para evitar problemas de inicialización
+        });
+
+        var data = new FormData();
+        data.append("codPed", codPed);
+
+        $.ajax({
+          url: "ajax/procesoOperativo.ajax.php",
+          method: "POST",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: async function (response) {
+            // Asumiendo que la respuesta incluye el JSON en un campo llamado ingJsonProd
+            var decodedJson = JSON.parse(response.productsCoti);
+            var dataArray = [];
+
+            // Transformar el objeto JSON en un array de objetos
+            for (var key in decodedJson) {
+              if (decodedJson.hasOwnProperty(key)) {
+                var item = decodedJson[key];
+                var codigoProd = await ingresoProductoEdit(item.codProdCoti); 
+                dataArray.push({
+                  // Ajusta estos campos según la estructura de tu JSON
+                  nombreProd: item.nombreProdCoti,
+                  codigoProd: codigoProd,
+                  unidadProd: item.unidadProdCoti,
+                  cantidadProd: item.cantidadProdCoti,
+                  precioProd: item.precioProdCoti,
+                });
+              }
+            }
+
+            // Limpia el DataTable antes de añadir los nuevos datos
+            tableProdPedido.clear();
+
+            // Añade los nuevos datos y redibuja la tabla
+            tableProdPedido.rows.add(dataArray);
+            tableProdPedido.draw();
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
+      });
+    });
+  }
+});
+
+function obtenerCodigoProd(codProdCoti) {
+  return new Promise((resolve, reject) => {
+    var data = new FormData();
+    data.append("codProdCoti", codProdCoti);
+    $.ajax({
+      url: "ajax/procesoOperativo.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        resolve({
+          codigoProd: response["codigoProd"],
+        }); // Resuelve la promesa con un objeto que contiene ambos valores
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        reject("Error en la solicitud AJAX: " + textStatus + " " + errorThrown); // Rechaza la promesa si hay un error
+      },
+    });
+  });
+}
+
+async function ingresoProductoEdit(codProdCoti) {
+  // Esperar la respuesta de obtener
+  try {
+    // Enviar el id de producto a la función de obtener stock para traer el stock del almacén
+    const codigoProd = await obtenerCodigoProd(codProdCoti);
+    //devolver valor a  codigoProd
+    return codigoProd.codigoProd; // Devolver el valor de codigoProd
+  } catch (error) {
+    console.error(error); // Manejar el error si la promesa es rechazada
+  }
+}
+//fin proceso

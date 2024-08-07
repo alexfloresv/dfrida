@@ -455,7 +455,7 @@ class procesoOperativoModel
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result;
   }
-    //obtener estado de proceso operativo
+  //obtener estado de proceso operativo
   public static function mdlOptenerEstadoDeprocesoOp($table, $idProcOp)
   {
     $statement = Conexion::conn()->prepare("SELECT 
@@ -481,5 +481,28 @@ class procesoOperativoModel
     }
   }
 
+  //ver productos en proceso de confeccion
+  public static function mdlViewProdProcOpConfecion($table, $idPedido)
+  {
+    $statement = Conexion::conn()->prepare(" SELECT 
+          c.productsCoti 
+          FROM $table p
+          INNER JOIN cotizacion c ON p.idCoti = c.idCoti
+          WHERE p.idPedido = :idPedido");
+    $statement->bindParam(":idPedido", $idPedido, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  //obtener codigo de producto
+  public static function mdlObtenerCodigoProd($table, $codProdCoti)
+  {
+    $statement = Conexion::conn()->prepare("SELECT 
+     codigoProd
+     FROM $table WHERE idProd = :idProd");
+    $statement->bindParam(":idProd", $codProdCoti, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    return $result;
+  }
   //////////////////////////////////////////////////////
 }
