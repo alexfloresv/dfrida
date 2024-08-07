@@ -561,6 +561,23 @@ class procesoOperativoController
     $response = procesoOperativoModel::mdlActualizarEstadoProcesoOperativo($table, $dataUpdate);
     return $response;
   }
+
+  //ver productos en proceso de confeccion
+  public static function ctrViewProdProcOpConfecion($codPed)
+  {
+    $table = "pedido";
+    $idPedido = $codPed;
+    $response = procesoOperativoModel::mdlViewProdProcOpConfecion($table, $idPedido);
+    return $response;
+  }
+
+  //obtener codigo de producto
+  public static function ctrObtenerCodigoProd($codProdCoti)
+  {
+    $table = "producto";
+    $response = procesoOperativoModel::mdlObtenerCodigoProd($table, $codProdCoti);
+    return $response;
+  }
   ///////////////////////////////////////////////////
 
 

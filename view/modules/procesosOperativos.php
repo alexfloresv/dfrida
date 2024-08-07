@@ -677,3 +677,40 @@
     </div>
   </div>
 </div>
+
+<!-- modal data table  ver los productos adjuntos no tocar-->
+<div class="modal fade" id="modalVerProductosPedido" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="modalVerProductosPedido" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5 text-center w-100" id="">Productos en Confeccion</h1>
+      </div>
+      <div class="modal-body" id="">
+        <div class="container">
+
+          <div class="row">
+
+            <div class="card-body">
+              <!-- dataTableProductosActivosConfeccion -->
+              <table id="dataTableProductosActivosConfeccion" class="display dataTableProductosActivosConfeccion">
+                <thead>
+                  <!-- dataTableProductosActivosConfeccion -->
+                </thead>
+                <tbody>
+                  <!--dataTableProductosActivosConfeccion-->
+                </tbody>
+              </table>
+              <!-- fin -->
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger "
+                id="" data-bs-dismiss="modal" >Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
