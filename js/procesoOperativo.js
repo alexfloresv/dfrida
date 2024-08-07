@@ -1417,7 +1417,7 @@ document.addEventListener("DOMContentLoaded", function () {
         //mensje de advertencia
         Swal.fire({
           title: "¿Finalizar el Proceso Operativo?",
-          text: "Al finalizar el proceso operativo. Finalizara automaticamente los sub procesos.",
+          text: "Al finalizar el proceso operativo este pasara a la lista de Produccion y Finalizara automaticamente los sub procesos.",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
