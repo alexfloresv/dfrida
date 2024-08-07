@@ -246,3 +246,103 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Editar Pedidos -->
+<div class="modal fade" id="modalEditarPedido" tabindex="-1" role="dialog" aria-labelledby="modalEditarPedido"
+  aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEditarPedido">Editar Pedido</h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!-- Cuerpo modal -->
+      <div class="modal-body">
+        <!-- Titulo Pedido -->
+        <div class="form-group">
+          <label for="editarTituloPedidoModal" class="col-form-label">Titulo:</label>
+          <input type="text" class="form-control" id="editarTituloPedidoModal" name="editarTituloPedidoModal">
+        </div>
+        <!-- Nombre Pedido -->
+        <div class="form-group">
+          <label for="editarNombrePedidoModal" class="col-form-label">Nombre:</label>
+          <input type="text" class="form-control" id="editarNombrePedidoModal" name="editarNombrePedidoModal">
+        </div>
+        <!-- Fecha Pedido -->
+        <div class="form-group">
+          <label for="editarFechaPedidoModal" class="col-form-label">Fecha:</label>
+          <input type="date" class="form-control" id="editarFechaPedidoModal" name="editarFechaPedidoModal">
+        </div>
+        <!-- Cotización Pedido -->
+        <div class="form-group">
+          <label for="editarCotizacionPedidoModal" class="col-form-label">Cotización:</label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="editarCotizacionPedidoModal" name="editarCotizacionPedidoModal"
+              cotizacion-original-id="" cotizacion-original-name="" readonly>
+            <button class="btn btn-outline-warning" id="btnSeleccionarCotizacionEdit" type="button" idCoti="">
+              <i class="fa-solid fa-right-left"></i>
+            </button>
+          </div>
+        </div>
+        <!-- Cotización Pedido Nueva -->
+        <div class="form-group nuevo-cotizacion d-none">
+          <label for="editarCotizacionPedidoNuevaModal" class="col-form-label">Nueva Cotización:</label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="editarCotizacionPedidoNuevaModal"
+              name="editarCotizacionPedidoModal" cotizacion-nueva-id="" readonly>
+          </div>
+        </div>
+        <!-- Seleccionar Ficha Técnica y Cliente en una fila -->
+        <div class="form-group row">
+          <div class="col-md-6 d-flex flex-column">
+            <label for="idFichaTecnicaEditPedido" class="col-form-label">Ficha Técnica:</label>
+            <select class="form-select" id="idFichaTecnicaEditPedido" name="idFichaTecnicaEditPedido" data-selected="">
+            </select>
+          </div>
+          <div class="col-md-6 d-flex flex-column">
+            <label for="idClienteEditPedido" class="col-form-label">Cliente:</label>
+            <select class="form-select" id="idClienteEditPedido" name="idClienteEditPedido" data-selected="">
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="btnGuardarCambiosPedidoModal">Guardar Cambios</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"
+            id="btnCerrarEditarPedido">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal cotizaciones para la vista de pedidos -->
+<div class="modal fade" id="modalSeleccionarCotizacionPedidosEditar" tabindex="-1"
+  aria-labelledby="titleModalSeleccionarCotizacionPedidosEditarLabel" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-lg"> <!-- Clase "modal-lg" agregada aquí -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="titleModalSeleccionarCotizacionPedidosEditarLabel">Lista Productos Prima</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table id="dataTableSeleccionarCotizacionPedidosEditar"
+          class="display dataTableSeleccionarCotizacionPedidosEditar">
+          <thead>
+            <!-- dataTableSeleccionarCotizacionPedidosEditar -->
+          </thead>
+          <tbody>
+            <!--dataTableSeleccionarCotizacionPedidosEditar-->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btnSeleccionarCotizaciónparaPedidoEditar">Seleccionar
+          Cotización</button>
+        <button type="button" class="btn btn-secondary" id="btnCerrarModalSeleccionarCotizacionPedidosEditar"
+          data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -139,13 +139,14 @@ class CotizacionController
     $response = CotizacionModel::mdlEstadoDescargaPdfCotizacion($table, $codCoti);
     return $response;
   }
-  // cambiar el estado de asginación cuando se le asigne a un pedido
-  public static function ctrActualizarEstadoAsignacionCoti($codcoti)
+  // cambiar el estado de cotizacion cuando se le asigne a un pedido
+  public static function ctrActualizarEstadoAsignacionCoti($codcoti, $estado)
   {
 
     $table = "cotizacion";
     $dataActualizarEstado = array(
       "idCoti" => $codcoti,
+      "estadoCoti" => $estado,
       "DateUpdate" => date("Y-m-d\TH:i:sP"),
     );
     $response = CotizacionModel::mdlActualizarEstadoAsignacionCoti($table, $dataActualizarEstado);

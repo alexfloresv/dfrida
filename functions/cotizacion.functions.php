@@ -28,10 +28,10 @@ class FunctionCotizacion
   {
     //  Estado de los Cotizacion 1 = Activo & 2 = Desactivado
     if ($stateValue == 1) {
-      $estado = '<span class="badge rounded-pill bg-warning">Sin Emitir</span>';
+      $estado = '<span class="badge rounded-pill bg-warning">Sin Asignar</span>';
     }
     if ($stateValue == 2) {
-      $estado = '<span class="badge rounded-pill bg-success">Emitido</span>';
+      $estado = '<span class="badge rounded-pill bg-success">Asignado</span>';
     }
     if ($stateValue > 3) {
       $estado = '<span class="badge rounded-pill bg-danger">Pendiente</span>';

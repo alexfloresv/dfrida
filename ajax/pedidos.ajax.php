@@ -26,6 +26,21 @@ if (isset($_POST["crearPedido"])) {
   $crearPedido->jsonDataPedidos = $jsonData;
   $crearPedido->ajaxCrearPedidosJson();
 }
+// Editar pedido
+if(isset($_POST["editarPedido"])){
+  // Decodificar el JSON recibido
+  $jsonData = json_decode($_POST["editarPedido"], true);
+  // Pasar los datos decodificados al controlador
+  $editarPedido = new PedidosAjax();
+  $editarPedido->jsonDataPedidos = $jsonData;
+  $editarPedido->ajaxEditarPedidosJson();
+}
+// Datos de Pedido
+if(isset($_POST["idPedidoDatos"])){
+  $datosPedidoporID = new PedidosAjax();
+  $datosPedidoporID->idPedidoDatos = $_POST["idPedidoDatos"];
+  $datosPedidoporID->ajaxDatosPedidoPorID();
+}
 
 class PedidosAjax
 {
@@ -36,8 +51,8 @@ class PedidosAjax
   {
     $todosLosPedidos = PedidosController::ctrDTablePedidos();
     foreach ($todosLosPedidos as &$pedido) {
-      $pedido['buttons'] = FunctionPedidos::getBtnPedido($pedido["idPedido"]);
-      $pedido['estadoPedidos'] = FunctionPedidos::getEstadoPedido($pedido["idCoti"]);
+      $pedido['buttons'] = FunctionPedidos::getBtnPedido($pedido["idPedido"], $pedido["estadoPedido"]);
+      $pedido['estadoPedidos'] = FunctionPedidos::getEstadoPedido($pedido["estadoPedido"]);
       $pedido['clientePedido'] = FunctionPedidos::getBtnVerClientePedido($pedido["idPedido"], $pedido["idCli"]);
       $pedido['productosPedido'] = FunctionPedidos::getBtnVerProductosPedido($pedido["idPedido"], $pedido["idCoti"]);
       $pedido['productosPrimaPedido'] = FunctionPedidos::getBtnVerProductosPrimaPedido($pedido["idPedido"], $pedido["idCoti"]);
@@ -52,4 +67,19 @@ class PedidosAjax
     $respuesta = PedidosController::ctrCrearPedidoJson($jsonDataPedidos);
     echo json_encode($respuesta);
   }
+  // Editar pedido
+  public function ajaxEditarPedidosJson()
+  {
+    $jsonDataPedidos = $this->jsonDataPedidos;
+    $respuesta = PedidosController::ctrEditarPedidoJson($jsonDataPedidos);
+    echo json_encode($respuesta);
+  }
+  // Datos de Pedido por ID
+  public $idPedidoDatos;
+  public function ajaxDatosPedidoPorID(){
+    $idPedidoDatos = $this->idPedidoDatos;
+    $respuesta = PedidosController::ctrDatosPedidoPorID($idPedidoDatos);
+    echo json_encode($respuesta);
+  }
+
 }

@@ -136,8 +136,9 @@ class CotizacionModel
   //cambiar estado de asginacion de la cotizacion
   public static function mdlActualizarEstadoAsignacionCoti($table, $dataActualizarEstado)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoCoti = '2', DateUpdate =:DateUpdate WHERE idCoti = :idCoti");
+    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoCoti = :estadoCoti, DateUpdate =:DateUpdate WHERE idCoti = :idCoti");
     $statement->bindParam(":idCoti", $dataActualizarEstado["idCoti"], PDO::PARAM_INT);
+    $statement->bindParam(":estadoCoti", $dataActualizarEstado["estadoCoti"], PDO::PARAM_INT);
     $statement->bindParam(":DateUpdate", $dataActualizarEstado["DateUpdate"], PDO::PARAM_STR);
     if ($statement->execute()) {
       return "ok";

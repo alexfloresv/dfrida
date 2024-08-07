@@ -60,14 +60,8 @@ class CotizacionAjax
   public function ajaxDTableCotizaciones()
   {
     if (isset($_POST["todasLasCotizacionesPedidosVista"])) {
-      $todasLasCotizaciones = CotizacionController::ctrDTableCotizaciones();
-      // Filtrar las cotizaciones cuyo estadoAsignacionCoti sea igual a 1
-      $cotizacionesFiltradas = array_filter($todasLasCotizaciones, function ($cotizacion) {
-        return $cotizacion['estadoAsignacionCoti'] == 1;
-      });
-
-      // Agregar los botones solo a las cotizaciones filtradas
-      foreach ($cotizacionesFiltradas as &$cotizacion) {
+      $todasLasCotizaciones = CotizacionController::ctrDTableCotizacionesSinAsignarPedidos();
+      foreach ($todasLasCotizaciones as &$cotizacion) {
         $cotizacion['buttons'] = FunctionCotizacion::getBtnCotizacionPedidosVista($cotizacion["idCoti"]);
       }
     } else {

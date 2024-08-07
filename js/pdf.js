@@ -775,6 +775,11 @@ document.addEventListener("DOMContentLoaded", function () {
       $("#modalSeleccionarCotizacionPedidos").modal("hide");
       $("#modalCrearPedido").modal("show");
     });
+    $("#modalSeleccionarCotizacionPedidosEditar").on("click", "#btnCerrarModalSeleccionarCotizacionPedidosEditar", function () {
+      $("#modalSeleccionarCotizacionPedidosEditar").modal("hide");
+      $("#modalEditarPedido").modal("show");
+    });
+    
     
   }
 });

@@ -5,10 +5,10 @@ class FunctionPedidos
   public static function getEstadoPedido($stateValue)
   {
     //  Estado de los Pedidos
-    if ($stateValue != null) {
+    if ($stateValue == 2) {
       $estado = '<span class="badge rounded-pill bg-success">Asignado</span>';
     }
-    if ($stateValue == null) {
+    if ($stateValue == 1) {
       $estado = '<span class="badge rounded-pill bg-warning">Sin Asignar</span>';
     }
 
@@ -16,15 +16,15 @@ class FunctionPedidos
   }
 
   //botones Pedido
-  public static function getBtnPedido($codCoti)
+  public static function getBtnPedido($idPedido, $estadoPedido)
   {
+    $disabled = ($estadoPedido == 2) ? 'disabled' : '';
     $botones = '
-     <button class="btn btn-dark btnDescargarCoti" codCoti="' . $codCoti . '"><i class="fa-solid fa-file-pdf"></i></button>
-    
-    <button class="btn btn-danger btnDeleteCotizacion" codCoti="' . $codCoti . '"><i class="fa-solid fa-trash"></i></button>
-    ';
+      <button class="btn btn-primary btnEditarPedido" idPedido="' . $idPedido . '" ' . $disabled . '><i class="fa-solid fa-pencil"></i></button>
+      <button class="btn btn-danger btnDeletePedido" idPedido="' . $idPedido . '" ' . $disabled . '><i class="fa-solid fa-trash"></i></button>
+      <button class="btn btn-dark btnDescargarPedidoPdf" idPedido="' . $idPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
+      ';
     return $botones;
-    /* <button class="btn btn-warning btnEditCotizacion" codCoti="' . $codCoti . '" ><i class="fa-solid fa-pencil"></i></button> */
   }
   //boton para ver el cliente del pedido
   public static function getBtnVerClientePedido($codPed, $idCli)

@@ -22,10 +22,35 @@ class PedidosController
     $jsonData['estadoPedido'] = 1;
 
     $table = "pedido";
-    $response = PedidosModel::ctrCrearPedidoJson($table, $jsonData);
+    $response = PedidosModel::mdlCrearPedidoJson($table, $jsonData);
     if($response =="ok"){
-      $response = CotizacionController::ctrActualizarEstadoAsignacionCoti($jsonData['idCoti']);
+      $response = CotizacionController::ctrActualizarEstadoAsignacionCoti($jsonData['idCoti'],2);
     }
+    return $response;
+  }
+  // Editar Pedido
+  public static function ctrEditarPedidoJson($jsonData)
+  {
+    // Agregar la fecha actual en el formato requerido
+    $currentDateTime = date('Y-m-d H:i:s');
+    $jsonData['DateUpdate'] = $currentDateTime;
+
+    $table = "pedido";
+    $response = PedidosModel::mdlEditarPedidoJson($table, $jsonData);
+    if($response =="ok"){
+      $responseCambioEstadoNueva = CotizacionController::ctrActualizarEstadoAsignacionCoti($jsonData['idCoti'],2);
+      $responseCambioEstadoAntigua = CotizacionController::ctrActualizarEstadoAsignacionCoti($jsonData['idCotiAntigua'],1);
+      if($responseCambioEstadoAntigua != "ok" || $responseCambioEstadoNueva != "ok"){
+        $response = "error";
+      }
+    }
+    return $response;
+  }
+  // Datos de Pedido por ID
+  public static function ctrDatosPedidoPorID($idPedido)
+  {
+    $tabla = "pedido";
+    $response = PedidosModel::mdlDatosPedidoPorID($tabla,$idPedido);
     return $response;
   }
 }
