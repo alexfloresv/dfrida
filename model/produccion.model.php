@@ -7,9 +7,7 @@ class ProduccionsModel
     //datatable de produccion
      public static function mdlDTableProduccion($table)
     {
-        //table = produccion
-        $statement = Conexion::conn()->prepare("
-        SELECT 
+        $statement = Conexion::conn()->prepare("SELECT 
             p.idProcOpFin,
             p.estadoProduccion,
             pof.idProcOp,
