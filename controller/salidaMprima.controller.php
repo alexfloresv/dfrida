@@ -136,7 +136,7 @@ class salidaMprimaController
       // Si el campo no está presente o está vacío
       $dataCreate = array(
         "nombreSalMprima" => $salidaProdData["tituloSalProdAdd"],
-        "idProcOp" => null, // Asigna null o un valor vacío
+        "idProcOp" => null, //Asigna null o un valor vacío
         "idPedido" => $salidaProdData["pedidoSalAdd"],
         "fechaSalMprima" => $salidaProdData["fechaSalProdAdd"],
         "igvSalMprima" => $salidaProdData["igvIngProdAdd"],

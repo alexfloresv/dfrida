@@ -860,8 +860,8 @@ document.addEventListener("DOMContentLoaded", function () {
             codigoProdIng,
             unidadProdIng,
             cantidadProdIng,
-            precioProdIng,
-            precioProd
+            precioProdIng, 
+            precioProd// uni precio 1 + 1 = 2
           );
         } catch (error) {
           console.error(error); // Manejar el error si la promesa es rechazada

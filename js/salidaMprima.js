@@ -1040,8 +1040,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         // Llamar a la función Select2EditMprima con los datos recibidos
         Select2EditMprima(response["idProcOp"], response["nombreProcOp"]);
-         // Llamar a la función Select2EditMprima con los datos recibidos
-         Select2EditMprimaPedido(response["idPedido"], response["nombrePedido"]);
+        // Llamar a la función Select2EditMprima con los datos recibidos
+        Select2EditMprimaPedido(response["idPedido"], response["nombrePedido"]);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
@@ -1648,7 +1648,11 @@ function validarCantidad(cantidadProdIng, cantidadProdStock) {
     } else if (cantidadProdStock === 0) {
       cantidadProdIng = 0;
     } else {
-      cantidadProdIng = cantidadProdStock;
+      if (cantidadProdIng <= cantidadProdStock) {
+        return cantidadProdIng;
+      } else {
+        return cantidadProdStock;
+      }
     }
   }
   return cantidadProdIng;
