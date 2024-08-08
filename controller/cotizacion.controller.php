@@ -10,6 +10,13 @@ class CotizacionController
     $response = CotizacionModel::mdlDTableCotizaciones($table);
     return $response;
   }
+  // Mostrar todos las cotizaciones no asignadas
+  public static function ctrDTableCotizacionesSinAsignarPedidos()
+  {
+    $table = "cotizacion";
+    $response = CotizacionModel::mdlDTableCotizacionesSinAsignarPedidos($table);
+    return $response;
+  }
 
   // Crear nueva cotizacion
   public static function ctrCrearCotizacion($crearCotizacion, $jsonProductosCotizacion, $jsonProductosPrimaCotizacion)
@@ -130,6 +137,20 @@ class CotizacionController
   {
     $table = "cotizacion";
     $response = CotizacionModel::mdlEstadoDescargaPdfCotizacion($table, $codCoti);
+    return $response;
+  }
+  // cambiar el estado de cotizacion cuando se le asigne a un pedido
+  public static function ctrActualizarEstadoAsignacionCoti($codcoti, $estado)
+  {
+
+    $table = "cotizacion";
+    $dataActualizarEstado = array(
+      "idCoti" => $codcoti,
+      "estadoCoti" => $estado,
+      "DateUpdate" => date("Y-m-d\TH:i:sP"),
+    );
+    $response = CotizacionModel::mdlActualizarEstadoAsignacionCoti($table, $dataActualizarEstado);
+
     return $response;
   }
 }
