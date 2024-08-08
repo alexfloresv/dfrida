@@ -28,7 +28,6 @@
           Todos los Tipos de Procesos
         </button>
       </div>
-
       <div class="card mb-4">
         <div class="card-header">
           <!--  Titulo dataTableProcesoOperativo -->
@@ -51,6 +50,7 @@
   </main>
 </div>
 </div>
+<!-- fin modal -->
 
 <!-- Modal Crear proceso operativo-->
 <div class="modal fade" id="modalCrearProcesoOp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -135,6 +135,7 @@
 </div>
 </div>
 <!-- fin -->
+
 <!-- Modal Editar proceso operativo-->
 <div class="modal fade" id="modalEditarProcesoOp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="modalEditarProcesoOp" aria-hidden="true">
@@ -364,6 +365,7 @@
 </div>
 </div>
 <!-- fin -->
+
 <!-- modal editar Tipo de  Proceso Operativo-->
 <div class="modal fade" id="modalEditTipoProcesoOp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="modalEditTipoProcesoOp" aria-hidden="true">
@@ -465,6 +467,7 @@
     </div>
   </div>
 </div>
+<!-- fin modal -->
 
 <!-- Modal ver todos los procesos de trabajo no tocar-->
 <div class="modal fade" id="modalProcesosTrabajo" tabindex="-1" aria-labelledby="modalProcesosTrabajoLabel"
@@ -625,9 +628,7 @@
 
                 </div>
               </div>
-
           </form>
-
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
             <button type="button" class="btn btn-success" id="btnActualizarProcesoOpEstados">Actializar Proceso
@@ -638,7 +639,7 @@
     </div>
   </div>
 </div>
-
+</div>
 <!-- fin de estados de procesos operativos -->
 
 <!-- modal data table  ver la fichas de trabajo adjunta no tocar-->
@@ -677,6 +678,7 @@
     </div>
   </div>
 </div>
+<!-- fin modal -->
 
 <!-- modal data table  ver los productos adjuntos no tocar-->
 <div class="modal fade" id="modalVerProductosPedido" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -713,3 +715,5 @@
     </div>
   </div>
 </div>
+</div>
+<!-- fin modal -->
