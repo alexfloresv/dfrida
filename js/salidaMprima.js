@@ -881,6 +881,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
+    // Función para cargar los datos de proceso operativo en el select2
     function Select2EditMprima(id, nombre) {
       $("#pedidoSalProdEdit").select2();
       // Cargar datos dinámicamente al abrir el modal
@@ -916,6 +917,81 @@ document.addEventListener("DOMContentLoaded", function () {
           // Asignar la función handleSelectOpening al evento select2:opening solo si warningConfirmed es false
           if (!warningConfirmed) {
             $("#pedidoSalProdEdit").on("select2:opening", handleSelectOpening);
+          }
+        },
+
+        error: function (xhr, status, error) {
+          console.error("Error al cargar los datos:", error);
+        },
+      });
+    }
+    //fin
+
+    // Inicializar Select2 pedidos
+    // Función para manejar el evento change
+    let warningConfirmedPedido = false; // Variable de estado
+
+    function handleSelectOpeningPedido(e) {
+      if (warningConfirmedPedido) {
+        // Si el mensaje ya fue confirmado, permitir la apertura del select2
+        warningConfirmedPedido = false; // Resetear el estado para futuras interacciones
+        return;
+      }
+      e.preventDefault(); // Prevenir la apertura del select2
+      Swal.fire({
+        title: "Advertencia",
+        text: "Modificar este campo afectará al proceso operativo. ¿Desea continuar?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sí, modificar",
+        cancelButtonText: "No, cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Si el usuario confirma, permitir la apertura del select2
+          warningConfirmedPedido = true; // Actualizar el estado
+          $("#pedidoAddSalProdEdit").select2("open");
+        }
+      });
+    }
+    // Función para cargar los datos de pedidos en el select2
+    function Select2EditMprimaPedido(id, nombre) {
+      $("#pedidoAddSalProdEdit").select2();
+      // Cargar datos dinámicamente al abrir el modal
+      var data = new FormData();
+      data.append("todosLosPedidosMprimaEdit", true);
+      $.ajax({
+        url: "ajax/salidaMprima.ajax.php",
+        method: "POST",
+        data: data,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (data) {
+          // Limpiar las opciones actuales
+          $("#pedidoAddSalProdEdit").empty();
+          // Agregar las nuevas opciones
+          $.each(data, function (key, value) {
+            $("#pedidoAddSalProdEdit").append(
+              '<option value="' +
+                value.idPedido +
+                '">' +
+                value.nombrePedido +
+                "</option>"
+            );
+          });
+
+          // Inicializar Select2 después de agregar las opciones
+          $("#pedidoAddSalProdEdit").select2();
+
+          // Seleccionar la opción específica
+          $("#pedidoAddSalProdEdit").val(id).trigger("change");
+
+          // Asignar la función handleSelectOpening al evento select2:opening solo si warningConfirmed es false
+          if (!warningConfirmedPedido) {
+            $("#pedidoAddSalProdEdit").on(
+              "select2:opening",
+              handleSelectOpeningPedido
+            );
           }
         },
 
@@ -964,6 +1040,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         // Llamar a la función Select2EditMprima con los datos recibidos
         Select2EditMprima(response["idProcOp"], response["nombreProcOp"]);
+         // Llamar a la función Select2EditMprima con los datos recibidos
+         Select2EditMprimaPedido(response["idPedido"], response["nombrePedido"]);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
@@ -1316,7 +1394,7 @@ document.addEventListener("DOMContentLoaded", function () {
       btnPedidoMprimaAdd.addEventListener("click", function () {
         Swal.fire({
           title:
-            "¿Agregar productos prima de Pedido a salida de productos prima?",
+            "¿Agregar productos prima de Pedido a salida de productos prima? Verifique Stocks en alamacen",
           text: "Selecione un pedido para registrar los productos prima, recuerde que puede crear salidas de materia prima sin esta restriccion y despues asignarla a un proceso.",
           icon: "warning",
           showCancelButton: true,
@@ -1330,7 +1408,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var container = document.getElementById("pedidoAsignarAdd");
             container.innerHTML = `
               <select class="form-control select2" id="pedidoSalAdd" name="pedidoSalAdd">
-                <option value="">Seleccione un pedido</option>
+                <option value="0">Seleccione un pedido</option>
               </select>
             `;
 
@@ -1417,10 +1495,10 @@ function productosPrimaPedido(codPedidoSalMp) {
 
 //promesa para obtener el stock de los productos de almacen y sumarlo a la cantidad de la salida para mostrar un máximo a editar y también el precio del producto
 // Modificación de obtenerStock para que retorne una promesa la función retorna la cantidad a la función de *insertarFormulario*
-function obtenerStockMprima(codProdIng) {
+function obtenerStockMprima(codProdMprimaCoti) {
   return new Promise((resolve, reject) => {
     var data = new FormData();
-    data.append("codProdIng", codProdIng);
+    data.append("codProdMprimaCoti", codProdMprimaCoti);
     $.ajax({
       url: "ajax/salidaMprima.ajax.php",
       method: "POST",
@@ -1433,12 +1511,11 @@ function obtenerStockMprima(codProdIng) {
         resolve({
           cantidadProdAlma: response["cantidadMprimaAlma"],
           precioProd: response["precioMprima"],
+          codigoProd: response["codigoMprima"],
         }); // Resuelve la promesa con un objeto que contiene ambos valores
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        reject(
-          "Error en la solicitud AJAX: " + textStatus + " " + errorThrown
-        ); // Rechaza la promesa si hay un error
+        reject("Error en la solicitud AJAX: " + textStatus + " " + errorThrown); // Rechaza la promesa si hay un error
       },
     });
   });
@@ -1480,12 +1557,12 @@ async function ingresoProductoMprima(productsMprimaCoti) {
     // Esperar la respuesta de obtenerStock
     try {
       // Enviar el id de producto a la función de obtener stock para traer el stock del almacén
-      const { cantidadProdAlma, precioProd } = await obtenerStockMprima(
-        codProdMprimaCoti
-      );
+      const { cantidadProdAlma, precioProd, codigoProd } =
+        await obtenerStockMprima(codProdMprimaCoti);
       insertarFormulario(
         codProdMprimaCoti,
         nombreProdMprimaCoti,
+        codigoProd,
         unidadProdMprimaCoti,
         cantidadProdMprimaCoti,
         precioProdMprimaCoti,
@@ -1511,9 +1588,12 @@ function insertarFormulario(
   cantidadProdStock,
   precioProd,
   //valores para la variable global que espera estos datos para iniciar la función de cantidades máximas editables
-  cantidadProd = Number(cantidadProdStock) + Number(cantidadProdIng),
+  cantidadProd = Number(cantidadProdStock), //+ Number(cantidadProdIng),
   idProd = codProdIng
 ) {
+  // Llamar a validarCantidad después de que todos los parámetros estén definidos
+  cantidadProdIng = validarCantidad(cantidadProdIng, cantidadProdStock);
+
   var formularioID = "formularioIngProd" + formularioIngProdCounter++;
   var nuevoProductoHTML = `
     <form id="${formularioID}" class="row productoRow" style="padding:5px 15px">
@@ -1558,13 +1638,86 @@ function insertarFormulario(
   //console.log(datosFormularios);
 
   //llama a la función de editar cantidad y precio para que valide la cantidad máxima
-  $(document).on(
-    "input",
-    ".cantidadProdIng",
-    actualizarPrecioYValidarCantidad
-  );
+  $(document).on("input", ".cantidadProdIng", actualizarPrecioYValidarCantidad);
+}
+
+function validarCantidad(cantidadProdIng, cantidadProdStock) {
+  if (cantidadProdIng > cantidadProdStock) {
+    if (cantidadProdStock < 0) {
+      cantidadProdIng = cantidadProdStock; // Mantener el valor negativo
+    } else if (cantidadProdStock === 0) {
+      cantidadProdIng = 0;
+    } else {
+      cantidadProdIng = cantidadProdStock;
+    }
+  }
+  return cantidadProdIng;
 }
 //fin funcion
+
+//funcion para mostrar proceso oeprativo adjunto
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/salidaMprimaList";
+  if (currentPath == appPath) {
+    $(".dataTableSalidasMprima").on("click", ".btnVerProcOp", function () {
+      // Abrir el modal
+      $("#modalEstadosProcesosOp").modal("show");
+
+      // Limpiar todos los datos del modal
+      $("#modalEstadosProcesosOp").find("input, textarea, select").val("");
+
+      // Obtener los datos del botón
+      var codProcSalMprima = $(this).attr("codProcSalMprima");
+
+      // Crear el objeto FormData
+      var jsonEstadosProcOp = JSON.stringify({
+        codProcSalMprima: codProcSalMprima,
+      });
+
+      // Realizar la solicitud AJAX
+      $.ajax({
+        url: "ajax/salidaMprima.ajax.php",
+        method: "POST",
+        data: { jsonEstadosProcOp: jsonEstadosProcOp },
+        dataType: "json",
+        success: function (response) {
+          if (response == "error") {
+            Swal.fire({
+              title: "No se encuentra un proceso operativo asignado",
+              text: "¿Desea asignarle un proceso operativo?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Si, asignar Proceso Operativo",
+              cancelButtonText: "No, en otro momento",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Redirigir a la ruta para asignar proceso operativo
+                window.location.href = "/dfrida/procesosOperativos";
+              } else {
+                $("#modalEstadosProcesosOp").modal("hide");
+              }
+            });
+          } else {
+            $("#nombrePorcesoOpNombreEstate").val(response["nombreProcOp"]);
+            $("#fechaInicioProcOpEstate").val(response["fechaInicioProcOp"]);
+            $("#fechaFinProcOpEstate").val(response["fechaFinProcOp"]);
+            $("#tipoPorcesoOpNombreEstate").val(response["nombreTipoProc"]);
+            $("#estadoPrincipalProcOP").val(response["estadoProcOp"]);
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error(
+            "Error en la solicitud AJAX: ",
+            textStatus,
+            errorThrown
+          );
+        },
+      });
+    });
+  }
+});
+//fin proceso operativo
 
 //vista de agregar productos a los ingresos de productos a el almacen
 document.addEventListener("DOMContentLoaded", function () {

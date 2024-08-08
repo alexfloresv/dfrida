@@ -81,6 +81,7 @@ if (isset($_POST["todosLosProcesoOperativosMprimaEdit"])) {
   $todosLosProcesoOperativosMprimaEdit = new salidaMprimaAjax();
   $todosLosProcesoOperativosMprimaEdit->ajaxSelect2ProcOpMprimaEdit();
 }
+
 if (isset($_POST["fechaInicioSalidaMPrima"]) && isset($_POST["fechaFinSalidaMPrima"])) {
   $datosProductosSalidaMPrima = new salidaMprimaAjax();
   $datosProductosSalidaMPrima->fechaInicioSalidaMPrima = $_POST["fechaInicioSalidaMPrima"];
@@ -101,6 +102,25 @@ if (isset($_POST["codPedidoSalMp"])) {
   $add->ajaxTraerPedidoDisponible($_POST["codPedidoSalMp"]);
 }
 
+//obtener stock, precio, codigo  de almacen para insertar productos prima de almacen
+if (isset($_POST["codProdMprimaCoti"])) {
+  $viewData = new salidaMprimaAjax();
+  $viewData->codProdMprimaCoti = $_POST["codProdMprimaCoti"];
+  $viewData->ajaxDataInsertPedidoPromise($_POST["codProdMprimaCoti"]);
+}
+
+//visualizar datos estados de proceso operativo principal
+if (isset($_POST["jsonEstadosProcOp"])) {
+  $view = new salidaMprimaAjax();
+  $view->jsonEstadosProcOp = $_POST["jsonEstadosProcOp"];
+  $view->ajaxViewDataEstadosProcesoOperativo($_POST["jsonEstadosProcOp"]);
+}
+
+//funcion para mostrar el selec2 de selecionar pedido edit
+if (isset($_POST["todosLosPedidosMprimaEdit"])) {
+  $todosLosPedidosMprimaEdit = new salidaMprimaAjax();
+  $todosLosPedidosMprimaEdit->ajaxSelect2PedidoMprimaEdit();
+}
 /////////////////////////////
 
 class salidaMprimaAjax
@@ -232,6 +252,26 @@ class salidaMprimaAjax
   {
     $codPedidoSalMp = salidaMprimaController::ctrTraerPedidoDisponible($codPedidoSalMp);
     echo json_encode($codPedidoSalMp);
+  }
+
+  //obtener stock, precio, codigo  de almacen para insertar productos prima de almacen
+  public function ajaxDataInsertPedidoPromise($codProdMprimaCoti)
+  {
+    $response = salidaMprimaController::ctrDataInsertPedidoPromise($codProdMprimaCoti);
+    echo json_encode($response);
+  }
+  //visualizar datos estados de proceso operativo principal
+  public function ajaxViewDataEstadosProcesoOperativo($jsonEstadosProcOp)
+  {
+    $codSalMprima = json_decode($jsonEstadosProcOp, true);
+    $response = salidaMprimaController::ctrViewDataEstadosProcesoOperativo($codSalMprima);
+    echo json_encode($response);
+  }
+ //funcion para mostrar el selec2 de selecionar pedido edit
+  public function ajaxSelect2PedidoMprimaEdit()
+  {
+    $todosLosPedidosMprimaEdit = salidaMprimaController::ctrSelect2PedidoMprimaEdit();
+    echo json_encode($todosLosPedidosMprimaEdit);
   }
 }
 

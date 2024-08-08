@@ -574,7 +574,7 @@
               <div class="col-md-6 mb-3">
                 <label for="fechaFinProcOpEstate" class="form-label" style="font-weight: bold"> Fecha Fin
                   Proceso:</label>
-                <input type="date" class="form-control" id="fechaFinProcOpEstate" name="fechaFinProcOpEstate" >
+                <input type="date" class="form-control" id="fechaFinProcOpEstate" name="fechaFinProcOpEstate">
               </div>
 
               <!-- selec2 para tipos de procesos -->
@@ -638,7 +638,7 @@
     </div>
   </div>
 </div>
-</div>
+
 <!-- fin de estados de procesos operativos -->
 
 <!-- modal data table  ver la fichas de trabajo adjunta no tocar-->
@@ -705,8 +705,7 @@
             </div>
 
             <div class="modal-footer">
-              <button type="button" class="btn btn-danger "
-                id="" data-bs-dismiss="modal" >Cerrar</button>
+              <button type="button" class="btn btn-danger " id="" data-bs-dismiss="modal">Cerrar</button>
             </div>
           </div>
         </div>

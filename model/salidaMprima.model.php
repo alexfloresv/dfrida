@@ -89,9 +89,10 @@ class salidaMprimaModel
   //crear el registro de ingreso de productos prima
   public static function mdlCrearSalidaProd($table, $dataCreate)
   {
-    $statement = Conexion::conn()->prepare("INSERT INTO $table (nombreSalMprima, idProcOp, fechaSalMprima, igvSalMprima, subTotalSalMprima, totalSalMprima, salJsonMprima, DateCreate) VALUES(:nombreSalMprima, :idProcOp, :fechaSalMprima, :igvSalMprima, :subTotalSalMprima, :totalSalMprima, :salJsonMprima, :DateCreate)");
+    $statement = Conexion::conn()->prepare("INSERT INTO $table (nombreSalMprima, idProcOp, idPedido, fechaSalMprima, igvSalMprima, subTotalSalMprima, totalSalMprima, salJsonMprima, DateCreate) VALUES(:nombreSalMprima, :idProcOp, :idPedido, :fechaSalMprima, :igvSalMprima, :subTotalSalMprima, :totalSalMprima, :salJsonMprima, :DateCreate)");
     $statement->bindParam(":nombreSalMprima", $dataCreate["nombreSalMprima"], PDO::PARAM_STR);
     $statement->bindParam(":idProcOp", $dataCreate["idProcOp"], PDO::PARAM_INT);
+    $statement->bindParam(":idPedido", $dataCreate["idPedido"], PDO::PARAM_INT);
     $statement->bindParam(":fechaSalMprima", $dataCreate["fechaSalMprima"], PDO::PARAM_STR);
     $statement->bindParam(":igvSalMprima", $dataCreate["igvSalMprima"], PDO::PARAM_STR);
     $statement->bindParam(":subTotalSalMprima", $dataCreate["subTotalSalMprima"], PDO::PARAM_STR);
@@ -109,18 +110,21 @@ class salidaMprimaModel
   public static function mdlVerDataSalidaRegistro($table, $codIdSalProd)
   {
     $statement = Conexion::conn()->prepare("SELECT
-          s.idSalMprima,
-          s.nombreSalMprima,
-          s.idProcOp,
-          p.nombreProcOp,  -- Campo de la tabla proceso_operativo
-          s.fechaSalMprima,
-          s.igvSalMprima,
-          s.subTotalSalMprima,
-          s.totalSalMprima,
-          s.salJsonMprima
-          FROM $table s
-          LEFT JOIN proceso_operativo p ON s.idProcOp = p.idProcOp
-          WHERE s.idSalMprima = :idSalMprima");
+            s.idSalMprima,
+            s.nombreSalMprima,
+            s.idProcOp,
+            s.idPedido,
+            p.nombreProcOp,  -- Campo de la tabla proceso_operativo
+            ped.nombrePedido,  -- Campo de la tabla pedido
+            s.fechaSalMprima,
+            s.igvSalMprima,
+            s.subTotalSalMprima,
+            s.totalSalMprima,
+            s.salJsonMprima
+            FROM $table s
+            LEFT JOIN proceso_operativo p ON s.idProcOp = p.idProcOp
+            LEFT JOIN pedido ped ON s.idPedido = ped.idPedido
+            WHERE s.idSalMprima = :idSalMprima");
     $statement->bindParam(":idSalMprima", $codIdSalProd, PDO::PARAM_INT);
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
@@ -148,9 +152,10 @@ class salidaMprimaModel
   //editar registro salida de productos prima
   public static function mdlEditarSalidaProd($table, $dataUpdate)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET nombreSalMprima = :nombreSalMprima, idProcOp = :idProcOp, fechaSalMprima = :fechaSalMprima, igvSalMprima = :igvSalMprima, subTotalSalMprima = :subTotalSalMprima, totalSalMprima = :totalSalMprima, salJsonMprima = :salJsonMprima, DateUpdate = :DateUpdate WHERE idSalMprima = :idSalMprima");
+    $statement = Conexion::conn()->prepare("UPDATE $table SET nombreSalMprima = :nombreSalMprima, idProcOp = :idProcOp, idPedido = :idPedido, fechaSalMprima = :fechaSalMprima, igvSalMprima = :igvSalMprima, subTotalSalMprima = :subTotalSalMprima, totalSalMprima = :totalSalMprima, salJsonMprima = :salJsonMprima, DateUpdate = :DateUpdate WHERE idSalMprima = :idSalMprima");
     $statement->bindParam(":nombreSalMprima", $dataUpdate["nombreSalMprima"], PDO::PARAM_STR);
     $statement->bindParam(":idProcOp", $dataUpdate["idProcOp"], PDO::PARAM_STR);
+    $statement->bindParam(":idPedido", $dataUpdate["idPedido"], PDO::PARAM_STR);
     $statement->bindParam(":fechaSalMprima", $dataUpdate["fechaSalMprima"], PDO::PARAM_STR);
     $statement->bindParam(":igvSalMprima", $dataUpdate["igvSalMprima"], PDO::PARAM_STR);
     $statement->bindParam(":subTotalSalMprima", $dataUpdate["subTotalSalMprima"], PDO::PARAM_STR);
@@ -341,14 +346,59 @@ FROM
 
   public static function mdlTraerPedidoDisponible($table, $codPedidoSalMp)
   {
-      $statement = Conexion::conn()->prepare("
+    $statement = Conexion::conn()->prepare("
           SELECT p.idPedido, c.productsMprimaCoti 
           FROM $table p
           INNER JOIN cotizacion c ON p.idCoti = c.idCoti
           WHERE p.idPedido = :idPedido
       ");
-      $statement->bindParam(":idPedido", $codPedidoSalMp, PDO::PARAM_INT);
-      $statement->execute();
-      return $statement->fetch(PDO::FETCH_ASSOC);
+    $statement->bindParam(":idPedido", $codPedidoSalMp, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  //obtener stock, precio, codigo  de almacen para insertar productos prima de almacen
+  public static function mdlDataInsertPedidoPromise($table, $codIngProd)
+  {
+    $statement = Conexion::conn()->prepare(" SELECT 
+          a.cantidadMprimaAlma, 
+          p.precioMprima,
+          p.codigoMprima 
+           FROM 
+          $table a
+           INNER JOIN 
+          materia_prima p ON a.idMprima = p.idMprima
+           WHERE 
+          a.idMprima = :idMprima");
+    $statement->bindParam(":idMprima", $codIngProd, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
+  //visualizar datos estados de proceso operativo principal
+  public static function mdlViewDataEstadosProcesoOperativo($table, $idSalMprima)
+  {
+    $statement = Conexion::conn()->prepare("
+          SELECT 
+              po.idProcOp,
+              po.nombreProcOp,
+              po.idTipoProc, 
+              po.fechaInicioProcOp, 
+              po.fechaFinProcOp, 
+              po.estadoProcOp,
+              tp.nombreTipoProc
+          FROM $table po
+          INNER JOIN tipo_proceso tp ON po.idTipoProc = tp.idTipoProc
+          WHERE po.idSalMprima = :idSalMprima
+      ");
+    $statement->bindParam(":idSalMprima", $idSalMprima, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  //funcion para mostrar el selec2 de selecionar pedido edit
+  public static function mdlSelect2PedidoMprimaEdit($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idPedido, nombrePedido FROM $table ORDER BY idPedido DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 }
