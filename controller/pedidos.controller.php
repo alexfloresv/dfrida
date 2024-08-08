@@ -53,4 +53,14 @@ class PedidosController
     $response = PedidosModel::mdlDatosPedidoPorID($tabla,$idPedido);
     return $response;
   }
+  // Eliminar Pedido
+  public static function ctrEliminarPedido($idPedido,$idCoti)
+  {
+    $table = "pedido";
+    $response = PedidosModel::mdlEliminarPedido($table,$idPedido);
+    if($response == "ok"){
+      $response = CotizacionController::ctrActualizarEstadoAsignacionCoti($idCoti,1);
+    }
+    return $response;
+  }
 }

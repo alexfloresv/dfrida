@@ -618,3 +618,68 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+// Cerrar Modal Editar Pedido
+document.addEventListener("DOMContentLoaded", function () {
+  // Verificar si la ruta es la correcta
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/pedidosList";
+  if (currentPath == appPath) {
+    // Creación del pedido
+    $("#dataTablePedidos").on("click", ".btnDeletePedido", function () {
+      Swal.fire({
+        title: "¿Está seguro de que desea eliminar este pedido?",
+        text: "¡Si no lo está, puede cancelar la acción! Esta acción no se podrá revertir.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Sí, eliminar pedido",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          var idPedido = $(this).attr("idPedido");
+          var idCoti = $(this).attr("idCoti");
+          var data = new FormData();
+          data.append("idPedidoEliminar", idPedido);
+          data.append("idCotiEliminar", idCoti);
+          $.ajax({
+            url: "ajax/pedidos.ajax.php",
+            method: "POST",
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function (respuesta) {
+              if (respuesta == "ok") {
+                Swal.fire({
+                  icon: "success",
+                  title: "¡Pedido Eliminado!",
+                  text: "El pedido ha sido eliminado con éxito.",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    // Recargar la página
+                    location.reload();
+                  }
+                });
+              } else {
+                Swal.fire({
+                  icon: "error",
+                  title: "Error al eliminar el pedido",
+                  text: respuesta,
+                });
+              }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              Swal.fire({
+                icon: "error",
+                title: "Error de conexión",
+                text: "No se pudo conectar al servidor. Por favor, verifica tu conexión a Internet.",
+              });
+            },
+          });
+        }
+      });
+    });
+  }
+});

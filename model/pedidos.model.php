@@ -54,4 +54,13 @@ class PedidosModel
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+  public static function mdlEliminarPedido($table, $idPedido){
+    $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE idPedido = :idPedido");
+    $statement->bindParam(":idPedido", $idPedido, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }

@@ -41,6 +41,13 @@ if(isset($_POST["idPedidoDatos"])){
   $datosPedidoporID->idPedidoDatos = $_POST["idPedidoDatos"];
   $datosPedidoporID->ajaxDatosPedidoPorID();
 }
+// Eliminar Pedido
+if(isset($_POST["idPedidoEliminar"]) && isset($_POST["idCotiEliminar"])){
+  $eliminarPedido = new PedidosAjax();
+  $eliminarPedido->idPedidoEliminar = $_POST["idPedidoEliminar"];
+  $eliminarPedido->idCotiEliminar = $_POST["idCotiEliminar"];
+  $eliminarPedido->ajaxEliminarPedido();
+}
 
 class PedidosAjax
 {
@@ -51,7 +58,7 @@ class PedidosAjax
   {
     $todosLosPedidos = PedidosController::ctrDTablePedidos();
     foreach ($todosLosPedidos as &$pedido) {
-      $pedido['buttons'] = FunctionPedidos::getBtnPedido($pedido["idPedido"], $pedido["estadoPedido"]);
+      $pedido['buttons'] = FunctionPedidos::getBtnPedido($pedido["idPedido"], $pedido["estadoPedido"], $pedido["idCoti"]);
       $pedido['estadoPedidos'] = FunctionPedidos::getEstadoPedido($pedido["estadoPedido"]);
       $pedido['clientePedido'] = FunctionPedidos::getBtnVerClientePedido($pedido["idPedido"], $pedido["idCli"]);
       $pedido['productosPedido'] = FunctionPedidos::getBtnVerProductosPedido($pedido["idPedido"], $pedido["idCoti"]);
@@ -79,6 +86,14 @@ class PedidosAjax
   public function ajaxDatosPedidoPorID(){
     $idPedidoDatos = $this->idPedidoDatos;
     $respuesta = PedidosController::ctrDatosPedidoPorID($idPedidoDatos);
+    echo json_encode($respuesta);
+  }
+  public $idPedidoEliminar;
+  public $idCotiEliminar;
+  public function ajaxEliminarPedido(){
+    $idPedidoEliminar = $this->idPedidoEliminar;
+    $idCotiEliminar = $this->idCotiEliminar;
+    $respuesta = PedidosController::ctrEliminarPedido($idPedidoEliminar, $idCotiEliminar);
     echo json_encode($respuesta);
   }
 
