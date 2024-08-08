@@ -604,3 +604,17 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   }
 });
+
+// Cerrar Modal Editar Pedido
+document.addEventListener("DOMContentLoaded", function () {
+  // Verificar si la ruta es la correcta
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/pedidosList";
+  if (currentPath == appPath) {
+    // Creación del pedido
+    $("#modalEditarPedido").on("click", "#btnCerrarEditarPedido", function () {
+      $("#modalEditarPedido").modal("hide");
+    });
+  }
+});
+
