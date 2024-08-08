@@ -512,6 +512,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function compararDatos(datosFormulario, datosOriginales) {
       var diferencias = {};
       for (var key in datosOriginales) {
+        // Ignorar la clave 'idPedido'
+        if (key === "idPedido") {
+          continue;
+        }
         if (String(datosOriginales[key]) !== String(datosFormulario[key])) {
           diferencias[key] = {
             original: datosOriginales[key],

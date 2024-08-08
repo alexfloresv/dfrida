@@ -45,11 +45,10 @@ class FunctionCotizacion
   {
     $botones = '
      <button class="btn btn-dark btnDescargarCoti" codCoti="' . $codCoti . '"><i class="fa-solid fa-file-pdf"></i></button>
-    
+    <button class="btn btn-primary btnEditCotizacion" codCoti="' . $codCoti . '" ><i class="fa-solid fa-pencil"></i></button>
     <button class="btn btn-danger btnDeleteCotizacion" codCoti="' . $codCoti . '"><i class="fa-solid fa-trash"></i></button>
     ';
     return $botones;
-    /* <button class="btn btn-warning btnEditCotizacion" codCoti="' . $codCoti . '" ><i class="fa-solid fa-pencil"></i></button> */
   }
   // Botones de Cotizacion para la vista de Pedidos
   public static function getBtnCotizacionPedidosVista($codCoti)

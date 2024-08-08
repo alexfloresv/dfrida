@@ -317,6 +317,81 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+// Modal de Agrega Producto de materia prima en editar Cotizacion
+//data  table ingresos materia prima
+document.addEventListener("DOMContentLoaded", function () {
+  //verrificar si la ruta es la correcta
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/cotizacionListEdit";
+  if (currentPath == appPath) {
+    //si es correcta la ruta inicializa el datatable
+
+    // Estructura de dataTableProductosMprimaEditarCotizacion
+    $("#dataTableProductosMprimaEditarCotizacion thead").html(`
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre Producto Prima</th>
+        <th scope="col">Codigo Producto Prima</th>
+        <th scope="col">Precio Prima</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    `);
+
+    // Definición inicial de dataTableProductosMprimaEditarCotizacion
+    var columnDefsProductosMprima = [
+      {
+        data: null,
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
+      },
+      { data: "nombreMprima" },
+      { data: "codigoMprima" },
+      {
+        data: "precioMprima",
+        render: function (data, type, row) {
+          return "S/ " + data; // Coloca 'S/' delante del valor de la celda
+        },
+      },
+      {
+        data: "idMprima",
+        render: function (data, type, row) {
+          return (
+            '<button class="btn btn-success btnAddProdModalEditarPedido" codAddIngProdModal="' +
+            data +
+            '"><i class="fa-solid fa-clipboard-check"></i></button>'
+          );
+        },
+      },
+    ];
+
+    var tableProductosMprima = $("#dataTableProductosMprimaEditarCotizacion").DataTable({
+      columns: columnDefsProductosMprima,
+    });
+
+    // Solicitud inicial de dataTableProductosMprimaEditarCotizacion
+    var data = new FormData();
+    data.append("todosLosProductosMprima", true);
+
+    $.ajax({
+      url: "ajax/productMprima.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        tableProductosMprima.clear();
+        tableProductosMprima.rows.add(response);
+        tableProductosMprima.draw();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+  }
+});
 
 // descargar ingresos materia prima por fechas
 document.addEventListener("DOMContentLoaded", function () {
