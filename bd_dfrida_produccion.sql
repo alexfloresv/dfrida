@@ -11,7 +11,7 @@
  Target Server Version : 100432
  File Encoding         : 65001
 
- Date: 08/08/2024 12:33:24
+ Date: 08/08/2024 17:38:52
 */
 
 SET NAMES utf8mb4;
@@ -37,11 +37,11 @@ CREATE TABLE `almacen_mprima`  (
 -- ----------------------------
 -- Records of almacen_mprima
 -- ----------------------------
-INSERT INTO `almacen_mprima` VALUES (1, 29, 'HilNeg202503', 'Holi negro 3.5', 'Docena', '50', '400.00', '2024-07-25 10:14:28', '2024-08-08 11:19:37');
-INSERT INTO `almacen_mprima` VALUES (2, 28, 'RollTelCedBla202405', 'Rollo tela ceda blanco', 'Uni', '50', '9000.00', '2024-07-25 10:14:51', '2024-08-08 11:19:39');
-INSERT INTO `almacen_mprima` VALUES (3, 27, 'RollTelDri202405', 'Rollo tela dril azul', 'Uni', '50', '8000.00', '2024-07-25 10:15:01', '2024-08-08 11:19:39');
-INSERT INTO `almacen_mprima` VALUES (4, 26, 'Boto202405', 'Botones de pantalones hombre', 'Uni', '50', '13.00', '2024-07-25 10:15:02', '2024-08-08 11:19:41');
-INSERT INTO `almacen_mprima` VALUES (5, 25, 'CieCasProm202405', 'Cierre Casacas Promo', 'Uni', '50', '150.00', '2024-07-25 10:15:03', '2024-08-08 11:19:41');
+INSERT INTO `almacen_mprima` VALUES (1, 29, 'HilNeg202503', 'Holi negro 3.5', 'Docena', '48', '400.00', '2024-07-25 10:14:28', '2024-08-08 13:43:06');
+INSERT INTO `almacen_mprima` VALUES (2, 28, 'RollTelCedBla202405', 'Rollo tela ceda blanco', 'Uni', '48', '9000.00', '2024-07-25 10:14:51', '2024-08-08 13:43:06');
+INSERT INTO `almacen_mprima` VALUES (3, 27, 'RollTelDri202405', 'Rollo tela dril azul', 'Uni', '48', '8000.00', '2024-07-25 10:15:01', '2024-08-08 13:43:06');
+INSERT INTO `almacen_mprima` VALUES (4, 26, 'Boto202405', 'Botones de pantalones hombre', 'Uni', '48', '13.00', '2024-07-25 10:15:02', '2024-08-08 13:43:06');
+INSERT INTO `almacen_mprima` VALUES (5, 25, 'CieCasProm202405', 'Cierre Casacas Promo', 'Uni', '48', '150.00', '2024-07-25 10:15:03', '2024-08-08 13:43:06');
 
 -- ----------------------------
 -- Table structure for almacen_prod
@@ -325,14 +325,21 @@ CREATE TABLE `merma`  (
   `idSalMprima` int NULL DEFAULT NULL,
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
+  `fechaMermaIng` date NULL DEFAULT NULL,
+  `estadoMerma` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL DEFAULT NULL,
+  `fechaMermaAprob` date NULL DEFAULT NULL,
+  `nombreMerma` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `jsonMerma` longtext CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL,
   PRIMARY KEY (`idMerma`) USING BTREE,
   INDEX `idProcOp`(`idProcOp`) USING BTREE,
   CONSTRAINT `merma_ibfk_1` FOREIGN KEY (`idProcOp`) REFERENCES `proceso_operativo` (`idProcOp`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of merma
 -- ----------------------------
+INSERT INTO `merma` VALUES (1, 48, 20, '2024-08-08 17:03:02', '0000-00-00 00:00:00', '2024-08-08', '1', NULL, 'Merma de proceso operativo Sin Aceptar', NULL);
+INSERT INTO `merma` VALUES (2, 47, 19, '2024-08-08 17:37:28', '0000-00-00 00:00:00', '2024-08-08', '1', NULL, 'Merma de proceso operativo Sin Aceptar', NULL);
 
 -- ----------------------------
 -- Table structure for pedido
@@ -361,8 +368,8 @@ CREATE TABLE `pedido`  (
 -- ----------------------------
 -- Records of pedido
 -- ----------------------------
-INSERT INTO `pedido` VALUES (8, 11, 'Veritatis dolorum lo', 'Aut repellendus Err', '1980-07-19', '2024-08-08 11:34:08', '2024-08-08 11:37:31', 17, 190, 1);
-INSERT INTO `pedido` VALUES (9, 11, 'Rem nulla labore eni', 'Soluta quibusdam ull', '1997-11-20', '2024-08-08 11:47:19', '2024-08-08 11:47:19', 19, 190, 1);
+INSERT INTO `pedido` VALUES (8, 11, 'Veritatis dolorum lo', 'Aut repellendus Err', '1980-07-19', '2024-08-08 11:34:08', '2024-08-08 17:03:02', 17, 190, 3);
+INSERT INTO `pedido` VALUES (9, 11, 'Rem nulla labore eni', 'Soluta quibusdam ull', '1997-11-20', '2024-08-08 11:47:19', '2024-08-08 17:37:28', 19, 190, 3);
 
 -- ----------------------------
 -- Table structure for proceso_operativo
@@ -387,11 +394,13 @@ CREATE TABLE `proceso_operativo`  (
   INDEX `idSalMprima`(`idSalMprima`) USING BTREE,
   CONSTRAINT `proceso_operativo_ibfk_1` FOREIGN KEY (`idTipoProc`) REFERENCES `tipo_proceso` (`idTipoProc`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `proceso_operativo_ibfk_2` FOREIGN KEY (`idPedido`) REFERENCES `pedido` (`idPedido`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of proceso_operativo
 -- ----------------------------
+INSERT INTO `proceso_operativo` VALUES (47, 1, 9, 19, 'Irure laborum qui qu', 5, '2024-08-08 12:42:21', '2024-08-08 17:37:28', 'Enim ea pariatur Id', '2023-07-07', '2024-08-08', '1970-12-08');
+INSERT INTO `proceso_operativo` VALUES (48, 1, 8, 20, 'In atque cillum illo', 2, '2024-08-08 13:43:34', '2024-08-08 17:03:02', 'Aliquid ipsam sed re', '2013-11-20', '2024-08-08', '1989-05-19');
 
 -- ----------------------------
 -- Table structure for proceso_operativo_fin
@@ -406,11 +415,14 @@ CREATE TABLE `proceso_operativo_fin`  (
   PRIMARY KEY (`idProcOpFin`) USING BTREE,
   INDEX `idProcOp`(`idProcOp`) USING BTREE,
   CONSTRAINT `proceso_operativo_fin_ibfk_2` FOREIGN KEY (`idProcOp`) REFERENCES `proceso_operativo` (`idProcOp`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of proceso_operativo_fin
 -- ----------------------------
+INSERT INTO `proceso_operativo_fin` VALUES (8, 47, 1, '2024-08-08 14:45:58', '0000-00-00 00:00:00');
+INSERT INTO `proceso_operativo_fin` VALUES (9, 48, 1, '2024-08-08 17:03:02', '0000-00-00 00:00:00');
+INSERT INTO `proceso_operativo_fin` VALUES (10, 47, 1, '2024-08-08 17:37:28', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for prod_merma
@@ -446,11 +458,14 @@ CREATE TABLE `produccion`  (
   PRIMARY KEY (`idProduccion`) USING BTREE,
   INDEX `idProcOpFin`(`idProcOpFin`) USING BTREE,
   CONSTRAINT `produccion_ibfk_1` FOREIGN KEY (`idProcOpFin`) REFERENCES `proceso_operativo_fin` (`idProcOpFin`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of produccion
 -- ----------------------------
+INSERT INTO `produccion` VALUES (6, 8, 1, '2024-08-08 14:45:58', '0000-00-00 00:00:00');
+INSERT INTO `produccion` VALUES (7, 9, 1, '2024-08-08 17:03:02', '0000-00-00 00:00:00');
+INSERT INTO `produccion` VALUES (8, 10, 1, '2024-08-08 17:37:28', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for producto
@@ -527,11 +542,13 @@ CREATE TABLE `salida_mprima`  (
   `DateUpdate` datetime NOT NULL,
   `idPedido` int NULL DEFAULT NULL,
   PRIMARY KEY (`idSalMprima`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of salida_mprima
 -- ----------------------------
+INSERT INTO `salida_mprima` VALUES (19, 47, 'Est veniam asperio', '2005-01-27', '0', '1756.30', '1756.30', '{\"producto0\":{\"codProdIng\":\"29\",\"nombreProdIng\":\"Holi negro 3.5\",\"codigoProdIng\":\"HilNeg202503\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"40.00\"},\"producto1\":{\"codProdIng\":\"28\",\"nombreProdIng\":\"Rollo tela ceda blanco\",\"codigoProdIng\":\"RollTelCedBla202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"900.00\"},\"producto2\":{\"codProdIng\":\"27\",\"nombreProdIng\":\"Rollo tela dril azul\",\"codigoProdIng\":\"RollTelDri202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"800.00\"},\"producto3\":{\"codProdIng\":\"26\",\"nombreProdIng\":\"Botones de pantalones hombre\",\"codigoProdIng\":\"Boto202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"1.30\"},\"producto4\":{\"codProdIng\":\"25\",\"nombreProdIng\":\"Cierre Casacas Promo\",\"codigoProdIng\":\"CieCasProm202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"15.00\"}}', '2024-08-08 12:43:40', '2024-08-08 12:44:02', 8);
+INSERT INTO `salida_mprima` VALUES (20, 48, 'Vero Nam pariatur O', '2019-11-08', '0', '1756.30', '1756.30', '{\"producto0\":{\"codProdIng\":\"29\",\"nombreProdIng\":\"Holi negro 3.5\",\"codigoProdIng\":\"HilNeg202503\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"40.00\"},\"producto1\":{\"codProdIng\":\"28\",\"nombreProdIng\":\"Rollo tela ceda blanco\",\"codigoProdIng\":\"RollTelCedBla202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"900.00\"},\"producto2\":{\"codProdIng\":\"27\",\"nombreProdIng\":\"Rollo tela dril azul\",\"codigoProdIng\":\"RollTelDri202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"800.00\"},\"producto3\":{\"codProdIng\":\"26\",\"nombreProdIng\":\"Botones de pantalones hombre\",\"codigoProdIng\":\"Boto202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"1.30\"},\"producto4\":{\"codProdIng\":\"25\",\"nombreProdIng\":\"Cierre Casacas Promo\",\"codigoProdIng\":\"CieCasProm202405\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"15.00\"}}', '2024-08-08 13:43:06', '2024-08-08 13:43:34', 8);
 
 -- ----------------------------
 -- Table structure for salida_prod
