@@ -6,24 +6,27 @@ class FunctionPedidos
   {
     //  Estado de los Pedidos
     if ($stateValue == 2) {
-      $estado = '<span class="badge rounded-pill bg-success">Asignado</span>';
+      $estado = '<span class="badge rounded-pill bg-primary">Asignado</span>';
     }
     if ($stateValue == 1) {
       $estado = '<span class="badge rounded-pill bg-warning">Sin Asignar</span>';
     }
-
+    if ($stateValue == 3) {
+      $estado = '<span class="badge rounded-pill bg-success">Finalizado</span>';
+    }
     return $estado;
   }
 
   //botones Pedido
   public static function getBtnPedido($idPedido, $estadoPedido)
   {
-    $disabled = ($estadoPedido == 2) ? 'disabled' : '';
+    // Deshabilitar si el estado del pedido es 2 o 3
+    $disabled = ($estadoPedido == 2 || $estadoPedido == 3) ? 'disabled' : '';
     $botones = '
-      <button class="btn btn-primary btnEditarPedido" idPedido="' . $idPedido . '" ' . $disabled . '><i class="fa-solid fa-pencil"></i></button>
-      <button class="btn btn-danger btnDeletePedido" idPedido="' . $idPedido . '" ' . $disabled . '><i class="fa-solid fa-trash"></i></button>
-      <button class="btn btn-dark btnDescargarPedidoPdf" idPedido="' . $idPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
-      ';
+        <button class="btn btn-primary btnEditarPedido" idPedido="' . $idPedido . '" ' . $disabled . '><i class="fa-solid fa-pencil"></i></button>
+        <button class="btn btn-danger btnDeletePedido" idPedido="' . $idPedido . '" ' . $disabled . '><i class="fa-solid fa-trash"></i></button>
+        <button class="btn btn-dark btnDescargarPedidoPdf" idPedido="' . $idPedido . '"><i class="fa-solid fa-file-pdf"></i></button>
+        ';
     return $botones;
   }
   //boton para ver el cliente del pedido
