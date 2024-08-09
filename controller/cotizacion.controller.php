@@ -153,4 +153,18 @@ class CotizacionController
 
     return $response;
   }
+  public static function ctrEditarCotizacion($jsonCotizacionEditar)
+  {
+    // Agregar la fecha actual en el formato requerido
+    $currentDateTime = date('Y-m-d H:i:s');
+    $jsonCotizacionEditar['DateUpdate'] = $currentDateTime;
+
+    // Convertir los datos de productsCoti y productsMprimaCoti a formato JSON
+    $jsonCotizacionEditar['productsCoti'] = json_encode($jsonCotizacionEditar['productsCoti']);
+    $jsonCotizacionEditar['productsMprimaCoti'] = json_encode($jsonCotizacionEditar['productsMprimaCoti']);
+
+    $table = "cotizacion";
+    $response = CotizacionModel::mdlEditarCotizacion($table, $jsonCotizacionEditar);
+    return $response;
+  }
 }

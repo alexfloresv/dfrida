@@ -52,6 +52,13 @@ if (isset($_POST["jsonPdfCotizacion"])) {
   $pdf->jsonPdfCotizacion = $_POST["jsonPdfCotizacion"];
   $pdf->ajaxDescargarPdfCotizacion($_POST["jsonPdfCotizacion"]);
 }
+//  Editar la cotizacion
+if (isset($_POST["jsonCotizacionEditar"])) {
+  $jsonCotizacionEditar = json_decode($_POST["jsonCotizacionEditar"], true);
+  $editar = new CotizacionAjax();
+  $editar->jsonCotizacionEditar = $jsonCotizacionEditar;
+  $editar->ajaxEditarCotizacion();
+}
 /////////////////////////////
 
 class CotizacionAjax
@@ -67,7 +74,7 @@ class CotizacionAjax
     } else {
       $todasLasCotizaciones = CotizacionController::ctrDTableCotizaciones();
       foreach ($todasLasCotizaciones as &$cotizacion) {
-        $cotizacion['buttons'] = FunctionCotizacion::getBtnCotizacion($cotizacion["idCoti"]);
+        $cotizacion['buttons'] = FunctionCotizacion::getBtnCotizacion($cotizacion["idCoti"], $cotizacion["estadoCoti"]);
         $cotizacion['estadoCoti'] = FunctionCotizacion::getEstadoCoti($cotizacion["estadoCoti"]);
       }
     }
@@ -119,6 +126,12 @@ class CotizacionAjax
   {
     $codCotiPdf = json_decode($jsonPdfCotizacion, true); // Decodificar la cadena de texto JSON en un array asociativo
     $response = CotizacionController::ctrDescargarPdfCotizacion($codCotiPdf);
+    echo json_encode($response);
+  }
+  public $jsonCotizacionEditar;
+  public function ajaxEditarCotizacion(){
+    $jsonCotizacionEditar = $this->jsonCotizacionEditar;
+    $response = CotizacionController::ctrEditarCotizacion($jsonCotizacionEditar);
     echo json_encode($response);
   }
 }
