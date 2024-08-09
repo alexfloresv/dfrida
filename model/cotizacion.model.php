@@ -146,4 +146,33 @@ class CotizacionModel
       return "error";
     }
   }
+  public static function mdlEditarCotizacion($table, $jsonCotizacionEditar){
+    $statement = Conexion::conn()->prepare("UPDATE $table SET tituloCoti = :tituloCoti, fechaCoti = :fechaCoti, razonSocialCoti = :razonSocialCoti, nombreComercialCoti = :nombreComercialCoti, rucCoti = :rucCoti, nombreCoti = :nombreCoti, celularCoti = :celularCoti, correoCoti = :correoCoti, direccionCoti = :direccionCoti, detalleCoti = :detalleCoti, productsCoti = :productsCoti, productsMprimaCoti = :productsMprimaCoti, totalProductsCoti = :totalProductsCoti, totalProductsMprimaCoti = :totalProductsMprimaCoti, igvCoti = :igvCoti, subTotalCoti = :subTotalCoti, totalCoti = :totalCoti, DateUpdate = :DateUpdate WHERE idCoti = :idCoti");
+
+    $statement->bindParam(":tituloCoti", $jsonCotizacionEditar["tituloCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaCoti", $jsonCotizacionEditar["fechaCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":razonSocialCoti", $jsonCotizacionEditar["razonSocialCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":nombreComercialCoti", $jsonCotizacionEditar["nombreComercialCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":rucCoti", $jsonCotizacionEditar["rucCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":nombreCoti", $jsonCotizacionEditar["nombreCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":celularCoti", $jsonCotizacionEditar["celularCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":correoCoti", $jsonCotizacionEditar["correoCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":direccionCoti", $jsonCotizacionEditar["direccionCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":detalleCoti", $jsonCotizacionEditar["detalleCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":productsCoti", $jsonCotizacionEditar["productsCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":productsMprimaCoti", $jsonCotizacionEditar["productsMprimaCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":totalProductsCoti", $jsonCotizacionEditar["totalProductsCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":totalProductsMprimaCoti", $jsonCotizacionEditar["totalProductsMprimaCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":igvCoti", $jsonCotizacionEditar["igvCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":subTotalCoti", $jsonCotizacionEditar["subTotalCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":totalCoti", $jsonCotizacionEditar["totalCoti"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $jsonCotizacionEditar["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":idCoti", $jsonCotizacionEditar["codCoti"], PDO::PARAM_INT);
+
+    if($statement->execute()){
+        return "ok";
+    }else{
+        return "error";
+    }
+  }
 }

@@ -265,10 +265,11 @@ document.addEventListener("DOMContentLoaded", function () {
           .val(totalGeneral.toFixed(2))
           .attr("value", totalGeneral.toFixed(2));
 
-
         // Calcular el 18% de totalGeneral para igvIngProdAdd y actualizar el atributo 'value'
         const igvCotizacionAdd = totalGeneral * 0.18;
-        $("#igvCotizacionAdd").val(igvCotizacionAdd).attr("value", igvCotizacionAdd);
+        $("#igvCotizacionAdd")
+          .val(igvCotizacionAdd)
+          .attr("value", igvCotizacionAdd);
         const totalCotizacionAdd = totalGeneral + igvCotizacionAdd;
 
         // Asignar el totalCotizacion al input de totalCotizacion y actualizar el atributo 'value'
@@ -486,105 +487,6 @@ document.addEventListener("DOMContentLoaded", function () {
     //fin verificar que los campos de total cotizacion no esten vacios
   }
 });
-
-/* 
-//  editar productMprima
-document.addEventListener("DOMContentLoaded", function () {
-  var currentPath = window.location.pathname;
-  var appPath = "/dfrida/cotizacion";
-  if (currentPath == appPath) {
-    $(".dataTableProductosMprima").on(
-      "click",
-      ".btnEditProductoMprima",
-      function () {
-        var codProMp = $(this).attr("codProMp");
-        var data = new FormData();
-        data.append("codProMp", codProMp);
-        //visualizar los datos del Productos en el modal
-        $.ajax({
-          url: "ajax/productMprima.ajax.php",
-          method: "POST",
-          data: data,
-          cache: false,
-          contentType: false,
-          processData: false,
-          dataType: "json",
-          success: function (response) {
-            //console.log(response);
-            $("#editProductNameMp").val(response["nombreMprima"]);
-            $("#editProductCategoryMp").val(response["idCatMprima"]);
-            $("#editProductCodigoMp").val(response["codigoMprima"]);
-            $("#editProductUnitMp").val(response["unidadMprima"]);
-            $("#editProductprecioMp").val(response["precioMprima"]);
-            $("#editProductDetailMp").val(response["detalleMprima"]);
-            $("#codProductMp").val(response["idMprima"]);
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            console.log(
-              "Error en la solicitud AJAX: ",
-              textStatus,
-              errorThrown
-            );
-          },
-        });
-      }
-    );
-    //fin visualizar los datos del ProductosMprima en el modal
-
-    //editar ProductosMprima si se da clic en el boton editar
-    $("#btnEditarProductoMprima").on("click", function () {
-      //obtener el formulario por id
-      var formulario = document.getElementById("formEditarProductoMprima");
-      var datosFormulario = {};
-      //obtener los elementos del formulario
-      var elementosFormulario = formulario.querySelectorAll("input, select");
-      //for each para recorrer los elementos del formulario y asignarle la clave como su id y su valor
-      elementosFormulario.forEach(function (elemento) {
-        if (elemento.id) {
-          datosFormulario[elemento.id] = elemento.value;
-        }
-      });
-      //crear el json
-      var jsonEditarProductosMprima = JSON.stringify(datosFormulario);
-      //enviar el json por ajax
-      $.ajax({
-        url: "ajax/productMprima.ajax.php",
-        method: "POST",
-        data: { jsonEditarProductosMprima: jsonEditarProductosMprima },
-        dataType: "json",
-        success: function (response) {
-          $("#modalEditProducto").modal("hide");
-          if (response == "ok") {
-            Swal.fire(
-              "Correcto",
-              "Producto Prima editado correctamente",
-              "success"
-            ).then(function () {
-              window.location.reload(); // Recargar la página
-            });
-          } else {
-            Swal.fire(
-              "Error",
-              "El Producto Prima no se ha podido editar existe otro igual",
-              "error"
-            ).then(function () {
-              //$("#modalEditProveedor").modal("hide");
-            });
-          }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-        },
-      });
-    });
-    //fin editar ProductosMprima si se da clic en el boton editar
-    // Escuchar el clic en el botón de cerrar
-    $("#btnCerrarEditarProducto").on("click", function () {
-      $("#modalEditProducto").modal("hide");
-    });
-  }
-});
-//fin */
 // eliminar Cotizacion
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
@@ -677,3 +579,36 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+// Fin
+//editar cotizacion
+// Enviar código a la vista de editar
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/cotizacionList";
+  if (currentPath == appPath) {
+    // guardar los codigos de los productos agregados
+
+    $(".dataTableCotizaciones").on("click", ".btnEditCotizacion", function () {
+      swal
+        .fire({
+          title: "¡Editar la cotizacion puede generar negativos!",
+          text: "¡Esta accion afectara directamente al almacen!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          cancelButtonText: "Cancelar",
+          confirmButtonText: "Si, Editar Ingreso!",
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            var codCoti = $(this).attr("codCoti");
+            // Usar la variable directamente en la URL de redirección
+            window.location.href =
+              "/dfrida/cotizacionListEdit?codCoti=" + codCoti;
+          }
+        });
+    });
+  }
+});
+// Fin
