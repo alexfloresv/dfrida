@@ -30,13 +30,21 @@
             placeholder="Ingrese una una descripcion para la salida ">
         </div>
 
-        <div class="col-md-4">
-          <label for="procesoOperativoAdd" class="form-label" style="font-weight: bold">Proceso Operativo: </label>
+        <div class="col-md-2">
+          <label for="btnPedidoMprimaAdd" class="form-label" style="font-weight: bold">Asignar pedido: </label>
+          <div id="pedidoAsignarAdd">
+            <button type="button" class="btn btn-primary w-100" id="btnPedidoMprimaAdd">Agregar Productos Prima Pedido</button>
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <label for="btnProcesoOperativoAdd" class="form-label" style="font-weight: bold">Proceso Operativo: </label>
           <div id="procesoOperativoAdd">
             <button type="button" class="btn btn-primary w-100" id="btnProcesoOperativoAdd">Agregar Proceso
               Operativo</button>
           </div>
         </div>
+
 
         <div class="col-md-2">
           <label for="fechaSalProdAdd" class="form-label" style="font-weight: bold">Fecha Salida: </label>

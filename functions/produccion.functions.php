@@ -10,10 +10,10 @@ class FunctionProduccion
       $estado = '<span class="badge rounded-pill bg-warning">Por Ingresar</span>';
     }
     if ($stateValue == 2) {
-      $estado = '<span class="badge rounded-pill bg-success">En Alamcen</span>';
+      $estado = '<span class="badge rounded-pill bg-success">En StandBy</span>';
     }
     if ($stateValue > 3) {
-      $estado = '<span class="badge rounded-pill bg-danger">Sin ingreso</span>';
+      $estado = '<span class="badge rounded-pill bg-danger">En almacen</span>';
     }
 
     return $estado;

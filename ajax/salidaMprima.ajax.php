@@ -81,13 +81,46 @@ if (isset($_POST["todosLosProcesoOperativosMprimaEdit"])) {
   $todosLosProcesoOperativosMprimaEdit = new salidaMprimaAjax();
   $todosLosProcesoOperativosMprimaEdit->ajaxSelect2ProcOpMprimaEdit();
 }
-if(isset($_POST["fechaInicioSalidaMPrima"]) && isset($_POST["fechaFinSalidaMPrima"])){
+
+if (isset($_POST["fechaInicioSalidaMPrima"]) && isset($_POST["fechaFinSalidaMPrima"])) {
   $datosProductosSalidaMPrima = new salidaMprimaAjax();
   $datosProductosSalidaMPrima->fechaInicioSalidaMPrima = $_POST["fechaInicioSalidaMPrima"];
   $datosProductosSalidaMPrima->fechaFinSalidaMPrima = $_POST["fechaFinSalidaMPrima"];
   $datosProductosSalidaMPrima->ajaxObtenerDatosSalidaProductosMPrimaporFecha();
 }
 
+//funcion para mostrar el selec2 de selecionar  pedido
+if (isset($_POST["todosLosPedidosDisponibles"])) {
+  $todosLosPedidosDisponibles = new salidaMprimaAjax();
+  $todosLosPedidosDisponibles->ajaxSelect2PedidosDisp();
+}
+
+//funcion para trear los productos de la cotizacion
+if (isset($_POST["codPedidoSalMp"])) {
+  $add = new salidaMprimaAjax();
+  $add->codPedidoSalMp = $_POST["codPedidoSalMp"];
+  $add->ajaxTraerPedidoDisponible($_POST["codPedidoSalMp"]);
+}
+
+//obtener stock, precio, codigo  de almacen para insertar productos prima de almacen
+if (isset($_POST["codProdMprimaCoti"])) {
+  $viewData = new salidaMprimaAjax();
+  $viewData->codProdMprimaCoti = $_POST["codProdMprimaCoti"];
+  $viewData->ajaxDataInsertPedidoPromise($_POST["codProdMprimaCoti"]);
+}
+
+//visualizar datos estados de proceso operativo principal
+if (isset($_POST["jsonEstadosProcOp"])) {
+  $view = new salidaMprimaAjax();
+  $view->jsonEstadosProcOp = $_POST["jsonEstadosProcOp"];
+  $view->ajaxViewDataEstadosProcesoOperativo($_POST["jsonEstadosProcOp"]);
+}
+
+//funcion para mostrar el selec2 de selecionar pedido edit
+if (isset($_POST["todosLosPedidosMprimaEdit"])) {
+  $todosLosPedidosMprimaEdit = new salidaMprimaAjax();
+  $todosLosPedidosMprimaEdit->ajaxSelect2PedidoMprimaEdit();
+}
 /////////////////////////////
 
 class salidaMprimaAjax
@@ -166,7 +199,8 @@ class salidaMprimaAjax
   }
   public $fechaInicioSalidaMPrima;
   public $fechaFinSalidaMPrima;
-  public function ajaxObtenerDatosSalidaProductosMPrimaporFecha(){
+  public function ajaxObtenerDatosSalidaProductosMPrimaporFecha()
+  {
     $fechaInicioSalidaMPrima = $this->fechaInicioSalidaMPrima;
     $fechaFinSalidaMPrima = $this->fechaFinSalidaMPrima;
     $response = salidaMprimaController::ctrObtenerDatosSalidaProductosMPrimaporFecha($fechaInicioSalidaMPrima, $fechaFinSalidaMPrima);
@@ -207,6 +241,37 @@ class salidaMprimaAjax
     $todosLosProcesoOperativosMprimaEdit = salidaMprimaController::ctrSelect2ProcOpMprimaEdit();
     echo json_encode($todosLosProcesoOperativosMprimaEdit);
   }
+  //funcion para mostrar el selec2 de selecionar  pedido
+  public function ajaxSelect2PedidosDisp()
+  {
+    $todosLosPedidosDisponibles = salidaMprimaController::ctrSelect2PedidosDisp();
+    echo json_encode($todosLosPedidosDisponibles);
+  }
+  //funcion para trear los productos de la cotizacion
+  public function ajaxTraerPedidoDisponible($codPedidoSalMp)
+  {
+    $codPedidoSalMp = salidaMprimaController::ctrTraerPedidoDisponible($codPedidoSalMp);
+    echo json_encode($codPedidoSalMp);
+  }
 
+  //obtener stock, precio, codigo  de almacen para insertar productos prima de almacen
+  public function ajaxDataInsertPedidoPromise($codProdMprimaCoti)
+  {
+    $response = salidaMprimaController::ctrDataInsertPedidoPromise($codProdMprimaCoti);
+    echo json_encode($response);
+  }
+  //visualizar datos estados de proceso operativo principal
+  public function ajaxViewDataEstadosProcesoOperativo($jsonEstadosProcOp)
+  {
+    $codSalMprima = json_decode($jsonEstadosProcOp, true);
+    $response = salidaMprimaController::ctrViewDataEstadosProcesoOperativo($codSalMprima);
+    echo json_encode($response);
+  }
+ //funcion para mostrar el selec2 de selecionar pedido edit
+  public function ajaxSelect2PedidoMprimaEdit()
+  {
+    $todosLosPedidosMprimaEdit = salidaMprimaController::ctrSelect2PedidoMprimaEdit();
+    echo json_encode($todosLosPedidosMprimaEdit);
+  }
 }
 

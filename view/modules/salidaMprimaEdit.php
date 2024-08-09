@@ -30,7 +30,14 @@
             placeholder="Ingrese una una descripcion para el ingreso ">
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-2">
+          <label for="pedidoAddSalProdEdit" class="form-label" style="font-weight: bold">Pedido: </label>
+          <select class="form-control select2" id="pedidoAddSalProdEdit" name="pedidoAddSalProdEdit">
+            <option value=""></option>
+          </select>
+        </div>
+
+        <div class="col-md-2">
           <label for="pedidoSalProdEdit" class="form-label" style="font-weight: bold">Proceso Operativo: </label>
           <select class="form-control select2" id="pedidoSalProdEdit" name="pedidoSalProdEdit">
             <option value=""></option>

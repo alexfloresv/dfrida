@@ -124,6 +124,7 @@ class salidaMprimaController
       $dataCreate = array(
         "nombreSalMprima" => $salidaProdData["tituloSalProdAdd"],
         "idProcOp" => $salidaProdData["pedidoSalProdAdd"],
+        "idPedido" => $salidaProdData["pedidoSalAdd"],
         "fechaSalMprima" => $salidaProdData["fechaSalProdAdd"],
         "igvSalMprima" => $salidaProdData["igvIngProdAdd"],
         "subTotalSalMprima" => $salidaProdData["subTotalIngProdAdd"],
@@ -135,7 +136,8 @@ class salidaMprimaController
       // Si el campo no está presente o está vacío
       $dataCreate = array(
         "nombreSalMprima" => $salidaProdData["tituloSalProdAdd"],
-        "idProcOp" => null, // Asigna null o un valor vacío
+        "idProcOp" => null, //Asigna null o un valor vacío
+        "idPedido" => $salidaProdData["pedidoSalAdd"],
         "fechaSalMprima" => $salidaProdData["fechaSalProdAdd"],
         "igvSalMprima" => $salidaProdData["igvIngProdAdd"],
         "subTotalSalMprima" => $salidaProdData["subTotalIngProdAdd"],
@@ -189,6 +191,7 @@ class salidaMprimaController
         "idSalMprima" => $editProdData["codSalMprima"],
         "nombreSalMprima" => $editProdData["tituloSalProdEdit"],
         "idProcOp" => $editProdData["pedidoSalProdEdit"],
+        "idPedido" => $editProdData["pedidoAddSalProdEdit"],
         "fechaSalMprima" => $editProdData["fechaSalProdEdit"],
         "igvSalMprima" => $editProdData["igvIngProdAdd"],
         "subTotalSalMprima" => $editProdData["subTotalIngProdAdd"],
@@ -506,4 +509,47 @@ class salidaMprimaController
     return $response;
   }
 
+  //funcion para mostrar el selec2 de selecionar  pedido
+  public static function ctrSelect2PedidosDisp()
+  {
+    $table = "pedido";
+    $response = salidaMprimaModel::mdSelect2PedidosDisp($table);
+    return $response;
+  }
+
+  //funcion para trear los productos de la cotizacion
+  public static function ctrTraerPedidoDisponible($codPedidoSalMp)
+  {
+    $table = "pedido";
+    $response = salidaMprimaModel::mdlTraerPedidoDisponible($table, $codPedidoSalMp);
+    return $response;
+  }
+  //obtener stock, precio, codigo  de almacen para insertar productos prima de almacen
+  public static function ctrDataInsertPedidoPromise($codProdMprimaCoti)
+  {
+    $codIdIngProd = $codProdMprimaCoti;
+    $table = "almacen_mprima";
+    $response = salidaMprimaModel::mdlDataInsertPedidoPromise($table, $codIdIngProd);
+    return $response;
+  }
+  //visualizar datos estados de proceso operativo principal
+  public static function ctrViewDataEstadosProcesoOperativo($codSalMprima)
+  {
+    $idSalMprima = $codSalMprima["codProcSalMprima"];
+    $table = "proceso_operativo";
+    $response = salidaMprimaModel::mdlViewDataEstadosProcesoOperativo($table, $idSalMprima);
+    if ($response) {
+      return $response;
+    } else {
+      return "error";
+    }
+  }
+
+  //funcion para mostrar el selec2 de selecionar pedido edit
+  public static function ctrSelect2PedidoMprimaEdit()
+  {
+    $table = "pedido";
+    $response = salidaMprimaModel::mdlSelect2PedidoMprimaEdit($table);
+    return $response;
+  }
 }
