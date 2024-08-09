@@ -77,6 +77,23 @@ if (isset($_POST["fechaInicioIngresoProdporFecha"]) && isset($_POST["fechaFinIng
   $datosInicioIngresoProdporFecha->fechaFinIngresoProdporFecha = $_POST["fechaFinIngresoProdporFecha"];
   $datosInicioIngresoProdporFecha->ajaxObtenerDatosIngresoProductosporFecha();
 }
+//funcion para traer la produccion aprobada al select 2
+if (isset($_POST["todasLasProduccionesDisponibles"])) {
+  $todasLasProduccionesDisponibles = new IngresoProdAjax();
+  $todasLasProduccionesDisponibles->ajaxSelect2ProduccionDisp();
+}
+//funcion para trear los productos de la cotizacion
+if (isset($_POST["codProduccion"])) {
+  $add = new IngresoProdAjax();
+  $add->codProduccion = $_POST["codProduccion"];
+  $add->ajaxTraerProduccionDisponible($_POST["codProduccion"]);
+}
+//funcion para trear codigo de  producto y precio de producto 
+if (isset($_POST["codProdCoti"])) {
+  $add = new IngresoProdAjax();
+  $add->codProdCoti = $_POST["codProdCoti"];
+  $add->ajaxTraerDataProducto($_POST["codProdCoti"]);
+}
 /////////////////////////////
 
 class IngresoProdAjax
@@ -183,6 +200,24 @@ class IngresoProdAjax
     }
 
     echo json_encode($dataFiltrada);
+  }
+  //funcion para traer la produccion aprobada al select 2
+  public function ajaxSelect2ProduccionDisp()
+  {
+    $todasLasProduccionesDisponibles = ingresoProdController::ctrSelect2ProduccionDisp();
+    echo json_encode($todasLasProduccionesDisponibles);
+  }
+  //funcion para trear los productos de la cotizacion
+  public function ajaxTraerProduccionDisponible($codProduccion)
+  {
+    $codProduccion = ingresoProdController::ctrTraerProduccionDisponible($codProduccion);
+    echo json_encode($codProduccion);
+  }
+  //funcion para trear codigo de  producto y precio de producto 
+  public function ajaxTraerDataProducto($codProdCoti)
+  {
+    $response = ingresoProdController::ctrTraerDataProducto($codProdCoti);
+    echo json_encode($response);
   }
 }
 

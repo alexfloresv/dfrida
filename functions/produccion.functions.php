@@ -33,20 +33,20 @@ class FunctionProduccion
   //btn aceptar produccion
   public static function btnProduccion($codProduccion, $estadoProduccion)
   {
-      if ($estadoProduccion == 1) {
-          $botones = '
+    if ($estadoProduccion == 1) {
+      $botones = '
           <button class="btn btn-primary btnProduccionAcept" codProduccion="' . $codProduccion . '">
               <i class="fa-solid fa-clipboard-check"></i>
           </button>
           ';
-      } else {
-          $botones = '
+    } else {
+      $botones = '
           <button class="btn btn-primary btnProduccionAcept" codProduccion="' . $codProduccion . '" disabled>
               <i class="fa-solid fa-clipboard-check"></i>
           </button>
           ';
-      }
-      return $botones;
+    }
+    return $botones;
   }
   //fecha de aprobacion de produccion
   public static function getFechaAprobadoProduccion($fechaAceptProducc)
@@ -58,6 +58,17 @@ class FunctionProduccion
       $estado = '<span class="badge rounded-pill bg-success">' . $fechaAceptProducc . '</span>';
     }
     return $estado;
+  }
+  //usar el nombre de produccion
+  public static function getNombreProduccion($nombreProduccion, $nombreProcOp)
+  {
+
+    if ($nombreProduccion == null || $nombreProduccion == "") {
+      $nombre = $nombreProcOp;
+    } else {
+      $nombre = $nombreProduccion;
+    }
+    return $nombre;
   }
 }
 

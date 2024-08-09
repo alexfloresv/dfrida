@@ -29,8 +29,20 @@ class ingresoProdController
     $ingresoProductosAlmacen = self::ctrIngresarProductosAlmacenProd($jsonProductosIngProd);
     //verifica si es verdadero o falso para crear el registro
     if ($ingresoProductosAlmacen) {
+
       // Crear el registro de ingreso de productos si $ingresoProductosAlmacen es true
       $response = self::ctrRegistroIngresoProductos($IngresoProdData, $jsonProductosIngProd);
+      if ($response = "ok") {
+        if (isset($IngresoProdData["produccionAdd"])) {
+          // Crear registro de produccion si seleccionó una produccion o si es por produccion
+          $regProduccion = self::ctrRegistroProduccion($IngresoProdData["produccionAdd"]);
+          if ($regProduccion) {
+            return $response;
+          }
+        } else {
+          return $response;
+        }
+      }
     } else {
       // Si $ingresoProductosAlmacen es false, asignar "error" a $response
       $response = "errorIngAlmacen";
@@ -122,6 +134,29 @@ class ingresoProdController
     $response = ingresoProdModel::mdlCrearIngresoProd($table, $dataCreate);
 
     return $response;
+  }
+  //crear registro de produccion si selciono una produccion o si es por produccion
+  public static function ctrRegistroProduccion($codProduccion)
+  {
+    if ($codProduccion === null) {
+      return true;
+    } elseif ($codProduccion == "0") {
+      return true;
+    } else {
+      $tabla = "ingreso_prod";
+      //obtener el ultimo registro de ingreso de productos
+      $idIngProd = ingresoProdModel::mdlUltimoRegIngProd($tabla);
+      $table = "produccion";
+      $dataUpdate = array(
+        "idProduccion" => $codProduccion,
+        "idIngProd" => $idIngProd["idIngProd"],
+        "estadoProduccion" => 4,//en alamacen
+        "DateUpdate" => date("Y-m-d\TH:i:sP"),
+      );
+      //crear registro de produccion asociado al ingreso de productos
+      $response = ingresoProdModel::mdlCrearProduccionAsociado($table, $dataUpdate);
+      return $response;
+    }
   }
   //fin crear ingreso productos a almacen de  productos***
 
@@ -451,6 +486,30 @@ class ingresoProdController
   {
     $table = "ingreso_prod";
     $response = ingresoProdModel::mdlObtenerDatosIngresoProductosporFecha($table, $fechaInicio, $fechaFin);
+    return $response;
+  }
+
+  //funcion para traer la produccion aprobada al select 2
+  public static function ctrSelect2ProduccionDisp()
+  {
+    $table = "produccion";
+    $response = ingresoProdModel::mdlSelect2ProduccionDisp($table);
+    return $response;
+  }
+  //funcion para trear los productos de la cotizacion
+  public static function ctrTraerProduccionDisponible($codProduccion)
+  {
+    $table = "produccion";
+    $tabla = "pedido";
+    $idPedido = ingresoProdModel::mdlTraerPedidoAsociado($table, $codProduccion);
+    $response = ingresoProdModel::mdlTraerProduccionDisponible($tabla, $idPedido["idPedido"]);
+    return $response;
+  }
+  //funcion para trear codigo de  producto y precio de producto 
+  public static function ctrTraerDataProducto($codProdCoti)
+  {
+    $table = "producto";
+    $response = ingresoProdModel::mdlTraerDataProducto($table, $codProdCoti);
     return $response;
   }
 

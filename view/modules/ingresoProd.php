@@ -23,11 +23,19 @@
         <h3>Datos para el Ingreso</h3>
 
         <!-- datos de la cotizacion Enpresa -->
-        <div class="form-group col-md-10">
+        <div class="form-group col-md-8">
           <label for="tituloIngProdAdd" class="form-label" style="font-weight: bold">Descripcion Ingreso:</label>
           <input type="text" class="form-control" id="tituloIngProdAdd" name="tituloIngProdAdd"
             placeholder="Ingrese una una descripcion para el ingreso ">
         </div>
+
+        <div class="col-md-2">
+          <label for="btnProduccionProdAdd" class="form-label" style="font-weight: bold">Asignar Produccion: </label>
+          <div id="produccionProdAdd">
+            <button type="button" class="btn btn-primary w-100" id="btnProduccionProdAdd">Agregar Produccion</button>
+          </div>
+        </div>
+
         <div class="col-md-2">
           <label for="fechaIngProdAdd" class="form-label" style="font-weight: bold">Fecha Ingreso: </label>
           <input type="date" class="form-control" id="fechaIngProdAdd" name="fechaIngProdAdd">

@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
       },
       { data: "btnAceptarProduccion" },
-      { data: "nombreProcOp" },
+      { data: "nombreProducc" },
       { data: "fechaAcep" },
       { data: "fechaInicioProcOp" },
       { data: "fechaFinProcOp" },
@@ -109,11 +109,11 @@ document.addEventListener("DOMContentLoaded", function () {
             for (var key in decodedJson) {
               if (decodedJson.hasOwnProperty(key)) {
                 var item = decodedJson[key];
-                var codigoProd = await ingresoProductoEdit(item.codProdCoti);
+                //var codigoProd = await ingresoProductoEdit(item.codProdCoti);
                 dataArray.push({
                   // Ajusta estos campos según la estructura de tu JSON
                   nombreProd: item.nombreProdCoti,
-                  codigoProd: codigoProd,
+                  //codigoProd: codigoProd,
                   unidadProd: item.unidadProdCoti,
                   cantidadProd: item.cantidadProdCoti,
                   precioProd: item.precioProdCoti,
@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <tr>
                   <th scope="col">#</th>
                   <th scope="col">Nombre Producto</th>
-                  <th scope="col">Codigo Producto</th>
+            
                   <th scope="col">Unidad Producto</th>
                   <th scope="col">Cantidad Producto</th>
                   <th scope="col">Precio Prodcuto</th>
@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
               },
               { data: "nombreProd" },
-              { data: "codigoProd" },
+              //{ data: "codigoProd" },
               { data: "unidadProd" },
               { data: "cantidadProd" },
               {
@@ -178,6 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
 function obtenerCodigoProd(codProdCoti) {
   return new Promise((resolve, reject) => {
     var data = new FormData();

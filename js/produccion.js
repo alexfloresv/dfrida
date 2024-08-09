@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .getElementById("crearAceptacionProduccion")
             .addEventListener("click", function () {
               //verificar campo de fecha
+              
               var fechaProduccionAceptar = document.getElementById(
                 "fechaProduccionAcept"
               );
@@ -122,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
         cancelButtonText: "No, Después solo Aceptar",
       }).then((result) => {
         if (result.isConfirmed) {
-          //funciones para envia al ingreso de modal
+          //funciones para envia al ingreso de materia prima
         } else {
           $("#modalProduccionAceptacion").modal("show");
         }
@@ -131,6 +132,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 //fin
+
+
 //funcion para abri y cerrar el modal
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;

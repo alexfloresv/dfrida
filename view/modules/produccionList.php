@@ -90,20 +90,21 @@
           <form id="formProduccionAceptacion">
             <div class="row">
 
-              <div class="col-md-2 ">
-
+              <div class="col-md-4 ">
+                <label for="nombreProduccionAcept" class="form-label" style="font-weight: bold">Nombre Produccion:</label>
+                <input type="text" class="form-control" id="nombreProduccionAcept" name="nombreProduccionAcept">
               </div>
 
               <div class="col-md-4 ">
-                <label for="fechaProduccionAcept" class="form-label" style="font-weight: bold"> Fecha Aprobada:</label>
+                <label for="fechaProduccionAcept" class="form-label" style="font-weight: bold">Fecha Aprobada:</label>
                 <input type="date" class="form-control" id="fechaProduccionAcept" name="fechaProduccionAcept">
               </div>
 
 
               <!-- ver las salidas de productos prima -->
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="form-group">
-                  <label for="codProduccionAcept">Crear Ingreso de Produccion a almacen</label>
+                  <label for="codProduccionAcept">Crear Ingreso a almacen</label>
                   <button type="button" class="btn btn-warning" id="codProduccionAcept" value="">
                     Crear Ingreso
                   </button>

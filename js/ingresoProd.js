@@ -871,34 +871,6 @@ document.addEventListener("DOMContentLoaded", function () {
       // Cerrar el modal de carga una vez que se haya completado el procesamiento
       Swal.close();
     }
-    /*  function ingresoProductoEdit(ingJsonProd) {
-      // Decodificar el JSON recibido
-      const procesos = JSON.parse(ingJsonProd);
-      //var formularioProcesoCounter = 0;
-      // Insertar datos automáticamente
-      Object.values(procesos).forEach((proceso) => {
-        const {
-          codProdIng,
-          nombreProdIng,
-          codigoProdIng,
-          unidadProdIng,
-          cantidadProdIng,
-          precioProdIng,
-        } = proceso;
-        // Convertir el código del producto a entero antes de agregarlo a la variable global contadora de productos agreagados ala lista
-        var codProdIngInt = parseInt(codProdIng, 10);
-        codigosProductosAgregados.add(codProdIngInt);
-
-        insertarFormulario(
-          codProdIng,
-          nombreProdIng,
-          codigoProdIng,
-          unidadProdIng,
-          cantidadProdIng,
-          precioProdIng
-        );
-      });
-    } */
 
     function insertarFormulario(
       codProdIng,
@@ -1134,3 +1106,245 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+
+//funcion para traer la produccion aprobada al selct 2
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/ingresoProd";
+  if (currentPath == appPath) {
+    // Verificar si el botón existe en el DOM
+    var btnProduccionProdAdd = document.getElementById("btnProduccionProdAdd");
+    if (btnProduccionProdAdd) {
+      // Inicializar Select2
+      btnProduccionProdAdd.addEventListener("click", function () {
+        Swal.fire({
+          title:
+            "¿Agregar una produccion aprobada al ingreso de productos?",
+          text: "Selecione una produccion Aprobada para registrar los productos, en el alamcen de productos finales.",
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          cancelButtonText: "No, Creare un ingreso sin produccion.",
+          confirmButtonText: "Sí, Agregar Produccion Aprobada.",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Cambiar el botón por un campo select
+            var container = document.getElementById("produccionProdAdd");
+            container.innerHTML = `
+              <select class="form-control select2" id="produccionAdd" name="produccionAdd">
+                <option value="0">Seleccione una produccion</option>
+              </select>
+            `;
+
+            // Inicializar Select2 en el nuevo campo select
+            $("#produccionAdd").select2();
+
+            // Cargar datos dinámicamente al confirmar
+            var data = new FormData();
+            data.append("todasLasProduccionesDisponibles", true);
+
+            $.ajax({
+              url: "ajax/ingresoProd.ajax.php",
+              method: "POST",
+              data: data,
+              contentType: false,
+              processData: false,
+              dataType: "json",
+              success: function (data) {
+                // Limpiar las opciones actuales
+                $("#produccionAdd").empty();
+                $("#produccionAdd").append(
+                  '<option value="0">Seleccione una produccion</option>'
+                );
+                // Agregar las nuevas opciones
+                $.each(data, function (key, value) {
+                  $("#produccionAdd").append(
+                    '<option value="' +
+                      value.idProduccion +
+                      '">' +
+                      value.nombreProduccion +
+                      "</option>"
+                  );
+                });
+                // Actualizar Select2 después de agregar las opciones
+                $("#produccionAdd").trigger("change");
+
+                // Agregar evento change para capturar el valor seleccionado
+                $("#produccionAdd").on("change", function () {
+                  var codProduccion = $(this).val();
+                  // Aquí puedes agregar cualquier lógica adicional que necesites
+                  productosProduccion(codProduccion);
+                });
+              },
+              error: function (xhr, status, error) {
+                console.error("Error al cargar los datos:", error);
+              },
+            });
+          }
+        });
+      });
+    } else {
+      console.error(
+        'El elemento con id "btnProcesoOperativoAdd" no se encontró en el DOM.'
+      );
+    }
+  }
+});
+//fin funcion
+
+//funcion para trear los productos de la cotizacion
+function productosProduccion(codProduccion) {
+  var data = new FormData();
+  data.append("codProduccion", codProduccion);
+  //visualizar los datos
+  $.ajax({
+    url: "ajax/ingresoProd.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (response) {
+      if (response.hasOwnProperty("productsCoti")) {
+        ingresoProductoProduccion(response["productsCoti"]);
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+    },
+  });
+}
+
+//promesa para obtener el stock de los productos de almacen y sumarlo a la cantidad de la salida para mostrar un máximo a editar y también el precio del producto
+// Modificación de obtenerStock para que retorne una promesa la función retorna la cantidad a la función de *insertarFormulario*
+function obtenerDataProd(codProdCoti) {
+  return new Promise((resolve, reject) => {
+    var data = new FormData();
+    data.append("codProdCoti", codProdCoti);
+    $.ajax({
+      url: "ajax/ingresoProd.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        resolve({
+          //cantidadProdAlma: response["cantidadMprimaAlma"],
+          precioProd: response["precioProd"],
+          codigoProd: response["codigoProd"],
+        }); // Resuelve la promesa con un objeto que contiene ambos valores
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        reject("Error en la solicitud AJAX: " + textStatus + " " + errorThrown); // Rechaza la promesa si hay un error
+      },
+    });
+  });
+}
+
+// Uso de async/await en ingresoProductoEdit para esperar la respuesta de obtenerStock
+async function ingresoProductoProduccion(productsCoti) {
+  // Decodificar el JSON recibido de la respuesta de visualizar datos
+  const procesos = JSON.parse(productsCoti);
+
+  // Mostrar el modal de carga porque la promesa es asíncrona y espera la respuesta para crear el formulario
+  //el usuario visualizará una demora en la carga de los datos
+  Swal.fire({
+    title: "Cargando...",
+    text: "Por favor, espere mientras se procesan los datos.",
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+  //recorre todos los arrays decodificados del json para crear un formulario por cada producto resuelto
+  for (const proceso of Object.values(procesos)) {
+    const {
+      codProdCoti,
+      nombreProdCoti,
+      unidadProdCoti,
+      cantidadProdCoti,
+      precioProdCoti
+    } = proceso;
+
+    // Convertir el código del producto a entero antes de agregarlo a la variable global
+    //que valida los productos agregados a la lista
+    var codProdIngInt = parseInt(codProdCoti, 10);
+    // Agregar el código del producto a la variable global
+    codigosProductosAgregados.add(codProdIngInt);
+    //console.log(codigosProductosAgregados); // Mostrar el estado actual
+
+    // Esperar la respuesta de obtenerStock
+    try {
+      // Enviar el id de producto a la función de obtener stock para traer el stock del almacén
+      const {precioProd, codigoProd } =
+        await obtenerDataProd(codProdCoti);
+      insertarFormularioProduccion(
+        codProdCoti,
+        nombreProdCoti,
+        codigoProd,
+        unidadProdCoti,
+        cantidadProdCoti,
+        precioProdCoti,
+        precioProd
+      );
+    } catch (error) {
+      console.error(error); // Manejar el error si la promesa es rechazada
+    }
+  }
+
+  // Cerrar el modal de carga una vez que se haya completado el procesamiento
+  Swal.close();
+}
+
+function insertarFormularioProduccion(
+  codProdIng,
+  nombreProdIng,
+  codigoProdIng,
+  unidadProdIng,
+  cantidadProdIng,
+  precioProdIng,
+  precioProd,
+  idProd = codProdIng
+) {
+  // Llamar a validarCantidad después de que todos los parámetros estén definidos
+  
+  var formularioID = "formularioIngProd" + formularioIngProdCounter++;
+  var nuevoProductoHTML = `
+    <form id="${formularioID}" class="row productoRow" style="padding:5px 15px">
+      <div class="col-lg-2">
+        <!-- id del producto -->
+        <input type="hidden" class="form-control" id="codProdIng" value="${idProd}">
+        <!-- nombre del producto -->
+        <input type="text" class="form-control" id="nombreProdIng" value="${nombreProdIng}" readonly>
+      </div>
+      <!-- codigo del producto -->
+      <div class="col-lg-2">
+        <input type="text" class="form-control" id="codigoProdIng" value="${codigoProdIng}" readonly>
+      </div>
+      <!-- unidad del tipo de producto -->
+      <div class="col-lg-2">
+        <input type="text" class="form-control" id="unidadProdIng" value="${unidadProdIng}" readonly>
+      </div>
+      <!-- cantidad editable inicia en 1 -->
+      <div class="col-lg-2">
+        <input type="number" class="form-control cantidadProdIng" id="cantidadProdIng" value="${cantidadProdIng}" min="1" step="1" data-original-idProd="${idProd}">
+      </div>
+      <!-- precio -->
+      <div class="col-lg-2">
+        <input type="text" class="form-control precioProdIng" id="precioProdIng" value="${precioProdIng}" data-original-precio="${precioProd}" readonly>
+      </div>
+      <!-- boton de eliminar -->
+      <div class="col-lg-1">
+        <button type="button" class="btn btn-danger btn-xs deleteNuevoIngresoProd" value="${codProdIng}"><i class="fa fa-times"></i></button>
+      </div>
+    </form>`;
+
+  // Agregar el nuevo formulario al contenedor
+  $(".AddProductoCotizacion").append(nuevoProductoHTML);
+}
+
+
