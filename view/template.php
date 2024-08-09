@@ -55,6 +55,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
       $_GET["ruta"] == "procesosOperativos" ||
       $_GET["ruta"] == "produccionList" ||
       $_GET["ruta"] == "pedidosList" ||
+      $_GET["ruta"] == "merma" ||
       $_GET["ruta"] == "cotizacionListEdit" ||
 
       $_GET["ruta"] == "signout"
@@ -106,6 +107,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
 <script src="dataTables/dt-procesoOperativo.js"></script>
 <script src="dataTables/dt-produccion.js"></script>
 <script src="dataTables/dt-pedidos.js"></script>
+<script src="dataTables/dt-merma.js"></script>
 
 
 <!-- funciones js -->

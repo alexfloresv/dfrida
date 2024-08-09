@@ -437,7 +437,7 @@ class procesoOperativoController
       if ($statePedidoUpdate) {
         //crear registro de finalizacion de proceso operativo
         $createRegFinProceso = self::ctrRegistroProcOpFinalizado($codIniProcOp);
-
+        $createRegMerma = self::ctrRegistroMermaProcOp($codIniProcOp, $idSalMprima);
         if ($createRegFinProceso) {
           $table = "proceso_operativo";
           $dataUpdate = array(
@@ -447,9 +447,8 @@ class procesoOperativoController
           );
           $response = procesoOperativoModel::mdlFinalizarProcesoOperativo($table, $dataUpdate);
           return $response;
-        }
-        ;
-      } {
+        };
+      }else{
         return "errorActPedido";
       }
     } else {
@@ -490,6 +489,23 @@ class procesoOperativoController
     $response = procesoOperativoModel::mdlUltimoRegProcOpFin($table);
     return $response;
   }
+
+  //crear registro de merma ala finalizacion de proceso operativo
+  public static function ctrRegistroMermaProcOp($idProcOp, $idSalMprima)
+  {
+    $table = "merma";
+    $dataCreate = array(
+      "idProcOp" => $idProcOp,
+      "nombreMerma" => "Merma de proceso operativo Sin Aceptar",
+      "idSalMprima" => $idSalMprima,
+      "fechaMermaIng" => date("Y-m-d"),
+      "estadoMerma" => 1,//Sin Aceptar
+      "DateCreate" => date("Y-m-d\TH:i:sP"),
+    );
+    $response = procesoOperativoModel::mdlRegistroMermaProcOp($table, $dataCreate);
+    return $response;
+  }
+  //fin
   //actualziar estado de pedido a finalizado
   public static function ctrActualizarPedidoProcOpFin($idPedido)
   {

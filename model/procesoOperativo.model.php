@@ -7,9 +7,9 @@ class procesoOperativoModel
   //datatable de proceso Op
   public static function mdlDTableProcesosOperativos($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT idProcOp, idTipoProc, idPedido, idSalMprima, descripcionProcOp, nombreProcOp, fechaRegistroProcOp, fechaInicioProcOp, fechaFinProcOp, estadoProcOp FROM $table ORDER BY idProcOp DESC");
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
+      $statement = Conexion::conn()->prepare("SELECT idProcOp, idTipoProc, idPedido, idSalMprima, descripcionProcOp, nombreProcOp, fechaRegistroProcOp, fechaInicioProcOp, fechaFinProcOp, estadoProcOp, DateUpdate FROM $table ORDER BY DateUpdate DESC, idProcOp DESC");
+      $statement->execute();
+      return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
   //data table tipos de procesos operativos
   public static function mdlDTableTiposProcesosOperativos($table)
@@ -503,6 +503,22 @@ class procesoOperativoModel
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result;
+  }
+  //crear registro de merma ala finalizacion de proceso operativo
+  public static function mdlRegistroMermaProcOp($table, $dataCreate)
+  {
+    $statement = Conexion::conn()->prepare("INSERT INTO $table (idProcOp, idSalMprima, nombreMerma, fechaMermaIng, estadoMerma, DateCreate) VALUES(:idProcOp, :idSalMprima, :nombreMerma, :fechaMermaIng, :estadoMerma, :DateCreate)");
+    $statement->bindParam(":idProcOp", $dataCreate["idProcOp"], PDO::PARAM_INT);
+    $statement->bindParam(":idSalMprima", $dataCreate["idSalMprima"], PDO::PARAM_INT);
+    $statement->bindParam(":nombreMerma", $dataCreate["nombreMerma"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaMermaIng", $dataCreate["fechaMermaIng"], PDO::PARAM_STR);
+    $statement->bindParam(":estadoMerma", $dataCreate["estadoMerma"], PDO::PARAM_INT);
+    $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return true;
+    } else {
+      return false;
+    }
   }
   //////////////////////////////////////////////////////
 }
