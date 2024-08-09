@@ -41,13 +41,16 @@ class FunctionCotizacion
   }
 
   //botones Cotizacion
-  public static function getBtnCotizacion($codCoti)
+  public static function getBtnCotizacion($codCoti, $estadoCoti)
   {
     $botones = '
-     <button class="btn btn-dark btnDescargarCoti" codCoti="' . $codCoti . '"><i class="fa-solid fa-file-pdf"></i></button>
-    <button class="btn btn-primary btnEditCotizacion" codCoti="' . $codCoti . '" ><i class="fa-solid fa-pencil"></i></button>
-    <button class="btn btn-danger btnDeleteCotizacion" codCoti="' . $codCoti . '"><i class="fa-solid fa-trash"></i></button>
-    ';
+         <button class="btn btn-dark btnDescargarCoti" codCoti="' . $codCoti . '"><i class="fa-solid fa-file-pdf"></i></button>
+        <button class="btn btn-primary btnEditCotizacion" codCoti="' . $codCoti . '" ><i class="fa-solid fa-pencil"></i></button>
+        ';
+
+    // Evaluar si el estadoCoti es 2 para deshabilitar el botón de eliminar
+    $botones .= '<button class="btn btn-danger btnDeleteCotizacion" codCoti="' . $codCoti . '" ' . ($estadoCoti == 2 ? 'disabled' : '') . '><i class="fa-solid fa-trash"></i></button>';
+
     return $botones;
   }
   // Botones de Cotizacion para la vista de Pedidos
