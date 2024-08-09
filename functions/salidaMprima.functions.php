@@ -15,7 +15,7 @@ class FunctionSalidaMprima
   public static function getBtnVerProcSalMprima($codProcSalMprima)
   {
     $botones = '
-        <button class="btn btn-warning btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalProdIngresados" codProcSalMprima="' . $codProcSalMprima . '"><i class="fa-solid fa-clipboard-list"></i></button>
+        <button class="btn btn-warning btnVerProcOp" codProcSalMprima="' . $codProcSalMprima . '"><i class="fa-solid fa-clipboard-list"></i></button>
        ';
     return $botones;
   }
