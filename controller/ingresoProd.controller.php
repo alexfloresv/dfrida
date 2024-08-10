@@ -33,9 +33,27 @@ class ingresoProdController
       // Crear el registro de ingreso de productos si $ingresoProductosAlmacen es true
       $response = self::ctrRegistroIngresoProductos($IngresoProdData, $jsonProductosIngProd);
       if ($response = "ok") {
-        if (isset($IngresoProdData["produccionAdd"])) {
-          // Crear registro de produccion si seleccionó una produccion o si es por produccion
-          $regProduccion = self::ctrRegistroProduccion($IngresoProdData["produccionAdd"]);
+
+        if (isset($IngresoProdData["produccionAdd"]) || isset($IngresoProdData["codProduccion"])) {
+          $produccionArray = [];
+
+          if (isset($IngresoProdData["produccionAdd"]) && $IngresoProdData["produccionAdd"] !== "0" && $IngresoProdData["produccionAdd"] !== null && $IngresoProdData["produccionAdd"] !== "") {
+            $produccionArray[] = $IngresoProdData["produccionAdd"];
+          }
+
+          if (isset($IngresoProdData["codProduccion"]) && $IngresoProdData["codProduccion"] !== null && $IngresoProdData["codProduccion"] !== "") {
+            if (!in_array($IngresoProdData["codProduccion"], $produccionArray)) {
+              $produccionArray[] = $IngresoProdData["codProduccion"];
+            }
+          }
+
+          foreach ($produccionArray as $idProduccion) {
+            if ($idProduccion !== null) {
+              // Crear registro de produccion si seleccionó una produccion o si es por produccion
+              $regProduccion = self::ctrRegistroProduccion($idProduccion);
+            }
+          }
+
           if ($regProduccion) {
             return $response;
           }
@@ -142,22 +160,40 @@ class ingresoProdController
       return true;
     } elseif ($codProduccion == "0") {
       return true;
+    } elseif ($codProduccion == "") {
+      return true;
     } else {
       $tabla = "ingreso_prod";
+      $table = "produccion";
       //obtener el ultimo registro de ingreso de productos
       $idIngProd = ingresoProdModel::mdlUltimoRegIngProd($tabla);
-      $table = "produccion";
-      $dataUpdate = array(
-        "idProduccion" => $codProduccion,
-        "idIngProd" => $idIngProd["idIngProd"],
-        "estadoProduccion" => 4,//en alamacen
-        "DateUpdate" => date("Y-m-d\TH:i:sP"),
-      );
-      //crear registro de produccion asociado al ingreso de productos
-      $response = ingresoProdModel::mdlCrearProduccionAsociado($table, $dataUpdate);
+      //verififar si tiene fecha asignada
+      $fechaAceptProducc = ingresoProdModel::mdlVerificarFechaAsignada($table, $codProduccion);
+      if ($fechaAceptProducc) {
+        $dataUpdate = array(
+          "idProduccion" => $codProduccion,
+          "idIngProd" => $idIngProd["idIngProd"],
+          "estadoProduccion" => 4,//en alamacen
+          "DateUpdate" => date("Y-m-d\TH:i:sP"),
+        );
+        //crear registro de produccion asociado al ingreso de productos
+        $response = ingresoProdModel::mdlCrearProduccionAsociado($table, $dataUpdate);
+      } else {
+        $dataUpdate = array(
+          "idProduccion" => $codProduccion,
+          "idIngProd" => $idIngProd["idIngProd"],
+          "fechaAceptProducc" => date("Y-m-d"),
+          "estadoProduccion" => 4,//en alamacen
+          "DateUpdate" => date("Y-m-d\TH:i:sP"),
+        );
+        //crear registro de produccion asociado al ingreso de productos
+        $response = ingresoProdModel::mdlCrearProduccionAsociadoConFecha($table, $dataUpdate);
+      }
       return $response;
     }
   }
+  //verificar si tiene fecha asignada 
+
   //fin crear ingreso productos a almacen de  productos***
 
   //visualizar datos para editar ingreso productos
@@ -418,8 +454,40 @@ class ingresoProdController
       $deleteProdIngAlmacen = self::ctrBorrarProductosIngresadosAlmacen($productosIngresados["ingJsonProd"]);
       //eliminar registro de ingreso de productos
       $response = ingresoProdModel::mdlBorrarRegistroIngresProducto($table, $codIngProd);
+      if ($response == "ok") {
+        //cambiar el estado de produccion a 2 = por aprobar
+        $produccionEstado = self::ctrCambiarEstadoProduccion($codIngProd);
+        if ($produccionEstado) {
+          return $response;//true = true
+        } else {
+          return $response;//false = true
+        }
+      } else {
+        $response = "error";
+      }
     } else {
       $response = "error";
+    }
+    return $response;
+  }
+  //cambiar el estado de produccion a 2 = por asignar a almacen
+  public static function ctrCambiarEstadoProduccion($codIngProd)
+  {
+    $table = "produccion";
+    //obtener el id de produccion asociado al ingreso de productos pro el id
+    $idProduccion = ingresoProdModel::mdlObtenerIdProduccionAsociado($table, $codIngProd);
+    if ($idProduccion) {
+      foreach ($idProduccion as $produccion) {
+        $dataUpdate = array(
+          "idProduccion" => $produccion["idProduccion"],
+          "estadoProduccion" => 2, // por asignar a almacen
+          "DateUpdate" => date("Y-m-d\TH:i:sP"),
+        );
+        // Actualizar campo de estado de producción
+        $response = ingresoProdModel::mdlCambiarEstadoProduccion($table, $dataUpdate);
+      }
+    } else {
+      return $response = true;
     }
     return $response;
   }

@@ -123,7 +123,8 @@ document.addEventListener("DOMContentLoaded", function () {
         cancelButtonText: "No, Después solo Aceptar",
       }).then((result) => {
         if (result.isConfirmed) {
-          //funciones para envia al ingreso de materia prima
+          window.location.href =
+          "/dfrida/ingresoProd?codProduccion=" + codProduccion;
         } else {
           $("#modalProduccionAceptacion").modal("show");
         }

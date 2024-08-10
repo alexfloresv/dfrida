@@ -851,17 +851,15 @@ document.addEventListener("DOMContentLoaded", function () {
         // Esperar la respuesta de obtenerPrecioProdUni
         try {
           // Enviar el id de producto a la función de obtener stock para traer el stock del almacén
-          const precioProd = await obtenerPrecioProdUni(
-            codProdIng
-          );
+          const precioProd = await obtenerPrecioProdUni(codProdIng);
           insertarFormulario(
             codProdIng,
             nombreProdIng,
             codigoProdIng,
             unidadProdIng,
             cantidadProdIng,
-            precioProdIng, 
-            precioProd// uni precio 1 + 1 = 2
+            precioProdIng,
+            precioProd // uni precio 1 + 1 = 2
           );
         } catch (error) {
           console.error(error); // Manejar el error si la promesa es rechazada
@@ -1118,8 +1116,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Inicializar Select2
       btnProduccionProdAdd.addEventListener("click", function () {
         Swal.fire({
-          title:
-            "¿Agregar una produccion aprobada al ingreso de productos?",
+          title: "¿Agregar una produccion aprobada al ingreso de productos?",
           text: "Selecione una produccion Aprobada para registrar los productos, en el alamcen de productos finales.",
           icon: "info",
           showCancelButton: true,
@@ -1267,7 +1264,7 @@ async function ingresoProductoProduccion(productsCoti) {
       nombreProdCoti,
       unidadProdCoti,
       cantidadProdCoti,
-      precioProdCoti
+      precioProdCoti,
     } = proceso;
 
     // Convertir el código del producto a entero antes de agregarlo a la variable global
@@ -1280,8 +1277,7 @@ async function ingresoProductoProduccion(productsCoti) {
     // Esperar la respuesta de obtenerStock
     try {
       // Enviar el id de producto a la función de obtener stock para traer el stock del almacén
-      const {precioProd, codigoProd } =
-        await obtenerDataProd(codProdCoti);
+      const { precioProd, codigoProd } = await obtenerDataProd(codProdCoti);
       insertarFormularioProduccion(
         codProdCoti,
         nombreProdCoti,
@@ -1311,7 +1307,7 @@ function insertarFormularioProduccion(
   idProd = codProdIng
 ) {
   // Llamar a validarCantidad después de que todos los parámetros estén definidos
-  
+
   var formularioID = "formularioIngProd" + formularioIngProdCounter++;
   var nuevoProductoHTML = `
     <form id="${formularioID}" class="row productoRow" style="padding:5px 15px">
@@ -1346,5 +1342,37 @@ function insertarFormularioProduccion(
   // Agregar el nuevo formulario al contenedor
   $(".AddProductoCotizacion").append(nuevoProductoHTML);
 }
+//funcion para tomar el codProduccion de la url
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/ingresoProd";
 
+  if (currentPath === appPath) {
+    function getQueryParam(name) {
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(window.location.href);
+      if (!results) return null;
+      if (!results[2]) return "";
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
 
+    function removeQueryParam(name) {
+      var url = new URL(window.location.href);
+      url.searchParams.delete(name);
+      window.history.replaceState({}, document.title, url.toString());
+    }
+
+    var codProduccion = getQueryParam("codProduccion");
+    if (codProduccion !== null) {
+      // Asignar el valor al campo de entrada con id y name "codProduccion"
+      var inputField = document.getElementById("codProduccion");
+      if (inputField) {
+        inputField.value = codProduccion;
+      }
+
+      productosProduccion(codProduccion);
+      removeQueryParam("codProduccion");
+    }
+  }
+});

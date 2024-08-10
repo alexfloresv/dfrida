@@ -161,6 +161,27 @@ class ingresoProdModel
       return "error";
     }
   }
+  //obtener el id de produccion asociado al ingreso de productos pro el id
+  public static function mdlObtenerIdProduccionAsociado($table, $codIngProd)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idProduccion FROM $table WHERE idIngProd = :idIngProd");
+    $statement->bindParam(":idIngProd", $codIngProd, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  //actualziar campo de estado de produccion
+  public static function mdlCambiarEstadoProduccion($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoProduccion = :estadoProduccion, DateUpdate = :DateUpdate WHERE idProduccion = :idProduccion");
+    $statement->bindParam(":estadoProduccion", $dataUpdate["estadoProduccion"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":idProduccion", $dataUpdate["idProduccion"], PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   //fin eliminar productos ingresados**
 
   //Agregar Producto al ingreso
@@ -288,6 +309,42 @@ class ingresoProdModel
     $statement->bindParam(":idProduccion", $dataUpdate["idProduccion"], PDO::PARAM_INT);
     $statement->bindParam(":idIngProd", $dataUpdate["idIngProd"], PDO::PARAM_INT);
     $statement->bindParam(":estadoProduccion", $dataUpdate["estadoProduccion"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  //verififar si tiene fecha asignada
+  public static function mdlVerificarFechaAsignada($table, $codProduccion)
+  {
+    $statement = Conexion::conn()->prepare("SELECT fechaAceptProducc FROM $table WHERE idProduccion = :idProduccion");
+    $statement->bindParam(":idProduccion", $codProduccion, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+    if ($result === false || $result['fechaAceptProducc'] === "" || $result['fechaAceptProducc'] === "0000-00-00" || $result['fechaAceptProducc'] === "0"|| $result['fechaAceptProducc'] === null) {
+      return false;
+    }
+    return true;
+  }
+  //crear registro de produccion asociado al ingreso de productos
+  public static function mdlCrearProduccionAsociadoConFecha($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("
+            UPDATE $table 
+            SET idIngProd = :idIngProd, 
+                estadoProduccion = :estadoProduccion, 
+                fechaAceptProducc = :fechaAceptProducc, 
+                DateUpdate = :DateUpdate 
+            WHERE idProduccion = :idProduccion
+        ");
+    $statement->bindParam(":idProduccion", $dataUpdate["idProduccion"], PDO::PARAM_INT);
+    $statement->bindParam(":idIngProd", $dataUpdate["idIngProd"], PDO::PARAM_INT);
+    $statement->bindParam(":estadoProduccion", $dataUpdate["estadoProduccion"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaAceptProducc", $dataUpdate["fechaAceptProducc"], PDO::PARAM_STR);
     $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
 
     if ($statement->execute()) {

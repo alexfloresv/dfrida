@@ -106,7 +106,7 @@
                 <div class="form-group">
                   <label for="codProduccionAcept">Crear Ingreso a almacen</label>
                   <button type="button" class="btn btn-warning" id="codProduccionAcept" value="">
-                    Crear Ingreso
+                    Crear Ingreso Directo
                   </button>
                 </div>
               </div>

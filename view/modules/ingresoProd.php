@@ -106,12 +106,13 @@
             <!-- vacio -->
           </div>
           <div class="form-group col-md-2">
-            <button type="button" class="btn btn-info btnCalcularTotalIng" id="btnCalcularTotalIng">Calular Total Ingreso
+            <button type="button" class="btn btn-info btnCalcularTotalIng" id="btnCalcularTotalIng">Calular Total
+              Ingreso
             </button>
           </div>
           <div class="form-group col-md-2">
-            <input type="text" class="form-control" id="igvIngProdAdd" name="igvIngProdAdd" value=""
-              placeholder="IGV" readonly required>
+            <input type="text" class="form-control" id="igvIngProdAdd" name="igvIngProdAdd" value="" placeholder="IGV"
+              readonly required>
           </div>
           <div class="form-group col-md-2">
             <input type="text" class="form-control" id="subTotalIngProdAdd" name="subTotalIngProdAdd" value=""
@@ -123,6 +124,10 @@
           </div>
         </div>
       </div>
+      
+      <!-- campo que guarde el id del registro-->
+      <input type="hidden" class="form-control" id="codProduccion" name="codProduccion">
+
       <!-- fin -->
       <div class="container row g-3 p-3 ">
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
