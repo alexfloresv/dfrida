@@ -142,6 +142,7 @@
           <div class="col-lg-2">Unidad Medida</div>
           <div class="col-lg-2">Cantidad</div>
           <!-- <div class="col-lg-2">Precio Materia Prima</div> -->
+
         </div>
         <!-- aqui se agregan los productos del modal de prodcutos  -->
         <div class="form-group row AddProductoMprimaCotizacion">
@@ -162,9 +163,9 @@
             <!-- vacio -->
           </div>
 
-          <div class="form-group col-md-2">
-            <label for="totalProdMprimaCotiAdd" class="form-label" style="font-weight: bold">Total Producto Prima:
-            </label>
+          <div class="form-group col-md-2" style="display: none;">
+            <label for="totalProdMprimaCotiAdd" class="form-label" style="font-weight: bold">Total Producto
+              Prima:</label>
             <input type="text" class="form-control" id="totalProdMprimaCotiAdd" name="totalProdMprimaCotiAdd" value=""
               placeholder="Total Producto Prima" readonly required>
           </div>

@@ -132,6 +132,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
 <script src="js/produccion.js"></script>
 <script src="js/editarCotizacion.js"></script>
 <script src="js/merma.js"></script>
+<script src="js/home.js"></script>
 
 
 

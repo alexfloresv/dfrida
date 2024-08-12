@@ -91,13 +91,13 @@ function abrirModalCotizaciones() {
   // Estructura de dataTableCotizaciones
   $("#dataTableSeleccionarCotizacionPedidos thead").html(`
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Titulo Cotizacion</th>
-      <th scope="col">Nombre Comercial</th>
-      <th scope="col">Fecha</th>
-      <th scope="col">Nombre Solicitante</th>
-      <th scope="col">Total</th>
-      <th scope="col">Acciones</th>
+      <th scope="col" style="text-align: center;">Seleccionar</th>
+      <th scope="col" style="text-align: center;">Titulo Cotizacion</th>
+      <th scope="col" style="text-align: center;">Nombre Comercial</th>
+      <th scope="col" style="text-align: center;">Fecha</th>
+      <th scope="col" style="text-align: center;">Nombre Solicitante</th>
+      <th scope="col" style="text-align: center;">Total</th>
+      <th scope="col" style="text-align: center;">Acciones</th>
     </tr>
   `);
 
@@ -107,9 +107,12 @@ function abrirModalCotizaciones() {
       data: null,
       render: function (data, type, row, meta) {
         return (
+          '<div style="display: flex; align-items: center; justify-content: center; width: 100%;">' +
+          '<i class="fa-solid fa-arrow-right" style="margin-right: 20px; font-size: 1.4em;"></i>' +
           '<input type="radio" name="selectRow" class="selectRow" value="' +
           row.idCoti +
-          '">'
+          '" style="transform: scale(1.4); margin-left: 2px;" >' +
+          '</div>'
         );
       },
       orderable: false,
@@ -260,13 +263,13 @@ function abrirModalCotizacionesPedidoEditar() {
   // Estructura de dataTableSeleccionarCotizacionPedidosEditar
   $("#dataTableSeleccionarCotizacionPedidosEditar thead").html(`
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Titulo Cotizacion</th>
-      <th scope="col">Nombre Comercial</th>
-      <th scope="col">Fecha</th>
-      <th scope="col">Nombre Solicitante</th>
-      <th scope="col">Total</th>
-      <th scope="col">Acciones</th>
+      <th scope="col" style="text-align: center;">Seleccionar</th>
+      <th scope="col" style="text-align: center;">Titulo Cotizacion</th>
+      <th scope="col" style="text-align: center;">Nombre Comercial</th>
+      <th scope="col" style="text-align: center;">Fecha</th>
+      <th scope="col" style="text-align: center;">Nombre Solicitante</th>
+      <th scope="col" style="text-align: center;">Total</th>
+      <th scope="col" style="text-align: center;">Acciones</th>
     </tr>
   `);
 
@@ -276,13 +279,16 @@ function abrirModalCotizacionesPedidoEditar() {
       data: null,
       render: function (data, type, row, meta) {
         return (
+          '<div style="display: flex; align-items: center; justify-content: center; width: 100%;">' +
+          '<i class="fa-solid fa-arrow-right" style="margin-right: 20px; font-size: 1.4em;"></i>' +
           '<input type="radio" name="selectRow" class="selectRow" value="' +
           row.idCoti +
           '" data-id="' +
           row.idCoti +
           '" data-title="' +
           row.tituloCoti +
-          '">'
+          '" style="transform: scale(1.4); margin-left: 2px;" >' +
+          "</div>"
         );
       },
       orderable: false,

@@ -141,7 +141,6 @@
           <div class="col-lg-4">Nombre</div>
           <div class="col-lg-2">Unidad Medida</div>
           <div class="col-lg-2">Cantidad</div>
-          <div class="col-lg-2">Precio Materia Prima</div>
         </div>
         <!-- aqui se agregan los productos del modal de prodcutos  -->
         <div class="form-group row AddProductoMprimaCotizacionEdit">
@@ -162,9 +161,9 @@
             <!-- vacio -->
           </div>
 
-          <div class="form-group col-md-2">
-            <label for="totalProdMprimaCotiEdit" class="form-label" style="font-weight: bold">Total Producto Prima:
-            </label>
+          <div class="form-group col-md-2" style="display: none;">
+            <label for="totalProdMprimaCotiEdit" class="form-label" style="font-weight: bold">Total Producto
+              Prima:</label>
             <input type="text" class="form-control" id="totalProdMprimaCotiEdit" name="totalProdMprimaCotiEdit" value=""
               placeholder="Total Producto Prima" readonly required>
           </div>
@@ -192,7 +191,8 @@
             <!-- vacio -->
           </div>
           <div class="form-group col-md-2">
-            <button type="button" class="btn btn-info btnCalcularTotalEdit" id="btnCalcularTotalEdit">Calular Total Cotizacion
+            <button type="button" class="btn btn-info btnCalcularTotalEdit" id="btnCalcularTotalEdit">Calular Total
+              Cotizacion
             </button>
           </div>
           <div class="form-group col-md-2">
@@ -215,8 +215,8 @@
       <div class="container row g-3 p-3 ">
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
           id="btnCerrarEditarCotizacion">Cerrar</button>
-        <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success "
-          id="btnEditarCotizacion">Guardar Cambios</button>
+        <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success " id="btnEditarCotizacion">Guardar
+          Cambios</button>
       </div>
     </form>
   </main>

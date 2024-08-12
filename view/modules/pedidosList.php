@@ -221,7 +221,7 @@
 <!-- Modal cotizaciones para la vista de pedidos -->
 <div class="modal fade" id="modalSeleccionarCotizacionPedidos" tabindex="-1"
   aria-labelledby="modalSeleccionarCotizacionPedidosLabel" aria-hidden="true" data-bs-backdrop="static">
-  <div class="modal-dialog modal-lg"> <!-- Clase "modal-lg" agregada aquí -->
+  <div class="modal-dialog modal-xl"> <!-- Clase "modal-lg" agregada aquí -->
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="titleModalSeleccionarCotizacionPedidosLabel">Lista Productos Prima</h1>
@@ -320,7 +320,7 @@
 <!-- Modal cotizaciones para la vista de pedidos -->
 <div class="modal fade" id="modalSeleccionarCotizacionPedidosEditar" tabindex="-1"
   aria-labelledby="titleModalSeleccionarCotizacionPedidosEditarLabel" aria-hidden="true" data-bs-backdrop="static">
-  <div class="modal-dialog modal-lg"> <!-- Clase "modal-lg" agregada aquí -->
+  <div class="modal-dialog modal-xl"> <!-- Clase "modal-lg" agregada aquí -->
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="titleModalSeleccionarCotizacionPedidosEditarLabel">Lista Productos Prima</h1>
