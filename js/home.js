@@ -107,6 +107,9 @@ document.addEventListener("DOMContentLoaded", function () {
               text: `Procesos Operativos: ${
                 opcion === "horas" ? "Horas" : "Precio"
               }`,
+              font: {
+                size: 20, // Aumentar el tamaño de la fuente del título
+              },
             },
           },
           scales: {
