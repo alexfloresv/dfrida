@@ -25,6 +25,7 @@ require_once "controller/procesoOperativo.controller.php";
 require_once "controller/produccion.controller.php";
 require_once "controller/pedidos.controller.php";
 require_once "controller/merma.controller.php";
+require_once "controller/home.controller.php";
 
 //+
 
@@ -51,6 +52,7 @@ require_once "model/procesoOperativo.model.php";
 require_once "model/produccion.model.php";
 require_once "model/pedidos.model.php";
 require_once "model/merma.model.php";
+require_once "model/home.model.php";
 
 //+
 

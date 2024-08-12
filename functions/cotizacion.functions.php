@@ -57,7 +57,11 @@ class FunctionCotizacion
   public static function getBtnCotizacionPedidosVista($codCoti)
   {
     $botones = '
-     <button class="btn btn-danger btnDescargarCotiPedidosList" codCoti="' . $codCoti . '"><i class="fa-solid fa-file-pdf"></i></button>
+    <div style="text-align: center;">
+        <button class="btn btn-danger btnDescargarCotiPedidosList" codCoti="' . $codCoti . '">
+            <i class="fa-solid fa-file-pdf"></i>
+        </button>
+    </div>
     ';
     return $botones;
   }

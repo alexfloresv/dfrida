@@ -405,14 +405,12 @@ document.addEventListener("DOMContentLoaded", function () {
         cantidadProdMprimaCoti +
         '" min="1" step="1">' +
         "</div>" +
-        /* precio prima */
-        '<div class="col-lg-2">' +
-        '<input type="text" class="form-control precioProdMprimaCoti" id="precioProdMprimaCoti" value="' +
+        /* precio prima oculto */
+        '<input type="hidden" class="form-control precioProdMprimaCoti" id="precioProdMprimaCoti" value="' +
         precioProdMprimaCoti +
         '" data-original-precio="' +
         precioProdMprimaCotiUnidad +
         '" readonly>' +
-        "</div>" +
         /* boton de eliminar prima */
         '<div class="col-lg-1">' +
         '<button type="button" class="btn btn-danger btn-xs deleteNuevoIngresoProdMprima"><i class="fa fa-times"></i></button>' +
@@ -492,7 +490,7 @@ document.addEventListener("DOMContentLoaded", function () {
               formularioID +
               '" class="row productoMprimaRow" style="padding:5px 15px">' +
               '<div class="col-lg-4">' +
-              /* id del prodcuto */
+              /* id del producto */
               '<input type="hidden" class="form-control" id="codProdMprimaCoti" value="' +
               idProd +
               '">' +
@@ -503,7 +501,7 @@ document.addEventListener("DOMContentLoaded", function () {
               "</div>" +
               /* unidad del tipo de producto */
               '<div class="col-lg-2">' +
-              '<input type="text" class="form-control" id="unidadProdMprimaCoti"value="' +
+              '<input type="text" class="form-control" id="unidadProdMprimaCoti" value="' +
               unidadProd +
               '" readonly>' +
               "</div>" +
@@ -511,14 +509,12 @@ document.addEventListener("DOMContentLoaded", function () {
               '<div class="col-lg-2">' +
               '<input type="number" class="form-control cantidadProdMprimaCoti" id="cantidadProdMprimaCoti" value="1" min="1" step="1">' +
               "</div>" +
-              /* precio */
-              '<div class="col-lg-2">' +
-              '<input type="text" class="form-control precioProdMprimaCoti" id="precioProdMprimaCoti" value="' +
+              /* precio oculto */
+              '<input type="hidden" class="form-control precioProdMprimaCoti" id="precioProdMprimaCoti" value="' +
               precioProd +
               '" data-original-precio="' +
               precioProd +
               '" readonly>' +
-              "</div>" +
               /* boton de eliminar */
               '<div class="col-lg-1">' +
               '<button type="button" class="btn btn-danger btn-xs deleteNuevoIngresoProdMprima" value="' +
@@ -562,7 +558,7 @@ document.addEventListener("DOMContentLoaded", function () {
         .attr("value", totalProductosPrima.toFixed(2));
 
       // Calcular el total general
-      const totalGeneral = totalProductos + totalProductosPrima;
+      const totalGeneral = totalProductos;
 
       // Asignar el totalGeneral al input de subTotalCotizacionEdit y actualizar el atributo 'value'
       $("#subTotalCotizacionEdit")
@@ -631,8 +627,22 @@ document.addEventListener("DOMContentLoaded", function () {
           productoMprima;
       });
 
+      // Validar que haya productos asignados
+      if (
+        Object.keys(datosFormulario.productsCoti).length === 0 ||
+        Object.keys(datosFormulario.productsMprimaCoti).length === 0
+      ) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Debe asignar al menos un producto y una materia prima a la cotización.",
+        });
+        return null; // Indicar que la recolección de datos falló
+      }
+
       return datosFormulario;
     }
+    // Fin
 
     // Función para comparar los datos del formulario con los datos originales
     function compararDatos(datosFormulario, dataOriginal) {
