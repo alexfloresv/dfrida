@@ -1,11 +1,8 @@
-// Vista de Home
 document.addEventListener("DOMContentLoaded", function () {
-  // Si la ruta no es la correcta no se ejecuta la función
   var currentPath = window.location.pathname;
   var validPaths = ["/dfrida/index.php", "/dfrida/home"];
 
   if (validPaths.includes(currentPath)) {
-    // Función para obtener y manejar los datos de alumnos por grados
     function obtenerProcesosOperativosTiempoCosto() {
       var data = new FormData();
       data.append("todosLosProcesosOperativosTiempoCosto", true);
@@ -33,16 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
             procesos[fila.idProcOp].totalCoti += fila.totalCoti;
           });
 
-          // Poblar el filtro
-          var filtro = document.getElementById("gradoNivelDropdown");
-          filtro.innerHTML = "";
-          for (var idProcOp in procesos) {
-            var option = document.createElement("li");
-            option.textContent = procesos[idProcOp].descripcion;
-            filtro.appendChild(option);
-          }
-
-          // Preparar datos para el gráfico
           var labels = [];
           var horasData = [];
           var cotiData = [];
@@ -53,8 +40,8 @@ document.addEventListener("DOMContentLoaded", function () {
             cotiData.push(procesos[idProcOp].totalCoti);
           }
 
-          // Actualizar gráfico con los datos obtenidos
-          actualizarGrafico(labels, horasData, cotiData);
+          window.graficoData = { labels, horasData, cotiData };
+          actualizarGrafico("horas");
         },
         error: function (jqXHR, textStatus, errorThrown) {
           console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
@@ -62,55 +49,84 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    // Función para actualizar el gráfico
-    function actualizarGrafico(labels, horasData, cotiData) {
-      var ctx = document.getElementById("myChart").getContext("2d");
-      new Chart(ctx, {
+    function actualizarGrafico(opcion) {
+      var canvas = document.getElementById("myChart");
+      var ctx = canvas.getContext("2d");
+
+      // Establecer el tamaño máximo del canvas
+      canvas.style.maxHeight = "500px";
+
+      var data = window.graficoData;
+      var dataset = [];
+
+      if (opcion === "horas") {
+        dataset.push({
+          label: "Horas Proceso",
+          data: data.horasData,
+          backgroundColor: "rgba(179, 154, 99, 0.7)", 
+          borderColor: "rgba(145, 114, 69, 1)",
+          borderWidth: 1,
+        });
+        document.querySelector(
+          ".filtro-seleccionado-alumnos-nuevo-antiguo"
+        ).textContent = "| Horas";
+      } else if (opcion === "precio") {
+        dataset.push({
+          label: "Precio Proceso",
+          data: data.cotiData,
+          backgroundColor: "rgba(179, 154, 99, 0.7)", // Rojo coral
+          borderColor: "rgba(179, 154, 99, 1)",
+          borderWidth: 1,
+        });
+        document.querySelector(
+          ".filtro-seleccionado-alumnos-nuevo-antiguo"
+        ).textContent = "| Precio";
+      }
+
+      // Verifica si window.myChart es una instancia de Chart antes de destruirlo
+      if (window.myChart && window.myChart instanceof Chart) {
+        window.myChart.destroy();
+      }
+
+      // Crear el gráfico
+      window.myChart = new Chart(ctx, {
         type: "bar",
         data: {
-          labels: labels,
-          datasets: [
-            {
-              label: "Horas Proceso",
-              data: horasData,
-              backgroundColor: "rgba(54, 162, 235, 0.7)",
-              borderColor: "rgba(54, 162, 235, 1)",
-              borderWidth: 1,
-            },
-            {
-              label: "Total Cotización",
-              data: cotiData,
-              backgroundColor: "rgba(255, 99, 132, 0.7)",
-              borderColor: "rgba(255, 99, 132, 1)",
-              borderWidth: 1,
-            },
-          ],
+          labels: data.labels,
+          datasets: dataset,
         },
         options: {
           responsive: true,
+          maintainAspectRatio: false,
           plugins: {
             legend: {
               position: "top",
             },
             title: {
               display: true,
-              text: "Procesos Operativos: Horas vs Total Cotización",
+              text: `Procesos Operativos: ${
+                opcion === "horas" ? "Horas" : "Precio"
+              }`,
             },
           },
           scales: {
             y: {
               beginAtZero: true,
-              stacked: true, // Configura las barras apiladas en el eje Y
-            },
-            x: {
-              stacked: true, // Configura las barras apiladas en el eje X
             },
           },
         },
       });
     }
 
-    // Llamar a la función para obtener los datos
+    // Manejar la selección del filtro
+    document.querySelectorAll(".filtro-opcion").forEach(function (element) {
+      element.addEventListener("click", function (event) {
+        var opcionSeleccionada = event.target.getAttribute("data-value");
+        actualizarGrafico(opcionSeleccionada);
+      });
+    });
+
+    // Llamar a la función para obtener datos e inicializar el gráfico
     obtenerProcesosOperativosTiempoCosto();
   }
 });

@@ -166,15 +166,13 @@ document.addEventListener("DOMContentLoaded", function () {
               '<div class="col-lg-2">' +
               '<input type="number" class="form-control cantidadProdMprimaCoti" id="cantidadProdMprimaCoti" value="1" min="1" step="1">' +
               "</div>" +
-              /* precio prima*/
-              '<div class="col-lg-2">' +
-              '<input type="text" class="form-control precioProdMprimaCoti" id="precioProdMprimaCoti" value="' +
+              /* precio prima oculto */
+              '<input type="hidden" class="form-control precioProdMprimaCoti" id="precioProdMprimaCoti" value="' +
               precioMprima +
               '" data-original-precio="' +
               precioMprima +
               '" readonly>' +
-              "</div>" +
-              /* boton de eliminar prima*/
+              /* boton de eliminar prima */
               '<div class="col-lg-1">' +
               '<button type="button" class="btn btn-danger btn-xs deleteNuevoIngresoProdMprima"><i class="fa fa-times"></i></button>' +
               "</div>" +
@@ -258,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
           .attr("value", totalProductosPrima.toFixed(2));
 
         // Calcular el total general
-        const totalGeneral = totalProductos + totalProductosPrima;
+        const totalGeneral = totalProductos;
 
         // Asignar el totalGeneral al input de subTotalCotizacionAdd y actualizar el atributo 'value'
         $("#subTotalCotizacionAdd")
@@ -598,7 +596,7 @@ document.addEventListener("DOMContentLoaded", function () {
           confirmButtonColor: "#3085d6",
           cancelButtonColor: "#d33",
           cancelButtonText: "Cancelar",
-          confirmButtonText: "Si, Editar Ingreso!",
+          confirmButtonText: "Si, Editar Cotizacion!",
         })
         .then((result) => {
           if (result.isConfirmed) {
