@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <th scope="col">#</th>
           <th scope="col">Aceptar Mermar</th>
           <th scope="col">Nombre Merma</th>
-          <th scope="col">Fecha Ingreso</th>
+          <th scope="col">Fecha Registro</th>
           <th scope="col">Fecha Aceptada</th>
           <th scope="col">Estado</th>
           <th scope="col">Proceso Operativo</th>
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
       { data: "nombreMerma" },
       { data: "fechaMermaIng" },
       { data: "fechaMermaAprobada" },
-      { data: "estadoMerma" },
+      { data: "estadoMermaAcp" },
       { data: "btnProcOpOrigin" },
       { data: "btnMermaAceptada" },
       { data: "btnEditMerma" },

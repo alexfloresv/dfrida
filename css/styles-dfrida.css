@@ -63,7 +63,7 @@
   overflow-y: auto; /* Permite el desplazamiento si el contenido es más largo que la altura máxima */ 
 }
 .modal .form-control {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.067);
   color: white;
   border: none;
 }

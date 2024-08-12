@@ -16,24 +16,24 @@ class FunctionMerma
   }
 
   //botones de productos prima de pedido = cotizacion = proceso operativo
-  public static function btnProductosMprimaMerma($codSalMprima, $estadoMerma)
+  public static function btnProductosMprimaMerma($codSalMprima, $estadoMerma, $codMerma)
   {
-    if ($estadoMerma == 2) {
-      $botones = '
-          <button class="btn btn-primary btnAprobMprimaMerma" codSalMprima="' . $codSalMprima . '" disabled><i class="fa-solid fa-recycle"></i></button>
-          ';
-    } else {
-      $botones = '
-          <button class="btn btn-primary btnAprobMprimaMerma" codSalMprima="' . $codSalMprima . '"><i class="fa-solid fa-recycle"></i></button>
-          ';
-    }
-    return $botones;
+      if ($estadoMerma == 2) {
+          $botones = '
+              <button class="btn btn-primary btnAprobMprimaMerma" codMerma="' . $codMerma . '" codSalMprima="' . $codSalMprima . '" disabled><i class="fa-solid fa-recycle"></i></button>
+              ';
+      } else {
+          $botones = '
+              <button class="btn btn-primary btnAprobMprimaMerma" codMerma="' . $codMerma . '" codSalMprima="' . $codSalMprima . '"><i class="fa-solid fa-recycle"></i></button>
+              ';
+      }
+      return $botones;
   }
 
   //boton de merma confirmada
   public static function btnVerMermaAceptada($codMerma, $estadoMerma)
   {
-    if ($estadoMerma == 1) {
+    if ($estadoMerma == 2) {
       $botones = '
           <button class="btn btn-success btnVerMermaAceptada" codMerma="' . $codMerma . '"><i class="fa-solid fa-trash-can"></i></button>
           ';

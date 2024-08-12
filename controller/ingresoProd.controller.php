@@ -47,6 +47,11 @@ class ingresoProdController
             }
           }
 
+          // Validar si $produccionArray está vacío
+          if (empty($produccionArray)) {
+            return $response;
+          }
+
           foreach ($produccionArray as $idProduccion) {
             if ($idProduccion !== null) {
               // Crear registro de produccion si seleccionó una produccion o si es por produccion
