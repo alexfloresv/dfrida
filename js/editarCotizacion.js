@@ -631,8 +631,22 @@ document.addEventListener("DOMContentLoaded", function () {
           productoMprima;
       });
 
+      // Validar que haya productos asignados
+      if (
+        Object.keys(datosFormulario.productsCoti).length === 0 ||
+        Object.keys(datosFormulario.productsMprimaCoti).length === 0
+      ) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Debe asignar al menos un producto y una materia prima a la cotización.",
+        });
+        return null; // Indicar que la recolección de datos falló
+      }
+
       return datosFormulario;
     }
+    // Fin
 
     // Función para comparar los datos del formulario con los datos originales
     function compararDatos(datosFormulario, dataOriginal) {
