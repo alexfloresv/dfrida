@@ -14,7 +14,12 @@ if (isset($_POST["todasLasMermas"])) {
   $todasLasMermas = new MermaAjax();
   $todasLasMermas->ajaxDTableMerma();
 }
-
+//  aceptar merma
+if (isset($_POST["codSalMprima"])) {
+  $create = new MermaAjax();
+  $create->codSalMprima = $_POST["codSalMprima"];
+  $create->ajaxAceptarMerma($_POST["codSalMprima"]);
+}
 
 class MermaAjax
 {
@@ -33,7 +38,13 @@ class MermaAjax
     //mostar todos los usuarios DataTable
     echo json_encode($todasLasMermas);
   }
-
+  //  aceptar merma
+  public function ajaxAceptarMerma($codSalMprima)
+  {
+   
+    $response = MermaController::ctrAceptarMerma($codSalMprima);
+    echo json_encode($response);
+  }
 
 }
 

@@ -161,6 +161,27 @@ class ingresoProdModel
       return "error";
     }
   }
+  //obtener el id de produccion asociado al ingreso de productos pro el id
+  public static function mdlObtenerIdProduccionAsociado($table, $codIngProd)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idProduccion FROM $table WHERE idIngProd = :idIngProd");
+    $statement->bindParam(":idIngProd", $codIngProd, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  //actualziar campo de estado de produccion
+  public static function mdlCambiarEstadoProduccion($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoProduccion = :estadoProduccion, DateUpdate = :DateUpdate WHERE idProduccion = :idProduccion");
+    $statement->bindParam(":estadoProduccion", $dataUpdate["estadoProduccion"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":idProduccion", $dataUpdate["idProduccion"], PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   //fin eliminar productos ingresados**
 
   //Agregar Producto al ingreso
@@ -217,11 +238,119 @@ class ingresoProdModel
     }
   }
   // Descargar excel ingreso productos por fechas
-  public static function mdlObtenerDatosIngresoProductosporFecha($tabla, $fechaInicio, $fechaFin){
+  public static function mdlObtenerDatosIngresoProductosporFecha($tabla, $fechaInicio, $fechaFin)
+  {
     $statement = Conexion::conn()->prepare("SELECT ingreso_prod.idIngProd, ingreso_prod.nombreIngProd, ingreso_prod.fechaIngProd, ingreso_prod.igvIngProd, ingreso_prod.subTotalIngProd, ingreso_prod.totalIngProd, ingreso_prod.ingJsonProd FROM $tabla WHERE ingreso_prod.fechaIngProd BETWEEN :fechaInicio AND :fechaFin");
     $statement->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
     $statement->bindParam(":fechaFin", $fechaFin, PDO::PARAM_STR);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  //funcion para traer la produccion aprobada al select 2
+  public static function mdlSelect2ProduccionDisp($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idProduccion, nombreProduccion FROM $table WHERE estadoProduccion = 2 ORDER BY idProduccion DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  //funcion para trear los productos de la cotizacion
+  public static function mdlTraerPedidoAsociado($table, $codProduccion, )
+  {
+    $statement = Conexion::conn()->prepare(" SELECT 
+            po.idPedido
+            FROM $table p
+            INNER JOIN proceso_operativo_fin pof ON p.idProcOpFin = pof.idProcOpFin
+            INNER JOIN proceso_operativo po ON pof.idProcOp = po.idProcOp
+            WHERE p.idProduccion = :idProduccion");
+    $statement->bindParam(":idProduccion", $codProduccion, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  //traer productos asociados a la produccion que son el pedido
+  public static function mdlTraerProduccionDisponible($tabla, $idPedido)
+  {
+    // Preparar la consulta con INNER JOIN
+    $statement = Conexion::conn()->prepare("
+          SELECT c.productsCoti 
+          FROM $tabla p
+          INNER JOIN cotizacion c ON p.idCoti = c.idCoti
+          WHERE p.idPedido = :idPedido
+      ");
+    $statement->bindParam(":idPedido", $idPedido, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  //funcion para trear codigo de  producto y precio de producto 
+  public static function mdlTraerDataProducto($table, $codProdCoti)
+  {
+    $statement = Conexion::conn()->prepare("SELECT codigoProd, precioProd FROM $table WHERE idProd = :idProd");
+    $statement->bindParam(":idProd", $codProdCoti, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  //obtener el ultimo registro de ingreso de productos
+  public static function mdlUltimoRegIngProd($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idIngProd FROM $table ORDER BY idIngProd DESC LIMIT 1");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  //crear registro de produccion asociado al ingreso de productos
+  public static function mdlCrearProduccionAsociado($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("
+          UPDATE $table 
+          SET idIngProd = :idIngProd, 
+              estadoProduccion = :estadoProduccion, 
+              DateUpdate = :DateUpdate 
+          WHERE idProduccion = :idProduccion
+      ");
+    $statement->bindParam(":idProduccion", $dataUpdate["idProduccion"], PDO::PARAM_INT);
+    $statement->bindParam(":idIngProd", $dataUpdate["idIngProd"], PDO::PARAM_INT);
+    $statement->bindParam(":estadoProduccion", $dataUpdate["estadoProduccion"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  //verififar si tiene fecha asignada
+  public static function mdlVerificarFechaAsignada($table, $codProduccion)
+  {
+    $statement = Conexion::conn()->prepare("SELECT fechaAceptProducc FROM $table WHERE idProduccion = :idProduccion");
+    $statement->bindParam(":idProduccion", $codProduccion, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+    if ($result === false || $result['fechaAceptProducc'] === "" || $result['fechaAceptProducc'] === "0000-00-00" || $result['fechaAceptProducc'] === "0"|| $result['fechaAceptProducc'] === null) {
+      return false;
+    }
+    return true;
+  }
+  //crear registro de produccion asociado al ingreso de productos
+  public static function mdlCrearProduccionAsociadoConFecha($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("
+            UPDATE $table 
+            SET idIngProd = :idIngProd, 
+                estadoProduccion = :estadoProduccion, 
+                fechaAceptProducc = :fechaAceptProducc, 
+                DateUpdate = :DateUpdate 
+            WHERE idProduccion = :idProduccion
+        ");
+    $statement->bindParam(":idProduccion", $dataUpdate["idProduccion"], PDO::PARAM_INT);
+    $statement->bindParam(":idIngProd", $dataUpdate["idIngProd"], PDO::PARAM_INT);
+    $statement->bindParam(":estadoProduccion", $dataUpdate["estadoProduccion"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaAceptProducc", $dataUpdate["fechaAceptProducc"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

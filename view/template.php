@@ -129,7 +129,9 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
 <script src="js/salidaMprima.js"></script>
 <script src="js/procesoOperativo.js"></script>
 <script src="js/pedidos.js"></script>
+<script src="js/produccion.js"></script>
 <script src="js/editarCotizacion.js"></script>
+<script src="js/merma.js"></script>
 <script src="js/home.js"></script>
 
 

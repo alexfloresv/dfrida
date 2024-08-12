@@ -1448,7 +1448,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Agregar evento change para capturar el valor seleccionado
                 $("#pedidoSalAdd").on("change", function () {
                   var codPedidoSalMp = $(this).val();
-                  console.log("Valor seleccionado:", codPedidoSalMp);
+                  //console.log("Valor seleccionado:", codPedidoSalMp);
                   // Aquí puedes agregar cualquier lógica adicional que necesites
                   productosPrimaPedido(codPedidoSalMp);
                 });
