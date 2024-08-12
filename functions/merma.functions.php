@@ -20,11 +20,11 @@ class FunctionMerma
   {
     if ($estadoMerma == 2) {
       $botones = '
-          <button class="btn btn-primary btnVerMprimaMerma" codSalMprima="' . $codSalMprima . '" disabled><i class="fa-solid fa-recycle"></i></button>
+          <button class="btn btn-primary btnAprobMprimaMerma" codSalMprima="' . $codSalMprima . '" disabled><i class="fa-solid fa-recycle"></i></button>
           ';
     } else {
       $botones = '
-          <button class="btn btn-primary btnVerMprimaMerma" codSalMprima="' . $codSalMprima . '"><i class="fa-solid fa-recycle"></i></button>
+          <button class="btn btn-primary btnAprobMprimaMerma" codSalMprima="' . $codSalMprima . '"><i class="fa-solid fa-recycle"></i></button>
           ';
     }
     return $botones;
