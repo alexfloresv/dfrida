@@ -89,6 +89,125 @@
         </div>
       </div>
       <div class="row">
+        <!-- Contenedor de los procesos operativos -->
+        <div class="col-xxl-4 col-md-4">
+          <div class="card info-card sales-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="card-title">
+                Procesos Operativos
+                <span class="filtro-seleccionado-estados-procesos"></span>
+              </h5>
+              <div class="filter">
+                <a class="icon" data-bs-toggle="dropdown" style="color: black; font-size: 23px; cursor: pointer;">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="filtro-estados-procesos">
+                  <li class="dropdown-header text-start">
+                    <h6>Filtro</h6>
+                  </li>
+                  <!-- Opciones del filtro serán agregadas dinámicamente aquí -->
+                </ul>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="ps-3 w-100">
+                  <div class="estado-seleccionado d-flex align-items-center">
+                    <div class="icon-container"
+                      style="display: flex; align-items: center; justify-content: center; width: 120px; height: 120px; border-radius: 50%; background-color: #f0f0f0;">
+                      <i class="estado-icon fa-solid fa-file-lines" style="font-size: 55px; color: black;"></i>
+                    </div>
+                    <span class="estado-text"
+                      style="font-size: 28px; font-weight: normal; margin-left: 45px;">Seleccionado</span>:
+                    <span class="estado-conteo" style="font-size: 31px; font-weight: bolder; margin-left: 5px;">0</span>
+                  </div>
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xxl-4 col-md-4">
+          <div class="card info-card sales-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="card-title">
+                Procesos Operativos
+                <span class="filtro-seleccionado-estados-procesos"></span>
+              </h5>
+              <div class="filter">
+                <a class="icon" data-bs-toggle="dropdown" style="color: black; font-size: 23px; cursor: pointer;">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="filtro-estados-procesos">
+                  <li class="dropdown-header text-start">
+                    <h6>Filtro</h6>
+                  </li>
+                  <!-- Opciones del filtro serán agregadas dinámicamente aquí -->
+                </ul>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="ps-3 w-100">
+                  <div class="estado-seleccionado d-flex align-items-center">
+                    <div class="icon-container"
+                      style="display: flex; align-items: center; justify-content: center; width: 120px; height: 120px; border-radius: 50%; background-color: #f0f0f0;">
+                      <i class="estado-icon fa-solid fa-file-lines" style="font-size: 55px; color: black;"></i>
+                    </div>
+                    <span class="estado-text"
+                      style="font-size: 28px; font-weight: normal; margin-left: 45px;">Seleccionado</span>:
+                    <span class="estado-conteo" style="font-size: 31px; font-weight: bolder; margin-left: 5px;">0</span>
+                  </div>
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xxl-4 col-md-4">
+          <div class="card info-card sales-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h5 class="card-title">
+                Monto Recaudado
+                <span class="filtro-seleccionado-estados-procesos"></span>
+              </h5>
+              <div class="filter">
+                <a class="icon" data-bs-toggle="dropdown" style="color: black; font-size: 23px; cursor: pointer;">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="filtro-estados-procesos">
+                  <li class="dropdown-header text-start">
+                    <h6>Filtro</h6>
+                  </li>
+                  <!-- Opciones del filtro serán agregadas dinámicamente aquí -->
+                </ul>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <div class="d-flex align-items-center">
+                <div class="ps-3 w-100">
+                  <div class="estado-seleccionado d-flex align-items-center">
+                    <div class="icon-container"
+                      style="display: flex; align-items: center; justify-content: center; width: 120px; height: 120px; border-radius: 50%; background-color: #f0f0f0;">
+                      <i class="estado-icon fa-solid fa-file-lines" style="font-size: 55px; color: black;"></i>
+                    </div>
+                    <span class="estado-text"
+                      style="font-size: 28px; font-weight: normal; margin-left: 45px;">Seleccionado</span>:
+                    <span class="estado-conteo" style="font-size: 31px; font-weight: bolder; margin-left: 5px;">0</span>
+                  </div>
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Espacio entre los dos contenedores -->
+        <div style="margin-bottom: 20px;"></div>
         <div class="col-12 h-auto">
           <div class="card info-card sales-card">
             <!-- Filtro -->

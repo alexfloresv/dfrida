@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
         dataset.push({
           label: "Horas Proceso",
           data: data.horasData,
-          backgroundColor: "rgba(179, 154, 99, 0.7)", 
+          backgroundColor: "rgba(179, 154, 99, 0.7)",
           borderColor: "rgba(145, 114, 69, 1)",
           borderWidth: 1,
         });
@@ -107,9 +107,6 @@ document.addEventListener("DOMContentLoaded", function () {
               text: `Procesos Operativos: ${
                 opcion === "horas" ? "Horas" : "Precio"
               }`,
-              font: {
-                size: 20, // Aumentar el tamaño de la fuente del título
-              },
             },
           },
           scales: {
@@ -129,7 +126,124 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
-    // Llamar a la función para obtener datos e inicializar el gráfico
+    // Variables globales para almacenar los datos y la referencia a los elementos de la interfaz
+    var estadosProcesosData = {};
+    var iconosEstado = {
+      registrado: "fa-file-lines",
+      en_proceso: "fa-spinner",
+      cuello_de_botella: "fa-triangle-exclamation",
+      listo: "fa-circle-check",
+      prenda_terminada: "fa-shirt",
+      retrasado: "fa-clock",
+    };
+
+    var opcionesFiltro = [
+      { value: "registrado", text: "Registrado" },
+      { value: "en_proceso", text: "En Proceso" },
+      { value: "cuello_de_botella", text: "Cuello de Botella" },
+      { value: "listo", text: "Listo" },
+      { value: "prenda_terminada", text: "Prenda Terminada" },
+      { value: "retrasado", text: "Retrasado" },
+    ];
+
+    var filtroEstadosProcesos = document.getElementById(
+      "filtro-estados-procesos"
+    );
+    opcionesFiltro.forEach(function (opcion) {
+      var li = document.createElement("li");
+      var a = document.createElement("a");
+      a.className = "dropdown-item filtro-opcion";
+      a.style.cursor = "pointer";
+      a.setAttribute("data-value", opcion.value);
+      a.innerHTML = opcion.text;
+      li.appendChild(a);
+      filtroEstadosProcesos.appendChild(li);
+    });
+
+    function actualizarEstadoSeleccionado(opcionSeleccionada) {
+      console.log("Opción seleccionada:", opcionSeleccionada); // Debugging
+
+      var iconoSeleccionado = iconosEstado[opcionSeleccionada];
+      console.log("Ícono seleccionado:", iconoSeleccionado); // Debugging
+
+      var textoSeleccionado = opcionesFiltro.find(
+        (opcion) => opcion.value === opcionSeleccionada
+      ).text;
+
+      var filtroSpan = document.querySelector(
+        ".filtro-seleccionado-estados-procesos"
+      );
+      var estadoIcon = document.querySelector(".estado-icon");
+      var estadoText = document.querySelector(".estado-text");
+
+      if (filtroSpan) {
+        filtroSpan.textContent = "| " + textoSeleccionado;
+      }
+
+      if (estadoIcon) {
+        // Limpia las clases actuales del ícono y añade la nueva clase
+        estadoIcon.classList.remove(
+          "fa-file-alt",
+          "fa-spinner",
+          "fa-exclamation-triangle",
+          "fa-check-circle",
+          "fa-shirt",
+          "fa-clock"
+        );
+        estadoIcon.classList.add(iconoSeleccionado);
+      }
+
+      if (estadoText) {
+        estadoText.textContent = textoSeleccionado;
+      }
+
+      if (estadosProcesosData[opcionSeleccionada]) {
+        var conteo = estadosProcesosData[opcionSeleccionada];
+        var estadoConteoElement = document.querySelector(".estado-conteo");
+
+        if (estadoConteoElement) {
+          estadoConteoElement.textContent = conteo;
+        }
+      }
+    }
+
+    function obtenerConteoEstadoProcesosOperativosHome() {
+      var data = new FormData();
+      data.append("estadosProcesosOperativosHome", true);
+      $.ajax({
+        url: "ajax/home.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          estadosProcesosData = {
+            registrado: response.registrados,
+            en_proceso: response.en_proceso,
+            cuello_de_botella: response.cuello_de_botella,
+            listo: response.listo,
+            prenda_terminada: response.prenda_terminada,
+            retrasado: response.retrasado,
+          };
+
+          actualizarEstadoSeleccionado("registrado");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    }
+
+    document.addEventListener("click", function (event) {
+      if (event.target.classList.contains("filtro-opcion")) {
+        var opcionSeleccionada = event.target.getAttribute("data-value");
+        actualizarEstadoSeleccionado(opcionSeleccionada);
+      }
+    });
+
+    obtenerConteoEstadoProcesosOperativosHome();
     obtenerProcesosOperativosTiempoCosto();
   }
 });
