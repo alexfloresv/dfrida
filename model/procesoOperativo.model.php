@@ -131,8 +131,9 @@ class procesoOperativoModel
   // actualizar estado de pedido
   public static function mdlActualizarPedidoProcOp($table, $dataUpdate)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoPedido = :estadoPedido, DateUpdate = :DateUpdate WHERE idPedido = :idPedido");
+    $statement = Conexion::conn()->prepare("UPDATE $table SET idSalMprima = :idSalMprima, estadoPedido = :estadoPedido, DateUpdate = :DateUpdate WHERE idPedido = :idPedido");
     $statement->bindParam(":estadoPedido", $dataUpdate["estadoPedido"], PDO::PARAM_INT);
+    $statement->bindParam(":idSalMprima", $dataUpdate["idSalMprima"], PDO::PARAM_INT);
     $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
     $statement->bindParam(":idPedido", $dataUpdate["idPedido"], PDO::PARAM_INT);
     if ($statement->execute()) {
