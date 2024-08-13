@@ -15,9 +15,9 @@ class FichaTecnicaController
   public static function ctrCrearFichaTecnica($crearFichaTecnica, $jsonNombreArchivo, $jsonExtensionArchivo)
   {
     if ($crearFichaTecnica["nombreFichaTecAdd"] === "" || $crearFichaTecnica["fechaFichaTecAdd"] === "" || $crearFichaTecnica["descripcionFichaTecAdd"] === "") {
-      $response = "errorForm";
+      return $response = "errorForm";
     } elseif ($crearFichaTecnica["fileFichaTecnica"] === "") {
-      $response = "error";
+      return $response = "error";
     } else {
       $table = "ficha_tecnica";
       $dataCreate = array(
@@ -41,8 +41,11 @@ class FichaTecnicaController
         //registrar el documento de la ficha tecnica con el id del registro para ubicar el archivo en el direcorio id_fichatecnica
         $docFichaTec = self::ctrRegistrarDocFichaTec($table, $idFichaTec, $jsonNombreArchivo, $jsonExtensionArchivo);
         if ($docFichaTec === "ok") {
-          //retornar el id de la ficha tecnica para crear el archivo con el id como nombre
-          $response = $idFichaTec["idFichaTec"];
+          // Validar el dato
+          if (isset($idFichaTec["idFichaTec"]) && !empty($idFichaTec["idFichaTec"]) && $idFichaTec["idFichaTec"] !== false && $idFichaTec["idFichaTec"] !== null) {
+            // Retornar el id de la ficha técnica para crear el archivo con el id como nombre
+            return $idFichaTec["idFichaTec"];
+          }
         }
       }
     }
@@ -131,7 +134,7 @@ class FichaTecnicaController
     // Verificar si está en uso la ficha técnica si es true no se puede eliminar
     $verificarUso = self::ctrVerificarUsoFichaTecnica($codFichaTec);
     if ($verificarUso) {
-      $response = "error";
+      return $response = "error";
     } else {
       // Si la ficha técnica no está en uso, proceder con la eliminación
       $table = "ficha_tecnica";
