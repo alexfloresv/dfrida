@@ -22,7 +22,7 @@ class CotizacionModel
   // Crear nueva cotizacion
   public static function mdlCrearCrearCotizacion($table, $dataCotizacion)
   {
-    $statement = Conexion::conn()->prepare("INSERT INTO $table (tituloCoti, fechaCoti, razonSocialCoti, nombreComercialCoti, rucCoti, nombreCoti, celularCoti, correoCoti, direccionCoti, detalleCoti, productsCoti, productsMprimaCoti, totalProductsCoti, totalProductsMprimaCoti, igvCoti, subTotalCoti, totalCoti, estadoCoti, DateCreate) VALUES(:tituloCoti, :fechaCoti, :razonSocialCoti, :nombreComercialCoti, :rucCoti, :nombreCoti, :celularCoti, :correoCoti, :direccionCoti, :detalleCoti, :productsCoti, :productsMprimaCoti, :totalProductsCoti, :totalProductsMprimaCoti, :igvCoti, :subTotalCoti, :totalCoti, :estadoCoti, :DateCreate)");
+    $statement = Conexion::conn()->prepare("INSERT INTO $table (tituloCoti, fechaCoti, razonSocialCoti, nombreComercialCoti, rucCoti, nombreCoti, celularCoti, correoCoti, direccionCoti, detalleCoti, productsCoti, totalProductsCoti, igvCoti, subTotalCoti, totalCoti, estadoCoti, DateCreate) VALUES(:tituloCoti, :fechaCoti, :razonSocialCoti, :nombreComercialCoti, :rucCoti, :nombreCoti, :celularCoti, :correoCoti, :direccionCoti, :detalleCoti, :productsCoti, :totalProductsCoti, :igvCoti, :subTotalCoti, :totalCoti, :estadoCoti, :DateCreate)");
 
     $statement->bindParam(":tituloCoti", $dataCotizacion["tituloCoti"], PDO::PARAM_STR);
     $statement->bindParam(":fechaCoti", $dataCotizacion["fechaCoti"], PDO::PARAM_STR);
@@ -35,9 +35,7 @@ class CotizacionModel
     $statement->bindParam(":direccionCoti", $dataCotizacion["direccionCoti"], PDO::PARAM_STR);
     $statement->bindParam(":detalleCoti", $dataCotizacion["detalleCoti"], PDO::PARAM_STR);
     $statement->bindParam(":productsCoti", $dataCotizacion["productsCoti"], PDO::PARAM_STR);
-    $statement->bindParam(":productsMprimaCoti", $dataCotizacion["productsMprimaCoti"], PDO::PARAM_STR);
     $statement->bindParam(":totalProductsCoti", $dataCotizacion["totalProductsCoti"], PDO::PARAM_STR);
-    $statement->bindParam(":totalProductsMprimaCoti", $dataCotizacion["totalProductsMprimaCoti"], PDO::PARAM_STR);
     $statement->bindParam(":igvCoti", $dataCotizacion["igvCoti"], PDO::PARAM_STR);
     $statement->bindParam(":subTotalCoti", $dataCotizacion["subTotalCoti"], PDO::PARAM_STR);
     $statement->bindParam(":totalCoti", $dataCotizacion["totalCoti"], PDO::PARAM_STR);
@@ -111,9 +109,7 @@ class CotizacionModel
     direccionCoti, 
     detalleCoti, 
     productsCoti, 
-    productsMprimaCoti, 
     totalProductsCoti, 
-    totalProductsMprimaCoti, 
     igvCoti, 
     subTotalCoti, 
     totalCoti 
@@ -147,7 +143,7 @@ class CotizacionModel
     }
   }
   public static function mdlEditarCotizacion($table, $jsonCotizacionEditar){
-    $statement = Conexion::conn()->prepare("UPDATE $table SET tituloCoti = :tituloCoti, fechaCoti = :fechaCoti, razonSocialCoti = :razonSocialCoti, nombreComercialCoti = :nombreComercialCoti, rucCoti = :rucCoti, nombreCoti = :nombreCoti, celularCoti = :celularCoti, correoCoti = :correoCoti, direccionCoti = :direccionCoti, detalleCoti = :detalleCoti, productsCoti = :productsCoti, productsMprimaCoti = :productsMprimaCoti, totalProductsCoti = :totalProductsCoti, totalProductsMprimaCoti = :totalProductsMprimaCoti, igvCoti = :igvCoti, subTotalCoti = :subTotalCoti, totalCoti = :totalCoti, DateUpdate = :DateUpdate WHERE idCoti = :idCoti");
+    $statement = Conexion::conn()->prepare("UPDATE $table SET tituloCoti = :tituloCoti, fechaCoti = :fechaCoti, razonSocialCoti = :razonSocialCoti, nombreComercialCoti = :nombreComercialCoti, rucCoti = :rucCoti, nombreCoti = :nombreCoti, celularCoti = :celularCoti, correoCoti = :correoCoti, direccionCoti = :direccionCoti, detalleCoti = :detalleCoti, productsCoti = :productsCoti, totalProductsCoti = :totalProductsCoti, igvCoti = :igvCoti, subTotalCoti = :subTotalCoti, totalCoti = :totalCoti, DateUpdate = :DateUpdate WHERE idCoti = :idCoti");
 
     $statement->bindParam(":tituloCoti", $jsonCotizacionEditar["tituloCoti"], PDO::PARAM_STR);
     $statement->bindParam(":fechaCoti", $jsonCotizacionEditar["fechaCoti"], PDO::PARAM_STR);
@@ -160,9 +156,7 @@ class CotizacionModel
     $statement->bindParam(":direccionCoti", $jsonCotizacionEditar["direccionCoti"], PDO::PARAM_STR);
     $statement->bindParam(":detalleCoti", $jsonCotizacionEditar["detalleCoti"], PDO::PARAM_STR);
     $statement->bindParam(":productsCoti", $jsonCotizacionEditar["productsCoti"], PDO::PARAM_STR);
-    $statement->bindParam(":productsMprimaCoti", $jsonCotizacionEditar["productsMprimaCoti"], PDO::PARAM_STR);
     $statement->bindParam(":totalProductsCoti", $jsonCotizacionEditar["totalProductsCoti"], PDO::PARAM_STR);
-    $statement->bindParam(":totalProductsMprimaCoti", $jsonCotizacionEditar["totalProductsMprimaCoti"], PDO::PARAM_STR);
     $statement->bindParam(":igvCoti", $jsonCotizacionEditar["igvCoti"], PDO::PARAM_STR);
     $statement->bindParam(":subTotalCoti", $jsonCotizacionEditar["subTotalCoti"], PDO::PARAM_STR);
     $statement->bindParam(":totalCoti", $jsonCotizacionEditar["totalCoti"], PDO::PARAM_STR);

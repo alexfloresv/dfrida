@@ -153,11 +153,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
                 finalY += 10;
 
-                // Tabla de productos prima
+/*                 // Tabla de productos prima
                 // Parsear los productos una sola vez
                 const productosMprima = JSON.parse(
                   datosCotizacion.productsMprimaCoti
-                );
+                ); */
 
                 // Preparar las filas para autoTable
                 /* let filasMprima = [];

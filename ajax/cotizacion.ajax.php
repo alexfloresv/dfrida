@@ -15,12 +15,11 @@ if (isset($_POST["todasLasCotizaciones"]) || isset($_POST["todasLasCotizacionesP
   $todasLasCotizaciones->ajaxDTableCotizaciones();
 }
 //  crear Cotizacion
-if (isset($_POST["jsonCrearCotizacion"], $_POST["jsonProductosCotizacion"], $_POST["jsonProductosPrimaCotizacion"])) {
+if (isset($_POST["jsonCrearCotizacion"], $_POST["jsonProductosCotizacion"])) {
   $create = new CotizacionAjax();
   $create->jsonCrearCotizacion = $_POST["jsonCrearCotizacion"];
   $create->jsonProductosCotizacion = $_POST["jsonProductosCotizacion"];
-  $create->jsonProductosCotizacion = $_POST["jsonProductosPrimaCotizacion"];
-  $create->ajaxCrearCotizacion($_POST["jsonCrearCotizacion"], $_POST["jsonProductosCotizacion"], $_POST["jsonProductosPrimaCotizacion"]);
+  $create->ajaxCrearCotizacion($_POST["jsonCrearCotizacion"], $_POST["jsonProductosCotizacion"]);
 }
 
 //editar ProductosMprima
@@ -85,11 +84,11 @@ class CotizacionAjax
   }
 
   //  crear Cotizacion
-  public function ajaxCrearCotizacion($jsonCrearCotizacion, $jsonProductosCotizacion, $jsonProductosPrimaCotizacion)
+  public function ajaxCrearCotizacion($jsonCrearCotizacion, $jsonProductosCotizacion)
   {
     $crearCotizacion = json_decode($jsonCrearCotizacion, true);
 
-    $response = CotizacionController::ctrCrearCotizacion($crearCotizacion, $jsonProductosCotizacion, $jsonProductosPrimaCotizacion);
+    $response = CotizacionController::ctrCrearCotizacion($crearCotizacion, $jsonProductosCotizacion);
     echo json_encode($response);
   }
 

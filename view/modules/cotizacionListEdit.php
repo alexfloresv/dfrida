@@ -129,49 +129,6 @@
       </div>
       <!-- fin -->
 
-      <!-- Productos materia prima-->
-      <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
-        <h3>Productos Materia Prima</h3>
-        <div class="d-inline-flex m-2">
-          <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-            data-bs-target="#modalEditProdMprimaCoti">Agregar Productos Materia Prima</button>
-        </div>
-
-        <div class="row" style="font-weight: bold">
-          <div class="col-lg-4">Nombre</div>
-          <div class="col-lg-2">Unidad Medida</div>
-          <div class="col-lg-2">Cantidad</div>
-        </div>
-        <!-- aqui se agregan los productos del modal de prodcutos  -->
-        <div class="form-group row AddProductoMprimaCotizacionEdit">
-        </div>
-        <!-- aqui se agregan los productos del modal de prodcutos  -->
-
-        <!-- fin -->
-
-        <!-- total producto materia prima -->
-        <div class="form-group row ">
-          <div class="form-group col-md-4">
-            <!-- vacio -->
-          </div>
-          <div class="form-group col-md-2">
-            <!-- vacio -->
-          </div>
-          <div class="form-group col-md-2">
-            <!-- vacio -->
-          </div>
-
-          <div class="form-group col-md-2" style="display: none;">
-            <label for="totalProdMprimaCotiEdit" class="form-label" style="font-weight: bold">Total Producto
-              Prima:</label>
-            <input type="text" class="form-control" id="totalProdMprimaCotiEdit" name="totalProdMprimaCotiEdit" value=""
-              placeholder="Total Producto Prima" readonly required>
-          </div>
-        </div>
-        <!-- fin -->
-      </div>
-      <!-- fin -->
-
       <!-- Calculo totales-->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
         <h3>Valores Totales Cotizacion</h3>
@@ -238,32 +195,6 @@
           </thead>
           <tbody>
             <!--dataTableProductos-->
-          </tbody>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal produtos materia prima -->
-<div class="modal fade" id="modalEditProdMprimaCoti" tabindex="-1" aria-labelledby="modalEditProdMprimaCoti"
-  aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalEditProdMprimaCoti">Lista Productos Materia Prima</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <table id="dataTableProductosMprimaEditarCotizacion" class="dataTableProductosMprimaEditarCotizacion">
-          <thead>
-            <!-- dataTableProductosMprima -->
-          </thead>
-          <tbody>
-            <!--dataTableProductosMprima-->
           </tbody>
         </table>
       </div>
