@@ -33,12 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 text: "Categoria creada correctamente",
               }).then(function (result) {
                 if (result.value) {
-                  window.history.pushState(
-                    {},
-                    document.title,
-                    window.location.pathname
-                  );
-                  limpiarFormulario();
+                  window.location.reload();
                 }
               });
             } else {
