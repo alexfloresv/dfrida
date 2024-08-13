@@ -2,6 +2,8 @@
 require_once "../controller/cotizacion.controller.php";
 require_once "../model/cotizacion.model.php";
 require_once "../functions/cotizacion.functions.php";
+require_once "../controller/clients.controller.php";
+require_once "../model/clients.model.php";
 //inicio de secion 
 if (session_status() == PHP_SESSION_NONE) {
   session_start();

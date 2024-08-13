@@ -29,7 +29,7 @@ class HomeModel
   // Mostrar el total recaudado por anio
   public static function mdlObtenerTotalRecaudadoAnio($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT EXTRACT(YEAR FROM proceso_operativo.fechaFinProcOp) AS `año`, SUM(cotizacion.totalCoti) AS ganancia_total FROM $table INNER JOIN pedido ON  proceso_operativo.idPedido = pedido.idPedido INNER JOIN cotizacion ON  pedido.idCoti = cotizacion.idCoti WHERE proceso_operativo.estadoProcOp = 5 GROUP BY EXTRACT(YEAR FROM proceso_operativo.fechaFinProcOp) ORDER BY año ASC;");
+    $statement = Conexion::conn()->prepare("SELECT EXTRACT(YEAR FROM proceso_operativo.fechaFinProcOp) AS `año`, SUM(cotizacion.totalCoti) AS ganancia_total FROM $table INNER JOIN pedido ON  proceso_operativo.idPedido = pedido.idPedido INNER JOIN cotizacion ON  pedido.idCoti = cotizacion.idCoti WHERE proceso_operativo.estadoProcOp = 5 GROUP BY EXTRACT(YEAR FROM proceso_operativo.fechaFinProcOp) ORDER BY año DESC;");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }

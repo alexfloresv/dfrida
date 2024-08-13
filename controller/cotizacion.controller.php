@@ -21,6 +21,9 @@ class CotizacionController
   // Crear nueva cotizacion
   public static function ctrCrearCotizacion($crearCotizacion, $jsonProductosCotizacion, $jsonProductosPrimaCotizacion)
   {
+    // Guardar el valor de esClienteNuevo
+    $esClienteNuevo = $crearCotizacion["esClienteNuevo"];
+
     // Eliminar datos innecesarios
     $cotizacionData = self::ctrBorrarDatosInecesarios($crearCotizacion);
     // Eliminar el array $crearCotizacion para no duplicar datos
@@ -47,8 +50,22 @@ class CotizacionController
       "totalCoti" => $cotizacionData["totalCotizacionAdd"],
       "estadoCoti" => 1,
       "DateCreate" => date("Y-m-d\TH:i:sP"),
+      "esClienteNuevo" => $esClienteNuevo // Agregar el valor de esClienteNuevo
     );
     $response = CotizacionModel::mdlCrearCrearCotizacion($table, $dataCreate);
+    if ($response == "ok" && $esClienteNuevo == true) {
+      // Crear un nuevo cliente
+      $clienteNuevo = array(
+        "Ru" => $cotizacionData["rucCotiAdd"],
+        "razonSocial" => $cotizacionData["razonSocialCotiAdd"],
+        "NameCli" => $cotizacionData["nombreCotiAdd"],
+        "EmailCli" => $cotizacionData["correoCotiAdd"],
+        "AddressCli" => $cotizacionData["direccionCotiAdd"],
+        "PhoneCli" => $cotizacionData["celularCotiAdd"],
+        "DetallCli" => $cotizacionData["detalleCotiAdd"]
+      );
+      $response = ClientsController::ctrCreateClient($clienteNuevo);
+    }
 
     return $response;
   }

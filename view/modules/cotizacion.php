@@ -51,40 +51,58 @@
             placeholder="Ingrese el Ruc de la empresa">
         </div>
         <!-- fin -->
+      </div>
 
-        <!-- datos de solicitante persona  -->
-        <h3>Datos de Solicitante</h3>
-
-        <div class="form-group col-md-6">
-          <label for="nombreCotiAdd" class="form-label" style="font-weight: bold">Nombres Solicitante:</label>
-          <input type="text" class="form-control" id="nombreCotiAdd" name="nombreCotiAdd" value=""
-            placeholder="Nombre del solicitante">
+      <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px;">
+        <div class="d-flex align-items-center justify-content-between">
+          <h3>Cliente Nuevo</h3>
+          <div class="form-check form-switch ms-auto" style="transform: scale(1.5);">
+            <input class="form-check-input" type="checkbox" id="clienteNuevoSwitch" name="clienteNuevoSwitch">
+            <label class="form-check-label" for="clienteNuevoSwitch"></label>
+          </div>
+        </div>
+        <div id="clienteNuevoSection">
+          <div class="row">
+            <!-- Select2 para pedidos -->
+            <div class="form-group col-md-12">
+              <h4>Seleccionar Cliente</h4>
+              <select class="form-select" id="idClienteAddCotizacion" name="idClienteAddCotizacion" data-selected="">
+                <!-- Las opciones se agregarán dinámicamente -->
+              </select>
+            </div>
+          </div>
         </div>
 
-        <div class="form-group col-md-2">
-          <label for="celularCotiAdd" class="form-label" style="font-weight: bold">Numero Celular:</label>
-          <input type="number" class="form-control" id="celularCotiAdd" name="celularCotiAdd" value=""
-            placeholder="Ingrese Celular">
+        <div id="datosSolicitanteSection" style="display: none;">
+          <h3>Datos de Solicitante</h3>
+          <div class="row">
+            <div class="form-group col-md-6">
+              <label for="nombreCotiAdd" class="form-label" style="font-weight: bold">Nombres Solicitante:</label>
+              <input type="text" class="form-control" id="nombreCotiAdd" name="nombreCotiAdd" value=""
+                placeholder="Nombre del solicitante">
+            </div>
+            <div class="form-group col-md-2">
+              <label for="celularCotiAdd" class="form-label" style="font-weight: bold">Numero Celular:</label>
+              <input type="number" class="form-control" id="celularCotiAdd" name="celularCotiAdd" value=""
+                placeholder="Ingrese Celular">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="correoCotiAdd" class="form-label" style="font-weight: bold">Correo:</label>
+              <input type="text" class="form-control" id="correoCotiAdd" name="correoCotiAdd" value=""
+                placeholder="Ingrese Correo">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="direccionCotiAdd" class="form-label" style="font-weight: bold">Direccion: </label>
+              <input type="text" class="form-control" id="direccionCotiAdd" name="direccionCotiAdd"
+                placeholder="Ingrese Direccion">
+            </div>
+            <div class="form-group col-md-8" style="margin-bottom: 10px;">
+              <label for="detalleCotiAdd" class="form-label" style="font-weight: bold">Observaciones: </label>
+              <input type="text" class="form-control" id="detalleCotiAdd" name="detalleCotiAdd"
+                placeholder="Ingrese observacion para la cotizacion Opcional">
+            </div>
+          </div>
         </div>
-
-        <div class="form-group col-md-4">
-          <label for="correoCotiAdd" class="form-label" style="font-weight: bold">Correo:</label>
-          <input type="text" class="form-control" id="correoCotiAdd" name="correoCotiAdd" value=""
-            placeholder="Ingrese Correo">
-        </div>
-
-        <div class="col-md-4">
-          <label for="direccionCotiAdd" class="form-label" style="font-weight: bold">Direccion: </label>
-          <input type="text" class="form-control" id="direccionCotiAdd" name="direccionCotiAdd"
-            placeholder="Ingrese Direccion">
-        </div>
-
-        <div class="col-md-8" style="margin-bottom: 10px;">
-          <label for="detalleCotiAdd" class="form-label" style="font-weight: bold">Observaciones: </label>
-          <input type="text" class="form-control" id="detalleCotiAdd" name="detalleCotiAdd"
-            placeholder="Ingrese observacion para la cotizacion Opcional">
-        </div>
-        <!-- fin -->
       </div>
 
       <!-- Productos -->
@@ -92,7 +110,8 @@
         <h3>Productos</h3>
         <div class="d-inline-flex m-2">
           <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-            data-bs-target="#modalAddProdCoti">Agregar Productos</button>
+            data-bs-target="#modalAddProdCoti">Agregar
+            Productos</button>
         </div>
 
         <div class="row" style="font-weight: bold">
@@ -214,7 +233,8 @@
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
           id="btnCerrarCotizacion">Cerrar</button>
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success "
-          id="btnRegistrarCotizacion">Registrar Cotizacion</button>
+          id="btnRegistrarCotizacion">Registrar
+          Cotizacion</button>
       </div>
     </form>
   </main>

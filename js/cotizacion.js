@@ -344,6 +344,13 @@ document.addEventListener("DOMContentLoaded", function () {
             datosFormulario[elemento.id] = elemento.value;
           }
         });
+        // Obtener el estado del switch
+        var clienteNuevoSwitch = document.getElementById("clienteNuevoSwitch");
+        var esClienteNuevo = clienteNuevoSwitch.checked;
+
+        // Agregar el estado del switch a los datos del formulario
+        datosFormulario.esClienteNuevo = esClienteNuevo;
+
         // Crear un JSON con los datos recolectados del formulario principal
         var jsonCrearCotizacion = JSON.stringify(datosFormulario);
 
@@ -610,3 +617,152 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 // Fin
+// Insertar las opciones de los clientes en el select
+//funcion para mostrar el selec2 de todos los clientes
+document.addEventListener("DOMContentLoaded", function () {
+  // Verificar si la ruta es la correcta
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/cotizacion";
+  if (currentPath == appPath) {
+    // Inicializar select2 en el select deseado
+    $("#idClienteAddCotizacion").select2({
+      placeholder: "Seleccione un Cliente",
+      allowClear: true,
+    });
+    // Cargar datos dinámicamente al abrir el modal
+    var data = new FormData();
+    data.append("todosLosClientes", true);
+
+    $.ajax({
+      url: "ajax/clients.ajax.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (data) {
+        // Limpiar las opciones actuales
+        $("#idClienteAddCotizacion").empty();
+        // Agregar las nuevas opciones
+        $.each(data, function (key, value) {
+          $("#idClienteAddCotizacion").append(
+            '<option value="' +
+              value.idCli +
+              '" data-celular="' +
+              value.celularCli +
+              '" data-correo="' +
+              value.correoCli +
+              '" data-direccion="' +
+              value.direccionCli +
+              '">' +
+              value.nombreCli +
+              "</option>"
+          );
+        });
+
+        // Restaurar el valor seleccionado si existe
+        var selectedCliente = $("#idClienteAddCotizacion").attr(
+          "data-selected"
+        );
+        if (selectedCliente && selectedCliente !== "0") {
+          $("#idClienteAddCotizacion").val(selectedCliente).trigger("change");
+        } else {
+          // Inicializar el select con la opción predeterminada
+          $("#idClienteAddCotizacion").val("0").trigger("change");
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al cargar los datos:", error);
+      },
+    });
+    // Añadir el evento change al select
+    $("#idClienteAddCotizacion").on("change", function () {
+      var selectedOption = $(this).find("option:selected");
+
+      if (selectedOption && selectedOption.val() !== "0") {
+        var nombreCli = selectedOption.text();
+        var celularCli = selectedOption.data("celular");
+        var correoCli = selectedOption.data("correo");
+        var direccionCli = selectedOption.data("direccion");
+
+        $("#nombreCotiAdd").val(nombreCli);
+        $("#celularCotiAdd").val(celularCli);
+        $("#correoCotiAdd").val(correoCli);
+        $("#direccionCotiAdd").val(direccionCli);
+        $("#detalleCotiAdd").val(""); // Dejar en blanco
+      } else {
+        // Limpiar los campos de texto si no hay una opción válida seleccionada
+        $("#nombreCotiAdd").val("");
+        $("#celularCotiAdd").val("");
+        $("#correoCotiAdd").val("");
+        $("#direccionCotiAdd").val("");
+        $("#detalleCotiAdd").val("");
+      }
+    });
+  }
+});
+
+// Manejo del switch para cuando es cliente nuevo o cuando ya está creado el cliente:
+document.addEventListener("DOMContentLoaded", function () {
+  // Verificar si la ruta es la correcta
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/cotizacion";
+  if (currentPath == appPath) {
+    var clienteNuevoSwitch = document.getElementById("clienteNuevoSwitch");
+    var clienteNuevoSection = document.getElementById("clienteNuevoSection");
+    var datosSolicitanteSection = document.getElementById(
+      "datosSolicitanteSection"
+    );
+    var idClienteAddCotizacion = document.getElementById(
+      "idClienteAddCotizacion"
+    );
+    var nombreCotiAdd = document.getElementById("nombreCotiAdd");
+    var celularCotiAdd = document.getElementById("celularCotiAdd");
+    var correoCotiAdd = document.getElementById("correoCotiAdd");
+    var direccionCotiAdd = document.getElementById("direccionCotiAdd");
+    var detalleCotiAdd = document.getElementById("detalleCotiAdd");
+
+    var previousSelectedCliente = null;
+
+    // Función para alternar la visibilidad y limpiar los campos
+    function toggleVisibility() {
+      if (clienteNuevoSwitch.checked) {
+        clienteNuevoSection.style.display = "none";
+        datosSolicitanteSection.style.display = "block";
+        // Guardar el valor seleccionado antes de limpiar
+        previousSelectedCliente = idClienteAddCotizacion.value;
+        // Limpiar el select
+        idClienteAddCotizacion.value = "";
+        // Limpiar los campos de texto
+        nombreCotiAdd.value = "";
+        celularCotiAdd.value = "";
+        correoCotiAdd.value = "";
+        direccionCotiAdd.value = "";
+        detalleCotiAdd.value = "";
+      } else {
+        clienteNuevoSection.style.display = "block";
+        datosSolicitanteSection.style.display = "none";
+        // Restaurar el valor seleccionado
+        if (previousSelectedCliente) {
+          idClienteAddCotizacion.value = previousSelectedCliente;
+        } else {
+          idClienteAddCotizacion.value = "0";
+        }
+        // Limpiar los campos de texto
+        nombreCotiAdd.value = "";
+        celularCotiAdd.value = "";
+        correoCotiAdd.value = "";
+        direccionCotiAdd.value = "";
+        detalleCotiAdd.value = "";
+        // Limpiar el select y mostrar el placeholder
+        $(idClienteAddCotizacion).val(null).trigger("change");
+      }
+    }
+
+    // Inicializar la visibilidad al cargar la página
+    toggleVisibility();
+
+    // Añadir el evento change al switch
+    clienteNuevoSwitch.addEventListener("change", toggleVisibility);
+  }
+});

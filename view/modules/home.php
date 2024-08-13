@@ -28,7 +28,7 @@
               </div>
             </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-              <a class="small text-white stretched-link" href="verSalidas">Ver Detalles</a>
+              <a class="small text-white stretched-link" href="pedidosList">Ver Detalles</a>
               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
             </div>
           </div>
@@ -46,7 +46,7 @@
               </div>
             </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-              <a class="small text-white stretched-link" href="almacen">Ver Detalles</a>
+              <a class="small text-white stretched-link" href="almacenProductos">Ver Detalles</a>
               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
             </div>
           </div>
@@ -64,7 +64,7 @@
               </div>
             </div>
             <div class="card-footer d-flex align-items-center justify-content-between">
-              <a class="small text-white stretched-link" href="ingresos">Ver Detalles</a>
+              <a class="small text-white stretched-link" href="ingresoList">Ver Detalles</a>
               <div class="small text-white"><i class="fas fa-angle-right"></i></div>
             </div>
           </div>
@@ -90,7 +90,7 @@
       </div>
       <div class="row">
         <!-- Contenedor de los procesos operativos -->
-        <div class="col-xxl-4 col-md-4">
+        <div class="col-xxl-6 col-md-6">
           <div class="card info-card sales-card">
             <div class="card-header d-flex justify-content-between align-items-center">
               <h5 class="card-title">
@@ -116,72 +116,32 @@
                   <div class="estado-seleccionado d-flex align-items-center">
                     <div class="icon-container"
                       style="display: flex; align-items: center; justify-content: center; width: 120px; height: 120px; border-radius: 50%; background-color: #f0f0f0;">
-                      <i class="estado-icon fa-solid fa-file-lines" style="font-size: 55px; color: black;"></i>
+                      <i class="estado-icon fa-solid fa-file-lines" style="font-size: 55px; color: #393c3f;"></i>
                     </div>
                     <span class="estado-text"
-                      style="font-size: 28px; font-weight: normal; margin-left: 45px;">Seleccionado</span>:
-                    <span class="estado-conteo" style="font-size: 31px; font-weight: bolder; margin-left: 5px;">0</span>
+                      style="font-size: 25px; font-weight: normal; margin-left: 45px;">Registrado:</span>
+                    <span class="estado-conteo" style="font-size: 30px; font-weight: bolder; margin-left: 5px;">0</span>
                   </div>
-                  </h6>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="col-xxl-4 col-md-4">
-          <div class="card info-card sales-card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <h5 class="card-title">
-                Procesos Operativos
-                <span class="filtro-seleccionado-estados-procesos"></span>
-              </h5>
-              <div class="filter">
-                <a class="icon" data-bs-toggle="dropdown" style="color: black; font-size: 23px; cursor: pointer;">
-                  <i class="fa-solid fa-ellipsis"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="filtro-estados-procesos">
-                  <li class="dropdown-header text-start">
-                    <h6>Filtro</h6>
-                  </li>
-                  <!-- Opciones del filtro serán agregadas dinámicamente aquí -->
-                </ul>
-              </div>
-            </div>
-
-            <div class="card-body">
-              <div class="d-flex align-items-center">
-                <div class="ps-3 w-100">
-                  <div class="estado-seleccionado d-flex align-items-center">
-                    <div class="icon-container"
-                      style="display: flex; align-items: center; justify-content: center; width: 120px; height: 120px; border-radius: 50%; background-color: #f0f0f0;">
-                      <i class="estado-icon fa-solid fa-file-lines" style="font-size: 55px; color: black;"></i>
-                    </div>
-                    <span class="estado-text"
-                      style="font-size: 28px; font-weight: normal; margin-left: 45px;">Seleccionado</span>:
-                    <span class="estado-conteo" style="font-size: 31px; font-weight: bolder; margin-left: 5px;">0</span>
-                  </div>
-                  </h6>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-xxl-4 col-md-4">
+        <div class="col-xxl-6 col-md-6">
           <div class="card info-card sales-card">
             <div class="card-header d-flex justify-content-between align-items-center">
               <h5 class="card-title">
                 Monto Recaudado
-                <span class="filtro-seleccionado-estados-procesos"></span>
+                <span class="filtro-seleccionado-ganancia-anio"></span>
               </h5>
               <div class="filter">
                 <a class="icon" data-bs-toggle="dropdown" style="color: black; font-size: 23px; cursor: pointer;">
                   <i class="fa-solid fa-ellipsis"></i>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="filtro-estados-procesos">
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="filtro-ganancia-anio">
                   <li class="dropdown-header text-start">
-                    <h6>Filtro</h6>
+                    <h6 style="color: red;">Filtro</h6>
                   </li>
                   <!-- Opciones del filtro serán agregadas dinámicamente aquí -->
                 </ul>
@@ -191,16 +151,17 @@
             <div class="card-body">
               <div class="d-flex align-items-center">
                 <div class="ps-3 w-100">
-                  <div class="estado-seleccionado d-flex align-items-center">
+                  <div class="ganancia-seleccionada d-flex align-items-center">
                     <div class="icon-container"
-                      style="display: flex; align-items: center; justify-content: center; width: 120px; height: 120px; border-radius: 50%; background-color: #f0f0f0;">
-                      <i class="estado-icon fa-solid fa-file-lines" style="font-size: 55px; color: black;"></i>
+                      style="display: flex; align-items: center; justify-content: center; width: 120px; height: 120px; border-radius: 50%; background-color: #fff;">
+                      <i class="fa-solid fa-money-bill-trend-up"
+                        style="font-size: 55px; color: #28a745; font-weight: 1px"></i>
                     </div>
-                    <span class="estado-text"
-                      style="font-size: 28px; font-weight: normal; margin-left: 45px;">Seleccionado</span>:
-                    <span class="estado-conteo" style="font-size: 31px; font-weight: bolder; margin-left: 5px;">0</span>
+                    <span class="ganancia-text"
+                      style="font-size: 28px; font-weight: normal; margin-left: 45px;">Ganancia:</span>
+                    <span class="ganancia-total" style="font-size: 31px; font-weight: bolder; margin-left: 5px;">S/.
+                      0.00</span>
                   </div>
-                  </h6>
                 </div>
               </div>
             </div>
