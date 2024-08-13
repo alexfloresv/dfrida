@@ -14,7 +14,7 @@
 
 //hostinguer
 
-/* class Conexion
+class Conexion
 {
   static public function conn()
   {
@@ -22,4 +22,4 @@
     $link->exec("set names utf8");
     return $link;
   }
-} */
+}
