@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-//modal para ver productos de salida por el boton
+//modal para ver productos mermamdos falta terminar
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/salidaList";
@@ -164,3 +164,68 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+//fin funcion
+
+//funcion para mostrar proceso oeprativo adjunto
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/merma";
+  if (currentPath == appPath) {
+    $(".dataTableMerma").on("click", ".btnVerProcOpMerma", function () {
+      // Abrir el modal
+      $("#modalEstadosProcesosOpMerma").modal("show");
+
+      // Limpiar todos los datos del modal
+      $("#modalEstadosProcesosOpMerma").find("input, textarea, select").val("");
+
+      // Obtener los datos del botón
+      var codProcSalMprima = $(this).attr("codProcSalMprima");
+
+      // Crear el objeto FormData
+      var jsonEstadosProcOp = JSON.stringify({
+        codProcSalMprima: codProcSalMprima,
+      });
+
+      // Realizar la solicitud AJAX
+      $.ajax({
+        url: "ajax/salidaMprima.ajax.php",
+        method: "POST",
+        data: { jsonEstadosProcOp: jsonEstadosProcOp },
+        dataType: "json",
+        success: function (response) {
+          if (response == "error") {
+            Swal.fire({
+              title: "No se encuentra un proceso operativo asignado",
+              text: "¿Desea asignarle un proceso operativo?",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Si, asignar Proceso Operativo",
+              cancelButtonText: "No, en otro momento",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                // Redirigir a la ruta para asignar proceso operativo
+                window.location.href = "/dfrida/procesosOperativos";
+              } else {
+                $("#modalEstadosProcesosOpMerma").modal("hide");
+              }
+            });
+          } else {
+            $("#nombrePorcesoOpNombreEstate").val(response["nombreProcOp"]);
+            $("#fechaInicioProcOpEstate").val(response["fechaInicioProcOp"]);
+            $("#fechaFinProcOpEstate").val(response["fechaFinProcOp"]);
+            $("#tipoPorcesoOpNombreEstate").val(response["nombreTipoProc"]);
+            $("#estadoPrincipalProcOP").val(response["estadoProcOp"]);
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error(
+            "Error en la solicitud AJAX: ",
+            textStatus,
+            errorThrown
+          );
+        },
+      });
+    });
+  }
+});
+//fin proceso operativo
