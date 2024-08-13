@@ -1,4 +1,4 @@
-//funcion para traer la produccion aprobada al selct 2
+//funcion para traer el proceso operativo
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/merma";
@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $(".dataTableMerma").on("click", ".btnAprobMprimaMerma", function () {
       $("#AddMateriaPrimaMerma").empty();
       var codSalMprima = $(this).attr("codSalMprima");
-
+      var codMerma = $(this).attr("codMerma");
       Swal.fire({
         title: "¿Aceptar Merma de materia prima?",
         text: "Seleccione y asegure la cantidad de materia prima que se va a mermar. Si no existe merma, ingrese 0 en los datos.",
@@ -18,8 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
         confirmButtonText: "Sí, aceptar merma.",
       }).then((result) => {
         if (result.isConfirmed) {
+          //abrir modal
           $("#modalMateriaPrimaMerma").modal("show");
-          // Cargar datos dinámicamente al confirmar
+          //guardar el id en el campo oculto para usarlo en el modal
+          $("#codMerma").val(codMerma);
+
           var datos = new FormData();
           datos.append("codSalMprima", codSalMprima);
 
@@ -165,3 +168,96 @@ function insertarFormularioMerma(
     $(this).closest(".productoRow").remove();
   });
 }
+
+// crear registro de mermas aceptadas
+document.addEventListener("DOMContentLoaded", function () {
+  // Si la ruta no es la correcta no se ejecuta la función
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/merma";
+  if (currentPath == appPath) {
+    // Botón para iniciar el proceso de registro de merma
+    var btnCrearRegistroAceptarMerma = document.getElementById(
+      "crearRegistroAceptarMerma"
+    );
+
+    // Escuchar el evento click del botón
+    btnCrearRegistroAceptarMerma.addEventListener("click", function () {
+      var formulario = document.querySelector("#formMermaAdd"); // Asegúrate de tener el formulario principal con este ID
+      var datosFormulario = {};
+      var elementosFormulario = formulario.querySelectorAll("input, select");
+      elementosFormulario.forEach(function (elemento) {
+        if (elemento.id) {
+          datosFormulario[elemento.id] = elemento.value;
+        }
+      });
+      // Crear un JSON con los datos recolectados del formulario principal
+      var jsonCrearAcepMerma = JSON.stringify(datosFormulario);
+
+      // Llamada a la función para recolectar datos de formularios anidados PRODUCTOS
+      recojerFormulariosAnidadosAcpMerma(function (datosFormulariosProductos) {
+        // Crear un JSON con los datos recolectados de los formularios anidados
+        var jsonProductosMerma = JSON.stringify(datosFormulariosProductos);
+
+        $.ajax({
+          url: "ajax/merma.ajax.php",
+          method: "POST",
+          data: {
+            jsonCrearAcepMerma: jsonCrearAcepMerma,
+            jsonProductosMerma: jsonProductosMerma,
+          },
+          dataType: "json",
+          success: function (response) {
+            if (response == "ok") {
+              Swal.fire({
+                icon: "success",
+                title: "Correcto",
+                text: "Merma Aceptada Correctamente. Esta se puede usar para crear un producto a partir de ella.",
+              }).then(function () {
+                window.location.reload();
+              });
+            } else {
+              Swal.fire(
+                "Error",
+                "La merma no se pudo aceptar, por favor verifique los datos e intente de nuevo.",
+                "error"
+              ).then(function () {});
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
+        // Fin de la llamada AJAX
+      });
+    });
+
+    // Función para recolectar los datos de los formularios productos y productos prima
+    function recojerFormulariosAnidadosAcpMerma(callback) {
+      // Almacena los datos de los formularios productos y productos prima
+      let datosFormulariosProductos = {};
+
+      // Recorrer los formularios de productos
+      $("[id^=formularioAcepMerma]").each(function (index) {
+        let datosFormulario = {};
+        $(this)
+          .find("input, select")
+          .each(function () {
+            if (this.id) {
+              datosFormulario[this.id] = $(this).val();
+            }
+          });
+        datosFormulariosProductos["merma" + index] = datosFormulario;
+      });
+
+      // Llamar al callback con los datos recolectados de ambos formularios
+      if (callback && typeof callback === "function") {
+        callback(datosFormulariosProductos);
+      }
+    }
+  }
+});
+//fin

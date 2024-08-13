@@ -49,5 +49,16 @@ class FunctionProductoMprima
     ';
     return $botones;
   }
+
+  public static function getNombreProvedor($nombreProv)
+  {
+
+    if ($nombreProv == null || $nombreProv == "") {
+      $estado = '<span class="badge rounded-pill bg-warning">Sin Proveedor</span>';
+    } else {
+      $estado = '<span class="badge rounded-pill bg-success">' . $nombreProv . '</span>';
+    }
+    return $estado;
+  }
 }
 
