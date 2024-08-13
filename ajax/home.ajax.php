@@ -13,6 +13,15 @@ if (isset($_POST["todosLosProcesosOperativosTiempoCosto"])) {
   $todosProcesosOperativosTiempoCosto = new HomeAjax();
   $todosProcesosOperativosTiempoCosto->ajaxObtenerProcesosOperativosTiempoCosto();
 }
+// Obtener el conteo de los estados operativos
+if (isset($_POST["estadosProcesosOperativosHome"])) {
+  $todosEstadosProcesosOperativosHome = new HomeAjax();
+  $todosEstadosProcesosOperativosHome->ajaxObtenerEstadosProcesosOperativosHome();
+}
+if (isset($_POST["totalRecaudadoAnio"])) {
+  $totalRecaudadoAnio = new HomeAjax();
+  $totalRecaudadoAnio->ajaxObtenerTotalRecaudadoAnio();
+}
 
 class HomeAjax
 {
@@ -49,5 +58,15 @@ class HomeAjax
 
     // Devolver el resultado en formato JSON
     echo json_encode($todosProcesosOperativosTiempoCosto);
+  }
+  public function ajaxObtenerEstadosProcesosOperativosHome()
+  {
+    $todosEstadosProcesosOperativosHome = HomeController::ctrObtenerEstadosProcesosOperativosHome();
+    echo json_encode($todosEstadosProcesosOperativosHome);
+  }
+  public function ajaxObtenerTotalRecaudadoAnio()
+  {
+    $totalRecaudadoAnio = HomeController::ctrObtenerTotalRecaudadoAnio();
+    echo json_encode($totalRecaudadoAnio);
   }
 }
