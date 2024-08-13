@@ -8,7 +8,25 @@ class ProductMprimaModel
 
   public static function mdlDTableProductosMprima($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT materia_prima.idMprima, materia_prima.idCatMprima, materia_prima.codigoMprima, materia_prima.nombreMprima, materia_prima.detalleMprima, materia_prima.unidadMprima, materia_prima.precioMprima, categoria_mprima.nombreCategoriaMprima FROM $table INNER JOIN categoria_mprima ON materia_prima.idCatMprima = categoria_mprima.idCatMprima ORDER BY materia_prima.idMprima DESC");
+    $statement = Conexion::conn()->prepare("SELECT 
+    materia_prima.idMprima, 
+    materia_prima.idCatMprima, 
+    materia_prima.codigoMprima, 
+    materia_prima.nombreMprima, 
+    materia_prima.detalleMprima, 
+    materia_prima.unidadMprima, 
+    materia_prima.precioMprima, 
+    categoria_mprima.nombreCategoriaMprima,
+    proveedores.nombreProv 
+FROM 
+    $table 
+INNER JOIN 
+    categoria_mprima ON materia_prima.idCatMprima = categoria_mprima.idCatMprima 
+LEFT JOIN 
+    proveedores ON $table.idProv = proveedores.idProv 
+ORDER BY 
+    materia_prima.idMprima DESC;
+");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -20,6 +38,15 @@ class ProductMprimaModel
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  // Mostrar todos los proveedores
+  public static function mdlGetAllProveedorMprima($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idProv, nombreProv FROM $table ORDER BY idProv DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
 
   //verificar si el nombre de ProductosMprima existe
   public static function mdlExistenciaDeProductoMateriaPrima($table, $nombreMprima)
@@ -43,7 +70,7 @@ class ProductMprimaModel
   // Crear nuevo producto
   public static function CrearProductoMprima($table, $dataCreate)
   {
-    $statement = Conexion::conn()->prepare("INSERT INTO $table (idCatMPrima, nombreMprima, codigoMprima, detalleMprima, unidadMprima, precioMprima, DateCreate) VALUES(:idCatMPrima, :nombreMprima, :codigoMprima, :detalleMprima, :unidadMprima, :precioMprima, :DateCreate)");
+    $statement = Conexion::conn()->prepare("INSERT INTO $table (idCatMPrima, nombreMprima, codigoMprima, detalleMprima, unidadMprima, precioMprima, DateCreate, idProv) VALUES(:idCatMPrima, :nombreMprima, :codigoMprima, :detalleMprima, :unidadMprima, :precioMprima, :DateCreate, :idProv)");
     $statement->bindParam(":idCatMPrima", $dataCreate["idCatMPrima"], PDO::PARAM_INT);
     $statement->bindParam(":nombreMprima", $dataCreate["nombreMprima"], PDO::PARAM_STR);
     $statement->bindParam(":codigoMprima", $dataCreate["codigoMprima"], PDO::PARAM_STR);
@@ -51,6 +78,7 @@ class ProductMprimaModel
     $statement->bindParam(":unidadMprima", $dataCreate["unidadMprima"], PDO::PARAM_STR);
     $statement->bindParam(":precioMprima", $dataCreate["precioMprima"], PDO::PARAM_STR);
     $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
+    $statement->bindParam(":idProv", $dataCreate["idProv"], PDO::PARAM_STR);
 
     if ($statement->execute()) {
       return "ok";

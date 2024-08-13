@@ -18,6 +18,13 @@ class ProductMprimaController
     $response = ProductMprimaModel::mdlGetAllCategoriesMprima($table);
     return $response;
   }
+  // Mostrar todos los proveedores
+  public static function ctrGetAllProveedorMprima()
+  {
+    $table = "proveedores";
+    $response = ProductMprimaModel::mdlGetAllProveedorMprima($table);
+    return $response;
+  }
 
   // Crear nuevo ProductosMprima
   public static function ctrCrearProductoMprima($crearProductoMprima)
@@ -41,6 +48,7 @@ class ProductMprimaController
         "detalleMprima" => $crearProductoMprima["productDetailMp"],
         "unidadMprima" => $crearProductoMprima["productUnitMp"],
         "precioMprima" => $crearProductoMprima["productPriceMp"],
+        "idProv" => $crearProductoMprima["provedoresMp"],
         "DateCreate" => date("Y-m-d\TH:i:sP"),
       );
       $response = ProductMprimaModel::CrearProductoMprima($table, $dataCreate);
@@ -113,7 +121,8 @@ class ProductMprimaController
     return $response;
   }
   // Obtener productos prima de una cotización para la vista pedidos
-  public static function ctrObtenerProductosPrimaCotizacionPedidos($codPed, $idCoti){
+  public static function ctrObtenerProductosPrimaCotizacionPedidos($codPed, $idCoti)
+  {
     $table = "cotizacion";
     $response = ProductMprimaModel::mdlObtenerProductosPrimaCotizacionPedidos($table, $codPed, $idCoti);
     return $response;

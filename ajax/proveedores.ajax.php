@@ -57,7 +57,7 @@ class ProveedoresAjax
   {
     $crearProveedor = json_decode($jsonCrearProveedores, true);
 
-    $valoresVacios = 0;
+/*     $valoresVacios = 0;
     foreach ($crearProveedor as $valor) {
       if (empty($valor)) {
         $valoresVacios++;
@@ -66,7 +66,7 @@ class ProveedoresAjax
     if ($valoresVacios > 2) {
       echo json_encode("error");
       return;
-    }
+    } */
     $response = ProveedoresController::ctrCrearProveedor($crearProveedor);
     echo json_encode($response);
   }
