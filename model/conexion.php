@@ -1,6 +1,6 @@
 <?php
 
-//hostin local
+///hostin local
 
 /* class Conexion
 {
