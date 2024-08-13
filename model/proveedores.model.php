@@ -20,7 +20,7 @@ class ProveedoresModel
     $statement->bindParam(":nombreProv", $dataCreate["nombreProv"], PDO::PARAM_STR);
     $statement->bindParam(":correoProv", $dataCreate["correoProv"], PDO::PARAM_STR);
     $statement->bindParam(":direccionProv", $dataCreate["direccionProv"], PDO::PARAM_STR);
-    $statement->bindParam(":celularProv", $dataCreate["celularProv"], PDO::PARAM_INT);
+    $statement->bindParam(":celularProv", $dataCreate["celularProv"], PDO::PARAM_STR);
     $statement->bindParam(":detalleProv", $dataCreate["detalleProv"], PDO::PARAM_STR);
     $statement->bindParam(":estadoProv", $dataCreate["estadoProv"], PDO::PARAM_INT);
     $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);

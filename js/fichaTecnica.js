@@ -566,7 +566,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   if (response == "error") {
                     Swal.fire(
                       "Error",
-                      "No se pudo borrar la Ficha Tecnica",
+                      "No se pudo borrar la Ficha Tecnica esta se encuentra asociada a un Pedido",
                       "error"
                     );
                   } else {

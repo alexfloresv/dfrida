@@ -14,11 +14,19 @@ if (isset($_POST["todasLasMermas"])) {
   $todasLasMermas = new MermaAjax();
   $todasLasMermas->ajaxDTableMerma();
 }
-//  aceptar merma
+//  aceptar merma data 
 if (isset($_POST["codSalMprima"])) {
   $create = new MermaAjax();
   $create->codSalMprima = $_POST["codSalMprima"];
   $create->ajaxAceptarMerma($_POST["codSalMprima"]);
+}
+
+//  aceptar merma registro
+if (isset($_POST["jsonCrearAcepMerma"], $_POST["jsonProductosMerma"])) {
+  $create = new MermaAjax();
+  $create->jsonCrearAcepMerma = $_POST["jsonCrearAcepMerma"];
+  $create->jsonCrearAcepMerma = $_POST["jsonProductosMerma"];
+  $create->ajaxAceptarMermaRegsitro($_POST["jsonCrearAcepMerma"], $_POST["jsonProductosMerma"]);
 }
 
 class MermaAjax
@@ -28,8 +36,8 @@ class MermaAjax
   {
     $todasLasMermas = MermaController::ctrDTableMerma();
     foreach ($todasLasMermas as &$merma) {
-      $merma['estadoMerma'] = FunctionMerma::getEstadoMerma($merma["estadoMerma"]);
-      $merma['btnMprimaDeProcOp'] = FunctionMerma::btnProductosMprimaMerma($merma["idSalMprima"], $merma["estadoMerma"]);
+      $merma['estadoMermaAcp'] = FunctionMerma::getEstadoMerma($merma["estadoMerma"]);
+      $merma['btnMprimaDeProcOp'] = FunctionMerma::btnProductosMprimaMerma($merma["idSalMprima"], $merma["estadoMerma"], $merma["idMerma"]);
       $merma['btnProcOpOrigin'] = FunctionMerma::btnVerProcOpOrigin($merma["idProcOp"]);
       $merma['btnMermaAceptada'] = FunctionMerma::btnVerMermaAceptada($merma["idMerma"], $merma["estadoMerma"]);
       $merma['btnEditMerma'] = FunctionMerma::btnEditMerma($merma["idMerma"], $merma["estadoMerma"]);
@@ -41,8 +49,15 @@ class MermaAjax
   //  aceptar merma
   public function ajaxAceptarMerma($codSalMprima)
   {
-   
+
     $response = MermaController::ctrAceptarMerma($codSalMprima);
+    echo json_encode($response);
+  }
+  //  aceptar merma registro
+  public function ajaxAceptarMermaRegsitro($jsonCrearAcepMerma, $jsonProductosMerma)
+  {
+    $dataMerma = json_decode($jsonCrearAcepMerma, true);
+    $response = MermaController::ctrAceptarMermaRegsitro($dataMerma, $jsonProductosMerma);
     echo json_encode($response);
   }
 

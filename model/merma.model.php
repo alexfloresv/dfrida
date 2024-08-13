@@ -24,5 +24,28 @@ class MermaModel
         $statement->execute();
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
+    //  aceptar merma registro
+    public static function mdlAceptarMermaRegsitro($table, $dataUpdate)
+    {
+        $statement = Conexion::conn()->prepare("UPDATE $table SET 
+        nombreMerma = :nombreMerma, 
+        fechaMermaAprob = :fechaMermaAprob, 
+        jsonMerma = :jsonMerma, 
+        estadoMerma = :estadoMerma, 
+        DateUpdate = :DateUpdate 
+        WHERE idMerma = :idMerma");
+        $statement->bindParam(":idMerma", $dataUpdate["idMerma"], PDO::PARAM_INT);
+        $statement->bindParam(":nombreMerma", $dataUpdate["nombreMerma"], PDO::PARAM_STR);
+        $statement->bindParam(":fechaMermaAprob", $dataUpdate["fechaMermaAprob"], PDO::PARAM_STR);
+        $statement->bindParam(":jsonMerma", $dataUpdate["jsonMerma"], PDO::PARAM_STR);
+        $statement->bindParam(":estadoMerma", $dataUpdate["estadoMerma"], PDO::PARAM_INT);
+        $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+        $statement->execute();
+        if ($statement->execute()) {
+            return "ok";
+        } else {
+            return "error";
+        }
+    }
 
 }

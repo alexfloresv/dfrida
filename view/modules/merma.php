@@ -49,32 +49,53 @@
       </div>
       <div class="modal-body" id="procesosTrabajoModal">
         <span style="margin-right: 10px;"></span>
-        <!-- Productos materia prima-->
-        <div class="container row g-3" style="border: 3px solid #808080; padding: 3px;     margin-left: 2px; ">
-          <h3>Edite y elimine la Materia Prima a Mermar</h3>
 
-          <span style="margin-right: 10px;"></span>
+        <form id="formMermaAdd">
 
-          <div class="row" style="font-weight: bold">
-            <div class="col-lg-2">Nombre</div>
-            <div class="col-lg-2">Codigo</div>
-            <div class="col-lg-2">Unidad</div>
-            <div class="col-lg-2">Cantidad</div>
-            <div class="col-lg-2">Precio Producto</div>
+          <!-- Productos materia prima-->
+          <div class="container row g-3" style="border: 3px solid #808080; padding: 3px;     margin-left: 2px; ">
+            <h3>Edite y elimine la Materia Prima a Mermar</h3>
+
+            <span style="margin-right: 10px;"></span>
+
+            <div class="col-md-6  mb-6">
+              <label for="nombreMerma" class="form-label" style="font-weight: bold">Nombre Merma:
+              </label>
+              <input type="text" class="form-control" id="nombreMerma" name="nombreMerma"
+                placeholder="Ingrese una descripcion del proceso operativo ">
+            </div>
+
+            <div class="col-md-6 ">
+              <label for="fechaMermaAprob" class="form-label" style="font-weight: bold"> Fecha Aceptada:</label>
+              <input type="date" class="form-control" id="fechaMermaAprob" name="fechaMermaAprob">
+            </div>
+
+            <span style="margin-right: 10px;"></span>
+
+            <div class="row" style="font-weight: bold">
+              <div class="col-lg-2">Nombre</div>
+              <div class="col-lg-2">Codigo</div>
+              <div class="col-lg-2">Unidad</div>
+              <div class="col-lg-2">Cantidad</div>
+              <div class="col-lg-2">Precio Producto</div>
+            </div>
+            <!-- aqui se agregan los productos del modal de prodcutos  -->
+            <div class="form-group row AddMateriaPrimaMerma">
+
+              <!-- aqui se agregan los productos selecionado del modal de prodcutos  -->
+            </div>
+            <!-- campo que guarde el id del registro-->
+            <input type="hidden" class="form-control" id="codMerma" name="codMerma">
+
+            <span style="margin-right: 10px;"></span>
           </div>
-          <!-- aqui se agregan los productos del modal de prodcutos  -->
-          <div class="form-group row AddMateriaPrimaMerma">
-
-            <!-- aqui se agregan los productos selecionado del modal de prodcutos  -->
-          </div>
+          <!-- fin -->
           <span style="margin-right: 10px;"></span>
-        </div>
-        <!-- fin -->
-        <span style="margin-right: 10px;"></span>
       </div>
+      </form>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-success" id="crearProcOpModal">AceptarMerma</button>
+        <button type="button" class="btn btn-success" id="crearRegistroAceptarMerma">AceptarMerma</button>
       </div>
     </div>
   </div>

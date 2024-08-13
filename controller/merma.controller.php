@@ -17,7 +17,25 @@ class MermaController
     $response = MermaModel::mdlAceptarMerma($table, $codSalMprimas);
     return $response;
   }
- 
+
+ //  aceptar merma registro
+  public static function ctrAceptarMermaRegsitro($dataMerma, $jsonProductosMerma)
+  {
+    $table = "merma";
+
+    $dataUpdate = array(
+      "idMerma" => $dataMerma["codMerma"],
+      "nombreMerma" => $dataMerma["nombreMerma"],
+      "fechaMermaAprob" => $dataMerma["fechaMermaAprob"],
+      "jsonMerma" => $jsonProductosMerma,
+      "estadoMerma" => 2,
+      "DateUpdate" => date("Y-m-d\TH:i:sP"),
+    );
+
+    $response = MermaModel::mdlAceptarMermaRegsitro($table, $dataUpdate);
+    return $response;
+  }
+
 
 
 }

@@ -61,38 +61,38 @@
         <form role="form" method="post"  id="formCrearCliente">
           <!-- RUC Client -->
           <div class="form-group">
-            <label for="Ru" class="col-form-label">RUC:</label>
-            <input type="text" class="form-control" id="Ru" name="Ru">
+            <label for="Ru" class="col-form-label">RUC / DNI :</label>
+            <input type="text" class="form-control" id="Ru" name="Ru" placeholder="Opcional">
           </div>
           <!-- Razon social -->
           <div class="form-group">
             <label for="razonSocial" class="col-form-label">Razon social:</label>
-            <input type="text" class="form-control" id="razonSocial" name="razonSocial">
+            <input type="text" class="form-control" id="razonSocial" name="razonSocial" placeholder="Opcional">
           </div>
           <!-- Name Client -->
           <div class="form-group">
             <label for="NameCli" class="col-form-label">Nombre Cliente:</label>
-            <input type="text" class="form-control" id="NameCli" name="NameCli" required>
+            <input type="text" class="form-control" id="NameCli" name="NameCli" required placeholder="Obligatorio">
           </div>
           <!-- Email Client -->
           <div class="form-group">
             <label for="EmailCli" class="col-form-label">Correo Electrónico:</label>
-            <input type="email" class="form-control" id="EmailCli" name="EmailCli">
+            <input type="email" class="form-control" id="EmailCli" name="EmailCli" placeholder="Opcional">
           </div>
           <!-- Address Client -->
           <div class="form-group">
             <label for="AddressCli" class="col-form-label">Dirección:</label>
-            <input type="text" class="form-control" id="AddressCli" name="AddressCli">
+            <input type="text" class="form-control" id="AddressCli" name="AddressCli" placeholder="Opcional">
           </div>
           <!-- Phone Client -->
           <div class="form-group">
             <label for="PhoneCli" class="col-form-label">Celular:</label>
-            <input type="number" class="form-control" id="PhoneCli" name="PhoneCli">
+            <input type="number" class="form-control" id="PhoneCli" name="PhoneCli" placeholder="Obligatorio">
           </div>
             <!-- Observacion Cliente -->
             <div class="form-group">
             <label for="DetallCli" class="col-form-label">Observacion:</label>
-            <input type="text" class="form-control" id="DetallCli" name="DetallCli">
+            <input type="text" class="form-control" id="DetallCli" name="DetallCli" placeholder="Opcional">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -121,12 +121,12 @@
           <!-- RUC Client -->
           <div class="form-group">
             <label for="EditRu" class="col-form-label">RUC:</label>
-            <input type="text" class="form-control" id="EditRu" name="EditRu">
+            <input type="text" class="form-control" id="EditRu" name="EditRu" placeholder="Opcional">
           </div>
           <!-- Razon social -->
           <div class="form-group">
             <label for="EditRazonSocial" class="col-form-label">Razon social:</label>
-            <input type="text" class="form-control" id="EditRazonSocial" name="EditRazonSocial">
+            <input type="text" class="form-control" id="EditRazonSocial" name="EditRazonSocial" placeholder="Opcional">
           </div>
           <!-- Name Client -->
           <div class="form-group">
@@ -136,22 +136,22 @@
           <!-- Email Client -->
           <div class="form-group">
             <label for="EditEmailCli" class="col-form-label">Correo Electrónico:</label>
-            <input type="email" class="form-control" id="EditEmailCli" name="EditEmailCli">
+            <input type="email" class="form-control" id="EditEmailCli" name="EditEmailCli" placeholder="Opcional">
           </div>
           <!-- Address Client -->
           <div class="form-group">
             <label for="EditAddressCli" class="col-form-label">Dirección:</label>
-            <input type="text" class="form-control" id="EditAddressCli" name="EditAddressCli">
+            <input type="text" class="form-control" id="EditAddressCli" name="EditAddressCli" placeholder="Opcional">
           </div>
           <!-- Phone Client -->
           <div class="form-group">
             <label for="EditPhoneCli" class="col-form-label">Número de Teléfono:</label>
-            <input type="number" class="form-control" id="EditPhoneCli" name="EditPhoneCli">
+            <input type="number" class="form-control" id="EditPhoneCli" name="EditPhoneCli" placeholder="Opcional">
           </div>
           <!-- Detalle Client -->
           <div class="form-group">
             <label for="EditDetallCli" class="col-form-label">Observacion Cliente:</label>
-            <input type="text" class="form-control" id="EditDetallCli" name="EditDetallCli">
+            <input type="text" class="form-control" id="EditDetallCli" name="EditDetallCli" placeholder="Opcional">
           </div>
           <!-- State Client -->
           <div class="form-group">

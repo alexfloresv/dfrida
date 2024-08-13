@@ -5,12 +5,12 @@ document.addEventListener("DOMContentLoaded", function () {
   if (currentPath == appPath) {
     // Definición inicial de dataTableClientes
     var columnDefsProveedor = [
-      { data: "razonSocialProv" },
-      { data: "rucProv" },
       { data: "nombreProv" },
+      { data: "celularProv" },
+      { data: "rucProv" },
+      { data: "razonSocialProv" },
       { data: "correoProv" },
       { data: "direccionProv" },
-      { data: "celularProv" },
       { data: "detalleProv" },
       { data: "estadoProv" },
       { data: "buttons" },
@@ -51,12 +51,14 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#dataTableProveedores thead").html(`
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Razon Social</th>
-      <th scope="col">Ruc</th>
+     
+  
       <th scope="col">Nombre Proveedor</th>
+      <th scope="col">Celular</th>
+      <th scope="col">Ruc</th>
+       <th scope="col">Razon Social</th>
       <th scope="col">Correo</th>
       <th scope="col">Direcccion</th>
-      <th scope="col">Celular</th>
       <th scope="col">Observacion</th>
       <th scope="col">Estado</th>
       <th scope="col">Acciones</th>
@@ -72,12 +74,12 @@ document.addEventListener("DOMContentLoaded", function () {
           return meta.row + 1;
         },
       },
-      { data: "razonSocialProv" },
-      { data: "rucProv" },
       { data: "nombreProv" },
+      { data: "celularProv" },
+      { data: "rucProv" },
+      { data: "razonSocialProv" },
       { data: "correoProv" },
       { data: "direccionProv" },
-      { data: "celularProv" },
       { data: "detalleProv" },
       { data: "estadoProv" },
       { data: "buttons" },

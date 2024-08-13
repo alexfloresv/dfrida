@@ -161,6 +161,7 @@
           <div class="col-lg-2">Unidad Medida</div>
           <div class="col-lg-2">Cantidad</div>
           <!-- <div class="col-lg-2">Precio Materia Prima</div> -->
+
         </div>
         <!-- aqui se agregan los productos del modal de prodcutos  -->
         <div class="form-group row AddProductoMprimaCotizacion">
