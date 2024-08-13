@@ -149,7 +149,7 @@
       <!-- fin -->
 
       <!-- Productos materia prima-->
-      <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
+      <!--       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
         <h3>Productos Materia Prima</h3>
         <div class="d-inline-flex m-2">
           <button type="button" class="btn btn-warning" data-bs-toggle="modal"
@@ -159,28 +159,28 @@
         <div class="row" style="font-weight: bold">
           <div class="col-lg-4">Nombre</div>
           <div class="col-lg-2">Unidad Medida</div>
-          <div class="col-lg-2">Cantidad</div>
-          <!-- <div class="col-lg-2">Precio Materia Prima</div> -->
+          <div class="col-lg-2">Cantidad</div> -->
+      <!-- <div class="col-lg-2">Precio Materia Prima</div> -->
 
-        </div>
-        <!-- aqui se agregan los productos del modal de prodcutos  -->
-        <div class="form-group row AddProductoMprimaCotizacion">
-        </div>
-        <!-- aqui se agregan los productos del modal de prodcutos  -->
+      <!--         </div> -->
+      <!-- aqui se agregan los productos del modal de prodcutos  -->
+      <!--         <div class="form-group row AddProductoMprimaCotizacion">
+        </div> -->
+      <!-- aqui se agregan los productos del modal de prodcutos  -->
 
-        <!-- fin -->
+      <!-- fin -->
 
-        <!-- total producto materia prima -->
-        <div class="form-group row ">
-          <div class="form-group col-md-4">
-            <!-- vacio -->
-          </div>
-          <div class="form-group col-md-2">
-            <!-- vacio -->
-          </div>
-          <div class="form-group col-md-2">
-            <!-- vacio -->
-          </div>
+      <!-- total producto materia prima -->
+      <!--         <div class="form-group row ">
+          <div class="form-group col-md-4"> -->
+      <!-- vacio -->
+      <!--           </div>
+          <div class="form-group col-md-2"> -->
+      <!-- vacio -->
+      <!--           </div>
+          <div class="form-group col-md-2"> -->
+      <!-- vacio -->
+      <!--           </div>
 
           <div class="form-group col-md-2" style="display: none;">
             <label for="totalProdMprimaCotiAdd" class="form-label" style="font-weight: bold">Total Producto
@@ -188,9 +188,9 @@
             <input type="text" class="form-control" id="totalProdMprimaCotiAdd" name="totalProdMprimaCotiAdd" value=""
               placeholder="Total Producto Prima" readonly required>
           </div>
-        </div>
-        <!-- fin -->
-      </div>
+        </div> -->
+      <!-- fin -->
+      <!--       </div> -->
       <!-- fin -->
 
       <!-- Calculo totales-->

@@ -228,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
       function calcularTotalCotizacion() {
         //guarda el valor de los productos y productos prima en 0 para  sumar los precios
         let totalProductos = 0;
-        let totalProductosPrima = 0;
+        /* let totalProductosPrima = 0; */
         //busca todos los formularios que comiencen con formularioProdCoti = productos
         // Sumar los precios de todos los productos
         $("[id^=formularioProdCoti]").each(function () {
@@ -238,22 +238,22 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         //busca todos los formularios que comiencen con formularioProdMprimaCoti = productos prima
         // Sumar los precios de todos los productos prima
-        $("[id^=formularioProdMprimaCoti]").each(function () {
+/*         $("[id^=formularioProdMprimaCoti]").each(function () {
           const precio =
             //toma el valor del input con id precioProdMprimaCoti y lo convierte a float
             parseFloat($(this).find("#precioProdMprimaCoti").val()) || 0;
           totalProductosPrima += precio;
-        });
+        }); */
 
         // Asignar el totalProducto al input de totalProdCotiAdd y actualizar el atributo 'value'
         $("#totalProdCotiAdd")
           .val(totalProductos.toFixed(2))
           .attr("value", totalProductos.toFixed(2));
 
-        // Asignar el totalProductoMprima al input de totalProdMprimaCotiAdd y actualizar el atributo 'value'
+/*         // Asignar el totalProductoMprima al input de totalProdMprimaCotiAdd y actualizar el atributo 'value'
         $("#totalProdMprimaCotiAdd")
           .val(totalProductosPrima.toFixed(2))
-          .attr("value", totalProductosPrima.toFixed(2));
+          .attr("value", totalProductosPrima.toFixed(2)); */
 
         // Calcular el total general
         const totalGeneral = totalProductos;
@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", function () {
         { id: "nombreCotiAdd", nombre: "Nombre Solicitante" },
         { id: "subTotalCotizacionAdd", nombre: "Sub Total Cotización" },
         { id: "totalProdCotiAdd", nombre: "Total Producto" },
-        { id: "totalProdMprimaCotiAdd", nombre: "Total Producto Prima" },
+        /* { id: "totalProdMprimaCotiAdd", nombre: "Total Producto Prima" }, */
         { id: "totalCotizacionAdd", nombre: "Total Cotización" },
       ];
       let formularioValido = true;
