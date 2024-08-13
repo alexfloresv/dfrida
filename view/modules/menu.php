@@ -55,7 +55,7 @@
     <a class="nav-link" href="procesosOperativos"><i class="fa-solid fa-person-walking-arrow-right"></i><span
         style="margin-left: 10px;">Proceso Operatido</span></a>
     <a class="nav-link" href="produccionList"><i class="fa-solid fa-hand-holding-medical"></i><span
-        style="margin-left: 10px;">Produccion</span></a>
+        style="margin-left: 10px;">Productos Finalizados</span></a>
     <a class="nav-link" href="merma"><i class="fa-solid fa-trash-arrow-up"></i><span
         style="margin-left: 10px;">Mermas</span></a>
     <a class="nav-link" href="nuevoIngreso"><i class="fa-solid fa-person-walking-arrow-loop-left"></i><span
