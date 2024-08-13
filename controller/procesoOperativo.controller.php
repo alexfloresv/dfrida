@@ -88,7 +88,7 @@ class procesoOperativoController
     // Obtener el último registro de proceso operativo
     $ultimoRegistro = self::ctrUltimoRegistroProcOp();
     // actualizar estado de pedido
-    $updateEstadoPedido = self::ctrActualizarPedidoProcOp($dataProcOp["idPedidoProcOp"]);
+    $updateEstadoPedido = self::ctrActualizarPedidoProcOp($dataProcOp["idPedidoProcOp"], $dataProcOp["idSalProdPrima"]);
 
     if ($updateEstadoPedido = true) {
       // Verificar si idSalProdPrima tiene un valor válido
@@ -136,12 +136,13 @@ class procesoOperativoController
     return $response;
   }
   // actualizar estado de pedido
-  public static function ctrActualizarPedidoProcOp($idPedido)
+  public static function ctrActualizarPedidoProcOp($idPedido, $idSalMprima)
   {
     $table = "pedido";
     $dataUpdate = array(
       "idPedido" => $idPedido,
       "estadoPedido" => 2,//en proceso
+      "idSalMprima" => $idSalMprima,
       "DateUpdate" => date("Y-m-d\TH:i:sP"),
     );
     $response = procesoOperativoModel::mdlActualizarPedidoProcOp($table, $dataUpdate);
@@ -447,8 +448,9 @@ class procesoOperativoController
           );
           $response = procesoOperativoModel::mdlFinalizarProcesoOperativo($table, $dataUpdate);
           return $response;
-        };
-      }else{
+        }
+        ;
+      } else {
         return "errorActPedido";
       }
     } else {
