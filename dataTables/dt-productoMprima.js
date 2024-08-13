@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre Producto Prima</th>
+           <th scope="col">Proveedor</th>
           <th scope="col">Categoria Producto Prima</th>
           <th scope="col">Codigo Producto Prima</th>
           <th scope="col">Unidad</th>
@@ -27,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
       },
       { data: "nombreMprima" },
+      { data: "nombreProv" },
       { data: "nombreCategoriaMprima" },
       { data: "codigoMprima" },
       { data: "unidadMprima" },

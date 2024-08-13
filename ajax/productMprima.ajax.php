@@ -53,6 +53,7 @@ class ProductMprimaAjax
     $todosLosProductosPrima = ProductMprimaController::ctrDTableProductosMprima();
     foreach ($todosLosProductosPrima as &$productoMprima) {
       $productoMprima['buttons'] = FunctionProductoMprima::getBtnProductosMprima($productoMprima["idMprima"]);
+      $productoMprima['nombreProv'] = FunctionProductoMprima::getNombreProvedor($productoMprima["nombreProv"]);
     }
     //mostar todos los ProductosMprima DataTable
     echo json_encode($todosLosProductosPrima);
