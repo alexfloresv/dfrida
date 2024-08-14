@@ -669,8 +669,8 @@ document.addEventListener("DOMContentLoaded", function () {
               } else {
                 Swal.fire({
                   icon: "error",
-                  title: "Error al eliminar el pedido",
-                  text: respuesta,
+                  title: "Error",
+                  text: "El pedido se encuentra asignado a un proceso oeprativo, no se puede eliminar.",
                 });
               }
             },

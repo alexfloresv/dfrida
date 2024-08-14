@@ -46,10 +46,10 @@ class FunctionMerma
   }
 
   //boton ver proceso operativo de origen
-  public static function btnVerProcOpOrigin($codProcSalMprima)
+  public static function btnVerProcOpOrigin($codProcOpMerma)
   {
     $botones = '
-       <button class="btn btn-warning btnVerProcOpMerma" codProcSalMprima="' . $codProcSalMprima . '" ><i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i></button>
+       <button class="btn btn-warning btnVerProcOpMerma" codProcOpMerma="' . $codProcOpMerma . '" ><i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i></button>
        ';
     return $botones;
   }

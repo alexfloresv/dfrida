@@ -568,7 +568,7 @@ document.addEventListener("DOMContentLoaded", function () {
               '<option value="' +
                 value.idPedido +
                 '">' +
-                value.tituloPedido +
+                value.nombrePedido +
                 "</option>"
             );
           });
@@ -937,7 +937,7 @@ function Select2EdiProcOpIdPedido(id) {
             '<option value="' +
               value.idPedido +
               '">' +
-              value.tituloPedido +
+              value.nombrePedido +
               "</option>"
           );
         });

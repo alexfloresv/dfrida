@@ -209,6 +209,7 @@ class procesoOperativoController
     $response = procesoOperativoModel::mdlSelect2PedidoEdit($table);
     return $response;
   }
+  //editar proceso operativo principal
   public static function ctrEditarProcOp($jsonEditarProcOp)
   {
     $dataEditProcOp = json_decode($jsonEditarProcOp, true);
@@ -224,9 +225,13 @@ class procesoOperativoController
         $updatePedido = self::updatePedido($dataEditProcOp["idPedidoProcOpEdit"], $registroAcutalProcOp["idPedido"], $dataEditProcOp["codProcOpEdit"]);
 
         if ($updatePedido) {
+          //asignar salida mprima a pedido
+          $pedidoxSalida = self::ctrAsignarSalMprimaApedido($dataEditProcOp["idPedidoProcOpEdit"], 
+          $dataEditProcOp["idSalProdPrimaEdit"]);
           $table = "proceso_operativo";
           $dataCreate = array(
             "idProcOp" => $dataEditProcOp["codProcOpEdit"],
+            "idSalMprima" => $dataEditProcOp["idSalProdPrimaEdit"],
             "nombreProcOp" => $dataEditProcOp["nombreProcOpEdit"],
             "descripcionProcOp" => $dataEditProcOp["descripcionProcOpEdit"],
             "fechaRegistroProcOp" => $dataEditProcOp["fechaRegProcOpEdit"],
@@ -248,6 +253,20 @@ class procesoOperativoController
       return "error";
     }
   }
+
+  //asignar salida mprima a pedido
+  public static function ctrAsignarSalMprimaApedido($idPedido, $idSalMprima)
+  {
+    $table = "pedido";
+    $dataUpdate = array(
+      "idPedido" => $idPedido,//where
+      "idSalMprima" => $idSalMprima,//update
+      "DateUpdate" => date("Y-m-d\TH:i:sP"),
+    );
+    $response = procesoOperativoModel::mdlAsignarSalMprimaApedido($table, $dataUpdate);
+    return $response;
+  }
+
   //registro actual de proceso operativo
   public static function ctrViewRegDataProcOp($idProcOp)
   {
@@ -347,6 +366,7 @@ class procesoOperativoController
       $updatePedidoAnterior = self::ctrQuitarPedidoAnterior($actualPedido);
 
       if ($updatePedidoAnterior) {
+        $updatePedidoNuevo = self::ctrAgregarPedidoNuevo($nuevoPedido);
         //agregar nuevo pedido a proceso operativo
         $table = "proceso_operativo";
         $dataUpdate = array(
@@ -367,9 +387,23 @@ class procesoOperativoController
     $dataUpdate = array(
       "idPedido" => $actualPedido,
       "estadoPedido" => 1,
+      "idSalMprima" => null,
       "DateUpdate" => date("Y-m-d\TH:i:sP"),
     );
     $response = procesoOperativoModel::mdlQuitarPedidoAnterior($table, $dataUpdate);
+    return $response;
+  }
+
+  //asignar nuevo pedido a proceso cambiar el estado dela signado para diferenciarlo
+  public static function ctrAgregarPedidoNuevo($nuevoPedido)
+  {
+    $table = "pedido";
+    $dataUpdate = array(
+      "idPedido" => $nuevoPedido,
+      "estadoPedido" => 2,
+      "DateUpdate" => date("Y-m-d\TH:i:sP"),
+    );
+    $response = procesoOperativoModel::mdlAgregarPedidoNuevo($table, $dataUpdate);
     return $response;
   }
 

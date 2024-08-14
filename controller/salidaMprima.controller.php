@@ -25,7 +25,7 @@ class salidaMprimaController
     return $response;
   }
 
-  //crear ingreso productos a almacen de  productos prima***
+  //crear salida productos a almacen de  productos prima***
   public static function ctrCrearSalidaProd($crearSalidaProd, $jsonProductosSalidaProd)
   {
     // Eliminar datos innecesarios
@@ -36,12 +36,12 @@ class salidaMprimaController
     $salidaProductosAlmacen = self::ctrSalidaProductosAlmacenProd($jsonProductosSalidaProd);
     //verifica si es verdadero o falso para crear el registro
     if ($salidaProductosAlmacen) {
-      // Crear el registro de ingreso de productos si $ingresoProductosAlmacen es true
+      // Crear el registro de salida de productos si $ingresoProductosAlmacen es true
       $response = self::ctrRegistroSalidaProductos($salidaProdData, $jsonProductosSalidaProd);
     } else {
       // Si $salidaProductosAlmacen es false, asignar "error" a $response
       //este error solo sucedera cuando ubo un error al restar la cantidad de productos en almacen y se restauro el alamacen
-      $response = "errorSalAlmacen";
+      return $response = "errorSalAlmacen";
     }
     return $response;
   }
@@ -119,8 +119,8 @@ class salidaMprimaController
   {
     $table = "salida_mprima";
 
-    if (isset($salidaProdData["pedidoSalProdAdd"])) {
-      // Si el campo está presente
+    if (isset($salidaProdData["pedidoSalProdAdd"]) && isset($salidaProdData["pedidoSalAdd"])) {
+      // Ambos campos están presentes
       $dataCreate = array(
         "nombreSalMprima" => $salidaProdData["tituloSalProdAdd"],
         "idProcOp" => $salidaProdData["pedidoSalProdAdd"],
@@ -132,11 +132,24 @@ class salidaMprimaController
         "salJsonMprima" => $jsonProductosSalidaProd,
         "DateCreate" => date("Y-m-d\TH:i:sP"),
       );
-    } else {
-      // Si el campo no está presente o está vacío
+    } elseif (isset($salidaProdData["pedidoSalProdAdd"])) {
+      // Solo "pedidoSalProdAdd" está presente
       $dataCreate = array(
         "nombreSalMprima" => $salidaProdData["tituloSalProdAdd"],
-        "idProcOp" => null, //Asigna null o un valor vacío
+        "idProcOp" => $salidaProdData["pedidoSalProdAdd"],
+        "idPedido" => null, // Asigna null o un valor vacío
+        "fechaSalMprima" => $salidaProdData["fechaSalProdAdd"],
+        "igvSalMprima" => $salidaProdData["igvIngProdAdd"],
+        "subTotalSalMprima" => $salidaProdData["subTotalIngProdAdd"],
+        "totalSalMprima" => $salidaProdData["totalIngProdAdd"],
+        "salJsonMprima" => $jsonProductosSalidaProd,
+        "DateCreate" => date("Y-m-d\TH:i:sP"),
+      );
+    } elseif (isset($salidaProdData["pedidoSalAdd"])) {
+      // Solo "pedidoSalAdd" está presente
+      $dataCreate = array(
+        "nombreSalMprima" => $salidaProdData["tituloSalProdAdd"],
+        "idProcOp" => null, // Asigna null o un valor vacío
         "idPedido" => $salidaProdData["pedidoSalAdd"],
         "fechaSalMprima" => $salidaProdData["fechaSalProdAdd"],
         "igvSalMprima" => $salidaProdData["igvIngProdAdd"],
@@ -145,8 +158,20 @@ class salidaMprimaController
         "salJsonMprima" => $jsonProductosSalidaProd,
         "DateCreate" => date("Y-m-d\TH:i:sP"),
       );
+    } else {
+      // Ninguno de los campos está presente
+      $dataCreate = array(
+        "nombreSalMprima" => $salidaProdData["tituloSalProdAdd"],
+        "idProcOp" => null, // Asigna null o un valor vacío
+        "idPedido" => null, // Asigna null o un valor vacío
+        "fechaSalMprima" => $salidaProdData["fechaSalProdAdd"],
+        "igvSalMprima" => $salidaProdData["igvIngProdAdd"],
+        "subTotalSalMprima" => $salidaProdData["subTotalIngProdAdd"],
+        "totalSalMprima" => $salidaProdData["totalIngProdAdd"],
+        "salJsonMprima" => $jsonProductosSalidaProd,
+        "DateCreate" => date("Y-m-d\TH:i:sP"),
+      );
     }
-
     $response = salidaMprimaModel::mdlCrearSalidaProd($table, $dataCreate);
     return $response;
   }
@@ -552,4 +577,5 @@ class salidaMprimaController
     $response = salidaMprimaModel::mdlSelect2PedidoMprimaEdit($table);
     return $response;
   }
+
 }

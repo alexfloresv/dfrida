@@ -38,7 +38,7 @@
 </div>
 
 
-<!-- Modal productos ingresados-->
+<!-- Modal productos para registrarlos  ingresados-->
 <div class="modal fade" id="modalMateriaPrimaMerma" tabindex="-1" aria-labelledby="modalMateriaPrimaMerma"
   aria-hidden="true">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
@@ -108,7 +108,7 @@
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5 text-center w-100" id="">Proceso Operativo en Ejecucion</h1>
+        <h1 class="modal-title fs-5 text-center w-100" id="">Proceso Operativo Finalizado</h1>
       </div>
       <div class="modal-body" id="">
         <div class="container">
@@ -118,39 +118,39 @@
               <!--proceso operativo -->
               <div class="col-md-12  mb-3">
                 <div class="form-group">
-                  <label for="nombrePorcesoOpNombreEstate">Proceso Operativo Asignado</label>
-                  <input type="text" class="form-control" id="nombrePorcesoOpNombreEstate"
-                    name="nombrePorcesoOpNombreEstate" disabled>
+                  <label for="nombrePorcesoOpNombreMerma">Proceso Operativo Asignado</label>
+                  <input type="text" class="form-control" id="nombrePorcesoOpNombreMerma"
+                    name="nombrePorcesoOpNombreMerma" disabled>
                 </div>
               </div>
 
               <div class="col-md-6 mb-3">
-                <label for="fechaInicioProcOpEstate" class="form-label" style="font-weight: bold"> Fecha Inicio
+                <label for="fechaInicioProcOpMerma" class="form-label" style="font-weight: bold"> Fecha Inicio
                   Proceso:</label>
-                <input type="date" class="form-control" id="fechaInicioProcOpEstate" name="fechaInicioProcOpEstate"
+                <input type="date" class="form-control" id="fechaInicioProcOpMerma" name="fechaInicioProcOpMerma"
                   disabled>
               </div>
 
               <div class="col-md-6 mb-3">
-                <label for="fechaFinProcOpEstate" class="form-label" style="font-weight: bold"> Fecha Fin
+                <label for="fechaFinProcOpMerma" class="form-label" style="font-weight: bold"> Fecha Fin
                   Proceso:</label>
-                <input type="date" class="form-control" id="fechaFinProcOpEstate" name="fechaFinProcOpEstate" disabled>
+                <input type="date" class="form-control" id="fechaFinProcOpMerma" name="fechaFinProcOpMerma" disabled>
               </div>
 
               <!-- selec2 para tipos de procesos -->
               <div class="col-md-12  mb-3">
                 <div class="form-group">
-                  <label for="tipoPorcesoOpNombreEstate">Tipo de proceso adjunto</label>
-                  <input type="text" class="form-control" id="tipoPorcesoOpNombreEstate"
-                    name="tipoPorcesoOpNombreEstate" disabled>
+                  <label for="tipoPorcesoOpNombreMerma">Tipo de proceso adjunto</label>
+                  <input type="text" class="form-control" id="tipoPorcesoOpNombreMerma"
+                    name="tipoPorcesoOpNombreMerma" disabled>
                 </div>
               </div>
 
 
               <div class="col-md-6  mb-3">
                 <div class="form-group">
-                  <label for="estadoPrincipalProcOP">Estado proceso principal</label>
-                  <select class="form-select" id="estadoPrincipalProcOP" name="estadoPrincipalProcOP" disabled>
+                  <label for="estadoPrincipalProcOPMerma">Estado proceso principal</label>
+                  <select class="form-select" id="estadoPrincipalProcOPMerma" name="estadoPrincipalProcOPMerma" disabled>
                     <option value="1">Registrado</option>
                     <option value="2">En proceso</option>
                     <option value="3">Cuello de botella</option>
@@ -172,5 +172,31 @@
 </div>
 <!-- fin modal/ -->
 
+<!-- Modal ver productos prima salidas del boton no tocar-->
+<div class="modal fade" id="modalProdMprimaMerma" tabindex="-1" aria-labelledby="modalProdMprimaMerma" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Productos Materia Prima  Mermados</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="procesosTrabajoModal">
+
+        <table id="DataTableProdMprimaMermados" class="display DataTableProdMprimaMermados">
+          <thead>
+            <!-- DataTableProdMprimaMermados -->
+          </thead>
+          <tbody>
+            <!--DataTableProdMprimaMermados-->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin -->
 <!-- fin del div de bodyu -->
 </div>
