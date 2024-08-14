@@ -50,10 +50,10 @@ class FunctionPedidos
     return $botones;
   }
   //boton para ver el cliente del pedido
-  public static function getBtnVerProductosPrimaPedido($codPed, $idCoti)
+  public static function getBtnVerProductosPrimaPedido($codPed, $idSalMprima)
   {
     $botones = '
-         <button class="btn btn-warning btnVerProductosPrimaPedido" data-bs-toggle="modal" data-bs-target="#modalVerProdPrimaCotiPedidos" codPed="' . $codPed . '" idCoti="' . $idCoti . '">
+         <button class="btn btn-warning btnVerProductosPrimaPedido" data-bs-toggle="modal" data-bs-target="#modalVerProdPrimaCotiPedidos" codPed="' . $codPed . '" idSalMprima="' . $idSalMprima . '">
          <i class="fa-solid fa-box-archive"></i>
          </button>
         ';

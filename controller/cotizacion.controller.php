@@ -19,7 +19,7 @@ class CotizacionController
   }
 
   // Crear nueva cotizacion
-  public static function ctrCrearCotizacion($crearCotizacion, $jsonProductosCotizacion, $jsonProductosPrimaCotizacion)
+  public static function ctrCrearCotizacion($crearCotizacion, $jsonProductosCotizacion)
   {
     // Guardar el valor de esClienteNuevo
     $esClienteNuevo = $crearCotizacion["esClienteNuevo"];
@@ -42,9 +42,7 @@ class CotizacionController
       "direccionCoti" => $cotizacionData["direccionCotiAdd"],
       "detalleCoti" => $cotizacionData["detalleCotiAdd"],
       "productsCoti" => $jsonProductosCotizacion,
-      "productsMprimaCoti" => $jsonProductosPrimaCotizacion,
       "totalProductsCoti" => $cotizacionData["totalProdCotiAdd"],
-      "totalProductsMprimaCoti" => $cotizacionData["totalProdMprimaCotiAdd"],
       "igvCoti" => $cotizacionData["igvCotizacionAdd"],
       "subTotalCoti" => $cotizacionData["subTotalCotizacionAdd"],
       "totalCoti" => $cotizacionData["totalCotizacionAdd"],
@@ -62,7 +60,7 @@ class CotizacionController
         "EmailCli" => $cotizacionData["correoCotiAdd"],
         "AddressCli" => $cotizacionData["direccionCotiAdd"],
         "PhoneCli" => $cotizacionData["celularCotiAdd"],
-        "DetallCli" => $cotizacionData["detalleCotiAdd"]
+        "DetallCli" => "Sin Observaciones",
       );
       $response = ClientsController::ctrCreateClient($clienteNuevo);
     }
@@ -80,12 +78,6 @@ class CotizacionController
     unset($crearCotizacion["unidadProdCoti"]);
     unset($crearCotizacion["cantidadProdCoti"]);
     unset($crearCotizacion["precioProdCoti"]);
-    //datos del primer producto prima ubicado por la funcion
-    unset($crearCotizacion["codProdMprimaCoti"]);
-    unset($crearCotizacion["nombreProdMprimaCoti"]);
-    unset($crearCotizacion["unidadProdMprimaCoti"]);
-    unset($crearCotizacion["cantidadProdMprimaCoti"]);
-    unset($crearCotizacion["precioProdMprimaCoti"]);
     $response = $crearCotizacion;
     return $response;
   }
@@ -178,7 +170,6 @@ class CotizacionController
 
     // Convertir los datos de productsCoti y productsMprimaCoti a formato JSON
     $jsonCotizacionEditar['productsCoti'] = json_encode($jsonCotizacionEditar['productsCoti']);
-    $jsonCotizacionEditar['productsMprimaCoti'] = json_encode($jsonCotizacionEditar['productsMprimaCoti']);
 
     $table = "cotizacion";
     $response = CotizacionModel::mdlEditarCotizacion($table, $jsonCotizacionEditar);

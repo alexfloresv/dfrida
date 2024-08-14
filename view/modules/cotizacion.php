@@ -50,6 +50,11 @@
           <input type="number" class="form-control" id="rucCotiAdd" name="rucCotiAdd"
             placeholder="Ingrese el Ruc de la empresa">
         </div>
+        <div class="form-group col-md-8" style="margin-bottom: 10px;">
+          <label for="detalleCotiAdd" class="form-label" style="font-weight: bold">Observaciones: </label>
+          <input type="text" class="form-control" id="detalleCotiAdd" name="detalleCotiAdd"
+            placeholder="Ingrese observacion para la cotizacion Opcional">
+        </div>
         <!-- fin -->
       </div>
 
@@ -76,7 +81,7 @@
         <div id="datosSolicitanteSection" style="display: none;">
           <h3>Datos de Solicitante</h3>
           <div class="row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-10">
               <label for="nombreCotiAdd" class="form-label" style="font-weight: bold">Nombres Solicitante:</label>
               <input type="text" class="form-control" id="nombreCotiAdd" name="nombreCotiAdd" value=""
                 placeholder="Nombre del solicitante">
@@ -86,20 +91,15 @@
               <input type="number" class="form-control" id="celularCotiAdd" name="celularCotiAdd" value=""
                 placeholder="Ingrese Celular">
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label for="correoCotiAdd" class="form-label" style="font-weight: bold">Correo:</label>
               <input type="text" class="form-control" id="correoCotiAdd" name="correoCotiAdd" value=""
                 placeholder="Ingrese Correo">
             </div>
-            <div class="form-group col-md-4">
+            <div class="form-group col-md-6">
               <label for="direccionCotiAdd" class="form-label" style="font-weight: bold">Direccion: </label>
               <input type="text" class="form-control" id="direccionCotiAdd" name="direccionCotiAdd"
                 placeholder="Ingrese Direccion">
-            </div>
-            <div class="form-group col-md-8" style="margin-bottom: 10px;">
-              <label for="detalleCotiAdd" class="form-label" style="font-weight: bold">Observaciones: </label>
-              <input type="text" class="form-control" id="detalleCotiAdd" name="detalleCotiAdd"
-                placeholder="Ingrese observacion para la cotizacion Opcional">
             </div>
           </div>
         </div>
@@ -141,51 +141,6 @@
           <div class="form-group col-md-2">
             <label for="totalProdCotiAdd" class="form-label" style="font-weight: bold">Total Producto : </label>
             <input type="text" class="form-control" id="totalProdCotiAdd" name="totalProdCotiAdd" value=""
-              placeholder="Total Producto Prima" readonly required>
-          </div>
-        </div>
-        <!-- fin -->
-      </div>
-      <!-- fin -->
-
-      <!-- Productos materia prima-->
-      <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
-        <h3>Productos Materia Prima</h3>
-        <div class="d-inline-flex m-2">
-          <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-            data-bs-target="#modalAddProdMprimaCoti">Agregar Productos Materia Prima</button>
-        </div>
-
-        <div class="row" style="font-weight: bold">
-          <div class="col-lg-4">Nombre</div>
-          <div class="col-lg-2">Unidad Medida</div>
-          <div class="col-lg-2">Cantidad</div>
-          <!-- <div class="col-lg-2">Precio Materia Prima</div> -->
-
-        </div>
-        <!-- aqui se agregan los productos del modal de prodcutos  -->
-        <div class="form-group row AddProductoMprimaCotizacion">
-        </div>
-        <!-- aqui se agregan los productos del modal de prodcutos  -->
-
-        <!-- fin -->
-
-        <!-- total producto materia prima -->
-        <div class="form-group row ">
-          <div class="form-group col-md-4">
-            <!-- vacio -->
-          </div>
-          <div class="form-group col-md-2">
-            <!-- vacio -->
-          </div>
-          <div class="form-group col-md-2">
-            <!-- vacio -->
-          </div>
-
-          <div class="form-group col-md-2" style="display: none;">
-            <label for="totalProdMprimaCotiAdd" class="form-label" style="font-weight: bold">Total Producto
-              Prima:</label>
-            <input type="text" class="form-control" id="totalProdMprimaCotiAdd" name="totalProdMprimaCotiAdd" value=""
               placeholder="Total Producto Prima" readonly required>
           </div>
         </div>
@@ -257,32 +212,6 @@
           </thead>
           <tbody>
             <!--dataTableProductos-->
-          </tbody>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal produtos materia prima -->
-<div class="modal fade" id="modalAddProdMprimaCoti" tabindex="-1" aria-labelledby="modalAddProdMprimaCoti"
-  aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalAddProdMprimaCoti">Lista Productos Materia Prima</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <table id="dataTableProductosMprima" class="display dataTableProductosMprima">
-          <thead>
-            <!-- dataTableProductosMprima -->
-          </thead>
-          <tbody>
-            <!--dataTableProductosMprima-->
           </tbody>
         </table>
       </div>

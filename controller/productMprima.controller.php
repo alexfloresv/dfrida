@@ -121,10 +121,10 @@ class ProductMprimaController
     return $response;
   }
   // Obtener productos prima de una cotización para la vista pedidos
-  public static function ctrObtenerProductosPrimaCotizacionPedidos($codPed, $idCoti)
+  public static function ctrObtenerProductosPrimaCotizacionPedidos($codPed, $idSalMprima)
   {
-    $table = "cotizacion";
-    $response = ProductMprimaModel::mdlObtenerProductosPrimaCotizacionPedidos($table, $codPed, $idCoti);
+    $table = "salida_mprima";
+    $response = ProductMprimaModel::mdlObtenerProductosPrimaCotizacionPedidos($table, $codPed, $idSalMprima);
     return $response;
   }
 }

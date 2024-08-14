@@ -37,10 +37,10 @@ if (isset($_POST["jsonBorraProductoMprima"])) {
   $delete->ajaxBorrarProductoMprima($_POST["jsonBorraProductoMprima"]);
 }
 // Obtener productos prima de una cotización para la vista pedidos
-if (isset($_POST["codPedProductosMateriaPrimaPedidos"]) && isset($_POST["idCotiProductosMateriaPrimaPedidos"])) {
+if (isset($_POST["codPedProductosMateriaPrimaPedidos"]) && isset($_POST["idSalMprimaProductosMateriaPrimaPedidos"])) {
   $productosMateriaPrimaPedido = new ProductMprimaAjax();
   $productosMateriaPrimaPedido->codPedProductosMateriaPrimaPedidos = $_POST["codPedProductosMateriaPrimaPedidos"];
-  $productosMateriaPrimaPedido->idCotiProductosMateriaPrimaPedidos = $_POST["idCotiProductosMateriaPrimaPedidos"];
+  $productosMateriaPrimaPedido->idSalMprimaProductosMateriaPrimaPedidos = $_POST["idSalMprimaProductosMateriaPrimaPedidos"];
   $productosMateriaPrimaPedido->ajaxObtenerProductosPrimaCotizacionPedidos();
 }
 /////////////////////////////
@@ -100,16 +100,16 @@ class ProductMprimaAjax
   }
   // Obtener productos prima de una cotización para la vista pedidos
   public $codPedProductosMateriaPrimaPedidos;
-  public $idCotiProductosMateriaPrimaPedidos;
+  public $idSalMprimaProductosMateriaPrimaPedidos;
   public function ajaxObtenerProductosPrimaCotizacionPedidos()
   {
     $codPed = $this->codPedProductosMateriaPrimaPedidos;
-    $idCoti = $this->idCotiProductosMateriaPrimaPedidos;
-    $response = ProductMprimaController::ctrObtenerProductosPrimaCotizacionPedidos($codPed, $idCoti);
+    $idSalMprima = $this->idSalMprimaProductosMateriaPrimaPedidos;
+    $response = ProductMprimaController::ctrObtenerProductosPrimaCotizacionPedidos($codPed, $idSalMprima);
     // Verificar si $response contiene el campo 'productsCoti'
-    if (isset($response['productsMprimaCoti'])) {
+    if (isset($response['salJsonMprima'])) {
       // Decodificar el JSON contenido en 'productsCoti'
-      $productos = json_decode($response['productsMprimaCoti'], true);
+      $productos = json_decode($response['salJsonMprima'], true);
 
       // Verificar si la decodificación fue exitosa
       if (is_array($productos)) {
@@ -119,11 +119,11 @@ class ProductMprimaAjax
         // Recorrer los productos y extraer la información necesaria
         foreach ($productos as $key => $producto) {
           $productosMateriaPrimaTrabajados[] = [
-            'codProdMprimaCoti' => $producto['codProdMprimaCoti'],
-            'nombreProdMprimaCoti' => $producto['nombreProdMprimaCoti'],
-            'unidadProdMprimaCoti' => $producto['unidadProdMprimaCoti'],
-            'cantidadProdMprimaCoti' => $producto['cantidadProdMprimaCoti'],
-            'precioProdMprimaCoti' => $producto['precioProdMprimaCoti']
+            'codProdMprimaCoti' => $producto['codProdIng'],
+            'nombreProdMprimaCoti' => $producto['nombreProdIng'],
+            'unidadProdMprimaCoti' => $producto['unidadProdIng'],
+            'cantidadProdMprimaCoti' => $producto['cantidadProdIng'],
+            'precioProdMprimaCoti' => $producto['precioProdIng']
           ];
         }
 
