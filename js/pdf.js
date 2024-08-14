@@ -456,6 +456,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 //Fin
+// Descargar pdf de pedido
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/pedidosList";
@@ -535,22 +536,13 @@ document.addEventListener("DOMContentLoaded", function () {
                   );
                   doc.text("Fecha: " + datosCotizacion.fechaPedido, 140, 70);
 
-                  // Línea separadora entre PEDIDO y COTIZACIÓN
+                  // Línea separadora entre PEDIDO y detalles de cotización
                   let currentY = 75; // Ajustar la posición para la línea separadora
                   doc.setLineWidth(0.5);
                   doc.line(14, currentY, 190, currentY);
 
-                  // Sección COTIZACIÓN
-                  currentY += 10;
-                  doc.setFont("helvetica", "bold");
-                  doc.text("COTIZACIÓN", 90, currentY);
-
-                  currentY += 3; // Desplazar un poco la línea separadora
-                  doc.setLineWidth(0.5);
-                  doc.line(14, currentY, 190, currentY);
-
+                  // Detalles de la cotización
                   currentY += 7; // Ajustar para empezar con los detalles de la cotización
-
                   doc.setFont("helvetica", "normal");
                   doc.text(
                     "Cotizacion: " + datosCotizacion.tituloCoti,
