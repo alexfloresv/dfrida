@@ -77,7 +77,7 @@
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5 text-center w-100" id="">Proceso Operativo en Ejecucion</h1>
+        <h1 class="modal-title fs-5 text-center w-100" id="">Proceso Operativo Asignado</h1>
       </div>
       <div class="modal-body" id="">
         <div class="container">

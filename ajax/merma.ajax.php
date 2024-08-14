@@ -29,6 +29,20 @@ if (isset($_POST["jsonCrearAcepMerma"], $_POST["jsonProductosMerma"])) {
   $create->ajaxAceptarMermaRegsitro($_POST["jsonCrearAcepMerma"], $_POST["jsonProductosMerma"]);
 }
 
+//visualizar datos  de proceso operativo principal en la merma
+if (isset($_POST["jsonProcOpMerma"])) {
+  $view = new MermaAjax();
+  $view->jsonProcOpMerma = $_POST["jsonProcOpMerma"];
+  $view->ajaxViewDataProcesoOperativoMerma($_POST["jsonProcOpMerma"]);
+}
+
+//visualizar merma aceptada
+if (isset($_POST["codMerma"])) {
+  $view = new MermaAjax();
+  $view->codMerma = $_POST["codMerma"];
+  $view->ajaxViewMermaAceptada($_POST["codMerma"]);
+}
+
 class MermaAjax
 {
   //datatable de mermas
@@ -60,6 +74,19 @@ class MermaAjax
     $response = MermaController::ctrAceptarMermaRegsitro($dataMerma, $jsonProductosMerma);
     echo json_encode($response);
   }
+  //visualizar datos  de proceso operativo principal en la merma
+  public function ajaxViewDataProcesoOperativoMerma($jsonProcOpMerma)
+  {
+    $codProcOpMerma = json_decode($jsonProcOpMerma, true);
+    $response = MermaController::ctrViewDataProcesoOperativoMerma($codProcOpMerma);
+    echo json_encode($response);
+  }
+  //visualizar merma aceptada
+  public function ajaxViewMermaAceptada($codMerma)
+  {
 
+    $response = MermaController::ctrViewMermaAceptada($codMerma);
+    echo json_encode($response);
+  }
 }
 

@@ -7,9 +7,9 @@ class procesoOperativoModel
   //datatable de proceso Op
   public static function mdlDTableProcesosOperativos($table)
   {
-      $statement = Conexion::conn()->prepare("SELECT idProcOp, idTipoProc, idPedido, idSalMprima, descripcionProcOp, nombreProcOp, fechaRegistroProcOp, fechaInicioProcOp, fechaFinProcOp, estadoProcOp, DateUpdate FROM $table ORDER BY DateUpdate DESC, idProcOp DESC");
-      $statement->execute();
-      return $statement->fetchAll(PDO::FETCH_ASSOC);
+    $statement = Conexion::conn()->prepare("SELECT idProcOp, idTipoProc, idPedido, idSalMprima, descripcionProcOp, nombreProcOp, fechaRegistroProcOp, fechaInicioProcOp, fechaFinProcOp, estadoProcOp, DateUpdate FROM $table ORDER BY DateUpdate DESC, idProcOp DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
   //data table tipos de procesos operativos
   public static function mdlDTableTiposProcesosOperativos($table)
@@ -54,7 +54,7 @@ class procesoOperativoModel
   //funcion para mostrar el selec2 de pedidos
   public static function mdlSelect2Pedido($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT idPedido, tituloPedido FROM $table WHERE estadoPedido = 1 ORDER BY idPedido DESC");
+    $statement = Conexion::conn()->prepare("SELECT idPedido, nombrePedido FROM $table WHERE estadoPedido = 1 ORDER BY idPedido DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -205,7 +205,7 @@ class procesoOperativoModel
   //funcion para mostrar el selec2 de pedidos edit
   public static function mdlSelect2PedidoEdit($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT idPedido, tituloPedido FROM $table ORDER BY idPedido DESC");
+    $statement = Conexion::conn()->prepare("SELECT idPedido, nombrePedido FROM $table ORDER BY idPedido DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -256,8 +256,8 @@ class procesoOperativoModel
   public static function mdlQuitarSalMprimaProcOp($table, $dataUpdate)
   {
     $statement = Conexion::conn()->prepare("UPDATE $table SET idProcOp = :idProcOp, DateUpdate = :DateUpdate WHERE idSalMprima = :idSalMprima");
-    $statement->bindParam(":idProcOp", $dataUpdate["idProcOp"], PDO::PARAM_STR);
-    $statement->bindParam(":idSalMprima", $dataUpdate["idSalMprima"], PDO::PARAM_STR);
+    $statement->bindParam(":idProcOp", $dataUpdate["idProcOp"], PDO::PARAM_INT);
+    $statement->bindParam(":idSalMprima", $dataUpdate["idSalMprima"], PDO::PARAM_INT);
     $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
     if ($statement->execute()) {
       return true;
@@ -278,9 +278,36 @@ class procesoOperativoModel
       return false;
     }
   }
+  //asignar salida mprima a pedido
+  public static function mdlAsignarSalMprimaApedido($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET idSalMprima = :idSalMprima, DateUpdate = :DateUpdate WHERE idPedido = :idPedido");
+    $statement->bindParam(":idSalMprima", $dataUpdate["idSalMprima"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":idPedido", $dataUpdate["idPedido"], PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   //quitar perdido anterior
   public static function mdlQuitarPedidoAnterior($table, $dataUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoPedido = :estadoPedido, idSalMprima = :idSalMprima, DateUpdate = :DateUpdate WHERE idPedido = :idPedido");
+    $statement->bindParam(":estadoPedido", $dataUpdate["estadoPedido"], PDO::PARAM_INT);
+    $statement->bindParam(":idSalMprima", $dataUpdate["idSalMprima"], PDO::PARAM_STR);
+    $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
+    $statement->bindParam(":idPedido", $dataUpdate["idPedido"], PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  //asignar nuevo pedido a proceso cambiar el estado dela signado para diferenciarlo
+  public static function mdlAgregarPedidoNuevo($table, $dataUpdate)
   {
     $statement = Conexion::conn()->prepare("UPDATE $table SET estadoPedido = :estadoPedido, DateUpdate = :DateUpdate WHERE idPedido = :idPedido");
     $statement->bindParam(":estadoPedido", $dataUpdate["estadoPedido"], PDO::PARAM_INT);
@@ -309,13 +336,14 @@ class procesoOperativoModel
   //editar proceso operativo
   public static function mdlEditarProcOp($table, $dataUpdate)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET nombreProcOp = :nombreProcOp,  descripcionProcOp = :descripcionProcOp,  fechaRegistroProcOp = :fechaRegistroProcOp, fechaFinProcOp = :fechaFinProcOp, idTipoProc = :idTipoProc, DateUpdate = :DateUpdate WHERE idProcOp = :idProcOp");
+    $statement = Conexion::conn()->prepare("UPDATE $table SET nombreProcOp = :nombreProcOp,  idSalMprima = :idSalMprima, descripcionProcOp = :descripcionProcOp,  fechaRegistroProcOp = :fechaRegistroProcOp, fechaFinProcOp = :fechaFinProcOp, idTipoProc = :idTipoProc, DateUpdate = :DateUpdate WHERE idProcOp = :idProcOp");
     $statement->bindParam(":nombreProcOp", $dataUpdate["nombreProcOp"], PDO::PARAM_STR);
     $statement->bindParam(":descripcionProcOp", $dataUpdate["descripcionProcOp"], PDO::PARAM_STR);
     $statement->bindParam(":fechaRegistroProcOp", $dataUpdate["fechaRegistroProcOp"], PDO::PARAM_STR);
     $statement->bindParam(":fechaFinProcOp", $dataUpdate["fechaFinProcOp"], PDO::PARAM_STR);
     $statement->bindParam(":idTipoProc", $dataUpdate["idTipoProc"], PDO::PARAM_STR);
     $statement->bindParam(":idProcOp", $dataUpdate["idProcOp"], PDO::PARAM_STR);
+    $statement->bindParam(":idSalMprima", $dataUpdate["idSalMprima"], PDO::PARAM_STR);
     $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
     if ($statement->execute()) {
       return "ok";

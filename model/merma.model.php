@@ -48,4 +48,35 @@ class MermaModel
         }
     }
 
+    //visualizar datos estados de proceso operativo principal
+    public static function mdlViewDataProcesoOperativoMerma($table, $idProcOp)
+    {
+        $statement = Conexion::conn()->prepare("SELECT 
+              po.idProcOp,
+              po.nombreProcOp,
+              po.idTipoProc, 
+              po.fechaInicioProcOp, 
+              po.fechaFinProcOp, 
+              po.estadoProcOp,
+              tp.nombreTipoProc
+          FROM $table po
+          INNER JOIN tipo_proceso tp ON po.idTipoProc = tp.idTipoProc
+          WHERE po.idProcOp = :idProcOp");
+        $statement->bindParam(":idProcOp", $idProcOp, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    //visualizar merma aceptada
+    public static function mdlViewMermaAceptada($table, $idMerma)
+    {
+        $statement = Conexion::conn()->prepare("SELECT 
+        jsonMerma FROM $table 
+        WHERE idMerma = :idMerma");
+        $statement->bindParam(":idMerma", $idMerma, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    /* {"merma0":{"codProdIng":"30","nombreProdIng":"ceda","codigoProdIng":"T12345","unidadProdIng":"Metros","cantidadProdIng":"1","precioProdIng":"14"},"merma1":{"codProdIng":"33","nombreProdIng":"boton 1cm","codigoProdIng":"T1234555","unidadProdIng":"Uni","cantidadProdIng":"1","precioProdIng":"0.30"}} */
+
+
 }

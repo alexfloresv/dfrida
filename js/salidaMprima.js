@@ -1450,7 +1450,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   var codPedidoSalMp = $(this).val();
                   //console.log("Valor seleccionado:", codPedidoSalMp);
                   // Aquí puedes agregar cualquier lógica adicional que necesites
-                  productosPrimaPedido(codPedidoSalMp);
+                  //productosPrimaPedido(codPedidoSalMp);
                 });
               },
               error: function (xhr, status, error) {
