@@ -27,7 +27,7 @@ if (isset($_POST["crearPedido"])) {
   $crearPedido->ajaxCrearPedidosJson();
 }
 // Editar pedido
-if(isset($_POST["editarPedido"])){
+if (isset($_POST["editarPedido"])) {
   // Decodificar el JSON recibido
   $jsonData = json_decode($_POST["editarPedido"], true);
   // Pasar los datos decodificados al controlador
@@ -36,17 +36,23 @@ if(isset($_POST["editarPedido"])){
   $editarPedido->ajaxEditarPedidosJson();
 }
 // Datos de Pedido
-if(isset($_POST["idPedidoDatos"])){
+if (isset($_POST["idPedidoDatos"])) {
   $datosPedidoporID = new PedidosAjax();
   $datosPedidoporID->idPedidoDatos = $_POST["idPedidoDatos"];
   $datosPedidoporID->ajaxDatosPedidoPorID();
 }
 // Eliminar Pedido
-if(isset($_POST["idPedidoEliminar"]) && isset($_POST["idCotiEliminar"])){
+if (isset($_POST["idPedidoEliminar"]) && isset($_POST["idCotiEliminar"])) {
   $eliminarPedido = new PedidosAjax();
   $eliminarPedido->idPedidoEliminar = $_POST["idPedidoEliminar"];
   $eliminarPedido->idCotiEliminar = $_POST["idCotiEliminar"];
   $eliminarPedido->ajaxEliminarPedido();
+}
+//  Descargar PDF de los Pedidos
+if (isset($_POST["jsonPdfPedido"])) {
+  $pdf = new PedidosAjax();
+  $pdf->PedidosAjax = $_POST["jsonPdfPedido"];
+  $pdf->ajaxDescargarPdfPedido($_POST["jsonPdfPedido"]);
 }
 
 class PedidosAjax
@@ -83,18 +89,26 @@ class PedidosAjax
   }
   // Datos de Pedido por ID
   public $idPedidoDatos;
-  public function ajaxDatosPedidoPorID(){
+  public function ajaxDatosPedidoPorID()
+  {
     $idPedidoDatos = $this->idPedidoDatos;
     $respuesta = PedidosController::ctrDatosPedidoPorID($idPedidoDatos);
     echo json_encode($respuesta);
   }
   public $idPedidoEliminar;
   public $idCotiEliminar;
-  public function ajaxEliminarPedido(){
+  public function ajaxEliminarPedido()
+  {
     $idPedidoEliminar = $this->idPedidoEliminar;
     $idCotiEliminar = $this->idCotiEliminar;
     $respuesta = PedidosController::ctrEliminarPedido($idPedidoEliminar, $idCotiEliminar);
     echo json_encode($respuesta);
   }
-
+  //  Descargar PDF de la cotizacion
+  public function ajaxDescargarPdfPedido($jsonPdfPedido)
+  {
+    $codPedidoPdf = json_decode($jsonPdfPedido, true); // Decodificar la cadena de texto JSON en un array asociativo
+    $response = PedidosController::ctrDescargarPdfPedido($codPedidoPdf);
+    echo json_encode($response);
+  }
 }

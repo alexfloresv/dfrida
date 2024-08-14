@@ -42,7 +42,11 @@ if (isset($_POST["codPedDatosPedidos"]) && isset($_POST["idCotiDatosPedidos"])) 
   $productosPedido->codPedDatosPedidos = $_POST["codPedDatosPedidos"];
   $productosPedido->idCotiDatosPedidos = $_POST["idCotiDatosPedidos"];
   $productosPedido->ajaxMostrarDatosProductosCotizacionPedido();
-
+}
+// Obtener todas las categorias de los productos
+if (isset($_POST["todasLasCategorias"])) {
+  $categorias = new ProductAjax(); 
+  $categorias->ajaxTodasLasCategorias();
 }
 /////////////////////////////
 
@@ -138,6 +142,12 @@ class ProductAjax
       // Manejar el caso en que 'productsCoti' no esté presente
       echo json_encode(['error' => 'productsCoti field not found']);
     }
+  }
+  // Obtener todas las categorias de los productos
+  public function ajaxTodasLasCategorias()
+  {
+    $response = ProductsController::ctrGetAllCategories();
+    echo json_encode($response);
   }
 
 }

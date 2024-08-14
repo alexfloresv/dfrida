@@ -620,3 +620,159 @@ document.addEventListener("DOMContentLoaded", function () {
     clienteNuevoSwitch.addEventListener("change", toggleVisibility);
   }
 });
+
+// Función para mostrar el select2 de todas las categorías
+document.addEventListener("DOMContentLoaded", function () {
+  $("#modalAddProductoNuevoCotizacion").on("shown.bs.modal", function () {
+    // Verificar si la ruta es la correcta
+    var currentPath = window.location.pathname;
+    var appPath = "/dfrida/cotizacion";
+    if (currentPath == appPath) {
+      // Inicializar Select2 para categorías
+      $("#productCategory").select2({
+        dropdownParent: $("#modalAddProductoNuevoCotizacion"), // Asegurarse de que el dropdown se muestre dentro del modal
+      });
+
+      // Cargar datos dinámicamente al abrir el modal
+      var data = new FormData();
+      data.append("todasLasCategorias", true);
+
+      $.ajax({
+        url: "ajax/products.ajax.php",
+        method: "POST",
+        data: data,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (data) {
+          // Limpiar las opciones actuales
+          $("#productCategory").empty();
+          $("#productCategory").append(
+            '<option value="0">Seleccione una Categoría</option>'
+          );
+          // Agregar las nuevas opciones
+          $.each(data, function (key, value) {
+            $("#productCategory").append(
+              '<option value="' +
+                value.idCatPro +
+                '">' +
+                value.nombreCategoriaProd +
+                "</option>"
+            );
+          });
+
+          // Restaurar el valor seleccionado si existe
+          var selectedCategory = $("#productCategory").attr("data-selected");
+          if (selectedCategory) {
+            $("#productCategory").val(selectedCategory).trigger("change");
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error al cargar las categorías:", error);
+        },
+      });
+    }
+  });
+});
+// Fin
+
+// Función para mostrar el select2 de todas las categorías EN EDTIAR COTIZACION
+document.addEventListener("DOMContentLoaded", function () {
+  $("#modalAddProductoNuevoEditarCotizacion").on("shown.bs.modal", function () {
+    // Verificar si la ruta es la correcta
+    var currentPath = window.location.pathname;
+    var appPath = "/dfrida/cotizacionListEdit";
+    if (currentPath == appPath) {
+      // Inicializar Select2 para categorías
+      $("#productCategory").select2({
+        dropdownParent: $("#modalAddProductoNuevoEditarCotizacion"), // Asegurarse de que el dropdown se muestre dentro del modal
+      });
+
+      // Cargar datos dinámicamente al abrir el modal
+      var data = new FormData();
+      data.append("todasLasCategorias", true);
+
+      $.ajax({
+        url: "ajax/products.ajax.php",
+        method: "POST",
+        data: data,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (data) {
+          // Limpiar las opciones actuales
+          $("#productCategory").empty();
+          $("#productCategory").append(
+            '<option value="0">Seleccione una Categoría</option>'
+          );
+          // Agregar las nuevas opciones
+          $.each(data, function (key, value) {
+            $("#productCategory").append(
+              '<option value="' +
+                value.idCatPro +
+                '">' +
+                value.nombreCategoriaProd +
+                "</option>"
+            );
+          });
+
+          // Restaurar el valor seleccionado si existe
+          var selectedCategory = $("#productCategory").attr("data-selected");
+          if (selectedCategory) {
+            $("#productCategory").val(selectedCategory).trigger("change");
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error al cargar las categorías:", error);
+        },
+      });
+    }
+  });
+});
+// Fin
+
+// Funcionalidad Modales
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/cotizacion";
+  if (currentPath == appPath) {
+    // guardar los codigos de los productos agregados
+
+    $("#modalAddProdCoti").on(
+      "click",
+      "#btnAgregarProductAddCotizacion",
+      function () {
+        // Abrir el modal
+        $("#modalAddProdCoti").modal("hide");
+        $("#modalAddProductoNuevoCotizacion").modal("show");
+      }
+    );
+    $("#modalAddProductoNuevoCotizacion").on(
+      "click",
+      "#btnCerrarCreacionProductoNuevo",
+      function () {
+        $("#modalAddProductoNuevoCotizacion").modal("hide");
+        $("#modalAddProdCoti").modal("show");
+      }
+    );
+    $("#modalAddProdCoti").on(
+      "click",
+      "#btnAgregarCategoriaProductAddCotizacion",
+      function () {
+        // Abrir el modal
+        $("#modalAddProdCoti").modal("hide");
+        var formulario = document.getElementById("formCrearCategoriaProd");
+        formulario.reset();
+        $("#modalCrearCategoriaProdCotizacion").modal("show");
+      }
+    );
+    $("#modalCrearCategoriaProdCotizacion").on(
+      "click",
+      "#btnCerrarCrearCategoriaCotizacion",
+      function () {
+        $("#modalCrearCategoriaProdCotizacion").modal("hide");
+        $("#modalAddProdCoti").modal("show");
+      }
+    );
+  }
+});

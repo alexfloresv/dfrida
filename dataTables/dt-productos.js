@@ -71,7 +71,31 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// //data table modal cotizaciones
+// Función para cargar los datos de productos
+function cargarDatosProductos(tableProductos) {
+  var data = new FormData();
+  data.append("todosLosProductos", true);
+
+  $.ajax({
+    url: "ajax/products.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (response) {
+      tableProductos.clear();
+      tableProductos.rows.add(response);
+      tableProductos.draw();
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+    },
+  });
+}
+
+// Data table modal cotizaciones
 document.addEventListener("DOMContentLoaded", function () {
   // Verificar si la ruta es la correcta al mostrar el modal
   var currentPath = window.location.pathname;
@@ -120,29 +144,12 @@ document.addEventListener("DOMContentLoaded", function () {
       columns: columnDefsProductos,
     });
 
-    // Titulo dataTableProductos
-    //$(".tituloProductos").text("Todos los Productos");
+    // Cargar datos inicialmente
+    cargarDatosProductos(tableProductos);
 
-    // Solicitud inicial de dataTableProductos
-    var data = new FormData();
-    data.append("todosLosProductos", true);
-
-    $.ajax({
-      url: "ajax/products.ajax.php",
-      method: "POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType: "json",
-      success: function (response) {
-        tableProductos.clear();
-        tableProductos.rows.add(response);
-        tableProductos.draw();
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-      },
+    // Agregar evento de escucha para el evento 'shown.bs.modal' del modal
+    $("#modalAddProdCoti").on("shown.bs.modal", function () {
+      cargarDatosProductos(tableProductos);
     });
   }
 });
@@ -373,7 +380,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //fin
 
-// modal de agregar productos edtiar cotizacion
+// modal de agregar productos editar cotizacion
 document.addEventListener("DOMContentLoaded", function () {
   // Verificar si la ruta es la correcta al mostrar el modal
   var currentPath = window.location.pathname;
@@ -422,26 +429,36 @@ document.addEventListener("DOMContentLoaded", function () {
       columns: columnDefsProductos,
     });
 
-    // Solicitud inicial de dataTableProductos
-    var data = new FormData();
-    data.append("todosLosProductos", true);
+    // Función para cargar los productos
+    function cargarDatosProductos(table) {
+      var data = new FormData();
+      data.append("todosLosProductos", true);
 
-    $.ajax({
-      url: "ajax/products.ajax.php",
-      method: "POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType: "json",
-      success: function (response) {
-        tableProductos.clear();
-        tableProductos.rows.add(response);
-        tableProductos.draw();
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-      },
+      $.ajax({
+        url: "ajax/products.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          table.clear();
+          table.rows.add(response);
+          table.draw();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    }
+
+    // Cargar datos inicialmente
+    cargarDatosProductos(tableProductos);
+
+    // Agregar evento de escucha para el evento 'shown.bs.modal' y 'hidden.bs.modal' del modal
+    $("#modalAddProductoNuevoEditarCotizacion").on("shown.bs.modal hidden.bs.modal", function () {
+      cargarDatosProductos(tableProductos);
     });
   }
 });

@@ -543,3 +543,50 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 // Fin
+// Funcionalidad Modales
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/cotizacionListEdit";
+  if (currentPath == appPath) {
+    // guardar los codigos de los productos agregados
+
+    $("#modalEditProdCoti").on(
+      "click",
+      "#btnAgregarProductEditCotizacion",
+      function () {
+        // Abrir el modal
+        $("#modalEditProdCoti").modal("hide");
+        $("#modalAddProductoNuevoEditarCotizacion").modal("show");
+      }
+    );
+    $("#modalAddProductoNuevoEditarCotizacion").on(
+      "click",
+      "#btnCerrarCreacionProductoNuevo",
+      function () {
+        $("#modalAddProductoNuevoEditarCotizacion").modal("hide");
+        $("#modalEditProdCoti").modal("show");
+      }
+    );
+    $("#modalEditProdCoti").on(
+      "click",
+      "#btnAgregarCategoriaProductEditCotizacion",
+      function () {
+        // Abrir el modal
+        $("#modalEditProdCoti").modal("hide");
+        var formulario = document.getElementById("formCrearCategoriaProd");
+        formulario.reset();
+        $("#modalCrearCategoriaProdEditarCotizacion").modal("show");
+
+      }
+    );
+    $("#modalCrearCategoriaProdEditarCotizacion").on(
+      "click",
+      "#btnCerrarCrearCategoriaCotizacion",
+      function () {
+        $("#modalCrearCategoriaProdEditarCotizacion").modal("hide");
+        $("#modalEditProdCoti").modal("show");
+      }
+    );
+  }
+});
+

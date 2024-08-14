@@ -194,11 +194,14 @@ document.addEventListener("DOMContentLoaded", function () {
     $(document).on("click", ".btnVerProductosPrimaPedido", function () {
       var codPed = $(this).attr("codPed");
       var idSalMprima = $(this).attr("idSalMprima");
+      // Limpiar el DataTable antes de cualquier acción
+      tableProductos.clear().draw();
       // Aquí puedes realizar las acciones necesarias con los valores obtenidos
       // Verificar si idSalMprima está asignado
       if (!idSalMprima) {
         Swal.fire({
-          title: "No se encuentra una Salida de Materia Prima asignada al pedido",
+          title:
+            "No se encuentra una Salida de Materia Prima asignada al pedido",
           text: "¿Desea asignarle una Salida de Materia Prima?",
           icon: "warning",
           showCancelButton: true,

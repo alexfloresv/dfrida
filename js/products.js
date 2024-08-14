@@ -245,3 +245,158 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 //fin eliminar Productos
+// Crear Producto nuevo en la vista de Cotizacion
+// Iniciar función por el document solo si se encuentra en la vista o ruta correcta que debe de ser "users"
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/cotizacion";
+  if (currentPath == appPath) {
+    //si la ruta no es la correcta no se ejecuta la función
+    document
+      .getElementById("btnCrearProducto")
+      .addEventListener("click", function (event) {
+        //obtener el formulario por id
+        var formulario = document.getElementById("formCrearProducto");
+        var datosFormulario = {};
+        //obtener los elementos del formulario
+        var elementosFormulario = formulario.querySelectorAll("input, select");
+        //for each para recorrer los elementos del formulario y asignarle la clave como su id y su valor
+        elementosFormulario.forEach(function (elemento) {
+          if (elemento.id) {
+            datosFormulario[elemento.id] = elemento.value;
+          }
+        });
+        //crear el json
+        var jsonCrearProductos = JSON.stringify(datosFormulario);
+
+        $.ajax({
+          url: "ajax/products.ajax.php",
+          method: "POST",
+          data: { jsonCrearProductos: jsonCrearProductos },
+          dataType: "json",
+          success: function (response) {
+
+            if (response == "ok") {
+              Swal.fire({
+                icon: "success",
+                title: "Correcto",
+                html: "<strong>Producto creado correctamente</strong>",
+              }).then(function (result) {
+                if (result.value) {
+                  $("#modalAddProductoNuevoCotizacion").modal("hide");
+                  $("#modalAddProdCoti").modal("show");
+                }
+              });
+            } else if (response == "errorNom") {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                html: "Ya existe un Producto con el mismo <strong>nombre</strong>.",
+              }).then(function (result) {
+              });
+            } else if (response == "errorCod") {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                html: "Ya existe un Producto con el mismo <strong>código</strong>.",
+              }).then(function (result) {
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                html: "<strong>No se puede crear el Producto con datos Vacios</strong>.",
+              }).then(function (result) {
+              });
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
+      });
+    //fin vericar ruta
+  }
+});
+// Crear Producto nuevo en la vista de editar Cotizacion
+// Iniciar función por el document solo si se encuentra en la vista o ruta correcta que debe de ser "users"
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/cotizacionListEdit";
+  if (currentPath == appPath) {
+    //si la ruta no es la correcta no se ejecuta la función
+    document
+      .getElementById("btnCrearProducto")
+      .addEventListener("click", function (event) {
+        //obtener el formulario por id
+        var formulario = document.getElementById("formCrearProducto");
+        var datosFormulario = {};
+        //obtener los elementos del formulario
+        var elementosFormulario = formulario.querySelectorAll("input, select");
+        //for each para recorrer los elementos del formulario y asignarle la clave como su id y su valor
+        elementosFormulario.forEach(function (elemento) {
+          if (elemento.id) {
+            datosFormulario[elemento.id] = elemento.value;
+          }
+        });
+        //crear el json
+        var jsonCrearProductos = JSON.stringify(datosFormulario);
+
+        $.ajax({
+          url: "ajax/products.ajax.php",
+          method: "POST",
+          data: { jsonCrearProductos: jsonCrearProductos },
+          dataType: "json",
+          success: function (response) {
+
+            if (response == "ok") {
+              Swal.fire({
+                icon: "success",
+                title: "Correcto",
+                html: "<strong>Producto creado correctamente</strong>",
+              }).then(function (result) {
+                if (result.value) {
+                  $("#modalAddProductoNuevoEditarCotizacion").modal("hide");
+                  $("#modalEditProdCoti").modal("show");
+                }
+              });
+            } else if (response == "errorNom") {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                html: "Ya existe un Producto con el mismo <strong>nombre</strong>.",
+              }).then(function (result) {
+              });
+            } else if (response == "errorCod") {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                html: "Ya existe un Producto con el mismo <strong>código</strong>.",
+              }).then(function (result) {
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                html: "<strong>No se puede crear el Producto con datos Vacios</strong>.",
+              }).then(function (result) {
+              });
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
+      });
+    //fin vericar ruta
+  }
+});
+

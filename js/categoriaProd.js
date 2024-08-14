@@ -263,3 +263,136 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   }
 });
+
+// Iniciar función por el document solo si se encuentra en la vista o ruta correcta que debe de ser "products"
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/cotizacion";
+  if (currentPath == appPath) {
+    document
+      .getElementById("btnCrearCategoriaProd")
+      .addEventListener("click", function (event) {
+        var formulario = document.getElementById("formCrearCategoriaProd");
+        var datosFormulario = {};
+        var elementosFormulario = formulario.querySelectorAll("input, select");
+
+        elementosFormulario.forEach(function (elemento) {
+          if (elemento.id) {
+            datosFormulario[elemento.id] = elemento.value;
+          }
+        });
+
+        var jsonCrearCategoriaProductos = JSON.stringify(datosFormulario);
+
+        $.ajax({
+          url: "ajax/categoriaProd.ajax.php",
+          method: "POST",
+          data: { jsonCrearCategoriaProductos: jsonCrearCategoriaProductos },
+          dataType: "json",
+          success: function (response) {
+            if (response == "ok") {
+              Swal.fire({
+                icon: "success",
+                title: "Correcto",
+                text: "Categoria creada correctamente",
+              }).then(function (result) {
+                if (result.value) {
+                  $("#modalCrearCategoriaProdCotizacion").modal("hide");
+                  $("#modalAddProdCoti").modal("show");
+                }
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "La Categoria no se ha podido crear inserte una nueva Categoria",
+              }).then(function (result) {
+                if (result.value) {
+                  limpiarFormulario();
+                }
+              });
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+            limpiarFormulario();
+          },
+        });
+      });
+  }
+  // Función para limpiar el formulario y no actualizar la página solo para modales create
+  function limpiarFormulario() {
+    var formulario = document.getElementById("formCrearCategoriaProd");
+    formulario.reset();
+  }
+});
+// Iniciar función por el document solo si se encuentra en la vista o ruta correcta que debe de ser "products"
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/cotizacionListEdit";
+  if (currentPath == appPath) {
+    document
+      .getElementById("btnCrearCategoriaProd")
+      .addEventListener("click", function (event) {
+        var formulario = document.getElementById("formCrearCategoriaProd");
+        var datosFormulario = {};
+        var elementosFormulario = formulario.querySelectorAll("input, select");
+
+        elementosFormulario.forEach(function (elemento) {
+          if (elemento.id) {
+            datosFormulario[elemento.id] = elemento.value;
+          }
+        });
+
+        var jsonCrearCategoriaProductos = JSON.stringify(datosFormulario);
+
+        $.ajax({
+          url: "ajax/categoriaProd.ajax.php",
+          method: "POST",
+          data: { jsonCrearCategoriaProductos: jsonCrearCategoriaProductos },
+          dataType: "json",
+          success: function (response) {
+            if (response == "ok") {
+              Swal.fire({
+                icon: "success",
+                title: "Correcto",
+                text: "Categoria creada correctamente",
+              }).then(function (result) {
+                if (result.value) {
+                  $("#modalCrearCategoriaProdEditarCotizacion").modal("hide");
+                  $("#modalEditProdCoti").modal("show");
+                }
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "La Categoria no se ha podido crear inserte una nueva Categoria",
+              }).then(function (result) {
+                if (result.value) {
+                  limpiarFormulario();
+                }
+              });
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+            limpiarFormulario();
+          },
+        });
+      });
+  }
+  // Función para limpiar el formulario y no actualizar la página solo para modales create
+  function limpiarFormulario() {
+    var formulario = document.getElementById("formCrearCategoriaProd");
+    formulario.reset();
+  }
+});

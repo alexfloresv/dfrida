@@ -349,7 +349,7 @@ function abrirModalCotizacionesPedidoEditar() {
     }
   );
 }
-// funcionalidad para data table para modal  de categorias de productos crear y eliminar registros sin actualizar la pagina
+// data table de cotizacion al editar pedido
 document.addEventListener("DOMContentLoaded", function () {
   //verificar si la ruta es la correcta
   var currentPath = window.location.pathname;

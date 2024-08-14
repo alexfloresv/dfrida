@@ -23,8 +23,8 @@ class PedidosController
 
     $table = "pedido";
     $response = PedidosModel::mdlCrearPedidoJson($table, $jsonData);
-    if($response =="ok"){
-      $response = CotizacionController::ctrActualizarEstadoAsignacionCoti($jsonData['idCoti'],2);
+    if ($response == "ok") {
+      $response = CotizacionController::ctrActualizarEstadoAsignacionCoti($jsonData['idCoti'], 2);
     }
     return $response;
   }
@@ -37,10 +37,10 @@ class PedidosController
 
     $table = "pedido";
     $response = PedidosModel::mdlEditarPedidoJson($table, $jsonData);
-    if($response =="ok"){
-      $responseCambioEstadoNueva = CotizacionController::ctrActualizarEstadoAsignacionCoti($jsonData['idCoti'],2);
-      $responseCambioEstadoAntigua = CotizacionController::ctrActualizarEstadoAsignacionCoti($jsonData['idCotiAntigua'],1);
-      if($responseCambioEstadoAntigua != "ok" || $responseCambioEstadoNueva != "ok"){
+    if ($response == "ok") {
+      $responseCambioEstadoNueva = CotizacionController::ctrActualizarEstadoAsignacionCoti($jsonData['idCoti'], 2);
+      $responseCambioEstadoAntigua = CotizacionController::ctrActualizarEstadoAsignacionCoti($jsonData['idCotiAntigua'], 1);
+      if ($responseCambioEstadoAntigua != "ok" || $responseCambioEstadoNueva != "ok") {
         $response = "error";
       }
     }
@@ -50,17 +50,25 @@ class PedidosController
   public static function ctrDatosPedidoPorID($idPedido)
   {
     $tabla = "pedido";
-    $response = PedidosModel::mdlDatosPedidoPorID($tabla,$idPedido);
+    $response = PedidosModel::mdlDatosPedidoPorID($tabla, $idPedido);
     return $response;
   }
   // Eliminar Pedido
-  public static function ctrEliminarPedido($idPedido,$idCoti)
+  public static function ctrEliminarPedido($idPedido, $idCoti)
   {
     $table = "pedido";
-    $response = PedidosModel::mdlEliminarPedido($table,$idPedido);
-    if($response == "ok"){
-      $response = CotizacionController::ctrActualizarEstadoAsignacionCoti($idCoti,1);
+    $response = PedidosModel::mdlEliminarPedido($table, $idPedido);
+    if ($response == "ok") {
+      $response = CotizacionController::ctrActualizarEstadoAsignacionCoti($idCoti, 1);
     }
+    return $response;
+  }
+  //  Descargar PDF del pedido
+  public static function ctrDescargarPdfPedido($codPedidoPdf)
+  {
+    $codPedidoPdf = $codPedidoPdf["idPedido"];
+    $table = "pedido";
+    $response = PedidosModel::mdlDescargarPdfPedido($table, $codPedidoPdf);
     return $response;
   }
 }

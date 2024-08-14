@@ -12,7 +12,8 @@ class PedidosModel
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
   // Crear pedido
-  public static function mdlCrearPedidoJson($table, $jsonData){
+  public static function mdlCrearPedidoJson($table, $jsonData)
+  {
     $statement = Conexion::conn()->prepare("INSERT INTO $table (idCli, tituloPedido, nombrePedido, fechaPedido, DateCreate, DateUpdate, idCoti, idFichaTec, estadoPedido) VALUES (:idCli, :tituloPedido, :nombrePedido, :fechaPedido, :DateCreate, :DateUpdate, :idCoti, :idFichaTec, :estadoPedido)");
     $statement->bindParam(":idCli", $jsonData['idCliente'], PDO::PARAM_INT);
     $statement->bindParam(":tituloPedido", $jsonData['tituloPedido'], PDO::PARAM_STR);
@@ -30,7 +31,8 @@ class PedidosModel
     }
   }
   // Editar Pedido
-  public static function mdlEditarPedidoJson ($table, $jsonData){
+  public static function mdlEditarPedidoJson($table, $jsonData)
+  {
     $statement = Conexion::conn()->prepare("UPDATE $table SET tituloPedido = :tituloPedido, nombrePedido = :nombrePedido, fechaPedido = :fechaPedido, DateUpdate = :DateUpdate, idCoti = :idCoti, idFichaTec = :idFichaTec WHERE idPedido = :idPedido");
     $statement->bindParam(":tituloPedido", $jsonData['tituloPedido'], PDO::PARAM_STR);
     $statement->bindParam(":nombrePedido", $jsonData['nombrePedido'], PDO::PARAM_STR);
@@ -54,7 +56,9 @@ class PedidosModel
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
-  public static function mdlEliminarPedido($table, $idPedido){
+  // Eliminar Pedido
+  public static function mdlEliminarPedido($table, $idPedido)
+  {
     $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE idPedido = :idPedido");
     $statement->bindParam(":idPedido", $idPedido, PDO::PARAM_INT);
     if ($statement->execute()) {
@@ -62,5 +66,40 @@ class PedidosModel
     } else {
       return "error";
     }
+  }
+  //  Descargar PDF del pedido
+  public static function mdlDescargarPdfPedido($table, $idPedido)
+  {
+    $statement = Conexion::conn()->prepare("SELECT
+      pedido.tituloPedido, 
+      pedido.nombrePedido, 
+      pedido.fechaPedido, 
+      cotizacion.tituloCoti, 
+      cotizacion.fechaCoti, 
+      cotizacion.razonSocialCoti, 
+      cotizacion.nombreComercialCoti, 
+      cotizacion.rucCoti, 
+      cotizacion.nombreCoti, 
+      cotizacion.celularCoti, 
+      cotizacion.correoCoti, 
+      cotizacion.direccionCoti, 
+      cotizacion.detalleCoti, 
+      cotizacion.productsCoti, 
+      cotizacion.totalProductsCoti, 
+      cotizacion.igvCoti, 
+      cotizacion.subTotalCoti, 
+      cotizacion.totalCoti, 
+      cotizacion.estadoCoti
+    FROM
+      pedido
+      INNER JOIN
+      cotizacion
+      ON 
+        pedido.idCoti = cotizacion.idCoti
+    WHERE
+      pedido.idPedido = :idPedido");
+    $statement->bindParam(":idPedido", $idPedido, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
 }
