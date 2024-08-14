@@ -225,10 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         $(".AddProductoCotizacionEdit .productoRow").each(function () {
           var codProdCoti = $(this).find("#codProdCoti").val();
-          if (
-            codProdCoti === codAddIngProdModal ||
-            parseInt(codProdMprimaCoti) === parseInt(codAddIngProdModal)
-          ) {
+          if (codProdCoti === codAddIngProdModal) {
             productoDuplicado = true;
             return false; // Salir del bucle each
           }
@@ -383,9 +380,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       // Validar que haya productos asignados
-      if (
-        Object.keys(datosFormulario.productsCoti).length === 0
-      ) {
+      if (Object.keys(datosFormulario.productsCoti).length === 0) {
         Swal.fire({
           icon: "error",
           title: "Error",

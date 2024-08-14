@@ -133,10 +133,10 @@ ORDER BY
     }
   }
   // Obtener productos prima de una cotización para la vista pedidos
-  public static function mdlObtenerProductosPrimaCotizacionPedidos($table, $codPed, $idCoti)
+  public static function mdlObtenerProductosPrimaCotizacionPedidos($table, $codPed, $idSalMprima)
   {
-    $statement = Conexion::conn()->prepare("SELECT cotizacion.productsMprimaCoti FROM $table INNER JOIN pedido ON  cotizacion.idCoti = pedido.idCoti WHERE cotizacion.idCoti = :idCoti AND pedido.idPedido = :codPed");
-    $statement->bindParam(":idCoti", $idCoti, PDO::PARAM_INT);
+    $statement = Conexion::conn()->prepare("SELECT salida_mprima.salJsonMprima FROM $table INNER JOIN pedido ON  salida_mprima.idSalMprima = pedido.idSalMprima WHERE salida_mprima.idSalMprima = :idSalMprima AND pedido.idPedido = :codPed");
+    $statement->bindParam(":idSalMprima", $idSalMprima, PDO::PARAM_INT);
     $statement->bindParam(":codPed", $codPed, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);

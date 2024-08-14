@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       { data: "nombreProdMprimaCoti" },
       { data: "unidadProdMprimaCoti" },
-      {data:"cantidadProdMprimaCoti"},
+      { data: "cantidadProdMprimaCoti" },
       {
         data: "precioProdMprimaCoti",
         render: function (data, type, row) {
@@ -185,37 +185,61 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     ];
 
-    var tableProductos = $("#dataTableProductosMateriaPrimaCotizacionPedidos").DataTable({
+    var tableProductos = $(
+      "#dataTableProductosMateriaPrimaCotizacionPedidos"
+    ).DataTable({
       columns: columnDefsProductos,
     });
     // Agregar evento de escucha para los botones btnVerProductosPedido
     $(document).on("click", ".btnVerProductosPrimaPedido", function () {
       var codPed = $(this).attr("codPed");
-      var idCoti = $(this).attr("idCoti");
+      var idSalMprima = $(this).attr("idSalMprima");
       // Aquí puedes realizar las acciones necesarias con los valores obtenidos
+      // Verificar si idSalMprima está asignado
+      if (!idSalMprima) {
+        Swal.fire({
+          title: "No se encuentra una Salida de Materia Prima asignada al pedido",
+          text: "¿Desea asignarle una Salida de Materia Prima?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Si, asignar Salida de Materia Prima",
+          cancelButtonText: "No, en otro momento",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Redirigir a la ruta para asignar proceso operativo
+            window.location.href = "/dfrida/procesosOperativos";
+          } else {
+            $("#modalVerProdPrimaCotiPedidos").modal("hide");
+          }
+        });
+      } else {
+        // Solicitud inicial de dataTableProductosCotizacionPedidos
+        var data = new FormData();
+        data.append("codPedProductosMateriaPrimaPedidos", codPed);
+        data.append("idSalMprimaProductosMateriaPrimaPedidos", idSalMprima);
 
-      // Solicitud inicial de dataTableProductosCotizacionPedidos
-      var data = new FormData();
-      data.append("codPedProductosMateriaPrimaPedidos", codPed);
-      data.append("idCotiProductosMateriaPrimaPedidos", idCoti);  
-
-      $.ajax({
-        url: "ajax/productMprima.ajax.php",
-        method: "POST",
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-        success: function (response) {
-          tableProductos.clear();
-          tableProductos.rows.add(response);
-          tableProductos.draw();
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-        },
-      });
+        $.ajax({
+          url: "ajax/productMprima.ajax.php",
+          method: "POST",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (response) {
+            tableProductos.clear();
+            tableProductos.rows.add(response);
+            tableProductos.draw();
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
+      }
     });
   }
 });

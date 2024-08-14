@@ -60,7 +60,7 @@ class CotizacionController
         "EmailCli" => $cotizacionData["correoCotiAdd"],
         "AddressCli" => $cotizacionData["direccionCotiAdd"],
         "PhoneCli" => $cotizacionData["celularCotiAdd"],
-        "DetallCli" => $cotizacionData["detalleCotiAdd"]
+        "DetallCli" => "Sin Observaciones",
       );
       $response = ClientsController::ctrCreateClient($clienteNuevo);
     }

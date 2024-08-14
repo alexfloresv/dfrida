@@ -62,7 +62,7 @@ class PedidosAjax
       $pedido['estadoPedidos'] = FunctionPedidos::getEstadoPedido($pedido["estadoPedido"]);
       $pedido['clientePedido'] = FunctionPedidos::getBtnVerClientePedido($pedido["idPedido"], $pedido["idCli"]);
       $pedido['productosPedido'] = FunctionPedidos::getBtnVerProductosPedido($pedido["idPedido"], $pedido["idCoti"]);
-      $pedido['productosPrimaPedido'] = FunctionPedidos::getBtnVerProductosPrimaPedido($pedido["idPedido"], $pedido["idCoti"]);
+      $pedido['productosPrimaPedido'] = FunctionPedidos::getBtnVerProductosPrimaPedido($pedido["idPedido"], $pedido["idSalMprima"]);
     }
     // Mostrar todos los productos en datatable
     echo json_encode($todosLosPedidos);

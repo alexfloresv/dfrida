@@ -412,54 +412,6 @@ document.addEventListener("DOMContentLoaded", function () {
                   );
                   finalY += 10;
   
-                  // Tabla de productos prima
-                  // Parsear los productos una sola vez
-                  const productosMprima = JSON.parse(
-                    datosCotizacion.productsMprimaCoti
-                  );
-  
-                  // Preparar las filas para autoTable
-                  let filasMprima = [];
-  
-                  Object.keys(productosMprima).forEach((key) => {
-                    let productoPrima = productosMprima[key];
-  
-                    filasMprima.push([
-                      productoPrima.nombreProdMprimaCoti,
-                      productoPrima.unidadProdMprimaCoti,
-                      productoPrima.cantidadProdMprimaCoti,
-                      productoPrima.precioProdMprimaCoti,
-                    ]);
-                  });
-  
-                  // Usar autoTable para agregar las filas a la tabla
-                  doc.autoTable({
-                    startY: finalY,
-                    headStyles: {
-                      fontSize: 12,
-                      halign: "left",
-                      fillColor: [200, 200, 200],
-                    },
-                    head: [
-                      ["Nombre Producto Prima ", "Unidad", "Cantidad", "Precio S/"],
-                    ],
-                    body: filasMprima,
-  
-                    // Agrega aquí más opciones de configuración según sea necesario
-                  });
-  
-                  // Asegúrate de ajustar las propiedades de los productos y las opciones de autoTable según tus necesidades
-  
-                  finalY = doc.previousAutoTable.finalY + 10;
-  
-                  doc.text(
-                    "Total Materia Prima:  S/ " +
-                      datosCotizacion.totalProductsMprimaCoti,
-                    126,
-                    finalY
-                  );
-                  finalY += 10;
-  
                   // Alinear los totales por el ":"
                   const alinearTexto = (etiqueta, valor, xDerecha, y) => {
                     const textoCompleto = `${etiqueta}: S/ ${valor}`;
