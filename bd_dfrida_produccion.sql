@@ -11,7 +11,7 @@
  Target Server Version : 100432
  File Encoding         : 65001
 
- Date: 14/08/2024 10:19:44
+ Date: 14/08/2024 17:35:57
 */
 
 SET NAMES utf8mb4;
@@ -59,11 +59,11 @@ CREATE TABLE `almacen_mprima`  (
 -- ----------------------------
 -- Records of almacen_mprima
 -- ----------------------------
-INSERT INTO `almacen_mprima` VALUES (6, 33, 'T1234555', 'boton 1cm', 'Uni', '105', '30.00', '2024-08-14 09:12:20', '2024-08-14 09:42:11');
-INSERT INTO `almacen_mprima` VALUES (7, 32, 'T123459', 'hilo blanco', 'Uni', '105', '700.00', '2024-08-14 09:12:20', '2024-08-14 09:42:11');
-INSERT INTO `almacen_mprima` VALUES (8, 31, 'T123456', 'dril', 'metros', '105', '1700.00', '2024-08-14 09:12:20', '2024-08-14 09:42:11');
-INSERT INTO `almacen_mprima` VALUES (9, 30, 'T12345', 'ceda', 'Metros', '105', '1400.00', '2024-08-14 09:12:20', '2024-08-14 09:42:11');
-INSERT INTO `almacen_mprima` VALUES (10, 34, 'T12345888', 'boton casaca promo', 'Uni', '105', '50.00', '2024-08-14 09:12:20', '2024-08-14 09:42:11');
+INSERT INTO `almacen_mprima` VALUES (6, 33, 'T1234555', 'boton 1cm', 'Uni', '94', '30.00', '2024-08-14 09:12:20', '2024-08-14 16:14:27');
+INSERT INTO `almacen_mprima` VALUES (7, 32, 'T123459', 'hilo blanco', 'Uni', '94', '700.00', '2024-08-14 09:12:20', '2024-08-14 16:14:27');
+INSERT INTO `almacen_mprima` VALUES (8, 31, 'T123456', 'dril', 'metros', '94', '1700.00', '2024-08-14 09:12:20', '2024-08-14 16:14:27');
+INSERT INTO `almacen_mprima` VALUES (9, 30, 'T12345', 'ceda', 'Metros', '94', '1400.00', '2024-08-14 09:12:20', '2024-08-14 16:14:27');
+INSERT INTO `almacen_mprima` VALUES (10, 34, 'T12345888', 'boton casaca promo', 'Uni', '94', '50.00', '2024-08-14 09:12:20', '2024-08-14 16:14:27');
 
 -- ----------------------------
 -- Table structure for almacen_prod
@@ -190,13 +190,13 @@ CREATE TABLE `cotizacion`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idCoti`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of cotizacion
 -- ----------------------------
-INSERT INTO `cotizacion` VALUES (24, 'Casacas promocion colegio santa clara', '2024-08-14', 'colegio santa clara', 'santa clara', 1254879635, 'cliente nuevo de cotizacion', 987654321, 'clientenuevo1@gmail.com', 'casita del cliente ', 'cliente cotizacion', '{\"producto0\":{\"codProdCoti\":\"45\",\"nombreProdCoti\":\"Blusa Ceda Blanca\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"20.00\"},\"producto1\":{\"codProdCoti\":\"44\",\"nombreProdCoti\":\"Camisa Varon Colegio\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"50.00\"},\"producto2\":{\"codProdCoti\":\"43\",\"nombreProdCoti\":\"chaqueta\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"30.00\"},\"producto3\":{\"codProdCoti\":\"42\",\"nombreProdCoti\":\"pantalon dril\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"40.00\"}}', '{\"productoPrima0\":{\"codProdMprimaCoti\":\"34\",\"nombreProdMprimaCoti\":\"boton casaca promo\",\"unidadProdMprimaCoti\":\"Uni\",\"cantidadProdMprimaCoti\":\"1\",\"precioProdMprimaCoti\":\"0.50\"}}', 140.00, 0.50, 25.20, 140.00, 165.20, 2, '2024-08-14 09:27:00', '2024-08-14 09:27:46');
-INSERT INTO `cotizacion` VALUES (25, 'cotizacion prueba 1', '2024-08-14', 'cotizacion prueba 1', 'cotizacion prueba 1', 2113213123, 'cliente prueba 2 cotizacion', 65465465, 'correo@gmail.com', 'direccion cliente prueba 2 cotizacion', 'cotizacion observacion 1', '{\"producto0\":{\"codProdCoti\":\"45\",\"nombreProdCoti\":\"Blusa Ceda Blanca\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"20.00\"},\"producto1\":{\"codProdCoti\":\"44\",\"nombreProdCoti\":\"Camisa Varon Colegio\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"50.00\"},\"producto2\":{\"codProdCoti\":\"43\",\"nombreProdCoti\":\"chaqueta\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"30.00\"},\"producto3\":{\"codProdCoti\":\"42\",\"nombreProdCoti\":\"pantalon dril\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"40.00\"},\"producto4\":{\"codProdCoti\":\"45\",\"nombreProdCoti\":\"Blusa Ceda Blanca\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"20.00\"},\"producto5\":{\"codProdCoti\":\"44\",\"nombreProdCoti\":\"Camisa Varon Colegio\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"50.00\"},\"producto6\":{\"codProdCoti\":\"43\",\"nombreProdCoti\":\"chaqueta\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"30.00\"},\"producto7\":{\"codProdCoti\":\"42\",\"nombreProdCoti\":\"pantalon dril\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"40.00\"}}', '', 280.00, 0.00, 50.40, 280.00, 330.40, 2, '2024-08-14 09:39:04', '2024-08-14 09:39:53');
+INSERT INTO `cotizacion` VALUES (27, 'cotizacion 1', '1996-11-17', 'Adipisci iusto qui e', 'Quae quibusdam imped', 2147483647, 'RAUL APAZA', 994242441, 'raul.apaza@hofmannengineerign.com', 'LA JOYA', '', '{\"producto0\":{\"codProdCoti\":\"45\",\"nombreProdCoti\":\"Blusa Ceda Blanca\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"10\",\"precioProdCoti\":\"200.00\"},\"producto1\":{\"codProdCoti\":\"44\",\"nombreProdCoti\":\"Camisa Varon Colegio\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"10\",\"precioProdCoti\":\"500.00\"},\"producto2\":{\"codProdCoti\":\"43\",\"nombreProdCoti\":\"chaqueta\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"10\",\"precioProdCoti\":\"300.00\"},\"producto3\":{\"codProdCoti\":\"42\",\"nombreProdCoti\":\"pantalon dril\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"10\",\"precioProdCoti\":\"400.00\"},\"producto4\":{\"codProdCoti\":\"42\",\"nombreProdCoti\":\"pantalon dril\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"10\",\"precioProdCoti\":\"400.00\"}}', '', 1800.00, 0.00, 324.00, 1800.00, 2124.00, 2, '2024-08-14 13:07:33', '2024-08-14 16:13:36');
+INSERT INTO `cotizacion` VALUES (28, 'cotizacion 2', '1997-09-24', 'Elit delectus corp', 'Magni Nam cillum vel', 2147483647, 'STER', 957999530, '', 'CALLE LADISLAO CABRERA VALDEZ URB. PABLO VI', '', '{\"producto0\":{\"codProdCoti\":\"44\",\"nombreProdCoti\":\"Camisa Varon Colegio\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"50.00\"},\"producto1\":{\"codProdCoti\":\"45\",\"nombreProdCoti\":\"Blusa Ceda Blanca\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"20.00\"},\"producto2\":{\"codProdCoti\":\"43\",\"nombreProdCoti\":\"chaqueta\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"30.00\"},\"producto3\":{\"codProdCoti\":\"42\",\"nombreProdCoti\":\"pantalon dril\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"40.00\"},\"producto4\":{\"codProdCoti\":\"43\",\"nombreProdCoti\":\"chaqueta\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"30.00\"},\"producto5\":{\"codProdCoti\":\"44\",\"nombreProdCoti\":\"Camisa Varon Colegio\",\"unidadProdCoti\":\"Uni\",\"cantidadProdCoti\":\"1\",\"precioProdCoti\":\"50.00\"}}', '', 220.00, 0.00, 39.60, 220.00, 259.60, 2, '2024-08-14 13:14:35', '2024-08-14 16:13:51');
 
 -- ----------------------------
 -- Table structure for desecho_merma
@@ -365,7 +365,6 @@ CREATE TABLE `merma`  (
 -- ----------------------------
 -- Records of merma
 -- ----------------------------
-INSERT INTO `merma` VALUES (8, 58, 25, '2024-08-14 09:52:52', '2024-08-14 10:03:18', '2024-08-14', '2', '2024-08-14', 'merma aceptada ', '{\"merma0\":{\"codProdIng\":\"30\",\"nombreProdIng\":\"ceda\",\"codigoProdIng\":\"T12345\",\"unidadProdIng\":\"Metros\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"14\"},\"merma1\":{\"codProdIng\":\"33\",\"nombreProdIng\":\"boton 1cm\",\"codigoProdIng\":\"T1234555\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"0.30\"}}');
 
 -- ----------------------------
 -- Table structure for pedido
@@ -390,13 +389,13 @@ CREATE TABLE `pedido`  (
   CONSTRAINT `fk_idCoti` FOREIGN KEY (`idCoti`) REFERENCES `cotizacion` (`idCoti`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_idFichaTec` FOREIGN KEY (`idFichaTec`) REFERENCES `ficha_tecnica` (`idFichaTec`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `pedido_ibfk_1` FOREIGN KEY (`idCli`) REFERENCES `cliente` (`idCli`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of pedido
 -- ----------------------------
-INSERT INTO `pedido` VALUES (15, 15, 'pedido colegio santa clara', 'pedidoooo', '2024-08-14', '2024-08-14 09:27:46', '2024-08-14 09:52:52', 24, 190, 3, NULL);
-INSERT INTO `pedido` VALUES (16, 16, 'pedido cotizacion', 'pedido cotizacion', '2024-08-14', '2024-08-14 09:39:52', '2024-08-14 09:45:32', 25, 190, 1, 25);
+INSERT INTO `pedido` VALUES (19, 16, 'pedido1', 'pedido1', '2024-08-14', '2024-08-14 16:13:36', '2024-08-14 17:26:05', 27, 190, 1, NULL);
+INSERT INTO `pedido` VALUES (20, 14, 'pedido2', 'pedido2', '2024-08-14', '2024-08-14 16:13:51', '2024-08-14 17:26:05', 28, 190, 2, 34);
 
 -- ----------------------------
 -- Table structure for proceso_operativo
@@ -421,12 +420,12 @@ CREATE TABLE `proceso_operativo`  (
   INDEX `idSalMprima`(`idSalMprima`) USING BTREE,
   CONSTRAINT `proceso_operativo_ibfk_1` FOREIGN KEY (`idTipoProc`) REFERENCES `tipo_proceso` (`idTipoProc`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `proceso_operativo_ibfk_2` FOREIGN KEY (`idPedido`) REFERENCES `pedido` (`idPedido`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 59 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 66 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of proceso_operativo
 -- ----------------------------
-INSERT INTO `proceso_operativo` VALUES (58, 1, 15, 25, 'preseso operataivo cotizacion nueva', 5, '2024-08-14 09:43:51', '2024-08-14 09:52:52', 'preseso operataivo cotizacion nueva', '2024-08-14', '2024-08-14', '2024-09-30');
+INSERT INTO `proceso_operativo` VALUES (64, 1, 20, 34, 'pedido 1', 1, '2024-08-14 16:33:34', '2024-08-14 17:26:05', 'pedido 1', '2024-08-14', NULL, '2024-08-14');
 
 -- ----------------------------
 -- Table structure for proceso_operativo_fin
@@ -446,7 +445,6 @@ CREATE TABLE `proceso_operativo_fin`  (
 -- ----------------------------
 -- Records of proceso_operativo_fin
 -- ----------------------------
-INSERT INTO `proceso_operativo_fin` VALUES (16, 58, 1, '2024-08-14 09:52:52', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for prod_merma
@@ -490,7 +488,6 @@ CREATE TABLE `produccion`  (
 -- ----------------------------
 -- Records of produccion
 -- ----------------------------
-INSERT INTO `produccion` VALUES (14, 16, 4, '2024-08-14 09:52:52', '2024-08-14 09:56:06', '2024-08-14', 72, NULL);
 
 -- ----------------------------
 -- Table structure for producto
@@ -568,12 +565,13 @@ CREATE TABLE `salida_mprima`  (
   `DateUpdate` datetime NOT NULL,
   `idPedido` int NULL DEFAULT NULL,
   PRIMARY KEY (`idSalMprima`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of salida_mprima
 -- ----------------------------
-INSERT INTO `salida_mprima` VALUES (25, 58, 'salida cotixaion nueva', '2024-08-14', '0', '388.00', '388.00', '{\"producto0\":{\"codProdIng\":\"34\",\"nombreProdIng\":\"boton casaca promo\",\"codigoProdIng\":\"T12345888\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"5.00\"},\"producto1\":{\"codProdIng\":\"30\",\"nombreProdIng\":\"ceda\",\"codigoProdIng\":\"T12345\",\"unidadProdIng\":\"Metros\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"140.00\"},\"producto2\":{\"codProdIng\":\"31\",\"nombreProdIng\":\"dril\",\"codigoProdIng\":\"T123456\",\"unidadProdIng\":\"metros\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"170.00\"},\"producto3\":{\"codProdIng\":\"32\",\"nombreProdIng\":\"hilo blanco\",\"codigoProdIng\":\"T123459\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"70.00\"},\"producto4\":{\"codProdIng\":\"33\",\"nombreProdIng\":\"boton 1cm\",\"codigoProdIng\":\"T1234555\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"3.00\"}}', '2024-08-14 09:42:11', '2024-08-14 09:43:51', NULL);
+INSERT INTO `salida_mprima` VALUES (33, 0, 'salida2', '2024-08-14', '0', '388.00', '388.00', '{\"producto0\":{\"codProdIng\":\"34\",\"nombreProdIng\":\"boton casaca promo\",\"codigoProdIng\":\"T12345888\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"5.00\"},\"producto1\":{\"codProdIng\":\"30\",\"nombreProdIng\":\"ceda\",\"codigoProdIng\":\"T12345\",\"unidadProdIng\":\"Metros\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"140.00\"},\"producto2\":{\"codProdIng\":\"31\",\"nombreProdIng\":\"dril\",\"codigoProdIng\":\"T123456\",\"unidadProdIng\":\"metros\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"170.00\"},\"producto3\":{\"codProdIng\":\"32\",\"nombreProdIng\":\"hilo blanco\",\"codigoProdIng\":\"T123459\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"70.00\"},\"producto4\":{\"codProdIng\":\"33\",\"nombreProdIng\":\"boton 1cm\",\"codigoProdIng\":\"T1234555\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"3.00\"}}', '2024-08-14 12:59:47', '2024-08-14 17:23:59', 0);
+INSERT INTO `salida_mprima` VALUES (34, 64, 'salida 1', '2024-08-14', '0', '38.80', '38.80', '{\"producto0\":{\"codProdIng\":\"33\",\"nombreProdIng\":\"boton 1cm\",\"codigoProdIng\":\"T1234555\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"0.30\"},\"producto1\":{\"codProdIng\":\"32\",\"nombreProdIng\":\"hilo blanco\",\"codigoProdIng\":\"T123459\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"7.00\"},\"producto2\":{\"codProdIng\":\"31\",\"nombreProdIng\":\"dril\",\"codigoProdIng\":\"T123456\",\"unidadProdIng\":\"metros\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"17.00\"},\"producto3\":{\"codProdIng\":\"30\",\"nombreProdIng\":\"ceda\",\"codigoProdIng\":\"T12345\",\"unidadProdIng\":\"Metros\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"14.00\"},\"producto4\":{\"codProdIng\":\"34\",\"nombreProdIng\":\"boton casaca promo\",\"codigoProdIng\":\"T12345888\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"0.50\"}}', '2024-08-14 16:14:27', '2024-08-14 17:23:59', NULL);
 
 -- ----------------------------
 -- Table structure for salida_prod
@@ -656,7 +654,7 @@ CREATE TABLE `usuario`  (
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
-INSERT INTO `usuario` VALUES (1, 1, 'dfrida', 'Administrador', 'administrador', '$argon2id$v=19$m=4096,t=2,p=2$ZURZWG0yNkNOZVJTLlg5Lw$MvzbwXUNlV+Inxssd1nN+A8EN5Il6CdSAs7pTc3szJk', '2024-08-14 08:46:55', '2024-02-16 12:09:23', '2024-02-16 12:09:23');
+INSERT INTO `usuario` VALUES (1, 1, 'dfrida', 'Administrador', 'administrador', '$argon2id$v=19$m=4096,t=2,p=2$ZURZWG0yNkNOZVJTLlg5Lw$MvzbwXUNlV+Inxssd1nN+A8EN5Il6CdSAs7pTc3szJk', '2024-08-14 16:10:57', '2024-02-16 12:09:23', '2024-02-16 12:09:23');
 INSERT INTO `usuario` VALUES (7, 2, 'alex', 'alex administrativo', 'flores', '$argon2id$v=19$m=4096,t=2,p=2$N0RQdHo5MXhOb1ZPdS45Wg$lk4EN49DUl5YTX+omAM/qpOZZG1P4adfpdAWl/IFSG4', '2024-07-16 15:02:17', '2024-07-16 15:02:09', '2024-07-16 15:02:09');
 
 SET FOREIGN_KEY_CHECKS = 1;
