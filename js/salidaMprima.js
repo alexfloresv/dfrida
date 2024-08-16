@@ -1382,6 +1382,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 //fin eliminar registro de salida prima
+
 //funcion para traer productos prima de pedido / cotizacion
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;

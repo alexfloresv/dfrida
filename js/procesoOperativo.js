@@ -1259,7 +1259,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         Swal.fire({
           title: "¿Finalizar el Proceso Operativo?",
-          text: "Al Finalizar el proceso ya no se podra realizar cambios. Este pasara a la lista de Produccion. Y los residuos a la lista de Merma",
+          text: "Al Finalizar el proceso ya no se podra realizar cambios. Este pasara a la lista de Productos Finalizados. Y los residuos a la lista de Merma",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
@@ -1283,7 +1283,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (response == "ok") {
                   Swal.fire(
                     "Finalizado!",
-                    "El Proceso ha finalizado con exito. Gestione estos productos en Produccion para almacenarlos. Y los residuos pasaran a la lista de Merma",
+                    "El Proceso ha finalizado con exito. Gestione estos productos en Productos Fianlizados para almacenarlos. Y los residuos pasaran a la lista de Merma",
                     "success"
                   ).then(function () {
                     window.location.reload();
@@ -1417,7 +1417,7 @@ document.addEventListener("DOMContentLoaded", function () {
         //mensje de advertencia
         Swal.fire({
           title: "¿Finalizar el Proceso Operativo?",
-          text: "Al finalizar el proceso operativo este pasara a la lista de Produccion y Finalizara automaticamente los sub procesos. Y los residuos pasaran a la lista de Merma",
+          text: "Al finalizar el proceso operativo este pasara a la lista de Productos Finalizados y Finalizara automaticamente los sub procesos. Y los residuos pasaran a la lista de Merma",
           icon: "warning",
           showCancelButton: true,
           confirmButtonColor: "#3085d6",
@@ -1442,7 +1442,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (response == "ok") {
                   Swal.fire(
                     "Finalizado!",
-                    "El Proceso ha finalizado satisfactoriamente. Ahora Este pasara a la lista de Produccion. Y los residuos a la lista de Merma.",
+                    "El Proceso ha finalizado satisfactoriamente. Ahora Este pasara a la lista de Productos Finalizados. Y los residuos a la lista de Merma.",
                     "success"
                   ).then(function () {
                     window.location.reload();

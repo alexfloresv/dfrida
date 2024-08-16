@@ -77,7 +77,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //modal para ver productos mermamdos 
-
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/merma";
@@ -98,10 +97,11 @@ document.addEventListener("DOMContentLoaded", function () {
           <tr>
             <th scope="col">#</th>
             <th scope="col">Producto Prima</th>
-            <th scope="col">Codigo Producto</th>
-            <th scope="col">Unidad Producto</th>
-            <th scope="col">Cantidad Producto</th>
-            <th scope="col">Precio Prodcuto</th>
+            <th scope="col">Codigo </th>
+            <th scope="col">Unidad merma</th>
+            <th scope="col">Cantidad merma</th>
+            <th scope="col">Precio merma</th>
+            <th scope="col">Estado Merma</th>
           </tr>
          `);
 
@@ -120,6 +120,17 @@ document.addEventListener("DOMContentLoaded", function () {
               data: "precioProd",
               render: function (data, type, row) {
                 return "S/ " + data;
+              },
+            },
+            {
+              data: "estadoMerma",
+              render: function (data, type, row) {
+                var estado = Number(data); // Convertir data a número
+                if (estado === 1) {
+                  return '<span class="text-warning">Sin Utilizar</span>';
+                } else {
+                  return '<span class="text-success">Utilizado</span>';
+                }
               },
             },
           ];
@@ -158,6 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     unidadProd: item.unidadProdIng,
                     cantidadProd: item.cantidadProdIng,
                     precioProd: item.precioProdIng,
+                    estadoMerma: item.mermaDesechoEstado,
                   });
                 }
               }

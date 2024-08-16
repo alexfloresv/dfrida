@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
         //{ id: "igvCotizacionAdd", nombre: "IGV Cotización" },
         { id: "tituloCotiAdd", nombre: "Titulo cotizacion" },
         { id: "fechaCotiAdd", nombre: "Fecha cotizacion" },
-        { id: "nombreCotiAdd", nombre: "Nombre Solicitante" },
+        { id: "nombreCotiAdd", nombre: "Seleccione Cliente" },
         { id: "subTotalCotizacionAdd", nombre: "Sub Total Cotización" },
         { id: "totalProdCotiAdd", nombre: "Total Producto" },
         { id: "totalCotizacionAdd", nombre: "Total Cotización" },

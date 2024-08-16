@@ -183,7 +183,7 @@
                 <div class="form-group">
                   <label for="btnVerCotizacionesPedidoAdd">Cotizaciones</label>
                   <button type="button" class="btn btn-warning" id="btnVerCotizacionesPedidoAdd" idCoti="">
-                    Ver Cotizaciones
+                    Selecionar Cotizacion
                   </button>
                 </div>
               </div>

@@ -14,6 +14,7 @@ class MermaModel
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    /* {"merma0":{"codProdIng":"34","nombreProdIng":"boton casaca promo","codigoProdIng":"T12345888","unidadProdIng":"Uni","cantidadProdIng":"1","precioProdIng":"0.50","mermaDesechoEstado":"1"},"merma1":{"codProdIng":"32","nombreProdIng":"hilo blanco","codigoProdIng":"T123459","unidadProdIng":"Uni","cantidadProdIng":"1","precioProdIng":"7.00","mermaDesechoEstado":"1"},"merma2":{"codProdIng":"33","nombreProdIng":"boton 1cm","codigoProdIng":"T1234555","unidadProdIng":"Uni","cantidadProdIng":"1","precioProdIng":"0.30","mermaDesechoEstado":"1"}} */
     //  aceptar merma
     public static function mdlAceptarMerma($table, $codSalMprimas)
     {

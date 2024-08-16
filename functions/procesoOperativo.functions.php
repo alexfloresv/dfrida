@@ -59,7 +59,7 @@ class FunctionProcesoOperativo
   //botones aciones de proc Op
   public static function getBtnProcOp($codProcOp, $stateProcOp)
   {
-    if ($stateProcOp == 1) {
+    if ($stateProcOp == 1  || $stateProcOp == 3) {
       $botones = '
               <button class="btn btn-warning btnEditarProcOp" codProcOp="' . $codProcOp . '">
                   <i class="fa-solid fa-pencil"></i>

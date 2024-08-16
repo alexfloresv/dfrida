@@ -83,7 +83,7 @@ function ingresoPruductosMerma(salJsonMprima) {
       precioProdIng,
     } = proceso;
 
-    insertarFormularioMerma(
+    insertarFormularioMermaPorAprobar(
       codProdIng,
       nombreProdIng,
       codigoProdIng,
@@ -96,7 +96,7 @@ function ingresoPruductosMerma(salJsonMprima) {
   Swal.close();
 }
 
-function insertarFormularioMerma(
+function insertarFormularioMermaPorAprobar(
   codProdIng,
   nombreProdIng,
   codigoProdIng,
@@ -133,6 +133,11 @@ function insertarFormularioMerma(
       <div class="col-lg-2">
         <input type="text" class="form-control precioProdIng" id="precioProdIng" value="${precioProdIng}" data-original-precio="${precioProd}">
       </div>
+
+      <!--estado desecho merma value 1 = no usado 2 = utilizado -->
+
+      <input type="hidden" class="form-control" id="mermaDesechoEstado" value="1">
+       
       <!-- boton de eliminar -->
       <div class="col-lg-1">
         <button type="button" class="btn btn-danger btn-xs deleteNuevoIngresoProd" value="${codProdIng}"><i class="fa fa-times"></i></button>

@@ -21,20 +21,16 @@
   </nav>
 </div>
 
-<!-- Tipos de fichas-->
-<div class="sb-sidenav-menu-heading">Tipos Fichas</div>
-<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#Fichas" aria-expanded="false"
+<!-- Pedido-->
+<div class="sb-sidenav-menu-heading">Pedidos</div>
+<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#Pedidos" aria-expanded="false"
   aria-controls="collapseLayouts">
-  <div class="sb-nav-link-icon"><i class="fa-solid fa-folder-open"></i></div>
-  Fichas
+  <div class="sb-nav-link-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+  Pedidos
   <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 </a>
-<div class="collapse" id="Fichas" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-  <nav class="sb-sidenav-menu-nested nav">
-    <a class="nav-link" href="fichaTecnicaList"><i class="fa-solid fa-book"></i><span style="margin-left: 5px;">Ficha
-        Tecnica</span></a>
-    <a class="nav-link" href="fichaTrabajoList"><i class="fa-solid fa-network-wired"></i><span
-        style="margin-left: 5px;">Fichas de Trabajo</span></a>
+<div class="collapse" id="Pedidos" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+  <nav class="sb-sidenav-menu-nested nav"> 
     <a class="nav-link" href="cotizacionList"><i class="fa-solid fa-file-signature"></i><span
         style="margin-left: 5px;">Cotizaciones</span></a>
     <a class="nav-link" href="pedidosList"><i class="fa-solid fa-cart-plus"></i><span
@@ -58,7 +54,7 @@
         style="margin-left: 10px;">Productos Finalizados</span></a>
     <a class="nav-link" href="merma"><i class="fa-solid fa-trash-arrow-up"></i><span
         style="margin-left: 10px;">Mermas</span></a>
-    <a class="nav-link" href="nuevoIngreso"><i class="fa-solid fa-person-walking-arrow-loop-left"></i><span
+    <a class="nav-link" href="productoMerma"><i class="fa-solid fa-person-walking-arrow-loop-left"></i><span
         style="margin-left: 10px;">Producto Merma</span></a>
   </nav>
 </div>
@@ -74,9 +70,9 @@
 <div class="collapse" id="ProductosFinales" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
   <nav class="sb-sidenav-menu-nested nav">
     <a class="nav-link" href="ingresoList"><i class="fa-solid fa-arrows-down-to-line"></i><span
-        style="margin-left: 5px;">Ingresar Produccion</span></a>
+        style="margin-left: 5px;">Ingresar Producto Final</span></a>
     <a class="nav-link" href="salidaList"><i class="fa-solid fa-arrows-up-to-line"></i><span
-        style="margin-left: 5px;">Salida Produccion</span></a>
+        style="margin-left: 5px;">Salida Producto Final</span></a>
   </nav>
 </div>
 
@@ -97,6 +93,23 @@
   </nav>
 </div>
 
+<!-- Tipos de fichas-->
+<div class="sb-sidenav-menu-heading">Tipos Fichas</div>
+<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#Fichas" aria-expanded="false"
+  aria-controls="collapseLayouts">
+  <div class="sb-nav-link-icon"><i class="fa-solid fa-folder-open"></i></div>
+  Fichas
+  <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+</a>
+<div class="collapse" id="Fichas" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+  <nav class="sb-sidenav-menu-nested nav">
+    <a class="nav-link" href="fichaTecnicaList"><i class="fa-solid fa-book"></i><span style="margin-left: 5px;">Ficha
+        Tecnica</span></a>
+    <a class="nav-link" href="fichaTrabajoList"><i class="fa-solid fa-network-wired"></i><span
+        style="margin-left: 5px;">Fichas de Trabajo</span></a>
+  </nav>
+</div>
+
 <!-- Catalogo -->
 <div class="sb-sidenav-menu-heading">Catálogos</div>
 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#listaCatalogo" aria-expanded="false"
@@ -110,7 +123,7 @@
     <a class="nav-link" href="products"><i class="fa-solid fa-dolly"></i><span
         style="margin-left: 5px;">Agregar Productos</span></a>
     <a class="nav-link" href="productMprima"><i class="fa-solid fa-truck-ramp-box"></i><span
-        style="margin-left: 5px;">Agregar Productos Prima</span></a>
+        style="margin-left: 5px;">Agregar Materia Prima</span></a>
     <a class="nav-link" href="proveedores"><i class="fa-solid fa-truck"></i><span
         style="margin-left: 5px;">Agregar Proveedores</span></a>
     <a class="nav-link" href="clients"><i class="fa-solid fa-handshake"></i><span

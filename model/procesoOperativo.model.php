@@ -7,9 +7,13 @@ class procesoOperativoModel
   //datatable de proceso Op
   public static function mdlDTableProcesosOperativos($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT idProcOp, idTipoProc, idPedido, idSalMprima, descripcionProcOp, nombreProcOp, fechaRegistroProcOp, fechaInicioProcOp, fechaFinProcOp, estadoProcOp, DateUpdate FROM $table ORDER BY DateUpdate DESC, idProcOp DESC");
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
+      $statement = Conexion::conn()->prepare("
+          SELECT idProcOp, idTipoProc, idPedido, idSalMprima, descripcionProcOp, nombreProcOp, fechaRegistroProcOp, fechaInicioProcOp, fechaFinProcOp, estadoProcOp, DateCreate, DateUpdate 
+          FROM $table 
+          ORDER BY GREATEST(DateCreate, DateUpdate) DESC, idProcOp DESC
+      ");
+      $statement->execute();
+      return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
   //data table tipos de procesos operativos
   public static function mdlDTableTiposProcesosOperativos($table)

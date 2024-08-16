@@ -57,7 +57,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
       $_GET["ruta"] == "pedidosList" ||
       $_GET["ruta"] == "merma" ||
       $_GET["ruta"] == "cotizacionListEdit" ||
-
+      $_GET["ruta"] == "productoMerma" ||
       $_GET["ruta"] == "signout"
     ) {
       include "modules/" . $_GET["ruta"] . ".php";
@@ -133,6 +133,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
 <script src="js/editarCotizacion.js"></script>
 <script src="js/merma.js"></script>
 <script src="js/home.js"></script>
+<script src="js/productoMerma.js"></script>
 
 
 
