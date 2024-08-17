@@ -52,6 +52,20 @@
         style="margin-left: 10px;">Proceso Operatido</span></a>
     <a class="nav-link" href="produccionList"><i class="fa-solid fa-hand-holding-medical"></i><span
         style="margin-left: 10px;">Productos Finalizados</span></a>
+
+  </nav>
+</div>
+
+<!-- mermas -->
+<div class="sb-sidenav-menu-heading">Merma</div>
+<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#listRegistrosMermas" aria-expanded="false"
+  aria-controls="collapseLayouts">
+  <div class="sb-nav-link-icon"><i class="fa-solid fa-recycle"></i></i></div>
+  Merma 
+  <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+</a>
+<div class="collapse" id="listRegistrosMermas" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+  <nav class="sb-sidenav-menu-nested nav">
     <a class="nav-link" href="merma"><i class="fa-solid fa-trash-arrow-up"></i><span
         style="margin-left: 10px;">Mermas</span></a>
     <a class="nav-link" href="productoMerma"><i class="fa-solid fa-person-walking-arrow-loop-left"></i><span
