@@ -1,5 +1,5 @@
 window.formularioIngProdNuevoMermaCounter = 1;
-
+window.nombreProdMerma = 1;
 // Crear producto merma
 document.addEventListener("DOMContentLoaded", function () {
   // Si la ruta no es la correcta no se ejecuta la función
@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Crear un nuevo formulario para el producto con un ID único que incrementa en 1 cada vez que se agrega un producto
             var formularioID =
               "formularioIngProdNewMerm" + formularioIngProdNuevoMermaCounter++;
+            var nombreProdIngID = "nombreProdIng_" + window.nombreProdMerma++;
             var nuevoProductoHTML =
               '<form id="' +
               formularioID +
@@ -31,10 +32,14 @@ document.addEventListener("DOMContentLoaded", function () {
               '<input type="hidden" class="form-control" id="codProdIng" value="">' +
               /* nombre del producto con botón al lado */
               '<div class="input-group">' +
-              '<input type="text" class="form-control" id="nombreProdIng" value="" placeholder="Ingrese campo Obligatorio">' +
+              '<input type="text" class="form-control" id="' +
+              nombreProdIngID +
+              '" value="" placeholder="Ingrese campo Obligatorio">' +
               /*boton para buscar producto existente*/
               '<div class="input-group-append">' +
-              '<button class="btn btn-primary " type="button" id="btnAddProductoMermaExistente" value="' + formularioID + '">Buscar</button>' +
+              '<button class="btn btn-primary " type="button" id="btnAddProductoMermaExistente" value="' +
+              formularioID +
+              '">Buscar</button>' +
               "</div>" +
               "</div>" +
               "</div>" +
@@ -76,7 +81,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //funcion para traer la merma aprobada al selct 2
-
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/productoMerma";
@@ -85,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.body.addEventListener("click", function (event) {
       if (event.target && event.target.id === "btnAddProductoMermaExistente") {
         var formularioID = event.target.value; // Obtener el nombre del formulario del valor del botón
+        var selectID = "nombreProdIng_" + window.nombreProdMerma++; // Generar un ID único para el select
         Swal.fire({
           title: "¿Buscar un producto merma existente?",
           text: "Al confirmar se mostrara todos los productos del catalogo selecione el producto merma existente.",
@@ -97,10 +102,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }).then((result) => {
           if (result.isConfirmed) {
             // Cambiar el botón por un campo select en el formulario correcto
-            var container = document.querySelector(`#${formularioID} #divNombreProdMerma`);
+            var container = document.querySelector(
+              `#${formularioID} #divNombreProdMerma`
+            );
             container.innerHTML = `
               <div class="input-group">
-                <select class="form-control select2" id="nombreProdIng" name="nombreProdIng">
+                <select class="form-control select2" id="${selectID}" name="nombreProdIng">
                   <option value="0">Seleccione un producto merma</option>
                 </select>
                 <!-- id del producto -->
@@ -108,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
               </div>`;
 
             // Inicializar Select2 en el nuevo campo select
-            $(`#${formularioID} #nombreProdIng`).select2();
+            $(`#${selectID}`).select2();
 
             // Cargar datos dinámicamente al confirmar
             var data = new FormData();
@@ -123,13 +130,13 @@ document.addEventListener("DOMContentLoaded", function () {
               dataType: "json",
               success: function (data) {
                 // Limpiar las opciones actuales
-                $(`#${formularioID} #nombreProdIng`).empty();
-                $(`#${formularioID} #nombreProdIng`).append(
+                $(`#${selectID}`).empty();
+                $(`#${selectID}`).append(
                   '<option value="0">Seleccione un producto merma</option>'
                 );
                 // Agregar las nuevas opciones
                 $.each(data, function (key, value) {
-                  $(`#${formularioID} #nombreProdIng`).append(
+                  $(`#${selectID}`).append(
                     '<option value="' +
                       value.idProd +
                       '">' +
@@ -138,10 +145,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   );
                 });
                 // Actualizar Select2 después de agregar las opciones
-                $(`#${formularioID} #nombreProdIng`).trigger("change");
+                $(`#${selectID}`).trigger("change");
 
                 // Agregar evento change para capturar el valor seleccionado
-                $(`#${formularioID} #nombreProdIng`).on("change", function () {
+                $(`#${selectID}`).on("change", function () {
                   var codProdCatal = $(this).val();
                   // Validar si codMermaConfir es igual a 0
                   if (codProdCatal == 0) {
