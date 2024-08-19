@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
         Swal.fire({
           icon: "warning",
           title: "Crear Producto Merma",
-          text: "Este producto se creará automáticamente en el catálogo después de su registro.",
+          text: "Este producto se creará automáticamente en el catálogo después de su registro si no busca uno ya existente.",
           showCancelButton: true,
           confirmButtonText: "Confirmar",
           cancelButtonText: "Cancelar",
@@ -75,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Eliminar el producto
     $(document).on("click", ".deleteNuevoProdMerma", function () {
       $(this).closest(".productoRow").remove();
+      calcularTotalProdMerma();
     });
     //fin agregar productos a la cotizacion
   }
@@ -168,6 +169,66 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+//fin
+
+//funcion de calcular totales
+
+function calcularTotalProdMerma() {
+  //guarda el valor de los productos y productos prima en 0 para  sumar los precios
+  let totalProductos = 0;
+
+  //busca todos los formularios que comiencen con formularioIngProd = productos
+  // Sumar los precios de todos los productos
+  $("[id^=formularioIngProdNewMerm]").each(function () {
+    const precio = parseFloat($(this).find("#precioProdIng").val()) || 0;
+    //toma el valor del input con id precioProdIng y lo convierte a float
+    totalProductos += precio;
+  });
+
+  $("#totalProdMerma")
+    .val(totalProductos.toFixed(2))
+    .attr("value", totalProductos.toFixed(2));
+
+  const totalIngProdAdd = totalProductos;
+
+  $("#totalProdMerma")
+    .val(totalIngProdAdd.toFixed(2))
+    .attr("value", totalIngProdAdd.toFixed(2));
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  //si la ruta no es la correcta no se ejecuta la función
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/productoMerma";
+  if (currentPath == appPath) {
+    //funcion para calcular los totales
+
+    // Escuchar cambios en los campos de precioProdIng
+    $(document).on("input", "#precioProdIng", function () {
+      calcularTotalProdMerma();
+    });
+
+    // Usar MutationObserver para detectar cambios en el DOM
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "value"
+        ) {
+          calcularTotalProdMerma();
+        }
+      });
+    });
+
+    // Configurar el observer para cada campo de precioProdIng
+    $("[id^=formularioIngProdNewMerm] #precioProdIng").each(function () {
+      observer.observe(this, { attributes: true });
+    });
+
+    //fin vericar ruta
+  }
+});
+//fin funcion
 
 //funcion para trear los productos de la merma aprobada
 function productoMermaCatalogo(codProdCatal, formularioID) {
@@ -188,6 +249,9 @@ function productoMermaCatalogo(codProdCatal, formularioID) {
       $(`#${formularioID} #codigoProdIng`).val(response["codigoProd"]);
       $(`#${formularioID} #unidadProdIng`).val(response["unidadProd"]);
       $(`#${formularioID} #precioProdIng`).val(response["precioProd"]);
+
+      // Llamar a la función calcularTotalProdMerma después de actualizar los valores
+      calcularTotalProdMerma();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
@@ -384,11 +448,12 @@ function ingresoMermaConfirmada(jsonMerma, idMerma, nombreMerma) {
   const cabezeraHTML = `
       <div class="row align-items-center mt-2" id="cabezeraMerma">
         <div class="col-lg-10">
+        <form id="formCabezeraIdMerma${formularioMprimaMerma}">
           <label for="" class="form-label" style="font-weight: bold">Merma agregada</label>
-          <!-- id del producto -->
-          <input type="hidden" class="form-control" id="codMerma" value="${idMerma}">
+    
           <!-- nombre del producto -->
           <input type="text" class="form-control" id="nombreMerma" value="${nombreMerma}" readonly>
+        </form>
         </div>
         <div class="col-lg-2 d-flex align-items-center">
           <button type="button" class="btn btn-danger btn-xs deleteCabezeraMerma" value="${idMerma}"><i class="fa fa-times"></i></button>
@@ -436,7 +501,8 @@ function insertarFormularioMerma(
   unidadProdIng,
   cantidadProdIng,
   precioProdIng,
-  mermaDesechoEstado = 2, // utilizado // 1 = no utilizado = original data
+  mermaDesechoEstado, 
+  estadoMermaDesecho = 2, // = utilizado // 1 = no utilizado = original data
   codMerma
 ) {
   // Llamar a validarCantidad después de que todos los parámetros estén definidos
@@ -445,6 +511,8 @@ function insertarFormularioMerma(
   var nuevoProductoHTML = `
     <form id="${formularioID}" class="row productoRowMerma" style="padding:5px 15px">
       <div class="col-lg-2">
+        <!-- id del registro Merma -->
+        <input type="hidden" class="form-control" id="codMerma" value="${codMerma}">
         <!-- id del producto -->
         <input type="hidden" class="form-control" id="codProdIng" value="${codProdIng}">
         <!-- nombre del producto -->
@@ -467,7 +535,7 @@ function insertarFormularioMerma(
         <input type="text" class="form-control precioProdIng" id="precioProdIng" value="${precioProdIng}" data-original-precio="${precioProdIng}" readonly>
       </div>
       <!-- estado desecho merma value 1 = no usado 2 = utilizado -->
-      <input type="hidden" class="form-control" id="mermaDesechoEstado" value="${mermaDesechoEstado}">
+      <input type="hidden" class="form-control" id="mermaDesechoEstado" value="${estadoMermaDesecho}">
       <!-- boton de eliminar -->
      <div class="col-lg-1">
         <button type="button" class="btn btn-danger btn-xs deleteMprimaMermada" value="${formularioID}"><i class="fa fa-times"></i></button>
@@ -480,6 +548,7 @@ function insertarFormularioMerma(
 
   // Agregar el código y formulario de la merma a la variable global
   mermasSelecionadas.push({ codMerma: parseInt(codMerma), formularioID });
+  calcularTotalMerma();
 }
 
 // Función para eliminar un formulario específico
@@ -497,6 +566,8 @@ function deleteMprimaMermada(button) {
   mermasSelecionadas = mermasSelecionadas.filter(function (item) {
     return item.formularioID !== formularioID;
   });
+  //recalcular el total de la merma al quitar la cabezera que es todos
+  calcularTotalMerma();
 }
 
 // Función para eliminar una cabecera completa
@@ -522,6 +593,8 @@ function deleteCabezeraMerma(button) {
 
   // Eliminar la cabecera del DOM
   document.getElementById("cabezeraMerma").remove();
+  //recalcular el total de la merma al quitar un solo producto prima merma
+  calcularTotalMerma();
 }
 
 // Asignar eventos a los botones de eliminar
@@ -548,4 +621,273 @@ $(document).on("click", ".deleteMprimaMermada", function () {
 
 $(document).on("click", ".deleteCabezeraMerma", function () {
   deleteCabezeraMerma(this);
+});
+
+// fin eliminar formulario especifico
+
+//funcion de calcular totales
+function calcularTotalMerma() {
+  //guarda el valor de los productos y productos prima en 0 para  sumar los precios
+  let totalProductos = 0;
+
+  //busca todos los formularios que comiencen con formularioIngProd = productos
+  // Sumar los precios de todos los productos
+  $("[id^=formularioMprimaMerma]").each(function () {
+    const precio = parseFloat($(this).find("#precioProdIng").val()) || 0;
+    //toma el valor del input con id precioProdIng y lo convierte a float
+    totalProductos += precio;
+  });
+
+  $("#totalMerma")
+    .val(totalProductos.toFixed(2))
+    .attr("value", totalProductos.toFixed(2));
+
+  const totalIngProdAdd = totalProductos;
+
+  $("#totalMerma")
+    .val(totalIngProdAdd.toFixed(2))
+    .attr("value", totalIngProdAdd.toFixed(2));
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  //si la ruta no es la correcta no se ejecuta la función
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/productoMerma";
+  if (currentPath == appPath) {
+    //funcion para calcular los totales
+
+    // Escuchar cambios en los campos de precioProdIng
+    $(document).on("input", "#precioProdIng", function () {
+      calcularTotalMerma();
+    });
+
+    // Usar MutationObserver para detectar cambios en el DOM
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "value"
+        ) {
+          calcularTotalMerma();
+        }
+      });
+    });
+
+    // Configurar el observer para cada campo de precioProdIng
+    $("[id^=formularioMprimaMerma] #precioProdIng").each(function () {
+      observer.observe(this, { attributes: true });
+    });
+
+    //fin vericar ruta
+  }
+});
+//fin funcion
+
+//funcion oara crear registro de producto merma
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/productoMerma";
+  if (currentPath == appPath) {
+    // Si la ruta no es la correcta no se ejecuta la función
+    document
+      .getElementById("btnRegistrarProdMerma")
+      .addEventListener("click", function (event) {
+        // Obtener el formulario por id
+        var formulario = document.getElementById("formIngresoProdMerma");
+        var datosFormulario = {};
+        // Obtener los elementos del formulario
+        var elementosFormulario = formulario.querySelectorAll("input, select");
+        // For each para recorrer los elementos del formulario y asignarle la clave como su id y su valor
+        elementosFormulario.forEach(function (elemento) {
+          if (elemento.id) {
+            datosFormulario[elemento.id] = elemento.value;
+          }
+        });
+
+        // Crear el JSON
+        var jsonCrearRegistroMerma = JSON.stringify(datosFormulario);
+
+        // Variables para almacenar los JSON de los formularios anidados
+        var jsonProdMerma = null;
+        var jsonMprimaMerma = null;
+
+        // Función para enviar los datos al servidor
+        function enviarDatosAlServidor() {
+          if (jsonProdMerma !== null && jsonMprimaMerma !== null) {
+            $.ajax({
+              url: "ajax/productoMerma.ajax.php",
+              method: "POST",
+              data: {
+                jsonCrearRegistroMerma: jsonCrearRegistroMerma,
+                jsonProdMerma: jsonProdMerma,
+                jsonMprimaMerma: jsonMprimaMerma,
+              },
+              dataType: "json",
+              success: function (response) {
+                $("#modalAddProductoMprima").modal("hide"); // Cerrar el modal
+                // Función para limpiar los datos de la URL
+                var limpiarURL = function () {
+                  window.history.pushState(
+                    {},
+                    document.title,
+                    window.location.pathname
+                  );
+                };
+
+                if (response == "ok") {
+                  Swal.fire({
+                    icon: "success",
+                    title: "Correcto",
+                    html: "<strong>Producto Prima creado correctamente</strong>",
+                  }).then(function (result) {
+                    if (result.value) {
+                      limpiarURL(); // Llamar a la función para limpiar la URL
+                      window.location.reload(); // Recargar la página
+                    }
+                  });
+                } else {
+                  Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    html: "<strong>No se puede crear el Producto Prima con datos Vacios</strong>.",
+                  }).then(function (result) {
+                    if (result.value) {
+                      limpiarURL(); // Llamar a la función para limpiar la URL
+                    }
+                  });
+                }
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                console.log(
+                  "Error en la solicitud AJAX: ",
+                  textStatus,
+                  errorThrown
+                );
+              },
+            });
+          }
+        }
+
+        // Llamada a la función para recolectar datos de formularios anidados PRODUCTOS
+        recojerFormulariosAnidadosProdcutoMerma(function (
+          datosFormulariosProductosMerma
+        ) {
+          // Convierte los datos recolectados a un JSON
+          jsonProdMerma = JSON.stringify(datosFormulariosProductosMerma);
+          enviarDatosAlServidor(); // Intenta enviar los datos al servidor
+        });
+
+        // Llamada a la función para recolectar datos de formularios anidados MATERIA PRIMA
+        recojerFormulariosAnidadosMprimaMerma(function (
+          datosFormulariosProductosMprimaMerma
+        ) {
+          // Convierte los datos recolectados a un JSON
+          jsonMprimaMerma = JSON.stringify(
+            datosFormulariosProductosMprimaMerma
+          );
+          enviarDatosAlServidor(); // Intenta enviar los datos al servidor
+        });
+      });
+
+    // Fin verificar ruta
+  }
+});
+
+//funcion para recolectar los datos de los formularios productos merma
+function recojerFormulariosAnidadosProdcutoMerma(callback) {
+  // Almacena los datos de los formularios productos y productos prima
+  let datosFormulariosProductosMerma = {};
+
+  $("[id^=formularioIngProdNewMerm]").each(function (index) {
+    let datosFormulario = {};
+    $(this)
+      .find("input, select")
+      .each(function () {
+        if (this.id) {
+          let valor;
+          let idCampo = this.id;
+
+          // Si el campo es "nombreProdIng_n", elimina todo después del "_"
+          if (idCampo.startsWith("nombreProdIng_")) {
+            idCampo = idCampo.split("_")[0];
+
+            // Verificar si el campo es un select2
+            if ($(this).hasClass("select2-hidden-accessible")) {
+              valor = $(this).find("option:selected").text();
+            } else {
+              valor = $(this).val();
+            }
+          } else {
+            valor = $(this).val();
+          }
+
+          datosFormulario[idCampo] = valor;
+        }
+      });
+    datosFormulariosProductosMerma["prodMerma" + index] = datosFormulario;
+  });
+
+  // Llamar al callback con los datos recolectados de ambos formularios
+  if (callback && typeof callback === "function") {
+    callback(datosFormulariosProductosMerma);
+  }
+}
+//fin agregar productos
+
+//funcion para recolectar los datos de los formularios  productos prima merma
+function recojerFormulariosAnidadosMprimaMerma(callback) {
+  //alamcena los datos de los formularios productos y productos prima
+  let datosFormulariosProductosMprimaMerma = {};
+
+  // Recorrer los formularios de productos
+  $("[id^=formularioMprimaMerma]").each(function (index) {
+    let datosFormulario = {};
+    $(this)
+      .find("input, select")
+      .each(function () {
+        if (this.id) {
+          datosFormulario[this.id] = $(this).val();
+        }
+      });
+    datosFormulariosProductosMprimaMerma["MprimaMerma" + index] =
+      datosFormulario;
+  });
+
+  // Llamar al callback con los datos recolectados de ambos formularios
+  if (callback && typeof callback === "function") {
+    callback(datosFormulariosProductosMprimaMerma);
+  }
+}
+//fin agregar productos
+
+//fin   funcion para crear registro de producto merma
+
+//vista de regsitrar producto merma
+document.addEventListener("DOMContentLoaded", function () {
+  //si la ruta no es la correcta no se ejecuta la función
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/productoMermaList";
+  if (currentPath == appPath) {
+    var btn = document.getElementById("btnRegistrarProdMerma");
+    if (btn) {
+      btn.addEventListener("click", function () {
+        window.location.href = "/dfrida/productoMerma";
+      });
+    }
+  }
+});
+
+//cerrar vista de regsitrar producto merma
+document.addEventListener("DOMContentLoaded", function () {
+  //si la ruta no es la correcta no se ejecuta la función
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/productoMerma";
+  if (currentPath == appPath) {
+    var btn = document.getElementById("btnCerrarProductoMerma");
+    if (btn) {
+      btn.addEventListener("click", function () {
+        window.location.href = "/dfrida/productoMermaList";
+      });
+    }
+  }
 });

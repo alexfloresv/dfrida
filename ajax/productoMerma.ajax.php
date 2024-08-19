@@ -41,6 +41,15 @@ if (isset($_POST["codProdCatal"])) {
   $add->ajaxProductoMermaCatalogo($_POST["codProdCatal"]);
 }
 
+//funcion para trear crear registro de propducto merma
+if (isset($_POST["jsonCrearRegistroMerma"], $_POST["jsonProdMerma"], $_POST["jsonMprimaMerma"])) {
+  $create = new ProductoMermaAjax();
+  $create->jsonCrearRegistroMerma = $_POST["jsonCrearRegistroMerma"];
+  $create->jsonProdMerma = $_POST["jsonProdMerma"];
+  $create->jsonMprimaMerma = $_POST["jsonMprimaMerma"];
+  $create->ajaxCrearRegProdMerma($_POST["jsonCrearRegistroMerma"], $_POST["jsonProdMerma"], $_POST["jsonMprimaMerma"]);
+}
+
 class ProductoMermaAjax
 {
   //datatable de mermas
@@ -82,6 +91,11 @@ class ProductoMermaAjax
   public function ajaxProductoMermaCatalogo($codProdCatal)
   {
     $response = ProductoMermaController::ctrProductoMermaCatalogo($codProdCatal);
+    echo json_encode($response);
+  }
+  public function ajaxCrearRegProdMerma($jsonCrearRegistroMerma, $jsonProdMerma, $jsonMprimaMerma)
+  {
+    $response = ProductoMermaController::CrearRegProdMerma($jsonCrearRegistroMerma, $jsonProdMerma, $jsonMprimaMerma);
     echo json_encode($response);
   }
 }

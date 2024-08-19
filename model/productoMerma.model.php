@@ -75,7 +75,49 @@ class ProductoMermaModel
             return "error";
         }
     }
-    /* "{"producto0":{"codProdIng":"33","nombreProdIng":"boton 1cm","codigoProdIng":"T1234555","unidadProdIng":"Uni","cantidadProdIng":"1","precioProdIng":"0.30"},"producto1":{"codProdIng":"32","nombreProdIng":"hilo blanco","codigoProdIng":"T123459","unidadProdIng":"Uni","cantidadProdIng":"1","precioProdIng":"7.00"},"producto2":{"codProdIng":"30","nombreProdIng":"ceda","codigoProdIng":"T12345","unidadProdIng":"Metros","cantidadProdIng":"1","precioProdIng":"14.00"},"producto3":{"codProdIng":"34","nombreProdIng":"boton casaca promo","codigoProdIng":"T12345888","unidadProdIng":"Uni","cantidadProdIng":"1","precioProdIng":"0.50"}}" */
+
+    //funciones para crear producto nuevo merma desde la vista recuepracion de datos y registro y updates
+
+    //obtener registro de merma aceptada
+    public static function obtenerMermaConfirmada($table, $idMerma)
+    {
+        try {
+            $statement = Conexion::conn()->prepare("SELECT 
+            jsonMerma
+            FROM $table 
+            WHERE idMerma = :idMerma ");
+            $statement->bindParam(":idMerma", $idMerma, PDO::PARAM_INT);
+            $statement->execute();
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return "error";
+        }
+    }
+    //fin
+    //actualizar registro json de la merma base de datos //
+    public static function mdlUpdateBaseDeDatos($table, $dataUpdate)
+    {
+        try {
+            $statement = Conexion::conn()->prepare("UPDATE $table SET 
+            jsonMerma = :jsonMerma
+            WHERE idMerma = :idMerma ");
+            $statement->bindParam(":idMerma", $dataUpdate['idMerma'], PDO::PARAM_INT);
+            $statement->bindParam(":jsonMerma", $dataUpdate['jsonMerma'], PDO::PARAM_STR);
+            $statement->execute();
+
+            // Verificar si la actualización fue exitosa
+            if ($statement->rowCount() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception $e) {
+            return "error";
+        }
+    }
+    //fin funcion
+
+    //**fin funciones
 
 
 }

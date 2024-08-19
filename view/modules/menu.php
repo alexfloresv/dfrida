@@ -68,7 +68,7 @@
   <nav class="sb-sidenav-menu-nested nav">
     <a class="nav-link" href="merma"><i class="fa-solid fa-trash-arrow-up"></i><span
         style="margin-left: 10px;">Mermas</span></a>
-    <a class="nav-link" href="productoMerma"><i class="fa-solid fa-person-walking-arrow-loop-left"></i><span
+    <a class="nav-link" href="productoMermaList"><i class="fa-solid fa-person-walking-arrow-loop-left"></i><span
         style="margin-left: 10px;">Producto Merma</span></a>
   </nav>
 </div>
