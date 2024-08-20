@@ -109,6 +109,7 @@ if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
 <script src="dataTables/dt-produccion.js"></script>
 <script src="dataTables/dt-pedidos.js"></script>
 <script src="dataTables/dt-merma.js"></script>
+<script src="dataTables/dt-productoMerma.js"></script>
 
 
 <!-- funciones js -->

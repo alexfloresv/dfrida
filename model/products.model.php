@@ -8,7 +8,7 @@ class ProductsModel
 
   public static function mdlDTableProductos($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT producto.idProd, producto.idCatPro, producto.codigoProd, producto.nombreProd, producto.detalleProd, producto.unidadProd, producto.precioProd, categoria_prod.nombreCategoriaProd FROM $table INNER JOIN categoria_prod ON producto.idCatPro = categoria_prod.idCatPro ORDER BY producto.idProd DESC");
+    $statement = Conexion::conn()->prepare("SELECT producto.idProd, producto.idCatPro, producto.codigoProd, producto.nombreProd, producto.detalleProd, producto.unidadProd, producto.precioProd, categoria_prod.nombreCategoriaProd FROM $table LEFT JOIN categoria_prod ON producto.idCatPro = categoria_prod.idCatPro ORDER BY producto.idProd DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }

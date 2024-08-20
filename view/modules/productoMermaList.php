@@ -15,14 +15,13 @@
       </ol>
       <div class="d-flex m-2">
         <button type="button" class="btn btn-primary me-4" id="btnRegistrarProdMerma">
-        Registrar Producto Merma
+          Crear Producto Merma
         </button>
-    
       </div>
       <div class="card mb-4">
         <div class="card-header">
           <!--  Titulo dataTableProductoMerma -->
-          <h5 class="mt-4 tituloSalidas"></h5>
+          <h5 class="mt-4 tituloProdMerma"></h5>
         </div>
         <div class="card-body">
           <!-- dataTableProductoMerma -->
@@ -41,4 +40,3 @@
   </main>
 </div>
 </div>
-

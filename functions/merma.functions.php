@@ -10,7 +10,10 @@ class FunctionMerma
       $estado = '<span class="badge rounded-pill bg-danger">Sin Confirmar</span>';
     }
     if ($stateValue == 2) {
-      $estado = '<span class="badge rounded-pill bg-success">Confirmada</span>';
+      $estado = '<span class="badge rounded-pill bg-primary">Confirmada</span>';
+    }
+    if ($stateValue == 3) {
+      $estado = '<span class="badge rounded-pill bg-success">Merma Utilizada</span>';
     }
     return $estado;
   }
@@ -18,22 +21,22 @@ class FunctionMerma
   //botones de productos prima de pedido = cotizacion = proceso operativo
   public static function btnProductosMprimaMerma($codSalMprima, $estadoMerma, $codMerma)
   {
-      if ($estadoMerma == 2) {
-          $botones = '
+    if ($estadoMerma == 2 || $estadoMerma == 3) {
+      $botones = '
               <button class="btn btn-primary btnAprobMprimaMerma" codMerma="' . $codMerma . '" codSalMprima="' . $codSalMprima . '" disabled><i class="fa-solid fa-recycle"></i></button>
               ';
-      } else {
-          $botones = '
+    } else {
+      $botones = '
               <button class="btn btn-primary btnAprobMprimaMerma" codMerma="' . $codMerma . '" codSalMprima="' . $codSalMprima . '"><i class="fa-solid fa-recycle"></i></button>
               ';
-      }
-      return $botones;
+    }
+    return $botones;
   }
 
   //boton de merma confirmada
   public static function btnVerMermaAceptada($codMerma, $estadoMerma)
   {
-    if ($estadoMerma == 2) {
+    if ($estadoMerma == 2 || $estadoMerma == 3) {
       $botones = '
           <button class="btn btn-success btnVerMermaAceptada" codMerma="' . $codMerma . '"><i class="fa-solid fa-trash-can"></i></button>
           ';
@@ -57,16 +60,16 @@ class FunctionMerma
   //boton editar merma
   public static function btnEditMerma($codMerma, $estadoMerma)
   {
-      if ($estadoMerma == 1) {
-          $botones = '
+    if ($estadoMerma == 1) {
+      $botones = '
           <button class="btn btn-warning btnEditUser" codMerma="' . $codMerma . '" disabled><i class="fa-solid fa-pencil"></i></button>
           ';
-      } else {
-          $botones = '
+    } else {
+      $botones = '
           <button class="btn btn-warning btnEditUser" codMerma="' . $codMerma . '"><i class="fa-solid fa-pencil"></i></button>
           ';
-      }
-      return $botones;
+    }
+    return $botones;
   }
 
   public static function getFechaAprobadoMerma($fechaMermaAprob)
@@ -74,8 +77,8 @@ class FunctionMerma
 
     if ($fechaMermaAprob == null) {
       $estado = '<span class="badge rounded-pill bg-danger">Sin Fecha Aceptada</span>';
-    }else{
-      $estado = '<span class="badge rounded-pill bg-success">'.$fechaMermaAprob.'</span>';
+    } else {
+      $estado = '<span class="badge rounded-pill bg-success">' . $fechaMermaAprob . '</span>';
     }
     return $estado;
   }

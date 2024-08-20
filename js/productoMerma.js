@@ -477,17 +477,22 @@ function ingresoMermaConfirmada(jsonMerma, idMerma, nombreMerma) {
       mermaDesechoEstado,
     } = proceso;
 
-    // Insertar el formulario de producción directamente
-    insertarFormularioMerma(
-      codProdIng,
-      nombreProdIng,
-      codigoProdIng,
-      unidadProdIng,
-      cantidadProdIng,
-      precioProdIng,
-      mermaDesechoEstado,
-      idMerma
-    );
+    // Validar el mermaDesechoEstado
+    if (mermaDesechoEstado == 1) {
+      // Insertar el formulario de producción directamente
+      insertarFormularioMerma(
+        codProdIng,
+        nombreProdIng,
+        codigoProdIng,
+        unidadProdIng,
+        cantidadProdIng,
+        precioProdIng,
+        mermaDesechoEstado,
+        idMerma
+      );
+    } else {
+      continue; // Saltar a la siguiente iteración si no es 1
+    }
   }
 
   // Cerrar el modal de carga una vez que se haya completado el procesamiento
@@ -501,11 +506,11 @@ function insertarFormularioMerma(
   unidadProdIng,
   cantidadProdIng,
   precioProdIng,
-  mermaDesechoEstado, 
-  estadoMermaDesecho = 2, // = utilizado // 1 = no utilizado = original data
+  mermaDesechoEstado = 2, // = utilizado // 1 = no utilizado = original data
   codMerma
 ) {
   // Llamar a validarCantidad después de que todos los parámetros estén definidos
+  mermaDesechoEstado = 2;
 
   var formularioID = "formularioMprimaMerma" + formularioMprimaMerma++;
   var nuevoProductoHTML = `
@@ -535,7 +540,7 @@ function insertarFormularioMerma(
         <input type="text" class="form-control precioProdIng" id="precioProdIng" value="${precioProdIng}" data-original-precio="${precioProdIng}" readonly>
       </div>
       <!-- estado desecho merma value 1 = no usado 2 = utilizado -->
-      <input type="hidden" class="form-control" id="mermaDesechoEstado" value="${estadoMermaDesecho}">
+      <input type="hidden" class="form-control" id="mermaDesechoEstado" value="${mermaDesechoEstado}">
       <!-- boton de eliminar -->
      <div class="col-lg-1">
         <button type="button" class="btn btn-danger btn-xs deleteMprimaMermada" value="${formularioID}"><i class="fa fa-times"></i></button>

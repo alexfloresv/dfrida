@@ -2,61 +2,57 @@
 document.addEventListener("DOMContentLoaded", function () {
   //verrificar si la ruta es la correcta
   var currentPath = window.location.pathname;
-  var appPath = "/dfrida/merma";
+  var appPath = "/dfrida/productoMermaList";
   if (currentPath == appPath) {
     //si es correcta la ruta inicializa el datatable
 
     // Verifica si el DataTable ya está inicializado y destrúyelo si es así
-    if ($.fn.DataTable.isDataTable("#dataTableMerma")) {
-      $("#dataTableMerma").DataTable().destroy();
+    if ($.fn.DataTable.isDataTable("#dataTableProductoMerma")) {
+      $("#dataTableProductoMerma").DataTable().destroy();
     }
 
-    // Estructura de dataTableMerma
-    $("#dataTableMerma thead").html(`
+    // Estructura de dataTableProductoMerma
+    $("#dataTableProductoMerma thead").html(`
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Aceptar Mermar</th>
-          <th scope="col">Nombre Merma</th>
+          <th scope="col">Nombre Registro</th>
           <th scope="col">Fecha Registro</th>
-          <th scope="col">Fecha Aceptada</th>
           <th scope="col">Estado</th>
-          <th scope="col">Proceso Operativo</th>
+          <th scope="col">Producto Merma</th>
           <th scope="col">Productos Mermados</th>
         
         </tr>
       `);
 
-    // Definición inicial de dataTableMerma
-    var columnDefsMerma = [
+    // Definición inicial de dataTableProductoMerma
+    var columnDefsProdMerma = [
       {
         data: null,
         render: function (data, type, row, meta) {
           return meta.row + 1; // Para el número de fila
         },
       },
-      { data: "btnMprimaDeProcOp" },
-      { data: "nombreMerma" },
-      { data: "fechaMermaIng" },
-      { data: "fechaMermaAprobada" },
-      { data: "estadoMermaAcp" },
-      { data: "btnProcOpOrigin" },
-      { data: "btnMermaAceptada" },
+      { data: "descripcionProdMerma" },
+      { data: "fechaProdMerma" },
+      { data: "stateProdMerma" },
+      { data: "btnProdMerma" },
+      { data: "btnMprimaMerma" },
      // { data: "btnEditMerma" },
     ];
 
-    var tableMerma = $("#dataTableMerma").DataTable({
-      columns: columnDefsMerma,
+    var tableProdMerma = $("#dataTableProductoMerma").DataTable({
+      columns: columnDefsProdMerma,
     });
 
-    // Titulo dataTableMerma
-    $(".tituloMerma").text("Todos los registro de Merma");
+    // Titulo dataTableProductoMerma
+    $(".tituloProdMerma").text("Todos los registro de Producto Merma");
 
-    // Solicitud inicial de dataTableMerma
+    // Solicitud inicial de dataTableProductoMerma
     var data = new FormData();
-    data.append("todasLasMermas", true);
+    data.append("todosLosRegistrosProdMerma", true);
 
     $.ajax({
-      url: "ajax/merma.ajax.php",
+      url: "ajax/productoMerma.ajax.php",
       method: "POST",
       data: data,
       cache: false,
@@ -64,9 +60,9 @@ document.addEventListener("DOMContentLoaded", function () {
       processData: false,
       dataType: "json",
       success: function (response) {
-        tableMerma.clear();
-        tableMerma.rows.add(response);
-        tableMerma.draw();
+        tableProdMerma.clear();
+        tableProdMerma.rows.add(response);
+        tableProdMerma.draw();
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.error("Error en la solicitud AJAX: ", textStatus, errorThrown);

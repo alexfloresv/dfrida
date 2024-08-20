@@ -2,17 +2,20 @@
 //controladores
 require_once "../controller/productoMerma.controller.php";
 require_once "../model/productoMerma.model.php";
-//require_once "../functions/merma.functions.php";
+require_once "../controller/ingresoProd.controller.php";
+require_once "../model/ingresoProd.model.php";
+require_once "../functions/productoMerma.functions.php";
+
 //inicio de secion 
 if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
 
 //funciones para escuchar entrad ade datos desde $.ajax de jquery
-//datatable de mermas
-if (isset($_POST["todasLasMermas"])) {
-  $todasLasMermas = new ProductoMermaAjax();
-  $todasLasMermas->ajaxDTableMerma();
+  //datatable de prodcucto mermas
+if (isset($_POST["todosLosRegistrosProdMerma"])) {
+  $todosLosRegistrosProdMerma = new ProductoMermaAjax();
+  $todosLosRegistrosProdMerma->ajaxDTableProductoMerma();
 }
 
 //funcion para traer la merma aprobada al selct 2
@@ -52,20 +55,18 @@ if (isset($_POST["jsonCrearRegistroMerma"], $_POST["jsonProdMerma"], $_POST["jso
 
 class ProductoMermaAjax
 {
-  //datatable de mermas
-  public function ajaxDTableMerma()
+  //datatable de prodcucto mermas
+  public function ajaxDTableProductoMerma()
   {
-    $todasLasMermas = MermaController::ctrDTableMerma();
-    foreach ($todasLasMermas as &$merma) {
-      $merma['estadoMermaAcp'] = FunctionMerma::getEstadoMerma($merma["estadoMerma"]);
-      $merma['btnMprimaDeProcOp'] = FunctionMerma::btnProductosMprimaMerma($merma["idSalMprima"], $merma["estadoMerma"], $merma["idMerma"]);
-      $merma['btnProcOpOrigin'] = FunctionMerma::btnVerProcOpOrigin($merma["idProcOp"]);
-      $merma['btnMermaAceptada'] = FunctionMerma::btnVerMermaAceptada($merma["idMerma"], $merma["estadoMerma"]);
-      $merma['btnEditMerma'] = FunctionMerma::btnEditMerma($merma["idMerma"], $merma["estadoMerma"]);
-      $merma['fechaMermaAprobada'] = FunctionMerma::getFechaAprobadoMerma($merma["fechaMermaAprob"]);
+    $todosLosProdMerma = ProductoMermaController::ctrDTableProductoMerma();
+    foreach ($todosLosProdMerma as &$merma) {
+      $merma['stateProdMerma'] = FunctionProductoMerma::getEstadoProdMerma($merma["estadoProdMerma"]);
+      $merma['btnProdMerma'] = FunctionProductoMerma::btnProdMerma($merma["idProdMerma"]);
+      $merma['btnMprimaMerma'] = FunctionProductoMerma::btnProdMprimaMerma($merma["idProdMerma"]);
+    
     }
     //mostar todos los usuarios DataTable
-    echo json_encode($todasLasMermas);
+    echo json_encode($todosLosProdMerma);
   }
 
   //funcion para traer la merma aprobada al selct 2

@@ -80,6 +80,7 @@ require_once "functions/procesoOperativo.functions.php";
 require_once "functions/produccion.functions.php";
 require_once "functions/pedidos.functions.php";
 require_once "functions/merma.functions.php";
+require_once "functions/productoMerma.functions.php";
 //+
 $template = new TemplateController();
 $template -> ctrTemplate();

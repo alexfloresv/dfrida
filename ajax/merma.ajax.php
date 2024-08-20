@@ -54,7 +54,7 @@ class MermaAjax
       $merma['btnMprimaDeProcOp'] = FunctionMerma::btnProductosMprimaMerma($merma["idSalMprima"], $merma["estadoMerma"], $merma["idMerma"]);
       $merma['btnProcOpOrigin'] = FunctionMerma::btnVerProcOpOrigin($merma["idProcOp"]);
       $merma['btnMermaAceptada'] = FunctionMerma::btnVerMermaAceptada($merma["idMerma"], $merma["estadoMerma"]);
-      $merma['btnEditMerma'] = FunctionMerma::btnEditMerma($merma["idMerma"], $merma["estadoMerma"]);
+      //$merma['btnEditMerma'] = FunctionMerma::btnEditMerma($merma["idMerma"], $merma["estadoMerma"]);
       $merma['fechaMermaAprobada'] = FunctionMerma::getFechaAprobadoMerma($merma["fechaMermaAprob"]);
     }
     //mostar todos los usuarios DataTable

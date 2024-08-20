@@ -11,7 +11,7 @@
  Target Server Version : 100432
  File Encoding         : 65001
 
- Date: 16/08/2024 17:32:19
+ Date: 20/08/2024 17:26:23
 */
 
 SET NAMES utf8mb4;
@@ -80,15 +80,19 @@ CREATE TABLE `almacen_prod`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idAlmaProd`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 39 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of almacen_prod
 -- ----------------------------
-INSERT INTO `almacen_prod` VALUES (35, 45, '1234568', 'Blusa Ceda Blanca', 'Uni', '1', '20.00', '2024-08-14 09:56:06', '0000-00-00 00:00:00');
+INSERT INTO `almacen_prod` VALUES (35, 45, '1234568', 'Blusa Ceda Blanca', 'Uni', '2', '20.00', '2024-08-14 09:56:06', '0000-00-00 00:00:00');
 INSERT INTO `almacen_prod` VALUES (36, 44, '1234567', 'Camisa Varon Colegio', 'Uni', '1', '50.00', '2024-08-14 09:56:06', '0000-00-00 00:00:00');
-INSERT INTO `almacen_prod` VALUES (37, 43, '123456', 'chaqueta', 'Uni', '1', '30.00', '2024-08-14 09:56:06', '0000-00-00 00:00:00');
+INSERT INTO `almacen_prod` VALUES (37, 43, '123456', 'chaqueta', 'Uni', '11', '30.00', '2024-08-14 09:56:06', '2024-08-20 13:30:59');
 INSERT INTO `almacen_prod` VALUES (38, 42, '123', 'pantalon dril', 'Uni', '0', '40.00', '2024-08-14 09:56:06', '2024-08-16 10:05:26');
+INSERT INTO `almacen_prod` VALUES (39, 46, '123456555', 'chamarra S', 'Uni', '79', '50.00', '2024-08-20 12:58:26', '2024-08-20 13:26:43');
+INSERT INTO `almacen_prod` VALUES (40, 1, '456456', 'Maiores similique ei', 'uni', '34', '10', '2024-08-20 12:58:26', '0000-00-00 00:00:00');
+INSERT INTO `almacen_prod` VALUES (41, 50, '98765432', 'producto nuevo merma', 'Docena', '1', '100', '2024-08-20 13:26:43', '0000-00-00 00:00:00');
+INSERT INTO `almacen_prod` VALUES (42, 51, '56677867', 'producto nuevooooooooo', 'centena', '3', '100', '2024-08-20 13:31:01', '2024-08-20 16:25:23');
 
 -- ----------------------------
 -- Table structure for categoria_mprima
@@ -264,12 +268,14 @@ CREATE TABLE `ficha_tecnica`  (
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
   PRIMARY KEY (`idFichaTec`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 191 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 193 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of ficha_tecnica
 -- ----------------------------
 INSERT INTO `ficha_tecnica` VALUES (190, 'ficha tecnica producto colegio ', '2024-08-14', 'colegio santa clara', 'producto nuevo', 'codigo 12345', 'alex flores valdez', 987654321, 'santaclara@gmail.com', 'producto para los alumnos de promoscion', '190_fichatectnica1.txt', 2, '2024-07-27 11:10:20', '2024-08-14 09:17:22');
+INSERT INTO `ficha_tecnica` VALUES (191, 'Ut exercitation quis', '2019-01-24', 'Aut ullamco occaecat', 'Dolor autem aute lab', 'Aute in ea aut quia ', 'Est dolore expedita ', 91, 'Lorem et voluptatem', 'Quaerat expedita qui', '191_PedidoDFridaSaepecommodoquiss1.pdf', 2, '2024-08-19 10:22:56', '0000-00-00 00:00:00');
+INSERT INTO `ficha_tecnica` VALUES (192, 'Aut officiis archite', '1990-01-04', 'Voluptate aliquip ha', 'Dolor voluptas et in', 'Mollit natus quis do', 'Quo veniam quis sin', 14, 'Autem in et temporib', 'Dolores amet qui qu', '192_S_0036Kosko1.xls', 1, '2024-08-19 11:29:55', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for ingreso_mprima
@@ -368,10 +374,8 @@ CREATE TABLE `merma`  (
 -- ----------------------------
 -- Records of merma
 -- ----------------------------
-INSERT INTO `merma` VALUES (9, 67, 33, '2024-08-16 09:12:42', '2024-08-16 13:54:49', '2024-08-16', '2', '2024-08-16', 'merma agosto x2', '{\"merma0\":{\"codProdIng\":\"30\",\"nombreProdIng\":\"ceda\",\"codigoProdIng\":\"T12345\",\"unidadProdIng\":\"Metros\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"140.00\",\"mermaDesechoEstado\":\"1\"},\"merma1\":{\"codProdIng\":\"31\",\"nombreProdIng\":\"dril\",\"codigoProdIng\":\"T123456\",\"unidadProdIng\":\"metros\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"170.00\",\"mermaDesechoEstado\":\"1\"}}');
-INSERT INTO `merma` VALUES (10, 64, 34, '2024-08-16 09:15:53', '2024-08-16 09:28:29', '2024-08-16', '2', '2024-08-16', 'merama agosto', '{\"merma0\":{\"codProdIng\":\"33\",\"nombreProdIng\":\"boton 1cm\",\"codigoProdIng\":\"T1234555\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"0.30\"},\"merma1\":{\"codProdIng\":\"34\",\"nombreProdIng\":\"boton casaca promo\",\"codigoProdIng\":\"T12345888\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"0.50\"}}');
-INSERT INTO `merma` VALUES (11, 68, 35, '2024-08-16 13:47:53', '2024-08-16 13:55:12', '2024-08-16', '2', '2024-08-16', 'merma agosto x3', '{\"merma0\":{\"codProdIng\":\"34\",\"nombreProdIng\":\"boton casaca promo\",\"codigoProdIng\":\"T12345888\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"0.50\",\"mermaDesechoEstado\":\"1\"},\"merma1\":{\"codProdIng\":\"32\",\"nombreProdIng\":\"hilo blanco\",\"codigoProdIng\":\"T123459\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"7.00\",\"mermaDesechoEstado\":\"1\"},\"merma2\":{\"codProdIng\":\"33\",\"nombreProdIng\":\"boton 1cm\",\"codigoProdIng\":\"T1234555\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"0.30\",\"mermaDesechoEstado\":\"1\"}}');
-INSERT INTO `merma` VALUES (12, 70, 36, '2024-08-16 13:48:00', '0000-00-00 00:00:00', '2024-08-16', '1', NULL, 'Merma de proceso operativo Sin Aceptar', NULL);
+INSERT INTO `merma` VALUES (9, 67, 33, '2024-08-16 09:12:42', '2024-08-16 13:54:49', '2024-08-16', '3', '2024-08-16', 'merma agosto x2', '{\"merma0\":{\"codMerma\":\"9\",\"codProdIng\":\"30\",\"nombreProdIng\":\"ceda\",\"codigoProdIng\":\"T12345\",\"unidadProdIng\":\"Metros\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"140.00\",\"mermaDesechoEstado\":\"2\"},\"merma1\":{\"codMerma\":\"9\",\"codProdIng\":\"31\",\"nombreProdIng\":\"dril\",\"codigoProdIng\":\"T123456\",\"unidadProdIng\":\"metros\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"170.00\",\"mermaDesechoEstado\":\"2\"}}');
+INSERT INTO `merma` VALUES (11, 68, 35, '2024-08-16 13:47:53', '2024-08-16 13:55:12', '2024-08-16', '3', '2024-08-16', 'merma agosto x3', '{\"merma0\":{\"codMerma\":\"11\",\"codProdIng\":\"34\",\"nombreProdIng\":\"boton casaca promo\",\"codigoProdIng\":\"T12345888\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"0.50\",\"mermaDesechoEstado\":\"2\"},\"merma1\":{\"codMerma\":\"11\",\"codProdIng\":\"33\",\"nombreProdIng\":\"boton 1cm\",\"codigoProdIng\":\"T1234555\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"0.30\",\"mermaDesechoEstado\":\"2\"},\"merma2\":{\"codMerma\":\"11\",\"codProdIng\":\"32\",\"nombreProdIng\":\"hilo blanco\",\"codigoProdIng\":\"T123459\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"7.00\",\"mermaDesechoEstado\":\"2\"}}');
 
 -- ----------------------------
 -- Table structure for pedido
@@ -468,20 +472,29 @@ INSERT INTO `proceso_operativo_fin` VALUES (20, 70, 1, '2024-08-16 13:48:00', '0
 DROP TABLE IF EXISTS `prod_merma`;
 CREATE TABLE `prod_merma`  (
   `idProdMerma` int NOT NULL AUTO_INCREMENT,
-  `idMerma` int NOT NULL,
-  `idProd` int NULL DEFAULT NULL,
-  `cantidadProdMerma` int NOT NULL,
+  `idMerma` int NULL DEFAULT NULL,
+  `totalProdMerma` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `estadoProdMerma` int NOT NULL,
   `DateCreate` datetime NOT NULL,
   `DateUpdate` datetime NOT NULL,
+  `totalMerma` varchar(50) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `descripcionProdMerma` varchar(255) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `jsonProdMerma` longtext CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL,
+  `jsonMerma` longtext CHARACTER SET utf8 COLLATE utf8_spanish_ci NULL,
+  `fechaProdMerma` date NOT NULL,
   PRIMARY KEY (`idProdMerma`) USING BTREE,
   INDEX `idMerma`(`idMerma`) USING BTREE,
   CONSTRAINT `prod_merma_ibfk_1` FOREIGN KEY (`idMerma`) REFERENCES `merma` (`idMerma`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of prod_merma
 -- ----------------------------
+INSERT INTO `prod_merma` VALUES (1, NULL, '60.00', 1, '2024-08-20 12:58:26', '0000-00-00 00:00:00', '140.80', 'Nam repellendus Dol', '{\"prodMerma0\":{\"nombreProdIng\":\"chamarra S\",\"codProdIng\":\"46\",\"codigoProdIng\":\"123456555\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"35\",\"precioProdIng\":\"50.00\"},\"prodMerma1\":{\"codProdIng\":{\"idProd\":47},\"nombreProdIng\":\"Maiores similique ei\",\"codigoProdIng\":\"456456\",\"unidadProdIng\":\"uni\",\"cantidadProdIng\":\"34\",\"precioProdIng\":\"10\"}}', '{\"prodMerma0\":{\"nombreProdIng\":\"chamarra S\",\"codProdIng\":\"46\",\"codigoProdIng\":\"123456555\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"35\",\"precioProdIng\":\"50.00\"},\"prodMerma1\":{\"codProdIng\":\"\",\"nombreProdIng\":\"Maiores similique ei\",\"codigoProdIng\":\"456456\",\"unidadProdIng\":\"uni\",\"cantidadProdIng\":\"34\",\"precioProdIng\":\"10\"}}', '1975-10-04');
+INSERT INTO `prod_merma` VALUES (2, NULL, '150.00', 1, '2024-08-20 13:26:43', '0000-00-00 00:00:00', '7.80', 'Qui aliquid aperiam ', '{\"prodMerma0\":{\"nombreProdIng\":\"chamarra S\",\"codProdIng\":\"46\",\"codigoProdIng\":\"123456555\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"44\",\"precioProdIng\":\"50.00\"},\"prodMerma1\":{\"codProdIng\":\"50\",\"nombreProdIng\":\"producto nuevo merma\",\"codigoProdIng\":\"98765432\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"100\"}}', '{\"prodMerma0\":{\"nombreProdIng\":\"chamarra S\",\"codProdIng\":\"46\",\"codigoProdIng\":\"123456555\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"44\",\"precioProdIng\":\"50.00\"},\"prodMerma1\":{\"codProdIng\":\"\",\"nombreProdIng\":\"producto nuevo merma\",\"codigoProdIng\":\"98765432\",\"unidadProdIng\":\"Docena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"100\"}}', '2024-12-12');
+INSERT INTO `prod_merma` VALUES (3, NULL, '130.00', 1, '2024-08-20 13:29:52', '0000-00-00 00:00:00', '7.80', 'Consequat Molestiae', '{\"prodMerma0\":{\"nombreProdIng\":\"chaqueta\",\"codProdIng\":\"43\",\"codigoProdIng\":\"123456\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"30.00\"},\"prodMerma1\":{\"codProdIng\":\"51\",\"nombreProdIng\":\"producto nuevooooooooo\",\"codigoProdIng\":\"56677867\",\"unidadProdIng\":\"centena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"100\"}}', '{\"prodMerma0\":{\"nombreProdIng\":\"chaqueta\",\"codProdIng\":\"43\",\"codigoProdIng\":\"123456\",\"unidadProdIng\":\"Uni\",\"cantidadProdIng\":\"10\",\"precioProdIng\":\"30.00\"},\"prodMerma1\":{\"codProdIng\":\"\",\"nombreProdIng\":\"producto nuevooooooooo\",\"codigoProdIng\":\"56677867\",\"unidadProdIng\":\"centena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"100\"}}', '1975-02-11');
+INSERT INTO `prod_merma` VALUES (4, NULL, '100.00', 1, '2024-08-20 16:22:10', '0000-00-00 00:00:00', '170.00', 'Modi enim quam et qu', '{\"prodMerma0\":{\"nombreProdIng\":\"producto nuevooooooooo\",\"codProdIng\":\"51\",\"codigoProdIng\":\"56677867\",\"unidadProdIng\":\"centena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"100.00\"}}', '{\"prodMerma0\":{\"nombreProdIng\":\"producto nuevooooooooo\",\"codProdIng\":\"51\",\"codigoProdIng\":\"56677867\",\"unidadProdIng\":\"centena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"100.00\"}}', '2007-09-20');
+INSERT INTO `prod_merma` VALUES (5, NULL, '100.00', 1, '2024-08-20 16:25:22', '0000-00-00 00:00:00', '140.00', 'Proident atque offi', '{\"prodMerma0\":{\"nombreProdIng\":\"producto nuevooooooooo\",\"codProdIng\":\"51\",\"codigoProdIng\":\"56677867\",\"unidadProdIng\":\"centena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"100.00\"}}', '{\"prodMerma0\":{\"nombreProdIng\":\"producto nuevooooooooo\",\"codProdIng\":\"51\",\"codigoProdIng\":\"56677867\",\"unidadProdIng\":\"centena\",\"cantidadProdIng\":\"1\",\"precioProdIng\":\"100.00\"}}', '1990-12-07');
 
 -- ----------------------------
 -- Table structure for produccion
@@ -526,7 +539,7 @@ CREATE TABLE `producto`  (
   PRIMARY KEY (`idProd`) USING BTREE,
   INDEX `idCatPro`(`idCatPro`) USING BTREE,
   CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`idCatPro`) REFERENCES `categoria_prod` (`idCatPro`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 52 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of producto
@@ -678,7 +691,7 @@ CREATE TABLE `usuario`  (
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
-INSERT INTO `usuario` VALUES (1, 1, 'dfrida', 'Administrador', 'administrador', '$argon2id$v=19$m=4096,t=2,p=2$ZURZWG0yNkNOZVJTLlg5Lw$MvzbwXUNlV+Inxssd1nN+A8EN5Il6CdSAs7pTc3szJk', '2024-08-16 08:44:46', '2024-02-16 12:09:23', '2024-02-16 12:09:23');
+INSERT INTO `usuario` VALUES (1, 1, 'dfrida', 'Administrador', 'administrador', '$argon2id$v=19$m=4096,t=2,p=2$ZURZWG0yNkNOZVJTLlg5Lw$MvzbwXUNlV+Inxssd1nN+A8EN5Il6CdSAs7pTc3szJk', '2024-08-20 10:37:23', '2024-02-16 12:09:23', '2024-02-16 12:09:23');
 INSERT INTO `usuario` VALUES (7, 2, 'alex', 'alex administrativo', 'flores', '$argon2id$v=19$m=4096,t=2,p=2$N0RQdHo5MXhOb1ZPdS45Wg$lk4EN49DUl5YTX+omAM/qpOZZG1P4adfpdAWl/IFSG4', '2024-07-16 15:02:17', '2024-07-16 15:02:09', '2024-07-16 15:02:09');
 
 SET FOREIGN_KEY_CHECKS = 1;
