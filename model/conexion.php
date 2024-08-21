@@ -2,7 +2,7 @@
 
 ///hostin local
 
-/* class Conexion
+class Conexion
 {
   static public function conn()
   {
@@ -10,11 +10,27 @@
     $link->exec("set names utf8");
     return $link;
   }
+}
+
+//hostinguer acide
+
+/* class Conexion
+{
+  static public function conn()
+  {
+    $link = new PDO("mysql:host=localhost;dbname=u553466910_dfrida", "u553466910_root_dfrida", "^Mhq*Q6sp$0l");
+    $link->exec("set names utf8");
+    return $link;
+  }
 } */
 
-//hostinguer
+/* https://auth-db1077.hstgr.io/index.php?db=u553466910_dfrida */
 
-class Conexion
+///
+
+//hostinguer pruebas unitarias
+
+/* class Conexion
 {
   static public function conn()
   {
@@ -22,4 +38,5 @@ class Conexion
     $link->exec("set names utf8");
     return $link;
   }
-}
+} */
+
