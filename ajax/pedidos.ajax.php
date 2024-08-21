@@ -54,6 +54,11 @@ if (isset($_POST["jsonPdfPedido"])) {
   $pdf->PedidosAjax = $_POST["jsonPdfPedido"];
   $pdf->ajaxDescargarPdfPedido($_POST["jsonPdfPedido"]);
 }
+// Todos los pedidos terminados
+if (isset($_POST["todosLosPedidosTerminados"])) {
+  $todosLosPedidos = new PedidosAjax();
+  $todosLosPedidos->ajaxPedidosTerminados();
+}
 
 class PedidosAjax
 {
@@ -110,5 +115,11 @@ class PedidosAjax
     $codPedidoPdf = json_decode($jsonPdfPedido, true); // Decodificar la cadena de texto JSON en un array asociativo
     $response = PedidosController::ctrDescargarPdfPedido($codPedidoPdf);
     echo json_encode($response);
+  }
+  // Todos los pedidos terminados
+  public function ajaxPedidosTerminados()
+  {
+    $todosLosPedidos = PedidosController::ctrPedidosTerminados();
+    echo json_encode($todosLosPedidos);
   }
 }

@@ -107,4 +107,11 @@ class PedidosModel
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+  // Todos los pedidos terminados
+  public static function mdlPedidosTerminados($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT pedido.idPedido, pedido.nombrePedido, pedido.idCoti FROM $table INNER JOIN proceso_operativo ON pedido.idPedido = proceso_operativo.idPedido WHERE proceso_operativo.estadoProcOp = 5");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

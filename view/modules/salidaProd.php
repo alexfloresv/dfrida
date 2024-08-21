@@ -29,10 +29,11 @@
             placeholder="Ingrese una una descripcion para la salida ">
         </div>
 
-        <div class="col-md-4">
-          <label for="pedidoSalProdAdd" class="form-label" style="font-weight: bold">Pedido: </label>
-          <input type="number" class="form-control" id="pedidoSalProdAdd" name="pedidoSalProdAdd"
-            placeholder="Ingrese el pedido correspondiente">
+        <div class="col-md-2">
+          <label for="btnPedidoProductoAdd" class="form-label" style="font-weight: bold">Asignar pedido: </label>
+          <div id="pedidoAsignarProductosAdd">
+            <button type="button" class="btn btn-primary w-100" id="btnPedidoProductoAdd">Agregar Productos del Pedido</button>
+          </div>
         </div>
 
         <div class="col-md-2">

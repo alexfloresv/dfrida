@@ -123,8 +123,10 @@ class ProductAjax
 
         // Recorrer los productos y extraer la información necesaria
         foreach ($productos as $key => $producto) {
+          $codigoProd = ProductsController::ctrObtenerCodigoProducto($producto['codProdCoti']);
           $productosTrabajados[] = [
             'codProdCoti' => $producto['codProdCoti'],
+            'codigoProdCoti' => $codigoProd["codigoProd"],
             'nombreProdCoti' => $producto['nombreProdCoti'],
             'unidadProdCoti' => $producto['unidadProdCoti'],
             'cantidadProdCoti' => $producto['cantidadProdCoti'],

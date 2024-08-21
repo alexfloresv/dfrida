@@ -71,4 +71,11 @@ class PedidosController
     $response = PedidosModel::mdlDescargarPdfPedido($table, $codPedidoPdf);
     return $response;
   }
+  // Mostrar todos los pedidos terminados
+  public static function ctrPedidosTerminados()
+  {
+    $table = "pedido";
+    $response = PedidosModel::mdlPedidosTerminados($table);
+    return $response;
+  }
 }

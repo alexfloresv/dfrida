@@ -914,7 +914,6 @@ document.addEventListener("DOMContentLoaded", function () {
       //valores para la varible global que espera estos datos para inicar la funcion de cantidades maximas editables
       cantidadProd = Number(cantidadProdStock) + Number(cantidadProdIng),
       idProd = codProdIng
-
     ) {
       var formularioID = "formularioIngProd" + formularioIngProdCounter++;
       var nuevoProductoHTML = `
@@ -1180,6 +1179,182 @@ document.addEventListener("DOMContentLoaded", function () {
       btn.addEventListener("click", function () {
         window.location.href = "/dfrida/salidaList";
       });
+    }
+  }
+});
+
+function obtenerStock(codProdIng) {
+  return new Promise((resolve, reject) => {
+    var data = new FormData();
+    data.append("codProdIng", codProdIng);
+    $.ajax({
+      url: "ajax/salidaProd.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        resolve({
+          cantidadProdAlma: response["cantidadProdAlma"],
+          precioProd: response["precioProd"],
+        }); // Resuelve la promesa con un objeto que contiene ambos valores
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        reject("Error en la solicitud AJAX: " + textStatus + " " + errorThrown); // Rechaza la promesa si hay un error
+      },
+    });
+  });
+}
+
+// Función para editar el ingreso del producto
+async function ingresoProductoEdit(ingJsonProd) {
+  const procesos = JSON.parse(ingJsonProd);
+
+  Swal.fire({
+    title: "Cargando...",
+    text: "Por favor, espere mientras se procesan los datos.",
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  for (const proceso of Object.values(procesos)) {
+    const {
+      codProdCoti,
+      codigoProdCoti,
+      nombreProdCoti,
+      unidadProdCoti,
+      cantidadProdCoti,
+      precioProdCoti,
+    } = proceso;
+
+    try {
+      // Enviar el id de producto a la función de obtener stock para traer el stock del almacén
+      const { cantidadProdAlma, precioProdCotiUnidad } = await obtenerStock(
+        codProdCoti
+      );
+      insertarFormulario(
+        codProdCoti,
+        nombreProdCoti,
+        codigoProdCoti,
+        unidadProdCoti,
+        cantidadProdCoti,
+        precioProdCoti,
+        cantidadProdAlma,
+        precioProdCotiUnidad,
+      );
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  Swal.close();
+}
+
+// Función para traer productos prima de pedido / cotización
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/salidaProd";
+  if (currentPath == appPath) {
+    var btnPedidoProductoAdd = document.getElementById("btnPedidoProductoAdd");
+    if (btnPedidoProductoAdd) {
+      btnPedidoProductoAdd.addEventListener("click", function () {
+        Swal.fire({
+          title:
+            "¿Agregar productos de un Pedido a una salida de productos? Verifique Stocks en alamacen",
+          text: "Selecione un pedido para registrar los productos, recuerde que puede crear salidas de productos sin esta restriccion y despues asignarla a un proceso.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          cancelButtonText: "No",
+          confirmButtonText: "Si",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            var container = document.getElementById(
+              "pedidoAsignarProductosAdd"
+            );
+            container.innerHTML = `
+              <select class="form-control select2" id="pedidoSalProductsAdd" name="pedidoSalProductsAdd">
+                <option value="0">Seleccione un pedido</option>
+              </select>
+            `;
+
+            $("#pedidoSalProductsAdd").select2();
+
+            var data = new FormData();
+            data.append("todosLosPedidosTerminados", true);
+
+            $.ajax({
+              url: "ajax/pedidos.ajax.php",
+              method: "POST",
+              data: data,
+              contentType: false,
+              processData: false,
+              dataType: "json",
+              success: function (data) {
+                $("#pedidoSalProductsAdd").empty();
+                $("#pedidoSalProductsAdd").append(
+                  '<option value="0">Seleccionar un Pedido</option>'
+                );
+                $.each(data, function (key, value) {
+                  $("#pedidoSalProductsAdd").append(
+                    '<option value="' +
+                      value.idPedido +
+                      '" data-idcoti="' +
+                      value.idCoti +
+                      '">' +
+                      value.nombrePedido +
+                      "</option>"
+                  );
+                });
+                $("#pedidoSalProductsAdd").trigger("change");
+
+                $("#pedidoSalProductsAdd").on("change", function () {
+                  var codPed = $(this).val();
+                  var idCoti = $(this).find("option:selected").data("idcoti");
+                  var data = new FormData();
+                  data.append("codPedDatosPedidos", codPed);
+                  data.append("idCotiDatosPedidos", idCoti);
+
+                  $.ajax({
+                    url: "ajax/products.ajax.php",
+                    method: "POST",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function (response) {
+                      console.log(response);
+                      // Llamar a ingresoProductoEdit con la respuesta de la solicitud AJAX
+                      ingresoProductoEdit(JSON.stringify(response));
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                      console.log(
+                        "Error en la solicitud AJAX: ",
+                        textStatus,
+                        errorThrown
+                      );
+                    },
+                  });
+                });
+              },
+              error: function (xhr, status, error) {
+                console.error("Error al cargar los datos:", error);
+              },
+            });
+          }
+        });
+      });
+    } else {
+      console.error(
+        'El elemento con id "btnProcesoOperativoAdd" no se encontró en el DOM.'
+      );
     }
   }
 });

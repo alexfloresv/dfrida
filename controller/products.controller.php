@@ -119,5 +119,10 @@ class ProductsController
     $response = ProductsModel::mdlMostrarDatosProductosCotizacionPedido($table, $codPed, $idCoti);
     return $response;
   }
-
+  // Obtener codigo del producto por idProducto
+  public static function ctrObtenerCodigoProducto($idProduct){
+    $table = "producto";
+    $response = ProductsModel::mdlObtenerCodigoProducto($table, $idProduct);
+    return $response;
+  }
 }
