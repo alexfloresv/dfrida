@@ -2,6 +2,8 @@
 require_once "../controller/salidaProd.controller.php";
 require_once "../model/salidaProd.model.php";
 require_once "../functions/salidaProd.functions.php";
+require_once "../controller/pedidos.controller.php";
+require_once "../model/pedidos.model.php";
 //inicio de secion 
 if (session_status() == PHP_SESSION_NONE) {
   session_start();
@@ -27,7 +29,7 @@ if (isset($_POST["codAllSalProd"])) {
 }
 
 //  crear salida de  productos
-if (isset($_POST["jsonCrearSalidaProd"], $_POST["jsonProductosSalidaProd"])) {
+  if (isset($_POST["jsonCrearSalidaProd"], $_POST["jsonProductosSalidaProd"])) {
   $create = new salidaProdAjax();
   $create->jsonCrearSalidaProd = $_POST["jsonCrearSalidaProd"];
   $create->jsonProductosSalidaProd = $_POST["jsonProductosSalidaProd"];
@@ -93,7 +95,7 @@ class salidaProdAjax
     $todasLasSalidasProductos = salidaProdController::ctrDTableSalProdcuctos();
     foreach ($todasLasSalidasProductos as &$salidas) {
       $salidas['buttons'] = FunctionSalidaProd::getBtnSalProd($salidas["idSalProd"]);
-      $salidas['modalPedSalProd'] = FunctionSalidaProd::getBtnVerPedSalProd($salidas["idSalProd"]);
+      $salidas['modalPedSalProd'] = FunctionSalidaProd::getBtnVerPedSalProd($salidas["idPedido"]);
       $salidas['modalSalProd'] = FunctionSalidaProd::getBtnVerSalProd($salidas["idSalProd"]);
     }
     echo json_encode($todasLasSalidasProductos);

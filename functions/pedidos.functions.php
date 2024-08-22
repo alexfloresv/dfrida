@@ -4,7 +4,7 @@ class FunctionPedidos
   //  Estados de los pedidos
   public static function getEstadoPedido($stateValue)
   {
-    //  Estado de los Pedidos
+    // Estado de los Pedidos
     if ($stateValue == 2) {
       $estado = '<span class="badge rounded-pill bg-primary">Asignado</span>';
     }
@@ -13,6 +13,9 @@ class FunctionPedidos
     }
     if ($stateValue == 3) {
       $estado = '<span class="badge rounded-pill bg-success">Finalizado</span>';
+    }
+    if ($stateValue == 4) {
+      $estado = '<span class="badge rounded-pill bg-info">Entregado</span>';
     }
     return $estado;
   }

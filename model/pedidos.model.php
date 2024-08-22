@@ -114,4 +114,15 @@ class PedidosModel
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  public static function mdlCambiarEstadoPedido($table, $idPedido, $estadoPedido)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoPedido = :estadoPedido WHERE idPedido = :idPedido");
+    $statement->bindParam(":estadoPedido", $estadoPedido, PDO::PARAM_INT);
+    $statement->bindParam(":idPedido", $idPedido, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }

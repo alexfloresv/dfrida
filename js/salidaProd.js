@@ -275,8 +275,9 @@ document.addEventListener("DOMContentLoaded", function () {
         // Simula la pulsación del botón "btnCalcularTotalIng" para asegurar que los totales estén actualizados si el usuario no lo hizo
         document.getElementById("btnCalcularTotalIng").click();
         /* fin click calcular total */
-        //recolectar los datos del formulario principal
+        // recolectar los datos del formulario principal
         var formulario = document.getElementById("formSalidaProd");
+        
         var datosFormulario = {};
         var elementosFormulario = formulario.querySelectorAll("input, select");
         elementosFormulario.forEach(function (elemento) {
@@ -284,6 +285,13 @@ document.addEventListener("DOMContentLoaded", function () {
             datosFormulario[elemento.id] = elemento.value;
           }
         });
+
+        // Validar si hay una opción seleccionada en el select
+        var selectPedido = document.getElementById("pedidoSalProductsAdd");
+        if (selectPedido && selectPedido.value !== "0") {
+          datosFormulario["pedidoSalProdAdd"] = selectPedido.value;
+        }
+
         // Crear un JSON con los datos recolectados del formulario principal
         var jsonCrearSalidaProd = JSON.stringify(datosFormulario);
 
@@ -305,6 +313,7 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             dataType: "json",
             success: function (response) {
+              console.log(response);
               // Función para limpiar los datos de la URL
               var limpiarURL = function () {
                 window.history.pushState(
@@ -1183,7 +1192,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-function obtenerStock(codProdIng) {
+function obtenerStocSeleccionarPedido(codProdIng) {
   return new Promise((resolve, reject) => {
     var data = new FormData();
     data.append("codProdIng", codProdIng);
@@ -1198,7 +1207,7 @@ function obtenerStock(codProdIng) {
       success: function (response) {
         resolve({
           cantidadProdAlma: response["cantidadProdAlma"],
-          precioProd: response["precioProd"],
+          precioProdCotiUnidad: response["precioProd"],
         }); // Resuelve la promesa con un objeto que contiene ambos valores
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -1209,7 +1218,7 @@ function obtenerStock(codProdIng) {
 }
 
 // Función para editar el ingreso del producto
-async function ingresoProductoEdit(ingJsonProd) {
+async function ingresoProductoSeleccionPedido(ingJsonProd) {
   const procesos = JSON.parse(ingJsonProd);
 
   Swal.fire({
@@ -1233,7 +1242,7 @@ async function ingresoProductoEdit(ingJsonProd) {
 
     try {
       // Enviar el id de producto a la función de obtener stock para traer el stock del almacén
-      const { cantidadProdAlma, precioProdCotiUnidad } = await obtenerStock(
+      const { cantidadProdAlma, precioProdCotiUnidad } = await obtenerStocSeleccionarPedido(
         codProdCoti
       );
       insertarFormulario(
@@ -1244,9 +1253,8 @@ async function ingresoProductoEdit(ingJsonProd) {
         cantidadProdCoti,
         precioProdCoti,
         cantidadProdAlma,
-        precioProdCotiUnidad,
+        precioProdCotiUnidad
       );
-
     } catch (error) {
       console.error(error);
     }
@@ -1332,7 +1340,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     success: function (response) {
                       console.log(response);
                       // Llamar a ingresoProductoEdit con la respuesta de la solicitud AJAX
-                      ingresoProductoEdit(JSON.stringify(response));
+                      ingresoProductoSeleccionPedido(JSON.stringify(response));
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                       console.log(

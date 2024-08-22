@@ -78,4 +78,9 @@ class PedidosController
     $response = PedidosModel::mdlPedidosTerminados($table);
     return $response;
   }
+  public static function ctrCambiarEstadoPedido($idPedido, $estadoPedido){
+    $table = "pedido";
+    $response = PedidosModel::mdlCambiarEstadoPedido($table, $idPedido, $estadoPedido);
+    return $response;
+  }
 }

@@ -28,22 +28,44 @@ class salidaProdController
   //crear ingreso productos a almacen de  productos***
   public static function ctrCrearSalidaProd($crearSalidaProd, $jsonProductosSalidaProd)
   {
+    $pedidoSeleccionado = null;
+    $responsePedido = null;
+
+    // Verificar si existe el dato 'pedidoSeleccionado' y extraerlo si existe
+    if (isset($crearSalidaProd['pedidoSalProdAdd'])) {
+      $pedidoSeleccionado = $crearSalidaProd['pedidoSalProdAdd'];
+      $responsePedido = PedidosController::ctrCambiarEstadoPedido($pedidoSeleccionado, 4);
+    }
+
     // Eliminar datos innecesarios
     $salidaProdData = self::ctrBorrarDatosInecesariosSalidaProd($crearSalidaProd);
+
     // Eliminar el array $crearSalidaProd para no duplicar datos
     unset($crearSalidaProd);
+
     // Ingreso de productos a almacén
     $salidaProductosAlmacen = self::ctrSalidaProductosAlmacenProd($jsonProductosSalidaProd);
-    //verifica si es verdadero o falso para crear el registro
+
+    // Verifica si es verdadero o falso para crear el registro
     if ($salidaProductosAlmacen) {
-      // Crear el registro de ingreso de productos si $ingresoProductosAlmacen es true
-      $response = self::ctrRegistroSalidaProductos($salidaProdData, $jsonProductosSalidaProd);
+      // Crear el registro de ingreso de productos si $salidaProductosAlmacen es true
+      $responseSalida = self::ctrRegistroSalidaProductos($salidaProdData, $jsonProductosSalidaProd);
     } else {
-      // Si $salidaProductosAlmacen es false, asignar "error" a $response
-      //este error solo sucedera cuando ubo un error al restar la cantidad de productos en almacen y se restauro el alamacen
-      $response = "errorSalAlmacen";
+      // Si $salidaProductosAlmacen es false, asignar "error" a $responseSalida
+      // Este error solo sucederá cuando hubo un error al restar la cantidad de productos en almacén y se restauró el almacén
+      $responseSalida = "errorSalAlmacen";
     }
-    return $response;
+
+    // Validar los responses y retornar 'ok' si ambos procesos son exitosos
+    if ($pedidoSeleccionado) {
+      if ($responsePedido == "ok" && $responseSalida == "ok") {
+        return $responseSalida;
+      }
+    } else {
+      if ($responseSalida == "ok") {
+        return $responseSalida;
+      }
+    }
   }
 
   //eliminar datos innecesarios
