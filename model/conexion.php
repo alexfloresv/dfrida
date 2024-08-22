@@ -1,8 +1,8 @@
 <?php
 
 ///hostin local
-
-/* class Conexion
+ 
+class Conexion
 {
   static public function conn()
   {
@@ -10,11 +10,11 @@
     $link->exec("set names utf8");
     return $link;
   }
-} */
+}
 
 //hostinguer acide
 
-class Conexion
+/* class Conexion
 {
   static public function conn()
   {
@@ -22,9 +22,16 @@ class Conexion
     $link->exec("set names utf8");
     return $link;
   }
-}
+} */
 
-/* https://auth-db1077.hstgr.io/index.php?db=u553466910_dfrida */
+//buscar usuario en mysql hostinger ACIDE
+//SELECT USER();
+// 
+//credenciales conexion remota
+//host:154.56.48.204
+//usu:u553466910_root_dfrida
+//pass:^Mhq*Q6sp$0l
+
 
 ///
 
@@ -39,4 +46,10 @@ class Conexion
     return $link;
   }
 } */
-
+//buscar usuario en mysql hostinger
+//SELECT USER();
+// 
+//credenciales conexion remota
+//host: 193.203.175.106
+//usu: u993966586_dbdfrida
+//pass: #Dfrida1234
