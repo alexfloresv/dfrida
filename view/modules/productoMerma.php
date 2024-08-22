@@ -84,12 +84,16 @@
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
         <h3>Materias Prima Merma Confirmada </h3>
 
-        <div class="col-md-2" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
-          <div id="prodMermaAdd">
+        <div class="col-md-8 d-flex">
+          <div id="prodMermaAdd" class="me-6"  style="border: 3px solid #808080; padding: 3px; margin-left: 2px;">
             <button type="button" class="btn btn-primary w-100" id="btnAddProductosMermados">Agregar Merma</button>
           </div>
+          
+          <div class="m-2">
+            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+              data-bs-target="#modalAddProdMPrima">Agregar Producto Prima</button>
+          </div>
         </div>
-
 
         <div class="row mt-3" style="font-weight: bold">
           <div class="col-lg-2">Nombre Materia Prima Merma</div>
@@ -139,4 +143,29 @@
     </form>
   </main>
 </div>
+</div>
+
+<!-- Modal produtos -->
+<div class="modal fade" id="modalAddProdMPrima" tabindex="-1" aria-labelledby="modalAddProdMPrima" aria-hidden="true">
+  <div class="modal-dialog modal-lg"> <!-- Clase "modal-lg" agregada aquí -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalAddProdMPrima">Lista Productos de Almacen </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table id="dataTableProductosSalidaAlmacenMprima" class="display dataTableProductosSalidaAlmacenMprima">
+          <thead>
+            <!-- dataTableProductosSalidaAlmacenMprima -->
+          </thead>
+          <tbody>
+            <!--dataTableProductosSalidaAlmacenMprima-->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
 </div>

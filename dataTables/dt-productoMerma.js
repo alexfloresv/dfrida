@@ -71,6 +71,100 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+//fin
+
+// //data table modal salidas almacen
+document.addEventListener("DOMContentLoaded", function () {
+  $("#modalAddProdMPrima").on("shown.bs.modal", function () {
+    // Verificar si la ruta es la correcta al mostrar el modal
+    var currentPath = window.location.pathname;
+    var appPath = "/dfrida/productoMerma";
+    if (currentPath == appPath) {
+      // Verifica si el DataTable ya está inicializado y destrúyelo si es así
+      if (
+        $.fn.DataTable.isDataTable("#dataTableProductosSalidaAlmacenMprima")
+      ) {
+        $("#dataTableProductosSalidaAlmacenMprima").DataTable().destroy();
+      }
+      // Estructura de dataTableProductosSalidaAlmacenMprima
+      $("#dataTableProductosSalidaAlmacenMprima thead").html(`
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre Producto</th>
+          <th scope="col">Codigo</th>
+           <th scope="col">Cantidad Almacenada</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Agregar</th>
+        </tr>
+      `);
+
+      // Definición inicial de dataTableProductosSalidaAlmacenMprima
+      var columnDefsProductos = [
+        {
+          data: null,
+          render: function (data, type, row, meta) {
+            return meta.row + 1;
+          },
+        },
+        { data: "nombreMprimaAlma" },
+        { data: "codigoMprimaAlma" },
+        { data: "cantidadMprimaAlma" },
+        {
+          data: "precioMprima",
+          render: function (data, type, row) {
+            return "S/ " + data; // Coloca 'S/' delante del valor de la celda
+          },
+        },
+        {
+          data: "idMprima",
+          render: function (data, type, row) {
+            return (
+              '<button class="btn btn-success btnAddProdModalSal" codAddSalProdModal="' +
+              data +
+              '"><i class="fa-solid fa-clipboard-check"></i></button>'
+            );
+          },
+        },
+      ];
+
+      var tableProductos = $(
+        "#dataTableProductosSalidaAlmacenMprima"
+      ).DataTable({
+        columns: columnDefsProductos,
+      });
+
+      // Titulo dataTableProductosSalidaAlmacenMprima
+      //$(".tituloProductos").text("Todos los Productos");
+
+      // Solicitud inicial de dataTableProductosSalidaAlmacenMprima
+      var data = new FormData();
+      data.append("todosLosProductosAlmacen", true);
+
+      $.ajax({
+        url: "ajax/salidaMprima.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          tableProductos.clear();
+          tableProductos.rows.add(response);
+          tableProductos.draw();
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    }
+  });
+});
+//fin
+
+
+
+
 
 //modal para ver productos mermamdos 
 document.addEventListener("DOMContentLoaded", function () {
