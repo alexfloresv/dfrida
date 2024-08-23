@@ -24,7 +24,7 @@ class FunctionPedidos
   public static function getBtnPedido($idPedido, $estadoPedido, $idCoti)
   {
     // Deshabilitar si el estado del pedido es 2 o 3
-    $disabled = ($estadoPedido == 2 || $estadoPedido == 3) ? 'disabled' : '';
+    $disabled = ($estadoPedido == 2 || $estadoPedido == 3 || $estadoPedido == 4) ? 'disabled' : '';
     $botones = '
         <button class="btn btn-primary btnEditarPedido" idPedido="' . $idPedido . '" ' . $disabled . '><i class="fa-solid fa-pencil"></i></button>
         <button class="btn btn-danger btnDeletePedido" idPedido="' . $idPedido . '" idCoti = "' . $idCoti . '" ' . $disabled . '><i class="fa-solid fa-trash"></i></button>
