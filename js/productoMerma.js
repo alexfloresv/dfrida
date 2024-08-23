@@ -1,257 +1,8 @@
 //contador de formularios agregados
-window.formularioIngProdNuevoMermaCounter = 1;
-//agregar productos prima aproducto merma***
-document.addEventListener("DOMContentLoaded", function () {
-  //si la ruta no es la correcta no se ejecuta la función
-  var currentPath = window.location.pathname;
-  var appPath = "/dfrida/productoMerma";
-  if (currentPath == appPath) {
-
-    // variable global guardar los codigos de los productos agregados no tocar
-    window.codigosProductosAgregados = new Set();
-    //console.log(window.codigosProductosAgregados); // Mostrar el estado actual
-    // Variable global acumulativa para almacenar datos del formulario, idProd y cantidad para validar cantidad maxima en almacen no tocar
-    window.datosFormularios = [];
-    //onsole.log(datosFormularios);
-
-    $(".dataTableProductosSalidaAlmacenMprima").on(
-      "click",
-      ".btnAddProdModalSal",
-      function () {
-        var codAddSalProdModal = $(this).attr("codAddSalProdModal");
-        // Primero, verificar si el string es vacío antes de cualquier conversión
-        if (codAddSalProdModal.trim() === "") {
-          return; // No proceder con el resto de la función si el string es vacío
-        }
-        // Convertir el código a entero antes de verificar y agregar
-        var codAddSalProdModal = parseInt(codAddSalProdModal, 10);
-
-        // Validar que el código no sea NaN, cero, o el string no sea vacío
-        if (
-          isNaN(codAddSalProdModal) ||
-          codAddSalProdModal === 0
-          //codAddSalProdModal.trim() === ""
-        ) {
-          return; // No proceder con el resto de la función
-        }
-
-        // Verificar si el código ya ha sido agregado
-        if (window.codigosProductosAgregados.has(codAddSalProdModal)) {
-          // Cerrar el modal antes de mostrar el mensaje de SweetAlert
-          $("#modalAddProdSali").modal("hide");
-          Swal.fire({
-            icon: "warning",
-            title: "Producto Prima duplicado",
-            text: "El producto ya está en la lista.",
-          }).then((result) => {
-            if (result.value) {
-              // Mostrar el modal de nuevo
-              $("#modalAddProdSali").modal("show");
-            }
-          });
-          return; // No proceder con el AJAX
-        }
-
-        // Agregar el código al conjunto de productos agregados como entero
-        window.codigosProductosAgregados.add(codAddSalProdModal);
-        //console.log(window.codigosProductosAgregados); // Mostrar el estado actual
-
-        var datos = new FormData();
-        datos.append("codAddSalProdModal", codAddSalProdModal);
-        $.ajax({
-          url: "ajax/salidaMprima.ajax.php",
-          method: "POST",
-          data: datos,
-          cache: false,
-          contentType: false,
-          processData: false,
-          dataType: "json",
-          success: function (respuesta) {
-            var idProd = respuesta["idMprima"];
-            var nombreProd = respuesta["nombreMprimaAlma"];
-            var codigoProd = respuesta["codigoMprimaAlma"];
-            var unidadProd = respuesta["unidadMprimaAlma"];
-            var precioProd = respuesta["precioMprima"];
-            //cantidad
-            var cantidadProd = respuesta["cantidadMprimaAlma"];
-
-            // Crear un nuevo formulario para el producto con un ID único que incrementa en 1 cada vez que se agrega un producto
-            var formularioID = "formularioIngProd" + formularioIngProdNuevoMermaCounter++;
-            var nuevoProductoHTML =
-              '<form id="' +
-              formularioID +
-              '" class="row productoRow" style="padding:5px 15px">' +
-              '<div class="col-lg-2">' +
-              /* id del prodcuto */
-              '<input type="hidden" class="form-control" id="codProdIng" value="' +
-              idProd +
-              '">' +
-              /* nombre del producto */
-              '<input type="text" class="form-control" id="nombreProdIng" value="' +
-              nombreProd +
-              '" readonly>' +
-              "</div>" +
-              /* codigo del producto */
-              '<div class="col-lg-2">' +
-              '<input type="text" class="form-control" id="codigoProdIng" value="' +
-              codigoProd +
-              '" readonly>' +
-              "</div>" +
-              /* unidad del tipo de producto */
-              '<div class="col-lg-2">' +
-              '<input type="text" class="form-control" id="unidadProdIng"value="' +
-              unidadProd +
-              '" readonly>' +
-              "</div>" +
-              /* cantidad editable inicia en 1 */
-              '<div class="col-lg-2">' +
-              '<input type="number" class="form-control cantidadProdIng" id="cantidadProdIng" value="1" min="1" step="1" data-original-idProd="' +
-              idProd +
-              '">' +
-              "</div>" +
-              /* precio */
-              '<div class="col-lg-2">' +
-              '<input type="text" class="form-control precioProdIng" id="precioProdIng" value="' +
-              precioProd +
-              '" data-original-precio="' +
-              precioProd +
-              '" readonly>' +
-              "</div>" +
-              /* boton de eliminar */
-              '<div class="col-lg-1">' +
-              '<button type="button" class="btn btn-danger btn-xs deleteNuevoIngresoProd" id="deleteNuevoIngresoProd" value="' +
-              idProd +
-              '"><i class="fa fa-times"></i></button>' +
-              "</div>" +
-              "</form>";
-
-            // Agregar el nuevo formulario al contenedor
-            $(".AddMateriaPrimaMermad").append(nuevoProductoHTML);
-
-            //agregar la cantidad a la variable gloval contadora
-            var nuevoDatoFormulario = [formularioID, idProd, cantidadProd];
-            window.datosFormularios.push(nuevoDatoFormulario);
-            //console.log(datosFormularios);
-          },
-        });
-      }
-    );
-
-    // funcion para actualizar el precio y validar la cantidad y mostrar la cantidad maxima en almacen
-
-      $(document).on(
-      "input",
-      ".cantidadProdIng",
-      actualizarPrecioYValidarCantidadMerma
-    );
-
-    // Eliminar el producto
-    $(document).on("click", ".deleteNuevoIngresoProd", function (e) {
-      // Paso 1: Capturar el valor del botón presionado y convertirlo a número entero
-      var valorBoton = parseInt($(this).val(), 10);
-      //console.log("Valor del botón presionado:", valorBoton);
-      // Paso 2: Copiar los datos de la variable global a una nueva
-      var datosTemporales = new Set(codigosProductosAgregados);
-      // Paso 3: Buscar y eliminar el valor del botón en la nueva variable
-      if (datosTemporales.has(valorBoton)) {
-        datosTemporales.delete(valorBoton);
-      } else {
-        //console.log("El valor no se encontró en la variable global.");
-      }
-      // Paso 4: Limpiar la variable global
-      codigosProductosAgregados.clear();
-      // Paso 5: Actualizar la variable global con los nuevos datos
-      datosTemporales.forEach((valor) => {
-        codigosProductosAgregados.add(valor);
-      });
-      // Eliminar el formulario del producto del DOM
-      $(this).closest(".productoRow").remove();
-    });
-    //fin agregar productos
-    ///fin vericar ruta
-  }
-});
-//fin agreagr productos
-
-//*****funcion para validad cantidades de alamacen y actualizar precio y mostrar mensaje de cantidad maxima
-// Actualizar el precio cuando cambia la cantidad y valida y muestra la cantidad maxiama en // 
-function actualizarPrecioYValidarCantidadMerma(event) {
-  var input = $(event.target);
-  var count = input.val();
-  var idProd = input.data("original-idprod");
-  var precioPerUnit = input
-    .closest(".productoRow")
-    .find(".precioProdIng")
-    .data("original-precio");
-
-  // Lógica para calcular el precio final
-  var precioFinal = "0";
-  if (count !== "" && parseInt(count) !== 0) {
-    precioFinal = (count * precioPerUnit).toFixed(2);
-  }
-
-  // Verificar si el campo tiene exactamente 0 y mostrar alerta
-  if (count === "0") {
-    Swal.fire({
-      icon: "warning",
-      title: "Cantidad Inválida",
-      html: "La cantidad no puede ser 0.",
-    }).then((result) => {
-      if (result.value) {
-        count = 1;
-        precioFinal = (count * precioPerUnit).toFixed(2);
-        input.val(count).attr("value", count);
-        input
-          .closest(".productoRow")
-          .find(".precioProdIng")
-          .val(precioFinal)
-          .attr("value", precioFinal);
-      }
-    });
-    return; // Salir de la función para evitar continuar con la lógica
-  }
-
-  // Actualizar el valor interno y el atributo 'value' en el HTML
-  input.val(count).attr("value", count);
-  input
-    .closest(".productoRow")
-    .find(".precioProdIng")
-    .val(precioFinal)
-    .attr("value", precioFinal);
-
-  // Lógica para mostrar el mensaje basado en la cantidad
-  var formularioID = "";
-  var cantidadInicial = 0;
-  window.datosFormularios.forEach(function (item) {
-    //console.log(item);
-    if (item[1] === idProd) {
-      formularioID = item[0];
-      cantidadInicial = item[2];
-    }
-  });
-
-  if (formularioID && parseInt(count) > cantidadInicial) {
-    Swal.fire({
-      icon: "info",
-      title: "Cantidad Excedente",
-      html: "La cantidad máxima en almacén es <b>" + cantidadInicial + "</b>.",
-    }).then((result) => {
-      if (result.value) {
-        input.val(cantidadInicial).attr("value", cantidadInicial);
-        var precioFinalMax = (cantidadInicial * precioPerUnit).toFixed(2);
-        input
-          .closest(".productoRow")
-          .find(".precioProdIng")
-          .val(precioFinalMax)
-          .attr("value", precioFinalMax);
-      }
-    });
-  }
-}
-//***fin validar cantidad y actualizar precio */
+//window.formularioIngProdNuevoMermaCounter = 1;
 
 // Crear producto merma
-//window.formularioIngProdNuevoMermaCounter = 1;
+window.formularioIngProdNuevoMermaCounter = 1;
 window.nombreProdMerma = 1;
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -307,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
               "</div>" +
               /* cantidad editable inicia en 1 */
               '<div class="col-lg-2">' +
-              '<input type="number" class="form-control cantidadProdIng" id="cantidadProdIng" value="" placeholder="Ingrese campo Obligatorio">' +
+              '<input type="number" class="form-control cantidadProdIng" id="cantidadProdIng" value="" data-original-idProd="" placeholder="Ingrese campo Obligatorio">' +
               "</div>" +
               /* precio */
               '<div class="col-lg-2">' +
@@ -426,27 +177,40 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //funcion de calcular totales
 
-function calcularTotalProdMerma() {
-  //guarda el valor de los productos y productos prima en 0 para  sumar los precios
+function sumarPreciosProductos() {
   let totalProductos = 0;
-
-  //busca todos los formularios que comiencen con formularioIngProd = productos
-  // Sumar los precios de todos los productos
   $("[id^=formularioIngProdNewMerm]").each(function () {
     const precio = parseFloat($(this).find("#precioProdIng").val()) || 0;
-    //toma el valor del input con id precioProdIng y lo convierte a float
     totalProductos += precio;
   });
+  return totalProductos;
+}
 
+function sumarPreciosMateriasPrimas() {
+  let totalMateriasPrimas = 0;
+  $("[id^=formularioMprimaMerma]").each(function () {
+    const precio = parseFloat($(this).find("#precioProdIng").val()) || 0;
+    totalMateriasPrimas += precio;
+  });
+  return totalMateriasPrimas;
+}
+
+function calcularTotalProdMerma() {
+  // Sumar los precios de todos los productos
+  let totalProductos = sumarPreciosProductos();
+
+  // Sumar los precios de todas las materias primas
+  let totalMateriasPrimas = sumarPreciosMateriasPrimas();
+
+  // Actualizar el valor total en el campo #totalProdMerma para productos
   $("#totalProdMerma")
     .val(totalProductos.toFixed(2))
     .attr("value", totalProductos.toFixed(2));
 
-  const totalIngProdAdd = totalProductos;
-
-  $("#totalProdMerma")
-    .val(totalIngProdAdd.toFixed(2))
-    .attr("value", totalIngProdAdd.toFixed(2));
+  // Actualizar el valor total en el campo #totalMprimaMerma para materias primas
+  $("#totalMerma")
+    .val(totalMateriasPrimas.toFixed(2))
+    .attr("value", totalMateriasPrimas.toFixed(2));
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -501,8 +265,8 @@ function productoMermaCatalogo(codProdCatal, formularioID) {
       $(`#${formularioID} #nombreProdIng`).val(response["nombreProd"]);
       $(`#${formularioID} #codigoProdIng`).val(response["codigoProd"]);
       $(`#${formularioID} #unidadProdIng`).val(response["unidadProd"]);
-      $(`#${formularioID} #precioProdIng`).val(response["precioProd"]);
-
+      $(`#${formularioID} #precioProdIng`).val(response["precioProd"]).attr("data-original-precio", response["precioProd"]);
+      $(`#${formularioID} #cantidadProdIng`).val(1).attr("data-original-idProd", response["idProd"]);
       // Llamar a la función calcularTotalProdMerma después de actualizar los valores
       calcularTotalProdMerma();
     },
@@ -518,6 +282,281 @@ window.formularioMprimaMerma = 1;
 
 //variable global contadora de mermas selecionadas
 window.mermasSelecionadas = [];
+
+//agregar productos prima aproducto merma***
+document.addEventListener("DOMContentLoaded", function () {
+  //si la ruta no es la correcta no se ejecuta la función
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/productoMerma";
+  if (currentPath == appPath) {
+    // variable global guardar los codigos de los productos agregados no tocar
+    window.codigosProductosAgregados = new Set();
+    //console.log(window.codigosProductosAgregados); // Mostrar el estado actual
+    // Variable global acumulativa para almacenar datos del formulario, idProd y cantidad para validar cantidad maxima en almacen no tocar
+    window.datosFormularios = [];
+    //onsole.log(datosFormularios);
+
+    $(".dataTableProductosSalidaAlmacenMprima").on(
+      "click",
+      ".btnAddProdModalSal",
+      function () {
+        var codAddSalProdModal = $(this).attr("codAddSalProdModal");
+        // Primero, verificar si el string es vacío antes de cualquier conversión
+        if (codAddSalProdModal.trim() === "") {
+          return; // No proceder con el resto de la función si el string es vacío
+        }
+        // Convertir el código a entero antes de verificar y agregar
+        var codAddSalProdModal = parseInt(codAddSalProdModal, 10);
+
+        // Validar que el código no sea NaN, cero, o el string no sea vacío
+        if (
+          isNaN(codAddSalProdModal) ||
+          codAddSalProdModal === 0
+          //codAddSalProdModal.trim() === ""
+        ) {
+          return; // No proceder con el resto de la función
+        }
+
+        // Verificar si el código ya ha sido agregado
+        if (window.codigosProductosAgregados.has(codAddSalProdModal)) {
+          // Cerrar el modal antes de mostrar el mensaje de SweetAlert
+          $("#modalAddProdSali").modal("hide");
+          Swal.fire({
+            icon: "warning",
+            title: "Producto Prima duplicado",
+            text: "El producto ya está en la lista.",
+          }).then((result) => {
+            if (result.value) {
+              // Mostrar el modal de nuevo
+              $("#modalAddProdSali").modal("show");
+            }
+          });
+          return; // No proceder con el AJAX
+        }
+
+        // Agregar el código al conjunto de productos agregados como entero
+        window.codigosProductosAgregados.add(codAddSalProdModal);
+        //console.log(window.codigosProductosAgregados); // Mostrar el estado actual
+
+        var datos = new FormData();
+        datos.append("codAddSalProdModal", codAddSalProdModal);
+        $.ajax({
+          url: "ajax/salidaMprima.ajax.php",
+          method: "POST",
+          data: datos,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (respuesta) {
+            var idProd = respuesta["idMprima"];
+            var nombreProd = respuesta["nombreMprimaAlma"];
+            var codigoProd = respuesta["codigoMprimaAlma"];
+            var unidadProd = respuesta["unidadMprimaAlma"];
+            var precioProd = respuesta["precioMprima"];
+            //cantidad
+            var cantidadProd = respuesta["cantidadMprimaAlma"];
+          
+            // Crear un nuevo formulario para el producto con un ID único que incrementa en 1 cada vez que se agrega un producto
+            var formularioID = "formularioMprimaMerma" + formularioMprimaMerma++;
+            var nuevoProductoHTML =
+              '<form id="' +
+              formularioID +
+              '" class="row productoRow" style="padding:5px 15px">' +
+              '<div class="col-lg-2">' +
+              /* id del prodcuto */
+              '<input type="hidden" class="form-control" id="codProdIng" value="' +
+              idProd +
+              '">' +
+              /* nombre del producto */
+              '<input type="text" class="form-control" id="nombreProdIng" value="' +
+              nombreProd +
+              '" readonly>' +
+              "</div>" +
+              /* codigo del producto */
+              '<div class="col-lg-2">' +
+              '<input type="text" class="form-control" id="codigoProdIng" value="' +
+              codigoProd +
+              '" readonly>' +
+              "</div>" +
+              /* unidad del tipo de producto */
+              '<div class="col-lg-2">' +
+              '<input type="text" class="form-control" id="unidadProdIng" value="' +
+              unidadProd +
+              '" readonly>' +
+              "</div>" +
+              /* cantidad editable inicia en 1 */
+              '<div class="col-lg-2">' +
+              '<input type="number" class="form-control cantidadProdIng" id="cantidadProdIng" value="1" min="1" step="1" data-original-idProd="' +
+              idProd +
+              '">' +
+              "</div>" +
+              /* precio */
+              '<div class="col-lg-2">' +
+              '<input type="text" class="form-control precioProdIng" id="precioProdIng" value="' +
+              precioProd +
+              '" data-original-precio="' +
+              precioProd +
+              '" readonly>' +
+              "</div>" +
+              /* estado desecho merma value 1 = no usado 2 = utilizado agregado = 3 */
+              '<input type="hidden" class="form-control" id="mermaDesechoEstado" value="3">' +
+              /* boton de eliminar */
+              '<div class="col-lg-1">' +
+              '<button type="button" class="btn btn-danger btn-xs deleteMprimaMermada" id="deleteMprimaMermada" value="' +
+              idProd +
+              '"><i class="fa fa-times"></i></button>' +
+              "</div>" +
+              "</form>";
+          
+            // Agregar el nuevo formulario al contenedor
+            $(".AddMateriaPrimaMermad").append(nuevoProductoHTML);
+          
+            //agregar la cantidad a la variable gloval contadora
+            var nuevoDatoFormulario = [formularioID, idProd, cantidadProd];
+            window.datosFormularios.push(nuevoDatoFormulario);
+            //console.log(datosFormularios);
+          }
+        });
+      }
+    );
+
+    // funcion para actualizar el precio y validar la cantidad y mostrar la cantidad maxima en almacen
+
+    $(document).on(
+      "input",
+      ".cantidadProdIng",
+      actualizarPrecioYValidarCantidadMerma
+    );
+
+    // Eliminar el producto
+    $(document).on("click", ".deleteMprimaMermada", function (e) {
+      // Paso 1: Capturar el valor del botón presionado y convertirlo a número entero
+      var valorBoton = parseInt($(this).val(), 10);
+      //console.log("Valor del botón presionado:", valorBoton);
+      // Paso 2: Copiar los datos de la variable global a una nueva
+      var datosTemporales = new Set(codigosProductosAgregados);
+      // Paso 3: Buscar y eliminar el valor del botón en la nueva variable
+      if (datosTemporales.has(valorBoton)) {
+        datosTemporales.delete(valorBoton);
+      } else {
+        //console.log("El valor no se encontró en la variable global.");
+      }
+      // Paso 4: Limpiar la variable global
+      codigosProductosAgregados.clear();
+      // Paso 5: Actualizar la variable global con los nuevos datos
+      datosTemporales.forEach((valor) => {
+        codigosProductosAgregados.add(valor);
+      });
+      // Eliminar el formulario del producto del DOM
+      $(this).closest(".productoRow").remove();
+    });
+    
+    calcularTotalProdMerma();
+    //fin agregar productos
+    ///fin vericar ruta
+  }
+});
+//fin agreagr productos
+
+//*****funcion para validad cantidades de alamacen y actualizar precio y mostrar mensaje de cantidad maxima
+// Actualizar el precio cuando cambia la cantidad y valida y muestra la cantidad maxiama en //
+function actualizarPrecioYValidarCantidadMerma(event) {
+  var input = $(event.target);
+  var count = input.val();
+  var idProd = input.data("original-idprod");
+  var precioPerUnit = input
+    .closest(".productoRow")
+    .find(".precioProdIng")
+    .data("original-precio");
+
+  // Lógica para calcular el precio final
+  var precioFinal = "0";
+  if (count !== "" && parseInt(count) !== 0) {
+    if (idProd === "" || precioPerUnit === "") {
+      // Caso en el que idProd y precioPerUnit están vacíos
+      var precioActual = input
+        .closest(".productoRow")
+        .find(".precioProdIng")
+        .val();
+      precioFinal = (count * precioActual).toFixed(2);
+    } else {
+      // Caso normal
+      precioFinal = (count * precioPerUnit).toFixed(2);
+    }
+  }
+
+  // Verificar si el campo tiene exactamente 0 y mostrar alerta
+  if (count === "0") {
+    Swal.fire({
+      icon: "warning",
+      title: "Cantidad Inválida",
+      html: "La cantidad no puede ser 0.",
+    }).then((result) => {
+      if (result.value) {
+        count = 1;
+        if (idProd === "" || precioPerUnit === "") {
+          var precioActual = input
+            .closest(".productoRow")
+            .find(".precioProdIng")
+            .val();
+          precioFinal = (count * precioActual).toFixed(2);
+        } else {
+          precioFinal = (count * precioPerUnit).toFixed(2);
+        }
+        input.val(count).attr("value", count);
+        input
+          .closest(".productoRow")
+          .find(".precioProdIng")
+          .val(precioFinal)
+          .attr("value", precioFinal);
+      }
+    });
+    return; // Salir de la función para evitar continuar con la lógica
+  }
+
+  // Actualizar el valor interno y el atributo 'value' en el HTML
+  input.val(count).attr("value", count);
+  input
+    .closest(".productoRow")
+    .find(".precioProdIng")
+    .val(precioFinal)
+    .attr("value", precioFinal);
+
+  // Lógica para mostrar el mensaje basado en la cantidad
+  if (idProd !== "" && precioPerUnit !== "") {
+    var formularioID = "";
+    var cantidadInicial = 0;
+    window.datosFormularios.forEach(function (item) {
+      if (item[1] === idProd) {
+        formularioID = item[0];
+        cantidadInicial = item[2];
+      }
+    });
+
+    if (formularioID && parseInt(count) > cantidadInicial) {
+      Swal.fire({
+        icon: "info",
+        title: "Cantidad Excedente",
+        html:
+          "La cantidad máxima en almacén es <b>" + cantidadInicial + "</b>.",
+      }).then((result) => {
+        if (result.value) {
+          input.val(cantidadInicial).attr("value", cantidadInicial);
+          var precioFinalMax = (cantidadInicial * precioPerUnit).toFixed(2);
+          input
+            .closest(".productoRow")
+            .find(".precioProdIng")
+            .val(precioFinalMax)
+            .attr("value", precioFinalMax);
+        }
+      });
+    }
+  }
+
+  calcularTotalProdMerma();
+}
+//***fin validar cantidad y actualizar precio */
 
 // Función para verificar si una merma ya ha sido seleccionada
 function verificarMermaSelecionada(codMermaConfir) {
@@ -767,7 +806,7 @@ function insertarFormularioMerma(
 
   var formularioID = "formularioMprimaMerma" + formularioMprimaMerma++;
   var nuevoProductoHTML = `
-    <form id="${formularioID}" class="row productoRowMerma" style="padding:5px 15px">
+    <form id="${formularioID}" class="row productoRow" style="padding:5px 15px">
       <div class="col-lg-2">
         <!-- id del registro Merma -->
         <input type="hidden" class="form-control" id="codMerma" value="${codMerma}">
@@ -786,7 +825,7 @@ function insertarFormularioMerma(
       </div>
       <!-- cantidad editable inicia en 1 -->
       <div class="col-lg-2">
-        <input type="number" class="form-control cantidadProdIng" id="cantidadProdIng" value="${cantidadProdIng}" min="1" step="1" readonly>
+        <input type="number" class="form-control cantidadProdIng" id="cantidadProdIng" value="${cantidadProdIng}" min="1" step="1" data-original-idProd="${codProdIng}">
       </div>
       <!-- precio -->
       <div class="col-lg-2">
