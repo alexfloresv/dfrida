@@ -29,7 +29,7 @@ if (isset($_POST["codAllSalProd"])) {
 }
 
 //  crear salida de  productos
-  if (isset($_POST["jsonCrearSalidaProd"], $_POST["jsonProductosSalidaProd"])) {
+if (isset($_POST["jsonCrearSalidaProd"], $_POST["jsonProductosSalidaProd"])) {
   $create = new salidaProdAjax();
   $create->jsonCrearSalidaProd = $_POST["jsonCrearSalidaProd"];
   $create->jsonProductosSalidaProd = $_POST["jsonProductosSalidaProd"];
@@ -78,12 +78,18 @@ if (isset($_POST["jsonPdfCotizacion"])) {
   $pdf->jsonPdfCotizacion = $_POST["jsonPdfCotizacion"];
   $pdf->ajaxDescargarPdfCotizacion($_POST["jsonPdfCotizacion"]);
 }
-  // Descargar excel datos de salida de productos por fecha
+// Descargar excel datos de salida de productos por fecha
 if (isset($_POST["fechaInicioSalidaProducto"]) && isset($_POST["fechaFinSalidaProducto"])) {
   $datosSalidaProductosporFecha = new salidaProdAjax();
   $datosSalidaProductosporFecha->fechaInicioSalidaProducto = $_POST["fechaInicioSalidaProducto"];
   $datosSalidaProductosporFecha->fechaFinSalidaProducto = $_POST["fechaFinSalidaProducto"];
   $datosSalidaProductosporFecha->ajaxObtenerDatosSalidaProductosporFecha();
+}
+// Descargar PDF de la Salida de Producto
+if (isset($_POST["jsonPdfSalida"])) {
+  $pdf = new salidaProdAjax();
+  $pdf->SalidaPedidoAjax = $_POST["jsonPdfSalida"];
+  $pdf->ajaxDescargarPdfSalida($_POST["jsonPdfSalida"]);
 }
 /////////////////////////////
 
@@ -95,7 +101,7 @@ class salidaProdAjax
     $todasLasSalidasProductos = salidaProdController::ctrDTableSalProdcuctos();
     foreach ($todasLasSalidasProductos as &$salidas) {
       $salidas['buttons'] = FunctionSalidaProd::getBtnSalProd($salidas["idSalProd"]);
-      $salidas['modalPedSalProd'] = FunctionSalidaProd::getBtnVerPedSalProd($salidas["idPedido"]);
+      $salidas['modalPedSalProd'] = FunctionSalidaProd::getBtnVerPedSalProd($salidas["idSalProd"]);
       $salidas['modalSalProd'] = FunctionSalidaProd::getBtnVerSalProd($salidas["idSalProd"]);
     }
     echo json_encode($todasLasSalidasProductos);
@@ -194,6 +200,13 @@ class salidaProdAjax
     }
 
     echo json_encode($dataFiltrada);
+  }
+  //  Descargar PDF de la salida con pedido
+  public function ajaxDescargarPdfSalida($jsonPdfSalida)
+  {
+    $codSalidaProductoPdf = json_decode($jsonPdfSalida, true); // Decodificar la cadena de texto JSON en un array asociativo
+    $response = salidaProdController::ctrDescargarPdfSalida($codSalidaProductoPdf);
+    echo json_encode($response);
   }
 }
 

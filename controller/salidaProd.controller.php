@@ -31,10 +31,14 @@ class salidaProdController
     $pedidoSeleccionado = null;
     $responsePedido = null;
 
-    // Verificar si existe el dato 'pedidoSeleccionado' y extraerlo si existe
+    // Verificar si existe el dato 'pedidoSalProdAdd' y extraerlo si existe
     if (isset($crearSalidaProd['pedidoSalProdAdd'])) {
       $pedidoSeleccionado = $crearSalidaProd['pedidoSalProdAdd'];
-      $responsePedido = PedidosController::ctrCambiarEstadoPedido($pedidoSeleccionado, 4);
+
+      // Recorrer cada ID de pedido y cambiar su estado
+      foreach ($pedidoSeleccionado as $idPedido) {
+        $responsePedido = PedidosController::ctrCambiarEstadoPedido($idPedido, 4);
+      }
     }
 
     // Eliminar datos innecesarios
@@ -48,8 +52,17 @@ class salidaProdController
 
     // Verifica si es verdadero o falso para crear el registro
     if ($salidaProductosAlmacen) {
-      // Crear el registro de ingreso de productos si $salidaProductosAlmacen es true
-      $responseSalida = self::ctrRegistroSalidaProductos($salidaProdData, $jsonProductosSalidaProd);
+      // Verificar si $salidaProdData contiene 'clienteSelectProductoAdd'
+      if (isset($salidaProdData['clienteSelectProductoAdd'])) {
+        // Crear el registro de ingreso de productos
+        $responseSalida = self::ctrRegistroSalidaProductosCliente($salidaProdData, $jsonProductosSalidaProd);
+      }
+
+      // Verificar si $salidaProdData contiene 'pedidoSalProdAdd'
+      if (isset($salidaProdData['pedidoSalProdAdd'])) {
+        // Crear el registro de ingreso de productos
+        $responseSalida = self::ctrRegistroSalidaProductosPedido($salidaProdData, $jsonProductosSalidaProd);
+      }
     } else {
       // Si $salidaProductosAlmacen es false, asignar "error" a $responseSalida
       // Este error solo sucederá cuando hubo un error al restar la cantidad de productos en almacén y se restauró el almacén
@@ -137,12 +150,24 @@ class salidaProdController
   }
 
   //crear el registro de salida de productos
-  public static function ctrRegistroSalidaProductos($salidaProdData, $jsonProductosSalidaProd)
+  public static function ctrRegistroSalidaProductosPedido($salidaProdData, $jsonProductosSalidaProd)
   {
     $table = "salida_prod";
+
+    // Convertir el array de IDs de pedidos a un objeto con claves dinámicas
+    $idPedidos = [];
+    foreach ($salidaProdData["pedidoSalProdAdd"] as $index => $id) {
+      $idPedidos["pedido" . $index] = $id;
+    }
+    // Guardar el primer idPedido del array
+    $primerIdPedido = $salidaProdData["pedidoSalProdAdd"][0];
+    $clientePedido =  self::ctrObtenerIdClientePedido($primerIdPedido);
+    $idPedidoJson = json_encode($idPedidos);
+
     $dataCreate = array(
       "nombreSalProd" => $salidaProdData["tituloSalProdAdd"],
-      "idPedido" => $salidaProdData["pedidoSalProdAdd"],
+      "idPedido" => $idPedidoJson, // Usar la cadena JSON aquí
+      "idCliente" => $clientePedido["idCli"],
       "fechaSalProd" => $salidaProdData["fechaSalProdAdd"],
       "igvSalProd" => $salidaProdData["igvIngProdAdd"],
       "subTotalSalProd" => $salidaProdData["subTotalIngProdAdd"],
@@ -150,7 +175,32 @@ class salidaProdController
       "salJsonProd" => $jsonProductosSalidaProd,
       "DateCreate" => date("Y-m-d\TH:i:sP"),
     );
+
     $response = salidaProdModel::mdlCrearSalidaProd($table, $dataCreate);
+    return $response;
+  }
+  // Obtener el idCliente del Pedido
+  public static function ctrObtenerIdClientePedido($idPedido)
+  {
+    $table = "pedido";
+    $response = salidaProdModel::mdlObtenerIdClientePedido($table, $idPedido);
+    return $response;
+  }
+  //crear el registro de salida de productos
+  public static function ctrRegistroSalidaProductosCliente($salidaProdData, $jsonProductosSalidaProd)
+  {
+    $table = "salida_prod";
+    $dataCreate = array(
+      "nombreSalProd" => $salidaProdData["tituloSalProdAdd"],
+      "idCliente" => $salidaProdData["clienteSelectProductoAdd"],
+      "fechaSalProd" => $salidaProdData["fechaSalProdAdd"],
+      "igvSalProd" => $salidaProdData["igvIngProdAdd"],
+      "subTotalSalProd" => $salidaProdData["subTotalIngProdAdd"],
+      "totalSalProd" => $salidaProdData["totalIngProdAdd"],
+      "salJsonProd" => $jsonProductosSalidaProd,
+      "DateCreate" => date("Y-m-d\TH:i:sP"),
+    );
+    $response = salidaProdModel::mdlCrearSalidaProdCliente($table, $dataCreate);
     return $response;
   }
   //fin crear salida productos a almacen de  productos***
@@ -405,10 +455,30 @@ class salidaProdController
       $table = "salida_prod";
       //obtener el registro de productos 
       $productosRegistradosSalida = self::ctrRecuperarProductosRegSalida($codSalProd);
+      $pedidoAsignado = self::ctrValidarPedidoAsignado($codSalProd);
+      if ($pedidoAsignado["idPedido"] != null) {
+        // Obtener el JSON de $pedidoAsignado
+        $jsonPedidos = $pedidoAsignado["idPedido"];
+
+        // Decodificar el JSON a un array asociativo
+        $pedidosArray = json_decode($jsonPedidos, true);
+
+        // Verificar si la decodificación fue exitosa
+        if ($pedidosArray !== null) {
+          // Recorrer cada elemento del array
+          foreach ($pedidosArray as $key => $idPedido) {
+            // Cambiar el estado de cada pedido
+            $responsePedido = PedidosController::ctrCambiarEstadoPedido($idPedido, 3);
+          }
+        }
+      }
       //devolver productos restados del alamcen por el registro de salida +++
       $sumarProdAlmacen = self::ctrSumarProductosRestadosDelAlmacen($productosRegistradosSalida["salJsonProd"]);
       //eliminar registro de ingreso de productos
-      $response = salidaProdModel::mdlBorrarRegistroIngresProducto($table, $codSalProd);
+      if ($responsePedido = "ok") {
+        $response = salidaProdModel::mdlBorrarRegistroIngresProducto($table, $codSalProd);
+      }
+
     } else {
       $response = "error";
     }
@@ -421,6 +491,13 @@ class salidaProdController
     $table = "salida_prod";
     //recuperar los productos registrados en la salida
     $response = salidaProdModel::mdlRecuperarProductosRegSalida($table, $codSalProd);
+    return $response;
+  }
+  // Validar si tiene pedido asignado
+  public static function ctrValidarPedidoAsignado($codSalProd)
+  {
+    $table = "salida_prod";
+    $response = salidaProdModel::mdlValidarPedidoAsignado($table, $codSalProd);
     return $response;
   }
 
@@ -479,6 +556,14 @@ class salidaProdController
   {
     $table = "salida_prod";
     $response = salidaProdModel::mdlObtenerDatosSalidaProductosporFecha($table, $fechaInicio, $fechaFin);
+    return $response;
+  }
+  // Descarga pdf de la salida de productos con pedido
+  public static function ctrDescargarPdfSalida($codSalidaPdf)
+  {
+    $codSalidaPdf = $codSalidaPdf["idSalProd"];
+    $table = "salida_prod";
+    $response = salidaProdModel::mdlDescargarPdfSalida($table, $codSalidaPdf);
     return $response;
   }
 

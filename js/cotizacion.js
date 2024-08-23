@@ -139,11 +139,11 @@ document.addEventListener("DOMContentLoaded", function () {
           .attr("value", totalGeneral.toFixed(2));
 
         // Calcular el 18% de totalGeneral para igvIngProdAdd y actualizar el atributo 'value'
-        const igvCotizacionAdd = totalGeneral * 0.18;
+        const igvCotizacionAdd = totalGeneral * 0;
         $("#igvCotizacionAdd")
           .val(igvCotizacionAdd)
           .attr("value", igvCotizacionAdd);
-        const totalCotizacionAdd = totalGeneral + igvCotizacionAdd;
+        const totalCotizacionAdd = totalGeneral;
 
         // Asignar el totalCotizacion al input de totalCotizacion y actualizar el atributo 'value'
         $("#totalCotizacionAdd")

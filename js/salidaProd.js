@@ -231,23 +231,57 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 //FIN TOTALES
 
-//  crear salida productos
+// agregar y crear Salida
 document.addEventListener("DOMContentLoaded", function () {
-  //si la ruta no es la correcta no se ejecuta la función
+  // Si la ruta no es la correcta, no se ejecuta la función
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/salidaProd";
   if (currentPath == appPath) {
-    //escuchar el evento click en el boton registrar cotizacion
+    // Escuchar el evento click en el botón registrar salida de productos
     const btnRegistrar = document.getElementById("btnRegistrarSalidaProd");
     btnRegistrar.addEventListener("click", function () {
       let camposRequeridos = [
-        { id: "tituloSalProdAdd", nombre: "Titulo cotizacion" },
-        { id: "fechaSalProdAdd", nombre: "Fecha cotizacion" },
-        { id: "subTotalIngProdAdd", nombre: "Sub Total Cotización" },
-        { id: "totalIngProdAdd", nombre: "Total Producto" },
+        { id: "tituloSalProdAdd", nombre: "Titulo de la Salida" },
+        { id: "fechaSalProdAdd", nombre: "Fecha de la Salida" },
+        { id: "subTotalIngProdAdd", nombre: "Sub Total" },
+        { id: "totalIngProdAdd", nombre: "Total" },
       ];
+
+      // Verificar si el botón de "Agregar Productos del Pedido" está bloqueado
+      const btnPedidoProductoAdd = document.getElementById(
+        "btnPedidoProductoAdd"
+      );
+      const clienteSelect = document.getElementById("clienteSelectProductoAdd");
+      const selectPedido = document.getElementById("pedidoSalProductsAdd");
+
+      let clienteSeleccionado = false;
+      let pedidoSeleccionado = false;
+
+      // Validar si el botón de pedido está bloqueado y si se ha seleccionado un pedido
+      if (btnPedidoProductoAdd && btnPedidoProductoAdd.disabled) {
+        pedidoSeleccionado = true;
+      } else if (selectPedido && selectPedido.value !== "0") {
+        pedidoSeleccionado = true;
+      }
+
+      // Validar si se ha seleccionado un cliente cuando el pedido no está seleccionado
+      if (clienteSelect && clienteSelect.value !== "0") {
+        clienteSeleccionado = true;
+      }
+
+      // Verificar si al menos un pedido o un cliente ha sido seleccionado
+      if (!clienteSeleccionado && !pedidoSeleccionado) {
+        Swal.fire({
+          icon: "error",
+          title: "Falta Información",
+          text: "Debe seleccionar un pedido o un cliente antes de continuar.",
+        });
+        return; // Detener la ejecución si no hay un cliente o pedido seleccionado
+      }
+
       let formularioValido = true;
-      //verificar que los campos de total cotizacion no esten vacios
+
+      // Verificar que los campos requeridos no estén vacíos
       camposRequeridos.forEach(function (campo) {
         let input = document.getElementById(campo.id);
         if (!input.value || parseFloat(input.value) === 0) {
@@ -257,7 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
           Swal.fire({
             icon: "error",
             title: "Campo Requerido",
-            html: `Complete el campo <b>${campo.nombre}</b> verifique que los <b>Totales</b> no sean <b>0</b> oprima en el botón <b>Calcular</b>.`,
+            html: `Complete el campo <b>${campo.nombre}</b> y verifique que los <b>Totales</b> no sean <b>0</b>. Oprima el botón <b>Calcular</b> si es necesario.`,
           });
           return;
         } else {
@@ -265,154 +299,164 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
 
+      // Si el formulario no es válido, detener el proceso
       if (!formularioValido) {
-        // Si el formulario no es válido, se detiene aquí. El mensaje ya fue mostrado por SweetAlert2.
         return;
-        // Si el formulario es válido, se procede con la CREACION
-      } else {
-        // Aquí puedes añadir la lógica para enviar el formulario manualmente o cualquier otra acción
-        //console.log("Formulario válido, proceder con la acción deseada.");
-        // Simula la pulsación del botón "btnCalcularTotalIng" para asegurar que los totales estén actualizados si el usuario no lo hizo
-        document.getElementById("btnCalcularTotalIng").click();
-        /* fin click calcular total */
-        // recolectar los datos del formulario principal
-        var formulario = document.getElementById("formSalidaProd");
-        
-        var datosFormulario = {};
-        var elementosFormulario = formulario.querySelectorAll("input, select");
-        elementosFormulario.forEach(function (elemento) {
-          if (elemento.id) {
-            datosFormulario[elemento.id] = elemento.value;
-          }
-        });
+      }
 
-        // Validar si hay una opción seleccionada en el select
-        var selectPedido = document.getElementById("pedidoSalProductsAdd");
-        if (selectPedido && selectPedido.value !== "0") {
-          datosFormulario["pedidoSalProdAdd"] = selectPedido.value;
+      // Simula la pulsación del botón "btnCalcularTotalIng" para asegurar que los totales estén actualizados si el usuario no lo hizo
+      document.getElementById("btnCalcularTotalIng").click();
+      /* fin click calcular total */
+
+      // Recolectar los datos del formulario principal
+      var formulario = document.getElementById("formSalidaProd");
+
+      var datosFormulario = {};
+      var elementosFormulario = formulario.querySelectorAll("input, select");
+      elementosFormulario.forEach(function (elemento) {
+        if (elemento.id) {
+          datosFormulario[elemento.id] = elemento.value;
         }
+      });
 
-        // Crear un JSON con los datos recolectados del formulario principal
-        var jsonCrearSalidaProd = JSON.stringify(datosFormulario);
+      // Buscar todas las cabeceras de pedidos
+      const cabecerasPedidos = document.querySelectorAll(
+        '[id^="cabezeraPedido"]'
+      );
 
-        // Llamada a la función para recolectar datos de formularios anidados PRODUCTOS
-        recojerFormulariosAnidadosIngProductos(function (
-          datosFormulariosProductos
-        ) {
-          // Crear un JSON con los datos recolectados de los formularios anidados
-          var jsonProductosSalidaProd = JSON.stringify(
-            datosFormulariosProductos
-          );
+      // Verificar si existen cabeceras de pedidos
+      if (cabecerasPedidos.length > 0) {
+        // Array para almacenar los IDs de las cabeceras de pedidos
+        let idsPedidos = [];
 
-          $.ajax({
-            url: "ajax/salidaProd.ajax.php",
-            method: "POST",
-            data: {
-              jsonCrearSalidaProd: jsonCrearSalidaProd,
-              jsonProductosSalidaProd: jsonProductosSalidaProd,
-            },
-            dataType: "json",
-            success: function (response) {
-              console.log(response);
-              // Función para limpiar los datos de la URL
-              var limpiarURL = function () {
-                window.history.pushState(
-                  {},
-                  document.title,
-                  window.location.pathname
-                );
-              };
-
-              if (response == "ok") {
-                Swal.fire({
-                  icon: "success",
-                  title: "Correcto",
-                  html: "Retiro de productos de Almacen Correctamente<br> <strong>¿Desea Crear Otro retiro?</strong> ",
-                  showCancelButton: true,
-                  confirmButtonText: "Si",
-                  cancelButtonText: "No",
-                }).then(function (result) {
-                  if (result.value) {
-                    limpiarURL(); // Llamar a la función para limpiar la URL
-                    window.location.reload(); // Recargar la página
-                  } else {
-                    window.location.href = "/dfrida/salidaList"; // Redirigir a la
-                  }
-                });
-              } else if (response == "errorSalAlmacen") {
-                Swal.fire({
-                  icon: "error",
-                  title: "Error",
-                  html: "Un producto que se intenta retirar es negativo o esta en 0 en Almacen <strong>¿Desea verificar el Almacen?</strong>.",
-                  showCancelButton: true,
-                  confirmButtonText: "Si",
-                  cancelButtonText: "No",
-                }).then(function (result) {
-                  if (result.value) {
-                    window.location.href = "/dfrida/almacenProductos"; // Redirigir a la
-                  } else {
-                    limpiarURL(); // Llamar a la función para limpiar la URL
-                    //window.location.reload(); // Recargar la página
-                  }
-                });
-              } else {
-                Swal.fire({
-                  icon: "error",
-                  title: "Error",
-                  html: "No se pudo crear el registro de Salida <strong>¿Desea Crear Otro?</strong>.",
-                  showCancelButton: true,
-                  confirmButtonText: "Si",
-                  cancelButtonText: "No",
-                }).then(function (result) {
-                  if (result.value) {
-                    limpiarURL(); // Llamar a la función para limpiar la URL
-                    window.location.reload(); // Recargar la página
-                  } else {
-                    window.location.href = "/dfrida/salidaList"; // Redirigir a la vista de cotizacionList
-                  }
-                });
-              }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-              console.log(
-                "Error en la solicitud AJAX: ",
-                textStatus,
-                errorThrown
-              );
-            },
-          });
-          // Fin de la llamada AJAX
+        // Recorrer las cabeceras y extraer los IDs
+        cabecerasPedidos.forEach((cabecera) => {
+          const id = cabecera.id.replace("cabezeraPedido", "");
+          idsPedidos.push(id);
         });
 
-        //funcion para recolectar los datos de los formularios productos y productos prima
-        function recojerFormulariosAnidadosIngProductos(callback) {
-          //alamcena los datos de los formularios productos y productos prima
-          let datosFormulariosProductos = {};
+        // Guardar los IDs de las cabeceras de pedidos en datosFormulario
+        datosFormulario["pedidoSalProdAdd"] = idsPedidos;
+      }
 
-          // Recorrer los formularios de productos
-          $("[id^=formularioIngProd]").each(function (index) {
-            let datosFormulario = {};
-            $(this)
-              .find("input, select")
-              .each(function () {
-                if (this.id) {
-                  datosFormulario[this.id] = $(this).val();
+      // Crear un JSON con los datos recolectados del formulario principal
+      var jsonCrearSalidaProd = JSON.stringify(datosFormulario);
+
+      // Llamada a la función para recolectar datos de formularios anidados PRODUCTOS
+      recojerFormulariosAnidadosIngProductos(function (
+        datosFormulariosProductos
+      ) {
+        // Crear un JSON con los datos recolectados de los formularios anidados
+        var jsonProductosSalidaProd = JSON.stringify(datosFormulariosProductos);
+
+        $.ajax({
+          url: "ajax/salidaProd.ajax.php",
+          method: "POST",
+          data: {
+            jsonCrearSalidaProd: jsonCrearSalidaProd,
+            jsonProductosSalidaProd: jsonProductosSalidaProd,
+          },
+          dataType: "json",
+          success: function (response) {
+            // Función para limpiar los datos de la URL
+            var limpiarURL = function () {
+              window.history.pushState(
+                {},
+                document.title,
+                window.location.pathname
+              );
+            };
+
+            if (response == "ok") {
+              Swal.fire({
+                icon: "success",
+                title: "Correcto",
+                html: "Retiro de productos de Almacén correctamente realizado.<br> <strong>¿Desea crear otro retiro?</strong>",
+                showCancelButton: true,
+                confirmButtonText: "Sí",
+                cancelButtonText: "No",
+              }).then(function (result) {
+                if (result.value) {
+                  limpiarURL(); // Llamar a la función para limpiar la URL
+                  window.location.reload(); // Recargar la página
+                } else {
+                  window.location.href = "/dfrida/salidaList"; // Redirigir a la lista de salidas
                 }
               });
-            datosFormulariosProductos["producto" + index] = datosFormulario;
-          });
+            } else if (response == "errorSalAlmacen") {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                html: "Un producto que se intenta retirar tiene cantidades negativas o está en 0 en el Almacén. <strong>¿Desea verificar el Almacén?</strong>",
+                showCancelButton: true,
+                confirmButtonText: "Sí",
+                cancelButtonText: "No",
+              }).then(function (result) {
+                if (result.value) {
+                  window.location.href = "/dfrida/almacenProductos"; // Redirigir a la vista del almacén
+                } else {
+                  limpiarURL(); // Llamar a la función para limpiar la URL
+                  //window.location.reload(); // Recargar la página
+                }
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                html: "No se pudo crear el registro de salida. <strong>¿Desea intentar de nuevo?</strong>",
+                showCancelButton: true,
+                confirmButtonText: "Sí",
+                cancelButtonText: "No",
+              }).then(function (result) {
+                if (result.value) {
+                  limpiarURL(); // Llamar a la función para limpiar la URL
+                  window.location.reload(); // Recargar la página
+                } else {
+                  window.location.href = "/dfrida/salidaList"; // Redirigir a la lista de salidas
+                }
+              });
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
+        // Fin de la llamada AJAX
+      });
 
-          // Llamar al callback con los datos recolectados de ambos formularios
-          if (callback && typeof callback === "function") {
-            callback(datosFormulariosProductos);
-          }
+      // Función para recolectar los datos de los formularios productos y productos prima
+      function recojerFormulariosAnidadosIngProductos(callback) {
+        // Almacena los datos de los formularios productos y productos prima
+        let datosFormulariosProductos = {};
+
+        // Recorrer los formularios de productos
+        $("[id^=formularioIngProd]").each(function (index) {
+          let datosFormulario = {};
+          $(this)
+            .find("input, select")
+            .each(function () {
+              if (this.id) {
+                datosFormulario[this.id] = $(this).val();
+              }
+            });
+          datosFormulariosProductos["producto" + index] = datosFormulario;
+        });
+
+        // Llamar al callback con los datos recolectados de ambos formularios
+        if (callback && typeof callback === "function") {
+          callback(datosFormulariosProductos);
         }
-        //fin agregar productos
       }
+      // Fin agregar productos
     });
-    //fin verificar que los campos
+    // Fin verificar que los campos
   }
 });
+
 //fin agregar y crear Salida****
 
 //****funciones para editar producto ////
@@ -1217,8 +1261,78 @@ function obtenerStocSeleccionarPedido(codProdIng) {
   });
 }
 
+// Función para insertar el formulario del producto
+function insertarFormularioPedido(
+  codProdIng,
+  nombreProdIng,
+  codigoProdIng,
+  unidadProdIng,
+  cantidadProdIng,
+  precioProdIng,
+  cantidadProdStock,
+  precioProd,
+  codPed,
+  //valores para la varible global que espera estos datos para inicar la funcion de cantidades maximas editables
+  cantidadProd = Number(cantidadProdStock) + Number(cantidadProdIng),
+  idProd = codProdIng
+) {
+  var formularioID = "formularioIngProd" + formularioIngProdCounter++;
+  var nuevoProductoHTML = `
+    <form id="${formularioID}" class="row productoRow pedido-${codPed}" style="padding:5px 15px">
+      <div class="col-lg-2">
+        <!-- id del producto -->
+        <input type="hidden" class="form-control" id="codProdIng" value="${idProd}">
+        <!-- nombre del producto -->
+        <input type="text" class="form-control" id="nombreProdIng" value="${nombreProdIng}" readonly>
+      </div>
+      <!-- codigo del producto -->
+      <div class="col-lg-2">
+        <input type="text" class="form-control" id="codigoProdIng" value="${codigoProdIng}" readonly>
+      </div>
+      <!-- unidad del tipo de producto -->
+      <div class="col-lg-2">
+        <input type="text" class="form-control" id="unidadProdIng" value="${unidadProdIng}" readonly>
+      </div>
+      <!-- cantidad editable inicia en 1 -->
+      <div class="col-lg-2">
+        <input type="number" class="form-control cantidadProdIng" id="cantidadProdIng" value="${cantidadProdIng}" min="1" step="1" data-original-idProd="${idProd}">
+      </div>
+      <!-- precio -->
+      <div class="col-lg-2">
+        <input type="text" class="form-control precioProdIng" id="precioProdIng" value="${precioProdIng}" data-original-precio="${precioProd}" readonly>
+      </div>
+      <!-- boton de eliminar -->
+      <div class="col-lg-1">
+        <button type="button" class="btn btn-danger btn-xs deleteNuevoIngresoProd" value="${codProdIng}"><i class="fa fa-times"></i></button>
+      </div>
+    </form>`;
+
+  // Agregar el nuevo formulario al contenedor
+  $(".AddProductoSalida").append(nuevoProductoHTML);
+
+  //agregar la cantidad a la variable gloval contadora
+  var nuevoDatoFormulario = [
+    formularioID,
+    Number(idProd),
+    String(cantidadProd),
+  ];
+  window.datosFormularios.push(nuevoDatoFormulario);
+  //console.log(datosFormularios);
+
+  //llama ala funcion de editar cantidad y precio para que valide la cantidad maxima
+  $(document).on("input", ".cantidadProdIng", actualizarPrecioYValidarCantidad);
+}
+
 // Función para editar el ingreso del producto
-async function ingresoProductoSeleccionPedido(ingJsonProd) {
+async function ingresoProductoSeleccionPedido(
+  ingJsonProd,
+  codPed,
+  nombrePedido
+) {
+  // Verificar si la opción seleccionada es "0"
+  if (codPed === "0") {
+    return;
+  }
   const procesos = JSON.parse(ingJsonProd);
 
   Swal.fire({
@@ -1229,6 +1343,28 @@ async function ingresoProductoSeleccionPedido(ingJsonProd) {
       Swal.showLoading();
     },
   });
+
+  // Crear cabecera del pedido
+  const cabezeraHTML = `
+      <div class="row align-items-center mt-2" id="cabezeraPedido${codPed}">
+        <div class="col-lg-11">
+          <form id="formCabezeraIdPedido${codPed}">
+            <label for="" class="form-label" style="font-weight: bold">Pedido agregado</label>
+            <div class="input-group">
+              <!-- nombre del pedido -->
+              <input type="text" class="form-control" id="nombrePedido" value="${nombrePedido}" readonly>
+              <button class="btn btn-danger deleteCabezeraPedido" type="button" value="${codPed}">
+                <i class="fa-solid fa-x"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="w-100 my-2"></div>
+    `;
+
+  // Insertar la cabecera en el contenedor adecuado
+  $(".AddProductoSalida").append(cabezeraHTML);
 
   for (const proceso of Object.values(procesos)) {
     const {
@@ -1242,10 +1378,9 @@ async function ingresoProductoSeleccionPedido(ingJsonProd) {
 
     try {
       // Enviar el id de producto a la función de obtener stock para traer el stock del almacén
-      const { cantidadProdAlma, precioProdCotiUnidad } = await obtenerStocSeleccionarPedido(
-        codProdCoti
-      );
-      insertarFormulario(
+      const { cantidadProdAlma, precioProdCotiUnidad } =
+        await obtenerStocSeleccionarPedido(codProdCoti);
+      insertarFormularioPedido(
         codProdCoti,
         nombreProdCoti,
         codigoProdCoti,
@@ -1253,7 +1388,8 @@ async function ingresoProductoSeleccionPedido(ingJsonProd) {
         cantidadProdCoti,
         precioProdCoti,
         cantidadProdAlma,
-        precioProdCotiUnidad
+        precioProdCotiUnidad,
+        codPed
       );
     } catch (error) {
       console.error(error);
@@ -1263,106 +1399,221 @@ async function ingresoProductoSeleccionPedido(ingJsonProd) {
   Swal.close();
 }
 
-// Función para traer productos prima de pedido / cotización
+// Función para eliminar una cabecera de pedido completa y sus productos asociados
+function deleteCabezeraPedido(button) {
+  // Obtener el valor del botón, que es el codPed
+  var codPed = parseInt(button.value, 10);
+  // Eliminar la cabecera del DOM
+  document.getElementById(`cabezeraPedido${codPed}`).remove();
+  // Eliminar todos los productos asociados al pedido
+  $(`.pedido-${codPed}`).remove();
+  // Seleccionar la opción con el valor 0
+  $("#pedidoSalProductsAdd").val("0");
+  $("#pedidoSalProductsAdd").trigger("change");
+  // Aquí puedes agregar cualquier lógica adicional que necesites al eliminar la cabecera del pedido
+}
+
+// Asignar evento al botón de eliminar cabecera de pedido
+$(document).on("click", `.deleteCabezeraPedido`, function () {
+  deleteCabezeraPedido(this);
+});
+
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/salidaProd";
+
   if (currentPath == appPath) {
-    var btnPedidoProductoAdd = document.getElementById("btnPedidoProductoAdd");
-    if (btnPedidoProductoAdd) {
-      btnPedidoProductoAdd.addEventListener("click", function () {
-        Swal.fire({
-          title:
-            "¿Agregar productos de un Pedido a una salida de productos? Verifique Stocks en alamacen",
-          text: "Selecione un pedido para registrar los productos, recuerde que puede crear salidas de productos sin esta restriccion y despues asignarla a un proceso.",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          cancelButtonText: "No",
-          confirmButtonText: "Si",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            var container = document.getElementById(
-              "pedidoAsignarProductosAdd"
-            );
-            container.innerHTML = `
-              <select class="form-control select2" id="pedidoSalProductsAdd" name="pedidoSalProductsAdd">
-                <option value="0">Seleccione un pedido</option>
-              </select>
-            `;
+    function handlePedidoButton() {
+      Swal.fire({
+        title:
+          "¿Agregar productos de un Pedido a una salida de productos? Verifique Stocks en almacén",
+        text: "Seleccione un pedido para registrar los productos. Recuerde que puede crear salidas de productos sin esta restricción y después asignarlas a un proceso. Si agrega más de un pedido, el cliente asociado a esta salida será el cliente del primer pedido que haya agregado.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "No",
+        confirmButtonText: "Sí",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          // Resetear el contenedor del cliente a su estado original
+          resetClienteButton();
+          // Crear el select de pedidos
+          var container = document.getElementById("pedidoAsignarProductosAdd");
+          container.innerHTML = `
+            <select class="form-control select2" id="pedidoSalProductsAdd" name="pedidoSalProductsAdd">
+              <option value="0">Seleccione un pedido</option>
+            </select>
+          `;
 
-            $("#pedidoSalProductsAdd").select2();
+          $("#pedidoSalProductsAdd").select2();
 
-            var data = new FormData();
-            data.append("todosLosPedidosTerminados", true);
+          var data = new FormData();
+          data.append("todosLosPedidosTerminados", true);
 
-            $.ajax({
-              url: "ajax/pedidos.ajax.php",
-              method: "POST",
-              data: data,
-              contentType: false,
-              processData: false,
-              dataType: "json",
-              success: function (data) {
-                $("#pedidoSalProductsAdd").empty();
+          $.ajax({
+            url: "ajax/pedidos.ajax.php",
+            method: "POST",
+            data: data,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function (data) {
+              $("#pedidoSalProductsAdd").empty();
+              $("#pedidoSalProductsAdd").append(
+                '<option value="0">Seleccione un Pedido</option>'
+              );
+              $.each(data, function (key, value) {
                 $("#pedidoSalProductsAdd").append(
-                  '<option value="0">Seleccionar un Pedido</option>'
+                  '<option value="' +
+                    value.idPedido +
+                    '" data-idcoti="' +
+                    value.idCoti +
+                    '">' +
+                    value.nombrePedido +
+                    "</option>"
                 );
-                $.each(data, function (key, value) {
-                  $("#pedidoSalProductsAdd").append(
-                    '<option value="' +
-                      value.idPedido +
-                      '" data-idcoti="' +
-                      value.idCoti +
-                      '">' +
-                      value.nombrePedido +
-                      "</option>"
-                  );
-                });
-                $("#pedidoSalProductsAdd").trigger("change");
+              });
+              $("#pedidoSalProductsAdd").trigger("change");
 
-                $("#pedidoSalProductsAdd").on("change", function () {
-                  var codPed = $(this).val();
-                  var idCoti = $(this).find("option:selected").data("idcoti");
-                  var data = new FormData();
-                  data.append("codPedDatosPedidos", codPed);
-                  data.append("idCotiDatosPedidos", idCoti);
+              $("#pedidoSalProductsAdd").on("change", function () {
+                var codPed = $(this).val();
+                var idCoti = $(this).find("option:selected").data("idcoti");
+                var nombrePedido = $(this).find("option:selected").text(); // Obtener el nombre del pedido desde el texto de la opción seleccionada
 
-                  $.ajax({
-                    url: "ajax/products.ajax.php",
-                    method: "POST",
-                    data: data,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
-                    dataType: "json",
-                    success: function (response) {
-                      console.log(response);
-                      // Llamar a ingresoProductoEdit con la respuesta de la solicitud AJAX
-                      ingresoProductoSeleccionPedido(JSON.stringify(response));
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                      console.log(
-                        "Error en la solicitud AJAX: ",
-                        textStatus,
-                        errorThrown
-                      );
-                    },
+                // Verificar si la cabecera con el ID ya ha sido ingresada
+                if ($("#cabezeraPedido" + codPed).length > 0) {
+                  // Mostrar alerta con SweetAlert
+                  Swal.fire({
+                    icon: "warning",
+                    title: "Advertencia",
+                    text: "Esta opción ya ha sido ingresada.",
                   });
+                  return; // Salir de la función si la opción ya ha sido ingresada
+                }
+
+                // Bloquear el botón "Agregar Productos del Pedido"
+                document.getElementById(
+                  "btnProductoAddCliente"
+                ).disabled = true;
+
+                var data = new FormData();
+                data.append("codPedDatosPedidos", codPed);
+                data.append("idCotiDatosPedidos", idCoti);
+
+                $.ajax({
+                  url: "ajax/products.ajax.php",
+                  method: "POST",
+                  data: data,
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  dataType: "json",
+                  success: function (response) {
+                    ingresoProductoSeleccionPedido(
+                      JSON.stringify(response),
+                      codPed,
+                      nombrePedido
+                    );
+                  },
+                  error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(
+                      "Error en la solicitud AJAX: ",
+                      textStatus,
+                      errorThrown
+                    );
+                  },
                 });
-              },
-              error: function (xhr, status, error) {
-                console.error("Error al cargar los datos:", error);
-              },
-            });
-          }
-        });
+              });
+            },
+            error: function (xhr, status, error) {
+              console.error("Error al cargar los datos:", error);
+            },
+          });
+        }
       });
-    } else {
-      console.error(
-        'El elemento con id "btnProcesoOperativoAdd" no se encontró en el DOM.'
-      );
     }
+    function handleClienteButton() {
+      Swal.fire({
+        title: "¿Ha agregado un pedido?",
+        text: "Si no ha agregado un pedido, puede registrar un cliente.",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Sí, he agregado un pedido",
+        cancelButtonText: "No, registrar un cliente",
+      }).then((result) => {
+        if (result.isDismissed) {
+          // Resetear el contenedor de pedidos a su estado original
+          resetPedidoButton();
+          // Crear el select de clientes
+          var container = document.getElementById("clienteProductoAdd");
+          container.innerHTML = `
+            <select class="form-control select2" id="clienteSelectProductoAdd" name="clienteSelectProductoAdd">
+              <option value="0">Seleccione un Cliente</option>
+            </select>
+          `;
+
+          $("#clienteSelectProductoAdd").select2();
+
+          var data = new FormData();
+          data.append("todosLosClientes", true);
+
+          $.ajax({
+            url: "ajax/clients.ajax.php",
+            method: "POST",
+            data: data,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function (data) {
+              $("#clienteSelectProductoAdd").empty();
+              $("#clienteSelectProductoAdd").append(
+                '<option value="0">Seleccione un Cliente</option>'
+              );
+              $.each(data, function (key, value) {
+                $("#clienteSelectProductoAdd").append(
+                  '<option value="' +
+                    value.idCli +
+                    '">' +
+                    value.nombreCli +
+                    "</option>"
+                );
+              });
+
+              $("#clienteSelectProductoAdd").trigger("change");
+              $("#clienteSelectProductoAdd").on("change", function () {
+                // Bloquear el botón "Agregar Productos del Pedido"
+                document.getElementById("btnPedidoProductoAdd").disabled = true;
+              });
+            },
+            error: function (xhr, status, error) {
+              console.error("Error al cargar los datos:", error);
+            },
+          });
+        }
+      });
+    }
+
+    function resetPedidoButton() {
+      document.getElementById("pedidoAsignarProductosAdd").innerHTML = `
+        <button type="button" class="btn btn-primary w-100" id="btnPedidoProductoAdd">Agregar Productos del Pedido</button>
+      `;
+      document
+        .getElementById("btnPedidoProductoAdd")
+        .addEventListener("click", handlePedidoButton);
+    }
+
+    function resetClienteButton() {
+      document.getElementById("clienteProductoAdd").innerHTML = `
+        <button type="button" class="btn btn-primary w-100" id="btnProductoAddCliente">Agregar Clientes</button>
+      `;
+      document
+        .getElementById("btnProductoAddCliente")
+        .addEventListener("click", handleClienteButton);
+    }
+
+    // Inicializar los botones al cargar la página
+    resetPedidoButton();
+    resetClienteButton();
   }
 });

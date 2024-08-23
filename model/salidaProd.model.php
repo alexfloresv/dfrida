@@ -7,7 +7,7 @@ class salidaProdModel
   //datatable de ingresos productos
   public static function mdlmdlDTableSalProdcuctos($table)
   {
-    $statement = Conexion::conn()->prepare("SELECT idSalProd,idPedido, nombreSalProd, fechaSalProd, totalSalProd FROM $table ORDER BY idSalProd DESC");
+    $statement = Conexion::conn()->prepare("SELECT idSalProd,idPedido, nombreSalProd, fechaSalProd, totalSalProd, idCliente FROM $table ORDER BY idSalProd DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -85,12 +85,13 @@ class salidaProdModel
     }
   }
 
-  //crear el registro de ingreso de productos
+  //crear el registro de ingreso de productos con id de Pedido
   public static function mdlCrearSalidaProd($table, $dataCreate)
   {
-    $statement = Conexion::conn()->prepare("INSERT INTO $table (nombreSalProd, idPedido, fechaSalProd, igvSalProd, subTotalSalProd, totalSalProd, salJsonProd, DateCreate) VALUES(:nombreSalProd, :idPedido, :fechaSalProd, :igvSalProd, :subTotalSalProd, :totalSalProd, :salJsonProd, :DateCreate)");
+    $statement = Conexion::conn()->prepare("INSERT INTO $table (nombreSalProd, idPedido, idCliente, fechaSalProd, igvSalProd, subTotalSalProd, totalSalProd, salJsonProd, DateCreate) VALUES(:nombreSalProd, :idPedido, :idCliente,:fechaSalProd, :igvSalProd, :subTotalSalProd, :totalSalProd, :salJsonProd, :DateCreate)");
     $statement->bindParam(":nombreSalProd", $dataCreate["nombreSalProd"], PDO::PARAM_STR);
-    $statement->bindParam(":idPedido", $dataCreate["idPedido"], PDO::PARAM_INT);
+    $statement->bindParam(":idPedido", $dataCreate["idPedido"], PDO::PARAM_STR);
+    $statement->bindParam(":idCliente", $dataCreate["idCliente"], PDO::PARAM_INT);
     $statement->bindParam(":fechaSalProd", $dataCreate["fechaSalProd"], PDO::PARAM_STR);
     $statement->bindParam(":igvSalProd", $dataCreate["igvSalProd"], PDO::PARAM_STR);
     $statement->bindParam(":subTotalSalProd", $dataCreate["subTotalSalProd"], PDO::PARAM_STR);
@@ -103,6 +104,24 @@ class salidaProdModel
       return "error";
     }
   }
+    //crear el registro de ingreso de productos con id cliente
+    public static function mdlCrearSalidaProdCliente($table, $dataCreate)
+    {
+      $statement = Conexion::conn()->prepare("INSERT INTO $table (nombreSalProd, idCliente, fechaSalProd, igvSalProd, subTotalSalProd, totalSalProd, salJsonProd, DateCreate) VALUES(:nombreSalProd, :idCliente, :fechaSalProd, :igvSalProd, :subTotalSalProd, :totalSalProd, :salJsonProd, :DateCreate)");
+      $statement->bindParam(":nombreSalProd", $dataCreate["nombreSalProd"], PDO::PARAM_STR);
+      $statement->bindParam(":idCliente", $dataCreate["idCliente"], PDO::PARAM_INT);
+      $statement->bindParam(":fechaSalProd", $dataCreate["fechaSalProd"], PDO::PARAM_STR);
+      $statement->bindParam(":igvSalProd", $dataCreate["igvSalProd"], PDO::PARAM_STR);
+      $statement->bindParam(":subTotalSalProd", $dataCreate["subTotalSalProd"], PDO::PARAM_STR);
+      $statement->bindParam(":totalSalProd", $dataCreate["totalSalProd"], PDO::PARAM_STR);
+      $statement->bindParam(":salJsonProd", $dataCreate["salJsonProd"], PDO::PARAM_STR);
+      $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
+      if ($statement->execute()) {
+        return "ok";
+      } else {
+        return "error";
+      }
+    }
 
   //visualizar datos para editar salida productos
   public static function mdlVerDataSalidaRegistro($table, $codIdSalProd)
@@ -168,6 +187,14 @@ class salidaProdModel
   public static function mdlRecuperarProductosRegSalida($table, $codSalProd)
   {
     $statement = Conexion::conn()->prepare("SELECT salJsonProd FROM $table WHERE idSalProd = :idSalProd");
+    $statement->bindParam(":idSalProd", $codSalProd, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  // obtener el idPedido del la salida de productos
+  public static function mdlValidarPedidoAsignado($table, $codSalProd)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idPedido FROM $table WHERE idSalProd = :idSalProd");
     $statement->bindParam(":idSalProd", $codSalProd, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
@@ -284,5 +311,21 @@ class salidaProdModel
     $statement->bindParam(":fechaFin", $fechaFin, PDO::PARAM_STR);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  // Descargar PDF de salida de Productos
+  public static function mdlDescargarPdfSalida($table, $codSalidaProductoPdf)
+  {
+    $statement = Conexion::conn()->prepare("SELECT salida_prod.nombreSalProd,  salida_prod.fechaSalProd,  salida_prod.igvSalProd, salida_prod.subTotalSalProd, salida_prod.totalSalProd, salida_prod.salJsonProd, cliente.RazonSocialCli, cliente.rucCli, cliente.nombreCli, cliente.correoCli,  cliente.celularCli, cliente.direccionCli FROM $table INNER JOIN cliente ON  salida_prod.idCliente = cliente.idCli WHERE salida_prod.idSalProd = :idSalProd");
+    $statement->bindParam(":idSalProd", $codSalidaProductoPdf, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  // Obtener el idCliente del pedido
+  public static function mdlObtenerIdClientePedido($table, $codPedido)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idCli FROM $table WHERE idPedido = :idPedido");
+    $statement->bindParam(":idPedido", $codPedido, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
 }
