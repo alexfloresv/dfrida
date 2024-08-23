@@ -1,8 +1,8 @@
 <?php
 
 ///hostin local
-
-class Conexion
+ 
+/* class Conexion
 {
   static public function conn()
   {
@@ -10,9 +10,32 @@ class Conexion
     $link->exec("set names utf8");
     return $link;
   }
+} */
+
+//hostinguer acide
+
+class Conexion
+{
+  static public function conn()
+  {
+    $link = new PDO("mysql:host=localhost;dbname=u553466910_dfrida", "u553466910_root_dfrida", "^Mhq*Q6sp$0l");
+    $link->exec("set names utf8");
+    return $link;
+  }
 }
 
-//hostinguer
+//buscar usuario en mysql hostinger ACIDE
+//SELECT USER();
+// 
+//credenciales conexion remota
+//host:154.56.48.204
+//usu:u553466910_root_dfrida
+//pass:^Mhq*Q6sp$0l
+
+
+///
+
+//hostinguer pruebas unitarias
 
 /* class Conexion
 {
@@ -23,3 +46,10 @@ class Conexion
     return $link;
   }
 } */
+//buscar usuario en mysql hostinger
+//SELECT USER();
+// 
+//credenciales conexion remota
+//host: 193.203.175.106
+//usu: u993966586_dbdfrida
+//pass: #Dfrida1234
