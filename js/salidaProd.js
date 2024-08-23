@@ -1,3 +1,7 @@
+window.datosFormularios = [];
+var formularioIngProdCounter = 1;
+//onsole.log(datosFormularios);
+
 //agregar productos a ingreso productos****
 document.addEventListener("DOMContentLoaded", function () {
   //si la ruta no es la correcta no se ejecuta la función
@@ -5,15 +9,13 @@ document.addEventListener("DOMContentLoaded", function () {
   var appPath = "/dfrida/salidaProd";
   if (currentPath == appPath) {
     // Definir un contador global para los IDs de formulario no taocar
-    var formularioIngProdCounter = 1;
+    
 
     // variable global guardar los codigos de los productos agregados no tocar
     window.codigosProductosAgregados = new Set();
     //console.log(window.codigosProductosAgregados); // Mostrar el estado actual
     // Variable global acumulativa para almacenar datos del formulario, idProd y cantidad para validar cantidad maxima en almacen no tocar
-    window.datosFormularios = [];
-    //onsole.log(datosFormularios);
-
+   
     $(".dataTableProductosSalidaAlmacen").on(
       "click",
       ".btnAddProdModalSal",
@@ -467,7 +469,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var appPath = "/dfrida/salidaProdEdit";
   if (currentPath == appPath) {
     // Definir un contador global para los IDs de formulario no tocar
-    var formularioIngProdCounter = 1;
+/*     var formularioIngProdCounter = 1; */
 
     // guardar los codigos de los productos agregados no tocar
     window.codigosProductosAgregados = new Set();
@@ -815,7 +817,7 @@ function getQueryParam(name) {
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 //variable gloval para contar los formularios  de edit a agregar los que llegan de respeusta ajax visualizar datos  y los nuevos que sea greagaran
-window.formularioIngProdCounter = 1;
+/* window.formularioIngProdCounter = 1; */
 
 document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
