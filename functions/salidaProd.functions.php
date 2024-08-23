@@ -11,14 +11,14 @@ class FunctionSalidaProd
     ';
     return $botones;
   }
-   //boton para modal salida
-   public static function getBtnVerPedSalProd($codPedSalProd)
-   {
-     $botones = '
-        <button class="btn btn-warning btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalProdIngresados" codPedSalProd="' . $codPedSalProd . '"><i class="fa-solid fa-clipboard-list"></i></button>
-       ';
-     return $botones;
-   }
+  //boton para modal salida
+  public static function getBtnVerPedSalProd($idSalProd)
+  {
+    $botones = '
+    <button class="btn btn-warning btnVerIngProd" data-bs-toggle="modal" data-bs-target="#modalProdIngresados" idSalProd="' . $idSalProd . '"><i class="fa-solid fa-clipboard-list"></i></button>
+  ';
+    return $botones;
+  }
 
   //boton para modal salida
   public static function getBtnVerSalProd($codAllSalProd)

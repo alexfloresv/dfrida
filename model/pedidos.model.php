@@ -59,8 +59,7 @@ class PedidosModel
   // Eliminar Pedido
   public static function mdlEliminarPedido($table, $idPedido)
   {
-    try 
-  {
+    try {
       $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE idPedido = :idPedido");
       $statement->bindParam(":idPedido", $idPedido, PDO::PARAM_INT);
       if ($statement->execute()) {
@@ -106,5 +105,25 @@ class PedidosModel
     $statement->bindParam(":idPedido", $idPedido, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  // Todos los pedidos terminados
+  public static function mdlPedidosTerminados($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT pedido.idPedido, pedido.nombrePedido, pedido.idCoti FROM pedido INNER JOIN proceso_operativo ON pedido.idPedido = proceso_operativo.idPedido WHERE pedido.estadoPedido = 3");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  // Cambiar estado del pedido
+  public static function mdlCambiarEstadoPedido($table, $datosPedidos)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $table SET estadoPedido = :estadoPedido, DateUpdate = :DateUpdate WHERE idPedido = :idPedido");
+    $statement->bindParam(":estadoPedido", $datosPedidos['estadoPedido'], PDO::PARAM_INT);
+    $statement->bindParam(":idPedido", $datosPedidos['idPedido'], PDO::PARAM_INT);
+    $statement->bindParam(":DateUpdate", $datosPedidos['DateUpdate'], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
   }
 }

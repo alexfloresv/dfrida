@@ -29,11 +29,22 @@
             placeholder="Ingrese una una descripcion para la salida ">
         </div>
 
-        <div class="col-md-4">
-          <label for="pedidoSalProdAdd" class="form-label" style="font-weight: bold">Pedido: </label>
-          <input type="number" class="form-control" id="pedidoSalProdAdd" name="pedidoSalProdAdd"
-            placeholder="Ingrese el pedido correspondiente">
+        <div class="col-md-2">
+          <label for="btnPedidoProductoAdd" class="form-label" style="font-weight: bold">Asignar pedido: </label>
+          <div id="pedidoAsignarProductosAdd">
+            <input type="hidden" class="form-control" id="pedidoSalProdAdd" name="pedidoSalProdAdd">
+            <button type="button" class="btn btn-primary w-100" id="btnPedidoProductoAdd">Agregar Productos del
+              Pedido</button>
+          </div>
         </div>
+        <div class="col-md-2">
+          <label for="btnProductoAddCliente" class="form-label" style="font-weight: bold">Cliente: </label>
+          <div id="clienteProductoAdd">
+            <input type="hidden" class="form-control" id="clienteSelectProductoAdd" name="clienteSelectProductoAdd">
+            <button type="button" class="btn btn-primary w-100" id="btnProductoAddCliente">Agregar Clientes</button>
+          </div>
+        </div>
+
 
         <div class="col-md-2">
           <label for="fechaSalProdAdd" class="form-label" style="font-weight: bold">Fecha Salida: </label>

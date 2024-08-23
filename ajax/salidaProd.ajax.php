@@ -2,6 +2,8 @@
 require_once "../controller/salidaProd.controller.php";
 require_once "../model/salidaProd.model.php";
 require_once "../functions/salidaProd.functions.php";
+require_once "../controller/pedidos.controller.php";
+require_once "../model/pedidos.model.php";
 //inicio de secion 
 if (session_status() == PHP_SESSION_NONE) {
   session_start();
@@ -76,12 +78,18 @@ if (isset($_POST["jsonPdfCotizacion"])) {
   $pdf->jsonPdfCotizacion = $_POST["jsonPdfCotizacion"];
   $pdf->ajaxDescargarPdfCotizacion($_POST["jsonPdfCotizacion"]);
 }
-  // Descargar excel datos de salida de productos por fecha
+// Descargar excel datos de salida de productos por fecha
 if (isset($_POST["fechaInicioSalidaProducto"]) && isset($_POST["fechaFinSalidaProducto"])) {
   $datosSalidaProductosporFecha = new salidaProdAjax();
   $datosSalidaProductosporFecha->fechaInicioSalidaProducto = $_POST["fechaInicioSalidaProducto"];
   $datosSalidaProductosporFecha->fechaFinSalidaProducto = $_POST["fechaFinSalidaProducto"];
   $datosSalidaProductosporFecha->ajaxObtenerDatosSalidaProductosporFecha();
+}
+// Descargar PDF de la Salida de Producto
+if (isset($_POST["jsonPdfSalida"])) {
+  $pdf = new salidaProdAjax();
+  $pdf->SalidaPedidoAjax = $_POST["jsonPdfSalida"];
+  $pdf->ajaxDescargarPdfSalida($_POST["jsonPdfSalida"]);
 }
 /////////////////////////////
 
@@ -192,6 +200,13 @@ class salidaProdAjax
     }
 
     echo json_encode($dataFiltrada);
+  }
+  //  Descargar PDF de la salida con pedido
+  public function ajaxDescargarPdfSalida($jsonPdfSalida)
+  {
+    $codSalidaProductoPdf = json_decode($jsonPdfSalida, true); // Decodificar la cadena de texto JSON en un array asociativo
+    $response = salidaProdController::ctrDescargarPdfSalida($codSalidaProductoPdf);
+    echo json_encode($response);
   }
 }
 

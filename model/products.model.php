@@ -120,5 +120,12 @@ class ProductsModel
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+  // Obtener codigo del producto por idProducto
+  public static function mdlObtenerCodigoProducto($table, $idProduct){
+    $statement = Conexion::conn()->prepare("SELECT codigoProd FROM $table WHERE idProd = :idProd");
+    $statement->bindParam(":idProd", $idProduct, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 
 }

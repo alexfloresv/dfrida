@@ -71,4 +71,22 @@ class PedidosController
     $response = PedidosModel::mdlDescargarPdfPedido($table, $codPedidoPdf);
     return $response;
   }
+  // Mostrar todos los pedidos terminados
+  public static function ctrPedidosTerminados()
+  {
+    $table = "pedido";
+    $response = PedidosModel::mdlPedidosTerminados($table);
+    return $response;
+  }
+  // Cambiar estado del pedido
+  public static function ctrCambiarEstadoPedido($idPedido, $estadoPedido){
+    $table = "pedido";
+    $datosPedidos = [
+      "idPedido" => $idPedido,
+      "estadoPedido" => $estadoPedido,
+      'DateUpdate' => date("Y-m-d\TH:i:sP")
+    ];
+    $response = PedidosModel::mdlCambiarEstadoPedido($table,$datosPedidos);
+    return $response;
+  }
 }
