@@ -1275,7 +1275,7 @@ function insertarFormularioPedido(
   precioProd,
   codPed,
   //valores para la varible global que espera estos datos para inicar la funcion de cantidades maximas editables
-  cantidadProd = Number(cantidadProdStock) + Number(cantidadProdIng),
+  cantidadProd = Number(cantidadProdStock),
   idProd = codProdIng
 ) {
   var formularioID = "formularioIngProd" + formularioIngProdCounter++;
