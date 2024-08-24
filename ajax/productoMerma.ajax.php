@@ -4,6 +4,9 @@ require_once "../controller/productoMerma.controller.php";
 require_once "../model/productoMerma.model.php";
 require_once "../controller/ingresoProd.controller.php";
 require_once "../model/ingresoProd.model.php";
+require_once "../controller/salidaMprima.controller.php";
+require_once "../model/salidaMprima.model.php";
+//
 require_once "../functions/productoMerma.functions.php";
 
 //inicio de secion 

@@ -3,13 +3,13 @@ date_default_timezone_set('America/Bogota');
 
 class ProductoMermaController
 {
-    //datatable de prodcucto mermas
-   public static function ctrDTableProductoMerma()
-   {
-     $table = "prod_merma";
-     $response = ProductoMermaModel::mdlDTableProductoMerma($table);
-     return $response;
-   }
+  //datatable de prodcucto mermas
+  public static function ctrDTableProductoMerma()
+  {
+    $table = "prod_merma";
+    $response = ProductoMermaModel::mdlDTableProductoMerma($table);
+    return $response;
+  }
 
   //funcion para traer la merma aprobada al selct 2
   public static function ctrViewDataMermaConfirmada()
@@ -146,13 +146,19 @@ class ProductoMermaController
       // Obtener el codMerma del array actual
       $codMerma = $data["codMerma"];
 
+      // Saltar iteraciones con codMerma vacío
+      if ($codMerma === "") {
+        continue;
+      }
+
       // Comparar el codMerma con la variable acumuladora
       if ($validar !== $codMerma) {
-        // Enviar el dato a la función para obtenr el json de merma aceptada
-        $jsonMermaAceptada = self::obtenerMermaConfirmada($codMerma);
 
         // Guardar el codMerma en la variable acumuladora
         $validar = $codMerma;
+
+        // Enviar el dato a la función para obtenr el json de merma aceptada
+        $jsonMermaAceptada = self::obtenerMermaConfirmada($codMerma);
 
         // Crear un nuevo array temporal para almacenar los arrays coincidentes
         $arraysCoincidentes = [];
@@ -171,6 +177,7 @@ class ProductoMermaController
         // Si la función devuelve true, continuar con la siguiente iteración
         if ($updateEstadoMermaMprima) {
           $arraysCoincidentes = null;
+          $jsonMermaAceptada = null;
           //camiar estado a merma si todos los datos del array es
           continue;
         }
@@ -179,9 +186,46 @@ class ProductoMermaController
       }
     }
 
+    if ($validar == null) {
+      //crear funcion para restar productos de m prima si no agrego merma  codMerma="" vacio
+      $salidaMprimaMerma = self::salidaMprimaMerma($dataMprimaMerma);
+      if ($salidaMprimaMerma) {
+        return $salidaMprimaMerma;
+      }
+    }
+
     // Devolver el último estado de actualización
     return $updateEstadoMermaMprima;
   }
+
+  //restar productos de m prima si no agrego merma
+  public static function salidaMprimaMerma($dataMprimaMerma)
+  {
+    $modifiedData = [];
+
+    foreach ($dataMprimaMerma as $key => $value) {
+      // Cambiar el nombre del array de MprimaMermaX a productoX
+      $newKey = str_replace('MprimaMerma', 'producto', $key);
+
+      // Eliminar los campos innecesarios
+      unset($value['mPrimAdd']);
+      unset($value['codMerma']);
+      unset($value['mermaDesechoEstado']);
+
+      // Agregar el array modificado al nuevo array
+      $modifiedData[$newKey] = $value;
+    }
+
+    // Convertir el array modificado en JSON
+    $jsonMprimaMerma = json_encode($modifiedData);
+
+    // Pasar el JSON modificado a la función
+    $response = salidaMprimaController::ctrSalidaProductosAlmacenProd($jsonMprimaMerma);
+
+    return $response;
+  }
+  //fin
+
   //obtener registro de merma aceptada
   public static function obtenerMermaConfirmada($codMerma)
   {
@@ -279,7 +323,7 @@ class ProductoMermaController
     // Verificar si todos los valores de mermaDesechoEstado son 2
     foreach ($mermaJsonMprima as $item) {
       if ($item['mermaDesechoEstado'] != 2) {
-        // Si al menos uno no es 2, retornar false
+        // Si al menos uno no es 2, retornar true
         return true;
       }
     }
@@ -288,7 +332,7 @@ class ProductoMermaController
 
     //actualizar estado de la merma si toda la merma esta utilizada
     $table = "merma";
-    
+
     $dataUpdate = array(
       'idMerma' => $codMerma,
       'estadoMerma' => 3,
@@ -304,6 +348,7 @@ class ProductoMermaController
   //actualizar registro json de la merma base de datos //
   public static function updateBaseDeDatos($codMerma, $newJson)
   {
+
     $table = "merma";
 
     $dataUpdate = array(
@@ -312,12 +357,53 @@ class ProductoMermaController
       'DateUpdate' => date("Y-m-d\TH:i:sP"),
     );
 
-    $response = ProductoMermaModel::mdlUpdateBaseDeDatos($table, $dataUpdate);
-    return $response;
+    $updateRegMerma = ProductoMermaModel::mdlUpdateBaseDeDatos($table, $dataUpdate);
+    if ($updateRegMerma) {
+      $datamPrimaSalAlma = self::restarMprimaAlmacenSiEsRequerido($newJson);
+    }
+    return $datamPrimaSalAlma;
     //true// false
   }
   //fin funcion
 
+  //funcion para restar producto mPRIMA de almacen
+  public static function restarMprimaAlmacenSiEsRequerido($newJson)
+  {
+    $dataMprimaMerma = json_decode($newJson, true);
+
+    $newdData = [];
+    $found = false;
+
+    foreach ($dataMprimaMerma as $key => $value) {
+      if (isset($value['mPrimAdd'])) {
+        $found = true;
+
+        // Cambiar el nombre del array de mermaX a productoX
+        $newKey = str_replace('merma', 'producto', $key);
+
+        // Eliminar los campos innecesarios
+        unset($value['mPrimAdd']);
+        unset($value['codMerma']);
+        unset($value['mermaDesechoEstado']);
+
+        // Agregar el array modificado al nuevo array
+        $newdData[$newKey] = $value;
+      }
+    }
+
+    if (!$found) {
+      return true;
+    }
+
+    // Convertir el array modificado en JSON
+    $jsonMprimaMerma = json_encode($newdData);
+
+    // Pasar el JSON modificado a la función
+    $response = salidaMprimaController::ctrSalidaProductosAlmacenProd($jsonMprimaMerma);
+
+    return $response;
+  }
+  //fin 
   //registrar producto nuevo si es el caso
   public static function crearProdMermaNuevo($dataProdMermaNew)
   {
