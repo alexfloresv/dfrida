@@ -61,6 +61,12 @@ if (isset($_POST["todasLasFichasTrabajoModal"])) {
   $todasLasFichasTrabajoModal = new FichaTrabajoAjax();
   $todasLasFichasTrabajoModal->ajaxDTableFrichasTrabajoModal();
 }
+
+//select2 para productos
+if (isset($_POST["todosLosProductos"])) {
+  $todosLosProductos = new FichaTrabajoAjax();
+  $todosLosProductos->ajaxCateSelect2ProductoTrab();
+}
 /////////////////////////////
 
 class FichaTrabajoAjax
@@ -124,16 +130,24 @@ class FichaTrabajoAjax
     $response = FichaTrabajoController::ctrDescargarPdfCotizacion($codCotiPdf);
     echo json_encode($response);
   }
-    //datatable de fichas trabajo modal
-    public function ajaxDTableFrichasTrabajoModal()
-    {
-      $todasLasFichasTrabajoModal = FichaTrabajoController::ctrDTableFrichasTrabajo();
-      foreach ($todasLasFichasTrabajoModal as &$proces) {
-        $proces['buttons'] = FunctionFichaTrabajo::getBtnFichaTrabajoModal($proces["idFichaProc"]);
-        $proces['modalProcs'] = FunctionFichaTrabajo::getBtnVerProcesTrabajo($proces["idFichaProc"]);
-      }
-      //mostar todos los ProductosMprima DataTable
-      echo json_encode($todasLasFichasTrabajoModal);
+  //datatable de fichas trabajo modal
+  public function ajaxDTableFrichasTrabajoModal()
+  {
+    $todasLasFichasTrabajoModal = FichaTrabajoController::ctrDTableFrichasTrabajo();
+    foreach ($todasLasFichasTrabajoModal as &$proces) {
+      $proces['buttons'] = FunctionFichaTrabajo::getBtnFichaTrabajoModal($proces["idFichaProc"]);
+      $proces['modalProcs'] = FunctionFichaTrabajo::getBtnVerProcesTrabajo($proces["idFichaProc"]);
     }
+    //mostar todos los ProductosMprima DataTable
+    echo json_encode($todasLasFichasTrabajoModal);
+  }
+
+//select2 para productos
+  public function ajaxCateSelect2ProductoTrab()
+  {
+    $todosLosProductos = FichaTrabajoController::ctrCateSelect2ProductoTrab();
+    echo json_encode($todosLosProductos);
+  }
+
 }
 

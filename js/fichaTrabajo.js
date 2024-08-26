@@ -616,3 +616,127 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+
+//funcion para ver producto en ficha de trabajo
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/fichaTrabajo";
+  if (currentPath === appPath) {
+    // Agregar el label y el select dinámicamente al div vacío
+    var container = document.getElementById("prodFichProcTrab");
+    container.innerHTML = `
+      <div class="form-group">
+        <label for="productoFichaProcAdd" class="form-label" style="font-weight: bold"> Producto Proceso:</label>
+        <select class="form-control" id="productoFichaProcAdd" name="productoFichaProcAdd">
+          <option value="0">Seleccione producto</option>
+        </select>
+      </div>
+    `;
+
+    // Aplicar estilos para asegurar que el select esté debajo del label
+    var formGroup = container.querySelector(".form-group");
+    formGroup.style.display = "flex";
+    formGroup.style.flexDirection = "column";
+
+    // Inicializar Select2 en el nuevo campo select
+    $("#productoFichaProcAdd").select2();
+
+    // Cargar datos dinámicamente al confirmar
+    var data = new FormData();
+    data.append("todosLosProductos", true);
+
+    $.ajax({
+      url: "ajax/fichaTrabajo.ajax.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (data) {
+        // Limpiar las opciones actuales
+        $("#productoFichaProcAdd").empty();
+        $("#productoFichaProcAdd").append(
+          '<option value="0">Seleccionar producto</option>'
+        );
+        // Agregar las nuevas opciones
+        $.each(data, function (key, value) {
+          $("#productoFichaProcAdd").append(
+            '<option value="' +
+              value.nombreProd +
+              '">' +
+              value.nombreProd +
+              "</option>"
+          );
+        });
+        // Actualizar Select2 después de agregar las opciones
+        $("#productoFichaProcAdd").trigger("change");
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al cargar los datos:", error);
+      },
+    });
+  }
+});
+//fin
+
+//funcion para ver producto en ficha de trabajo editar
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/fichaTrabajoEdit";
+  if (currentPath === appPath) {
+    // Agregar el label y el select dinámicamente al div vacío
+    var container = document.getElementById("prodFichProcTrabEdit");
+    container.innerHTML = `
+      <div class="form-group">
+        <label for="productoFichaProcEdit" class="form-label" style="font-weight: bold"> Producto Proceso:</label>
+        <select class="form-control" id="productoFichaProcEdit" name="productoFichaProcEdit">
+          <option value="0">Seleccione producto</option>
+        </select>
+      </div>
+    `;
+
+    // Aplicar estilos para asegurar que el select esté debajo del label
+    var formGroup = container.querySelector(".form-group");
+    formGroup.style.display = "flex";
+    formGroup.style.flexDirection = "column";
+
+    // Inicializar Select2 en el nuevo campo select
+    $("#productoFichaProcEdit").select2();
+
+    // Cargar datos dinámicamente al confirmar
+    var data = new FormData();
+    data.append("todosLosProductos", true);
+
+    $.ajax({
+      url: "ajax/fichaTrabajo.ajax.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (data) {
+        // Limpiar las opciones actuales
+        $("#productoFichaProcEdit").empty();
+        $("#productoFichaProcEdit").append(
+          '<option value="0">Seleccionar producto</option>'
+        );
+        // Agregar las nuevas opciones
+        $.each(data, function (key, value) {
+          $("#productoFichaProcEdit").append(
+            '<option value="' +
+              value.nombreProd +
+              '">' +
+              value.nombreProd +
+              "</option>"
+          );
+        });
+        // Actualizar Select2 después de agregar las opciones
+        $("#productoFichaProcEdit").trigger("change");
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al cargar los datos:", error);
+      },
+    });
+  }
+});
+//fin

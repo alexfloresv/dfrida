@@ -92,6 +92,7 @@ class ProductMprimaController
         'detalleMprima' => $editarProductosMprima['editProductDetailMp'],
         'unidadMprima' => $editarProductosMprima['editProductUnitMp'],
         'precioMprima' => $editarProductosMprima['editProductPriceMp'],
+        "idProv" => $editarProductosMprima["provedoresMpEdit"],
         'DateUpdate' => date("Y-m-d\TH:i:sP"),
       );
 

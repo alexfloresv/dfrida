@@ -99,7 +99,7 @@ ORDER BY
   // Editar un ProductosMprima específico
   public static function mdlEditProductMprima($table, $dataUpdate)
   {
-    $statement = Conexion::conn()->prepare("UPDATE $table SET idCatMprima=:idCatMprima, nombreMprima=:nombreMprima, codigoMprima=:codigoMprima, detalleMprima=:detalleMprima, unidadMprima=:unidadMprima, precioMprima=:precioMprima, DateUpdate=:DateUpdate WHERE idMprima=:idMprima");
+    $statement = Conexion::conn()->prepare("UPDATE $table SET idCatMprima=:idCatMprima, nombreMprima=:nombreMprima, codigoMprima=:codigoMprima, detalleMprima=:detalleMprima, unidadMprima=:unidadMprima, precioMprima=:precioMprima, DateUpdate=:DateUpdate, idProv=:idProv WHERE idMprima=:idMprima");
     $statement->bindParam(":idCatMprima", $dataUpdate["idCatMprima"], PDO::PARAM_INT);
     $statement->bindParam(":nombreMprima", $dataUpdate["nombreMprima"], PDO::PARAM_STR);
     $statement->bindParam(":codigoMprima", $dataUpdate["codigoMprima"], PDO::PARAM_STR);
@@ -108,6 +108,7 @@ ORDER BY
     $statement->bindParam(":precioMprima", $dataUpdate["precioMprima"], PDO::PARAM_STR);
     $statement->bindParam(":DateUpdate", $dataUpdate["DateUpdate"], PDO::PARAM_STR);
     $statement->bindParam(":idMprima", $dataUpdate["idMprima"], PDO::PARAM_INT);
+    $statement->bindParam(":idProv", $dataUpdate["idProv"], PDO::PARAM_INT);
     if ($statement->execute()) {
       return "ok";
     } else {

@@ -36,6 +36,12 @@ if (isset($_POST["jsonBorraCateProducto"])) {
   $delete->jsonBorraCateProducto = $_POST["jsonBorraCateProducto"];
   $delete->ajaxBorrarCateProducto($_POST["jsonBorraCateProducto"]);
 }
+
+//select2 para cateigorias 
+if (isset($_POST["todasLasCategorias"])) {
+  $todasLasCategorias = new CategoriaProductAjax();
+  $todasLasCategorias->ajaxCateSelect2();
+}
 /////////////////////////////
 
 class CategoriaProductAjax
@@ -79,6 +85,13 @@ class CategoriaProductAjax
     $borrarProducto = json_decode($jsonBorraCateProducto, true); // Decodificar la cadena de texto JSON en un array asociativo
     $response = CategoriaProductsController::ctrDeleteCateProduct($borrarProducto);
     echo json_encode($response);
+  }
+
+  //select2 para cateigorias 
+  public function ajaxCateSelect2()
+  {
+    $todosLosCategoriaProductos = CategoriaProductsController::ctrGetAllCategoriesView();
+    echo json_encode($todosLosCategoriaProductos);
   }
 
 }

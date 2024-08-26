@@ -71,5 +71,4 @@ class CategoriaProductsController
     $response = CategoriaProductsModel::mdlCateProductUso($table, $codCatPro);
     return $response;
   }
-
 }

@@ -2,6 +2,9 @@
 require_once "../controller/categoriaProdMprima.controller.php";
 require_once "../model/categoriaProdMprima.model.php";
 require_once "../functions/categoriaProdMprima.functions.php";
+
+require_once "../controller/productMprima.controller.php";
+require_once "../model/productMprima.model.php";
 //inicio de secion 
 if (session_status() == PHP_SESSION_NONE) {
   session_start();
@@ -36,6 +39,19 @@ if (isset($_POST["jsonBorraCateProductoMp"])) {
   $delete->jsonBorraCateProductoMp = $_POST["jsonBorraCateProductoMp"];
   $delete->ajaxBorrarCateProductoMprima($_POST["jsonBorraCateProductoMp"]);
 }
+
+//select2 para CategoriaProductosMprima  
+if (isset($_POST["todasLasCategoriasMprima"])) {
+  $todasLasCategoriasMprima = new CategoriaProductMprimaAjax();
+  $todasLasCategoriasMprima->ajaxCateSelect2Mprima();
+}
+
+//select2 para selecioanr proveedores  
+
+if (isset($_POST["todosLosProveedores"])) {
+  $todosLosProveedores = new CategoriaProductMprimaAjax();
+  $todosLosProveedores->ajaxCateSelect2MprimaProvee();
+}
 /////////////////////////////
 
 class CategoriaProductMprimaAjax
@@ -55,7 +71,7 @@ class CategoriaProductMprimaAjax
   public function CrearCategoriaProductoMprima($jsonCrearCategoriaProductosMprima)
   {
     $crearCateProductoMprima = json_decode($jsonCrearCategoriaProductosMprima, true); // Decodificar la cadena de texto JSON en un array asociativo
-    
+
     $response = CategoriaProductsMprimaController::ctrCreateCategoria($crearCateProductoMprima);
     echo json_encode($response);
   }
@@ -81,6 +97,21 @@ class CategoriaProductMprimaAjax
     $response = CategoriaProductsMprimaController::ctrDeleteCateProductMprima($borrarProductoMprima);
     echo json_encode($response);
   }
+
+  //select2 para CategoriaProductosMprima  
+  public function ajaxCateSelect2Mprima()
+  {
+    $todasLasCategoriasMprima = ProductMprimaController::ctrGetAllCategoriesMprima();
+    echo json_encode($todasLasCategoriasMprima);
+  }
+
+  //select2 para selecioanr proveedores  
+  public function ajaxCateSelect2MprimaProvee()
+  {
+    $todasLasCategoriasMprima = ProductMprimaController::ctrGetAllProveedorMprima();
+    echo json_encode($todasLasCategoriasMprima);
+  }
+
 
 }
 

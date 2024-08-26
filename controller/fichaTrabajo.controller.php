@@ -98,25 +98,13 @@ class FichaTrabajoController
 
     return $response;
   }
-
-
-  //  Descargar PDF de la cotizacion
-  public static function ctrDescargarPdfCotizacion($codCotiPdf)
+  //select2 para productos
+  public static function ctrCateSelect2ProductoTrab()
   {
-    $codCoti = $codCotiPdf["codCoti"];
-    //cambiar estado de la cotizacion al descargar
-    $newEstadoCoti = self::ctrEstadoDescargaPdfCotizacion($codCoti);
-    $table = "cotizacion";
-    $response = FichaTrabajoModel::mdlDescargarPdfCotizacion($table, $codCoti);
-
+    $table = "producto";
+    $response = FichaTrabajoModel::mdlCateSelect2ProductoTrab($table);
     return $response;
   }
 
-  //cambiar estado de la cotizacion al descargar
-  public static function ctrEstadoDescargaPdfCotizacion($codCoti)
-  {
-    $table = "cotizacion";
-    $response = FichaTrabajoModel::mdlEstadoDescargaPdfCotizacion($table, $codCoti);
-    return $response;
-  }
+
 }

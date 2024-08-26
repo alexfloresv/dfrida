@@ -87,7 +87,7 @@ class FichaTrabajoModel
   }
 
   //eliminar ficha trabajo
- public static function mdlDeleteFichaTrabajo($table, $codFichTrab)
+  public static function mdlDeleteFichaTrabajo($table, $codFichTrab)
   {
     try {
       $statement = Conexion::conn()->prepare("DELETE FROM $table WHERE idFichaProc = :idFichaProc");
@@ -113,6 +113,13 @@ class FichaTrabajoModel
     return $result;
   }
 
+  //select2 para productos
+  public static function mdlCateSelect2ProductoTrab($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT idProd, nombreProd FROM $table ORDER BY idProd DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 
 
 }
