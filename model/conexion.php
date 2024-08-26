@@ -2,7 +2,7 @@
 
 ///hostin local
  
-class Conexion
+/* class Conexion
 {
   static public function conn()
   {
@@ -10,11 +10,11 @@ class Conexion
     $link->exec("set names utf8");
     return $link;
   }
-}
+} */
 
 //hostinguer acide
 
-/* class Conexion
+class Conexion
 {
   static public function conn()
   {
@@ -22,7 +22,7 @@ class Conexion
     $link->exec("set names utf8");
     return $link;
   }
-} */
+}
 
 //buscar usuario en mysql hostinger ACIDE
 //SELECT USER();
