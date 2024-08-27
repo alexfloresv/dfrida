@@ -15,7 +15,7 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 //funciones para escuchar entrad ade datos desde $.ajax de jquery
-  //datatable de prodcucto mermas
+//datatable de prodcucto mermas
 if (isset($_POST["todosLosRegistrosProdMerma"])) {
   $todosLosRegistrosProdMerma = new ProductoMermaAjax();
   $todosLosRegistrosProdMerma->ajaxDTableProductoMerma();
@@ -56,6 +56,21 @@ if (isset($_POST["jsonCrearRegistroMerma"], $_POST["jsonProdMerma"], $_POST["jso
   $create->ajaxCrearRegProdMerma($_POST["jsonCrearRegistroMerma"], $_POST["jsonProdMerma"], $_POST["jsonMprimaMerma"]);
 }
 
+//productos nuevo merma
+if (isset($_POST["codProdMerma"])) {
+  $view = new ProductoMermaAjax();
+  $view->codProdMerma = $_POST["codProdMerma"];
+  $view->ajaxProductoMerma($_POST["codProdMerma"]);
+}
+
+//productos merma prima
+if (isset($_POST["codProdMpMerma"])) {
+  $view = new ProductoMermaAjax();
+  $view->codProdMpMerma = $_POST["codProdMpMerma"];
+  $view->ajaxMateriaPrimaMerma($_POST["codProdMpMerma"]);
+}
+
+
 class ProductoMermaAjax
 {
   //datatable de prodcucto mermas
@@ -66,7 +81,7 @@ class ProductoMermaAjax
       $merma['stateProdMerma'] = FunctionProductoMerma::getEstadoProdMerma($merma["estadoProdMerma"]);
       $merma['btnProdMerma'] = FunctionProductoMerma::btnProdMerma($merma["idProdMerma"]);
       $merma['btnMprimaMerma'] = FunctionProductoMerma::btnProdMprimaMerma($merma["idProdMerma"]);
-    
+
     }
     //mostar todos los usuarios DataTable
     echo json_encode($todosLosProdMerma);
@@ -100,6 +115,20 @@ class ProductoMermaAjax
   public function ajaxCrearRegProdMerma($jsonCrearRegistroMerma, $jsonProdMerma, $jsonMprimaMerma)
   {
     $response = ProductoMermaController::CrearRegProdMerma($jsonCrearRegistroMerma, $jsonProdMerma, $jsonMprimaMerma);
+    echo json_encode($response);
+  }
+
+  //productos nuevo merma
+  public function ajaxProductoMerma($codProdMerma)
+  {
+    $response = ProductoMermaController::ctrProductoMerma($codProdMerma);
+    echo json_encode($response);
+  }
+
+  //funcion para trear los productos de la merma aprobada
+  public function ajaxMateriaPrimaMerma($codMermaConfir)
+  {
+    $response = ProductoMermaController::ctrMateriaPrimaMerma($codMermaConfir);
     echo json_encode($response);
   }
 }

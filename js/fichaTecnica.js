@@ -245,6 +245,156 @@ function enviarArchivoConNuevoNombre(nombreArchivoModificado) {
 }
 //fin enviar archivo
 
+//funcion para ver cliente en ficha tecnica editar
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/fichaTecnicaEdit";
+  if (currentPath === appPath) {
+    // Agregar el label y el select dinámicamente al div vacío
+    var container = document.getElementById("nombreClienteDivEdit");
+    container.innerHTML = `
+      <div class="form-group">
+        <label for="clienteFichaTecEdit" class="form-label" style="font-weight: bold">Cliente :</label>
+        <select class="form-control" id="clienteFichaTecEdit" name="clienteFichaTecEdit">
+          <option value="0">Seleccione cliente</option>
+        </select>
+      </div>
+    `;
+
+    // Aplicar estilos para asegurar que el select esté debajo del label
+    var formGroup = container.querySelector(".form-group");
+    formGroup.style.display = "flex";
+    formGroup.style.flexDirection = "column";
+
+    // Inicializar Select2 en el nuevo campo select
+    $("#clienteFichaTecEdit").select2();
+
+    // Cargar datos dinámicamente al confirmar
+    var formData = new FormData();
+    formData.append("todosLosClientes", true);
+
+    $.ajax({
+      url: "ajax/fichaTecnica.ajax.php",
+      method: "POST",
+      data: formData,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (data) {
+        // Limpiar las opciones actuales
+        $("#clienteFichaTecEdit").empty();
+        $("#clienteFichaTecEdit").append(
+          '<option value="0">Seleccionar cliente</option>'
+        );
+        // Agregar las nuevas opciones
+        $.each(data, function (index, cliente) {
+          $("#clienteFichaTecEdit").append(
+            '<option value="' +
+              cliente.nombreCli +
+              '">' +
+              cliente.nombreCli +
+              "</option>"
+          );
+        });
+        // Actualizar Select2 después de agregar las opciones
+        $("#clienteFichaTecEdit").trigger("change");
+
+        // Manejar el cambio de selección
+        $("#clienteFichaTecEdit").on("change", function () {
+          var selectedName = $(this).val();
+          if (selectedName !== "0") {
+            var selectedClient = data.find(
+              (cliente) => cliente.nombreCli === selectedName
+            );
+            clientesFichaTecnicaEdit(selectedClient);
+          } else {
+            // Limpiar los campos si no se selecciona un cliente válido
+            clientesFichaTecnicaEdit({
+              celularCli: "",
+              correoCli: "",
+              rucCli: "",
+            });
+          }
+        });
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al cargar los datos:", error);
+      },
+    });
+  }
+});
+
+//datos de clientes en campos de ficha tecnica
+function clientesFichaTecnicaEdit(cliente) {
+  //visualizar los datos
+  $("#celularFichaTecEdit").val(cliente.celularCli);
+  $("#correoFichaTecEdit").val(cliente.correoCli);
+  $("#nombreSoliFichaTecEdit").val(cliente.rucCli);
+}
+//fin
+
+//funcion para ver producto en ficha tecnica edit
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/fichaTecnicaEdit";
+  if (currentPath === appPath) {
+    // Agregar el label y el select dinámicamente al div vacío
+    var container = document.getElementById("prodFichaTecEdit");
+    container.innerHTML = `
+      <div class="form-group">
+         <label for="descripcionFichaTecEdit" class="form-label" style="font-weight: bold">Producto Ficha:</label>
+        <select class="form-control" id="descripcionFichaTecEdit" name="descripcionFichaTecEdit">
+          <option value="0">Seleccione producto</option>
+        </select>
+      </div>
+    `;
+
+    // Aplicar estilos para asegurar que el select esté debajo del label
+    var formGroup = container.querySelector(".form-group");
+    formGroup.style.display = "flex";
+    formGroup.style.flexDirection = "column";
+
+    // Inicializar Select2 en el nuevo campo select
+    $("#descripcionFichaTecEdit").select2();
+
+    // Cargar datos dinámicamente al confirmar
+    var data = new FormData();
+    data.append("todosLosProductos", true);
+
+    $.ajax({
+      url: "ajax/fichaTrabajo.ajax.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (data) {
+        // Limpiar las opciones actuales
+        $("#descripcionFichaTecEdit").empty();
+        $("#descripcionFichaTecEdit").append(
+          '<option value="0">Seleccionar producto</option>'
+        );
+        // Agregar las nuevas opciones
+        $.each(data, function (key, value) {
+          $("#descripcionFichaTecEdit").append(
+            '<option value="' +
+              value.nombreProd +
+              '">' +
+              value.nombreProd +
+              "</option>"
+          );
+        });
+        // Actualizar Select2 después de agregar las opciones
+        $("#descripcionFichaTecEdit").trigger("change");
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al cargar los datos:", error);
+      },
+    });
+  }
+});
+//fin
+
 //inicio edicion de ficha tecnica
 // Enviar código a la vista de editar ficha técnica para visualizar los datos
 document.addEventListener("DOMContentLoaded", function () {
@@ -312,8 +462,14 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#codFichaTecEdit").val(response["idFichaTec"]);
         $("#nombreFichaTecEdit").val(response["nombreFichaTec"]);
         $("#fechaFichaTecEdit").val(response["fechaFichaTec"]);
-        $("#clienteFichaTecEdit").val(response["clienteFichaTec"]);
-        $("#descripcionFichaTecEdit").val(response["descripcionFichaTec"]);
+        // Establecer el valor del select2
+        var clienteFichaTecEdit = response["clienteFichaTec"];
+        $("#clienteFichaTecEdit").val(clienteFichaTecEdit).trigger("change");
+        //
+        // Establecer el valor del select2
+        var descripcionFichaTecEdit = response["descripcionFichaTec"];
+        $("#descripcionFichaTecEdit").val(descripcionFichaTecEdit).trigger("change");
+        //
         $("#codigoFichaTecEdit").val(response["codigoFichaTec"]);
         $("#nombreSoliFichaTecEdit").val(response["nombreSoliFichaTec"]);
         $("#celularFichaTecEdit").val(response["celularFichaTec"]);
@@ -773,3 +929,149 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+
+//funcion para ver cliente en ficha tecnica
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/fichaTecnica";
+  if (currentPath === appPath) {
+    // Agregar el label y el select dinámicamente al div vacío
+    var container = document.getElementById("nombreClienteDiv");
+    container.innerHTML = `
+      <div class="form-group">
+        <label for="clienteFichaTecAdd" class="form-label" style="font-weight: bold">Cliente :</label>
+        <select class="form-control" id="clienteFichaTecAdd" name="clienteFichaTecAdd">
+          <option value="0">Seleccione cliente</option>
+        </select>
+      </div>
+    `;
+
+    // Aplicar estilos para asegurar que el select esté debajo del label
+    var formGroup = container.querySelector(".form-group");
+    formGroup.style.display = "flex";
+    formGroup.style.flexDirection = "column";
+
+    // Inicializar Select2 en el nuevo campo select
+    $("#clienteFichaTecAdd").select2();
+
+    // Cargar datos dinámicamente al confirmar
+    var formData = new FormData();
+    formData.append("todosLosClientes", true);
+
+    $.ajax({
+      url: "ajax/fichaTecnica.ajax.php",
+      method: "POST",
+      data: formData,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (data) {
+        // Limpiar las opciones actuales
+        $("#clienteFichaTecAdd").empty();
+        $("#clienteFichaTecAdd").append(
+          '<option value="0">Seleccionar cliente</option>'
+        );
+        // Agregar las nuevas opciones
+        $.each(data, function (index, cliente) {
+          $("#clienteFichaTecAdd").append(
+            '<option value="' +
+              cliente.nombreCli +
+              '">' +
+              cliente.nombreCli +
+              "</option>"
+          );
+        });
+        // Actualizar Select2 después de agregar las opciones
+        $("#clienteFichaTecAdd").trigger("change");
+
+        // Manejar el cambio de selección
+        $("#clienteFichaTecAdd").on("change", function () {
+          var selectedName = $(this).val();
+          if (selectedName !== "0") {
+            var selectedClient = data.find(
+              (cliente) => cliente.nombreCli === selectedName
+            );
+            clientesFichaTecnica(selectedClient);
+          } else {
+            // Limpiar los campos si no se selecciona un cliente válido
+            clientesFichaTecnica({ celularCli: "", correoCli: "", rucCli: "" });
+          }
+        });
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al cargar los datos:", error);
+      },
+    });
+  }
+});
+
+//datos de clientes en campos de ficha tecnica
+function clientesFichaTecnica(cliente) {
+  //visualizar los datos
+  $("#celularFichaTecAdd").val(cliente.celularCli);
+  $("#correoFichaTecAdd").val(cliente.correoCli);
+  $("#nombreSoliFichaTecAdd").val(cliente.rucCli);
+}
+//fin
+
+//funcion para ver producto en ficha tecnica
+document.addEventListener("DOMContentLoaded", function () {
+  var currentPath = window.location.pathname;
+  var appPath = "/dfrida/fichaTecnica";
+  if (currentPath === appPath) {
+    // Agregar el label y el select dinámicamente al div vacío
+    var container = document.getElementById("prodFichaTec");
+    container.innerHTML = `
+      <div class="form-group">
+         <label for="descripcionFichaTecAdd" class="form-label" style="font-weight: bold">Producto Ficha:</label>
+        <select class="form-control" id="descripcionFichaTecAdd" name="descripcionFichaTecAdd">
+          <option value="0">Seleccione producto</option>
+        </select>
+      </div>
+    `;
+
+    // Aplicar estilos para asegurar que el select esté debajo del label
+    var formGroup = container.querySelector(".form-group");
+    formGroup.style.display = "flex";
+    formGroup.style.flexDirection = "column";
+
+    // Inicializar Select2 en el nuevo campo select
+    $("#descripcionFichaTecAdd").select2();
+
+    // Cargar datos dinámicamente al confirmar
+    var data = new FormData();
+    data.append("todosLosProductos", true);
+
+    $.ajax({
+      url: "ajax/fichaTrabajo.ajax.php",
+      method: "POST",
+      data: data,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (data) {
+        // Limpiar las opciones actuales
+        $("#descripcionFichaTecAdd").empty();
+        $("#descripcionFichaTecAdd").append(
+          '<option value="0">Seleccionar producto</option>'
+        );
+        // Agregar las nuevas opciones
+        $.each(data, function (key, value) {
+          $("#descripcionFichaTecAdd").append(
+            '<option value="' +
+              value.nombreProd +
+              '">' +
+              value.nombreProd +
+              "</option>"
+          );
+        });
+        // Actualizar Select2 después de agregar las opciones
+        $("#descripcionFichaTecAdd").trigger("change");
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al cargar los datos:", error);
+      },
+    });
+  }
+});
+//fin

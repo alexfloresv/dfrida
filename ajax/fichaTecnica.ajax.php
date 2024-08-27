@@ -48,6 +48,12 @@ if (isset($_POST["jsonDescargarFichaTecnica"])) {
   $pdf->jsonDescargarFichaTecnica = $_POST["jsonDescargarFichaTecnica"];
   $pdf->ajaxDescargarFichaTecnica($_POST["jsonDescargarFichaTecnica"]);
 }
+
+//cliente para ficha tecnica
+if (isset($_POST["todosLosClientes"])) {
+  $todosLosClientes = new FichaTecnicaAjax();
+  $todosLosClientes->ajaxClientesFichaTec();
+}
 /////////////////////////////
 
 class FichaTecnicaAjax
@@ -105,6 +111,14 @@ class FichaTecnicaAjax
     $codCotiB64 = json_decode($jsonDescargarFichaTecnica, true); // Decodificar la cadena de texto JSON en un array asociativo
     $response = FichaTecnicaController::ctrDescargarFichaTecnica($codCotiB64);
     echo json_encode($response);
+  }
+
+  //cliente para ficha tecnica
+  public function ajaxClientesFichaTec()
+  {
+    $todosLosClientes = FichaTecnicaController::ctrClientesFichaTec();
+
+    echo json_encode($todosLosClientes);
   }
 }
 

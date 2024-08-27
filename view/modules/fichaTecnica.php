@@ -26,23 +26,21 @@
         <div class="form-group col-md-10">
           <label for="nombreFichaTecAdd" class="form-label" style="font-weight: bold">Nombre Ficha Tecnica:</label>
           <input type="text" class="form-control" id="nombreFichaTecAdd" name="nombreFichaTecAdd"
-            placeholder="Ingrese nombre de la ficha/Opcional" >
+            placeholder="Ingrese nombre de la ficha/Opcional">
         </div>
         <div class="col-md-2">
           <label for="fechaFichaTecAdd" class="form-label" style="font-weight: bold">Fecha: </label>
-          <input type="date" class="form-control" id="fechaFichaTecAdd" name="fechaFichaTecAdd" >
+          <input type="date" class="form-control" id="fechaFichaTecAdd" name="fechaFichaTecAdd">
         </div><br>
 
-        <div class="form-group col-md-4">
-          <label for="clienteFichaTecAdd" class="form-label" style="font-weight: bold">Cliente :</label>
-          <input type="text" class="form-control" id="clienteFichaTecAdd" name="clienteFichaTecAdd"
-            placeholder="Ingrese nombre Cliente/Empresa/Institucion/etc/Opcional" >
+        <!-- cliente -->
+        <div class="form-group col-md-4" id="nombreClienteDiv">
+
         </div>
 
-        <div class="form-group col-md-4">
-          <label for="descripcionFichaTecAdd" class="form-label" style="font-weight: bold">Descripcion Ficha:</label>
-          <input type="text" class="form-control" id="descripcionFichaTecAdd" name="descripcionFichaTecAdd"
-            placeholder="Descripcion del Ficha/Opcional">
+        <!-- producto -->
+        <div class="form-group col-md-4" id="prodFichaTec">
+
         </div>
 
         <div class="form-group col-md-4">
@@ -52,9 +50,9 @@
         </div>
 
         <div class="form-group col-md-6">
-          <label for="nombreSoliFichaTecAdd" class="form-label" style="font-weight: bold">Nombre Solicitante:</label>
+          <label for="nombreSoliFichaTecAdd" class="form-label" style="font-weight: bold">RUC/DNI:</label>
           <input type="text" class="form-control" id="nombreSoliFichaTecAdd" name="nombreSoliFichaTecAdd" value=""
-            placeholder="Nombre del solicitante/Opcional">
+            placeholder="Opcional">
         </div>
 
         <div class="form-group col-md-2">
@@ -111,5 +109,3 @@
 </main>
 </div>
 </div>
-
-

@@ -33,17 +33,14 @@
           <input type="date" class="form-control" id="fechaFichaTecEdit" name="fechaFichaTecEdit">
         </div><br>
 
-        <div class="form-group col-md-4">
-          <label for="clienteFichaTecEdit" class="form-label" style="font-weight: bold">Cliente :</label>
-          <input type="text" class="form-control" id="clienteFichaTecEdit" name="clienteFichaTecEdit"
-            placeholder="Ingrese nombre Cliente/Empresa/Institucion/etc">
+        <!-- cliente -->
+        <div class="form-group col-md-4" id="nombreClienteDivEdit">
+
         </div>
 
-        <div class="form-group col-md-4">
-          <label for="descripcionFichaTecEdit" class="form-label" style="font-weight: bold">Descripcion
-            Producto:</label>
-          <input type="text" class="form-control" id="descripcionFichaTecEdit" name="descripcionFichaTecEdit"
-            placeholder="Descripcion del producto">
+        <!-- producto -->
+        <div class="form-group col-md-4" id="prodFichaTecEdit">
+
         </div>
 
         <div class="form-group col-md-4">
@@ -53,9 +50,9 @@
         </div>
 
         <div class="form-group col-md-6">
-          <label for="nombreSoliFichaTecEdit" class="form-label" style="font-weight: bold">Nombre Solicitante:</label>
+          <label for="nombreSoliFichaTecEdit" class="form-label" style="font-weight: bold">RUC/DNI:</label>
           <input type="text" class="form-control" id="nombreSoliFichaTecEdit" name="nombreSoliFichaTecEdit" value=""
-            placeholder="Nombre del solicitante">
+            placeholder="Opcional">
         </div>
 
         <div class="form-group col-md-2">

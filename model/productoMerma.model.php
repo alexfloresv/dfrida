@@ -10,10 +10,48 @@ class ProductoMermaModel
         $statement = Conexion::conn()->prepare("SELECT 
         idProdMerma, descripcionProdMerma, fechaProdMerma, estadoProdMerma FROM $table 
         ORDER BY 
-        idMerma DESC");
+        idProdMerma DESC");
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    //funciones para mostrar productos merma y mprima
+
+    //funcion mostrar produtos merma nuevos
+    public static function mdlProductoMerma($table, $codProdMerma)
+    {
+        try {
+            $statement = Conexion::conn()->prepare("SELECT 
+           jsonProdMerma
+            FROM $table 
+            WHERE idProdMerma = :idProdMerma ");
+            $statement->bindParam(":idProdMerma", $codProdMerma, PDO::PARAM_INT);
+            $statement->execute();
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return "error";
+        }
+    }
+    //fin
+
+    //funcion mostrar productos mprima merma
+
+    //fin
+    public static function mdlMateriaPrimaMerma($table, $codMermaConfir)
+    {
+        try {
+            $statement = Conexion::conn()->prepare("SELECT 
+           jsonMerma
+            FROM $table 
+            WHERE idProdMerma = :idProdMerma ");
+            $statement->bindParam(":idProdMerma", $codMermaConfir, PDO::PARAM_INT);
+            $statement->execute();
+            return $statement->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return "error";
+        }
+    }
+    //fin     
 
     //funcion para traer la merma aprobada al selct 2
     public static function mdlDTableMerma($table)

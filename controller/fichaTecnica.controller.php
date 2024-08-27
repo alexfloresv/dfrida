@@ -177,4 +177,12 @@ class FichaTecnicaController
     $response = FichaTecnicaModel::mdlEstadoDescargaFichaTecnica($table, $codCotiB64);
     return $response;
   }
+
+  //cliente para ficha tecnica
+  public static function ctrClientesFichaTec()
+  {
+    $table = "cliente";
+    $response = FichaTecnicaModel::mdlClientesFichaTec($table);
+    return $response;
+  }
 }
