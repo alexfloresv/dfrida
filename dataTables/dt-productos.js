@@ -9,11 +9,11 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre Producto</th>
-          <th scope="col">Categoria</th>
-          <th scope="col">Codigo</th>
+          <th scope="col">Categoría</th>
+          <th scope="col">Código</th>
           <th scope="col">Unidad</th>
           <th scope="col">Precio</th>
-          <th scope="col">Observacion</th>
+          <th scope="col">Observación</th>
           <th scope="col">Acciones</th>
         </tr>
       `);
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre Producto</th>
-          <th scope="col">Codigo</th>
+          <th scope="col">Código</th>
           <th scope="col">Precio</th>
           <th scope="col">Acciones</th>
         </tr>
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre Producto</th>
-          <th scope="col">Codigo</th>
+          <th scope="col">Código</th>
           <th scope="col">Precio</th>
           <th scope="col">Acciones</th>
         </tr>
@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre Producto</th>
-          <th scope="col">Codigo</th>
+          <th scope="col">Código</th>
           <th scope="col">Precio</th>
           <th scope="col">Acciones</th>
         </tr>
@@ -391,7 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre Producto</th>
-          <th scope="col">Codigo</th>
+          <th scope="col">Código</th>
           <th scope="col">Precio</th>
           <th scope="col">Acciones</th>
         </tr>

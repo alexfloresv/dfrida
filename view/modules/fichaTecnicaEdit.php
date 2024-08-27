@@ -12,7 +12,7 @@
   <main class="bg">
     <div class="container-fluid px-4">
       <h1 class="mt-4">
-        Editar Ficha Tecnica D'Frida
+        Editar Ficha Técnica D'Frida
       </h1>
     </div>
 
@@ -20,11 +20,11 @@
 
       <div class="container row g-8" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
 
-        <h3>Ficha Tecnica</h3>
+        <h3>Ficha Técnica</h3>
 
         <!-- datos de la ficha tecnica  -->
         <div class="form-group col-md-10">
-          <label for="nombreFichaTecEdit" class="form-label" style="font-weight: bold">Nombre Ficha Tecnica:</label>
+          <label for="nombreFichaTecEdit" class="form-label" style="font-weight: bold">Nombre Ficha Técnica:</label>
           <input type="text" class="form-control" id="nombreFichaTecEdit" name="nombreFichaTecEdit"
             placeholder="Ingrese nombre de la ficha">
         </div>
@@ -44,7 +44,7 @@
         </div>
 
         <div class="form-group col-md-4">
-          <label for="codigoFichaTecEdit" class="form-label" style="font-weight: bold">Codigo de Ficha - Orden:</label>
+          <label for="codigoFichaTecEdit" class="form-label" style="font-weight: bold">Código de Ficha - Orden:</label>
           <input type="text" class="form-control" id="codigoFichaTecEdit" name="codigoFichaTecEdit"
             placeholder="Ingrese el Codigo de la FIcha">
         </div>
@@ -70,7 +70,7 @@
         <div class="col-md-12" style="margin-bottom: 10px;">
           <label for="detalleFichaTecEdit" class="form-label" style="font-weight: bold">Observaciones: </label>
           <input type="text" class="form-control" id="detalleFichaTecEdit" name="detalleFichaTecEdit"
-            placeholder="Ingrese observacion para la Ficha tecnica">
+            placeholder="Ingrese observación para la Ficha técnica">
         </div>
         <!-- fin -->
 
@@ -88,7 +88,7 @@
       <!-- archivo ficha tecnica -->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
         <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
-          <h3>Subir Nueva Ficha Tecnica</h3>
+          <h3>Subir Nueva Ficha Técnica</h3>
           <div class="d-inline-flex flex-column align-items-center m-2" style="text-align: center;">
             <button type="button" class="btn btn-warning btnfileFichaTecnicaEdit" id="btnfileFichaTecnicaEdit"
               style="flex-direction: column-reverse; align-items: center;">
@@ -111,7 +111,7 @@
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
           id="btnCerrarEditFichaTecnica">Cerrar</button>
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success " id="btnEditarFichaTecnica">Editar
-          Ficha tecnica</button>
+          Ficha técnica</button>
       </div>
     </form>
   </main>

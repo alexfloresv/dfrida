@@ -21,13 +21,13 @@
         <span style="margin-right: 10px;"></span>
         <!-- Button  modal  ver lista categorias-->
         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalViewCatProdMprima">
-          Ver todas las Categorias Producto Prima
+          Ver todas las Categorías Producto Prima
         </button>
         <span style="margin-right: 10px;"></span>
         <!-- Button  modal  crear categoria-->
         <button type="button" class="btn btn-info" data-bs-toggle="modal"
           data-bs-target="#modalCrearCategoriaProdMprima">
-          Crear Categoria Producto Prima
+          Crear Categoría Producto Prima
         </button>
       </div>
       <!--  -->
@@ -88,7 +88,7 @@
 
           <!-- Codigo Producto -->
           <div class="form-group">
-            <label for="productCodigoMp" class="col-form-label">Codigo Producto:</label>
+            <label for="productCodigoMp" class="col-form-label">Código Producto:</label>
             <input type="text" class="form-control" id="productCodigoMp" name="productCodigoMp" required>
           </div>
 
@@ -107,7 +107,7 @@
 
           <!-- Detalle Producto -->
           <div class="form-group">
-            <label for="productDetailMp" class="col-form-label">Observacion del Producto Prima:</label>
+            <label for="productDetailMp" class="col-form-label">Observación del Producto Prima:</label>
             <input type="text" class="form-control" id="productDetailMp" name="productDetailMp">
           </div>
 
@@ -171,7 +171,7 @@
 
             <!-- Detalle Producto -->
             <div class="form-group">
-              <label for="editProductDetailMp" class="col-form-label">Observacion del Producto Prima:</label>
+              <label for="editProductDetailMp" class="col-form-label">Observación del Producto Prima:</label>
               <input type="text" class="form-control" id="editProductDetailMp" name="editProductDetailMp">
             </div>
 
@@ -222,7 +222,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalViewCatProdMprima">Lista Categorias Producto Prima</h1>
+        <h1 class="modal-title fs-5" id="modalViewCatProdMprima">Lista Categorías Producto Prima</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">

@@ -89,10 +89,10 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre Producto</th>
-          <th scope="col">Codigo Producto</th>
+          <th scope="col">Código Producto</th>
           <th scope="col">Unidad Producto</th>
           <th scope="col">Cantidad Producto</th>
-          <th scope="col">Precio Prodcuto</th>
+          <th scope="col">Precio Producto</th>
         </tr>
       `);
 
@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre Producto Prima</th>
-          <th scope="col">Codigo Producto Prima</th>
+          <th scope="col">Código Producto Prima</th>
           <th scope="col">Precio Prima</th>
           <th scope="col">Acciones</th>
         </tr>
@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre Producto Prima</th>
-          <th scope="col">Codigo Producto Prima</th>
+          <th scope="col">Código Producto Prima</th>
           <th scope="col">Precio Prima</th>
           <th scope="col">Acciones</th>
         </tr>
@@ -331,7 +331,7 @@ document.addEventListener("DOMContentLoaded", function () {
       <tr>
         <th scope="col">#</th>
         <th scope="col">Nombre Producto Prima</th>
-        <th scope="col">Codigo Producto Prima</th>
+        <th scope="col">Código Producto Prima</th>
         <th scope="col">Precio Prima</th>
         <th scope="col">Acciones</th>
       </tr>

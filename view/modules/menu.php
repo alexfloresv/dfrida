@@ -5,7 +5,7 @@
   D'Frida
 </a>
 <!-- inventario -->
-<div class="sb-sidenav-menu-heading">Inventarios Almacen</div>
+<div class="sb-sidenav-menu-heading">Inventarios Almacén</div>
 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#listInventory" aria-expanded="false"
   aria-controls="collapseLayouts">
   <div class="sb-nav-link-icon"><i class="fa-solid fa-box-open"></i></div>
@@ -14,10 +14,10 @@
 </a>
 <div class="collapse" id="listInventory" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
   <nav class="sb-sidenav-menu-nested nav">
-    <a class="nav-link" href="almacenProductos"><i class="fa-solid fa-box"></i><span style="margin-left: 10px;">Almacen
+    <a class="nav-link" href="almacenProductos"><i class="fa-solid fa-box"></i><span style="margin-left: 10px;">Almacén
         Productos</span></a>
     <a class="nav-link" href="almacenMateriaPrima"><i class="fa-solid fa-box"></i><span
-        style="margin-left: 10px;">Almacen Materia Prima</span></a>
+        style="margin-left: 10px;">Almacén Materia Prima</span></a>
   </nav>
 </div>
 
@@ -118,7 +118,7 @@
 <div class="collapse" id="Fichas" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
   <nav class="sb-sidenav-menu-nested nav">
     <a class="nav-link" href="fichaTecnicaList"><i class="fa-solid fa-book"></i><span style="margin-left: 5px;">Ficha
-        Tecnica</span></a>
+        Técnica</span></a>
     <a class="nav-link" href="fichaTrabajoList"><i class="fa-solid fa-network-wired"></i><span
         style="margin-left: 5px;">Fichas de Trabajo</span></a>
   </nav>

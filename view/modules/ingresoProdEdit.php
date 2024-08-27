@@ -24,9 +24,9 @@
 
 
         <div class="form-group col-md-10">
-          <label for="tituloIngProdEdit" class="form-label" style="font-weight: bold">Descripcion Ingreso:</label>
+          <label for="tituloIngProdEdit" class="form-label" style="font-weight: bold">Descripción Ingreso:</label>
           <input type="text" class="form-control" id="tituloIngProdEdit" name="tituloIngProdEdit"
-            placeholder="Ingrese una una descripcion para el ingreso ">
+            placeholder="Ingrese una una descripción para el ingreso ">
         </div>
         <div class="col-md-2">
           <label for="fechaIngProdEdit" class="form-label" style="font-weight: bold">Fecha Ingreso: </label>
@@ -38,7 +38,7 @@
 
       <!-- Productos -->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
-        <h3>Productos a Almacen</h3>
+        <h3>Productos a Almacén</h3>
         <div class="d-inline-flex m-2">
           <button type="button" class="btn btn-warning" data-bs-toggle="modal"
             data-bs-target="#modalAddProdCoti">Agregar Productos</button>
@@ -46,7 +46,7 @@
 
         <div class="row" style="font-weight: bold">
           <div class="col-lg-2">Nombre</div>
-          <div class="col-lg-2">Codigo</div>
+          <div class="col-lg-2">Código</div>
           <div class="col-lg-2">Unidad</div>
           <div class="col-lg-2">Cantidad</div>
           <div class="col-lg-2">Precio Producto</div>
@@ -98,7 +98,7 @@
             <!-- vacio -->
           </div>
           <div class="form-group col-md-2">
-            <button type="button" class="btn btn-info btnCalcularTotalIng" id="btnCalcularTotalIng">Calular Total
+            <button type="button" class="btn btn-info btnCalcularTotalIng" id="btnCalcularTotalIng">Calcular Total
               Ingreso
             </button>
           </div>
@@ -128,7 +128,7 @@
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-danger" style="margin-right: 10px;"
           id="btnCerrarEditIngresoProd">Cerrar</button>
         <button type="button" class="col-2 d-inline-flex-center p-2 btn btn-success "
-          id="btnEditarIngresoProd">Editar Ingreso a Almacen </button>
+          id="btnEditarIngresoProd">Editar Ingreso a Almacén </button>
       </div>
     </form>
   </main>

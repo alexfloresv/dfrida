@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre Producto</th>
-          <th scope="col">Codigo</th>
+          <th scope="col">Código</th>
            <th scope="col">Cantidad Almacenada</th>
           <th scope="col">Precio</th>
           <th scope="col">Agregar</th>
@@ -180,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <tr>
             <th scope="col">#</th>
             <th scope="col">Producto Prima</th>
-            <th scope="col">Codigo </th>
+            <th scope="col">Código </th>
             <th scope="col">Unidad merma</th>
             <th scope="col">Cantidad merma</th>
             <th scope="col">Precio merma</th>
@@ -357,7 +357,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Producto Prima</th>
-          <th scope="col">Codigo Producto</th>
+          <th scope="col">Código Producto</th>
           <th scope="col">Unidad Producto</th>
           <th scope="col">Cantidad Producto</th>
           <th scope="col">Precio Producto</th>
@@ -447,7 +447,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Producto Prima</th>
-          <th scope="col">Codigo Producto</th>
+          <th scope="col">Código Producto</th>
           <th scope="col">Unidad Producto</th>
           <th scope="col">Cantidad Producto</th>
           <th scope="col">Precio Producto</th>

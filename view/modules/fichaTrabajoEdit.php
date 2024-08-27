@@ -40,7 +40,7 @@
         <div class="col-md-12" style="margin-bottom: 10px;">
           <label for="detalleFichaProcEdit" class="form-label" style="font-weight: bold">Observaciones: </label>
           <textarea class="form-control" id="detalleFichaProcEdit" name="detalleFichaProcEdit"
-            placeholder="Ingrese observacion para el proceso de trabajo Opcional" rows="4"></textarea>
+            placeholder="Ingrese observación para el proceso de trabajo Opcional" rows="4"></textarea>
         </div>
         <!-- fin -->
       </div>
@@ -56,7 +56,7 @@
         <div class="row" style="font-weight: bold">
           <div class="col-lg-4">Proceso</div>
           <div class="col-lg-2">Tiempo</div>
-          <div class="col-lg-4">Observacion</div>
+          <div class="col-lg-4">Observación</div>
         </div>
 
         <!-- aqui se agregan los procesos del modal de procesos  -->

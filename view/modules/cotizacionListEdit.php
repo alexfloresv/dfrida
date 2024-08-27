@@ -12,7 +12,7 @@
   <main class="bg">
     <div class="container-fluid px-4">
       <h1 class="mt-4">
-        Editar Cotizacion D'Frida
+        Editar Cotización D'Frida
       </h1>
     </div>
 
@@ -24,19 +24,19 @@
 
         <!-- datos de la cotizacion Enpresa -->
         <div class="form-group col-md-10">
-          <label for="tituloCotiEdit" class="form-label" style="font-weight: bold">Titulo Cotizacion:</label>
+          <label for="tituloCotiEdit" class="form-label" style="font-weight: bold">Titulo Cotización:</label>
           <input type="text" class="form-control" id="tituloCotiEdit" name="tituloCotiEdit"
-            placeholder="Ingrese un titulo de Cotizacion">
+            placeholder="Ingrese un titulo de Cotización">
         </div>
         <div class="col-md-2">
-          <label for="fechaCotiEdit" class="form-label" style="font-weight: bold">Fecha Cotizacion: </label>
+          <label for="fechaCotiEdit" class="form-label" style="font-weight: bold">Fecha Cotización: </label>
           <input type="date" class="form-control" id="fechaCotiEdit" name="fechaCotiEdit">
         </div><br>
 
         <div class="form-group col-md-4">
-          <label for="razonSocialCotiEdit" class="form-label" style="font-weight: bold">Razon Social :</label>
+          <label for="razonSocialCotiEdit" class="form-label" style="font-weight: bold">Razón Social :</label>
           <input type="text" class="form-control" id="razonSocialCotiEdit" name="razonSocialCotiEdit"
-            placeholder="Ingrese la razon social de la empresa">
+            placeholder="Ingrese la razón social de la empresa">
         </div>
 
         <div class="form-group col-md-4">
@@ -74,15 +74,15 @@
         </div>
 
         <div class="col-md-4">
-          <label for="direccionCotiEdit" class="form-label" style="font-weight: bold">Direccion: </label>
+          <label for="direccionCotiEdit" class="form-label" style="font-weight: bold">Dirección: </label>
           <input type="text" class="form-control" id="direccionCotiEdit" name="direccionCotiEdit"
-            placeholder="Ingrese Direccion">
+            placeholder="Ingrese Dirección">
         </div>
 
         <div class="col-md-8" style="margin-bottom: 10px;">
           <label for="detalleCotiEdit" class="form-label" style="font-weight: bold">Observaciones: </label>
           <input type="text" class="form-control" id="detalleCotiEdit" name="detalleCotiEdit"
-            placeholder="Ingrese observacion para la cotizacion Opcional">
+            placeholder="Ingrese observación para la cotización Opcional">
         </div>
         <!-- fin -->
       </div>
@@ -131,7 +131,7 @@
 
       <!-- Calculo totales-->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
-        <h3>Valores Totales Cotizacion</h3>
+        <h3>Valores Totales Cotización</h3>
 
         <div class="row" style="font-weight: bold">
           <div class="col-lg-4"></div>
@@ -148,8 +148,8 @@
             <!-- vacio -->
           </div>
           <div class="form-group col-md-2">
-            <button type="button" class="btn btn-info btnCalcularTotalEdit" id="btnCalcularTotalEdit">Calular Total
-              Cotizacion
+            <button type="button" class="btn btn-info btnCalcularTotalEdit" id="btnCalcularTotalEdit">Callar Total
+              Cotización
             </button>
           </div>
           <div class="form-group col-md-2">
@@ -194,7 +194,7 @@
           Agregar Producto
         </button>
         <button type="button" class="btn btn-info" id="btnAgregarCategoriaProductEditCotizacion">
-          Crear Categoria Producto
+          Crear Categoría Producto
         </button>
         <div class="mb-4"></div>
         <table id="dataTableProductosEditarCotizacion" class="display dataTableProductosEditarCotizacion">
@@ -243,7 +243,7 @@
 
           <!-- Codigo Producto -->
           <div class="form-group">
-            <label for="productCodigo" class="col-form-label">Codigo Producto:</label>
+            <label for="productCodigo" class="col-form-label">Código Producto:</label>
             <input type="text" class="form-control" id="productCodigo" name="productCodigo" required>
           </div>
 
@@ -262,7 +262,7 @@
 
           <!-- Detalle Producto -->
           <div class="form-group">
-            <label for="productDetail" class="col-form-label">Observacion del Producto:</label>
+            <label for="productDetail" class="col-form-label">Observación del Producto:</label>
             <input type="text" class="form-control" id="productDetail" name="productDetail">
           </div>
 

@@ -66,7 +66,7 @@
           </div>
           <!-- Razon social -->
           <div class="form-group">
-            <label for="razonSocial" class="col-form-label">Razon social:</label>
+            <label for="razonSocial" class="col-form-label">Razón social:</label>
             <input type="text" class="form-control" id="razonSocial" name="razonSocial" placeholder="Opcional">
           </div>
           <!-- Name Client -->
@@ -91,7 +91,7 @@
           </div>
             <!-- Observacion Cliente -->
             <div class="form-group">
-            <label for="DetallCli" class="col-form-label">Observacion:</label>
+            <label for="DetallCli" class="col-form-label">Observación:</label>
             <input type="text" class="form-control" id="DetallCli" name="DetallCli" placeholder="Opcional">
           </div>
           <div class="modal-footer">
@@ -125,7 +125,7 @@
           </div>
           <!-- Razon social -->
           <div class="form-group">
-            <label for="EditRazonSocial" class="col-form-label">Razon social:</label>
+            <label for="EditRazonSocial" class="col-form-label">Razón social:</label>
             <input type="text" class="form-control" id="EditRazonSocial" name="EditRazonSocial" placeholder="Opcional">
           </div>
           <!-- Name Client -->
@@ -150,7 +150,7 @@
           </div>
           <!-- Detalle Client -->
           <div class="form-group">
-            <label for="EditDetallCli" class="col-form-label">Observacion Cliente:</label>
+            <label for="EditDetallCli" class="col-form-label">Observación Cliente:</label>
             <input type="text" class="form-control" id="EditDetallCli" name="EditDetallCli" placeholder="Opcional">
           </div>
           <!-- State Client -->

@@ -15,13 +15,13 @@ document.addEventListener("DOMContentLoaded", function () {
       $("#dataTableFichaTenica thead").html(`
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Nombre Ficha Tenica</th>
+          <th scope="col">Nombre Ficha Técnica</th>
           <th scope="col">Fecha</th>
-          <th scope="col">Descripcion</th>
-          <th scope="col">Codigo Ficha</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Código Ficha</th>
           <th scope="col">Cliente</th>
           <th scope="col">Celular</th>
-          <th scope="col">Ficha Tecnica</th>
+          <th scope="col">Ficha Técnica</th>
           <th scope="col">Estado</th>
           <th scope="col">Acciones</th>
         </tr>

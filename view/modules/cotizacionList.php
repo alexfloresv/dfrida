@@ -15,7 +15,7 @@
       </ol>
       <div class="d-flex m-2">
         <button type="button" class="btn btn-success" id="btnAddCotizacion">
-          Agregar Cotizacion
+          Agregar Cotización
         </button>
       </div>
       <div class="card mb-4">

@@ -72,10 +72,10 @@
               </div>
 
               <div class="col-md-6  mb-3">
-                <label for="descripcionProcOpAdd" class="form-label" style="font-weight: bold">Descripcion Proceso:
+                <label for="descripcionProcOpAdd" class="form-label" style="font-weight: bold">Descripción Proceso:
                 </label>
                 <input type="text" class="form-control" id="descripcionProcOpAdd" name="descripcionProcOpAdd"
-                  placeholder="Ingrese una descripcion del proceso operativo ">
+                  placeholder="Ingrese una descripción del proceso operativo ">
               </div>
 
               <div class="col-md-2 ">
@@ -90,7 +90,7 @@
               <!-- selec2 selecionar una salida de productos prima -->
               <div class="col-md-6 ">
                 <div class="form-group">
-                  <label for="idSalProdPrima">Selecionar Salida de Productos Prima</label>
+                  <label for="idSalProdPrima">Seleccionar Salida de Productos Prima</label>
                   <select class="form-select" id="idSalProdPrima" name="idSalProdPrima">
                   </select>
                 </div>
@@ -110,7 +110,7 @@
               <!-- selec2 para pedidos -->
               <div class="col-md-6  mb-3">
                 <div class="form-group">
-                  <label for="idPedidoProcOp">Selecionar Pedido</label>
+                  <label for="idPedidoProcOp">Seleccionar Pedido</label>
                   <select class="form-select" id="idPedidoProcOp" name="idPedidoProcOp">
                   </select>
                 </div>
@@ -118,7 +118,7 @@
               <!-- selec2 para tipos de procesos -->
               <div class="col-md-6  mb-3">
                 <div class="form-group">
-                  <label for="idTipoProcOp">Selecionar el Tipo de Proceso</label>
+                  <label for="idTipoProcOp">Seleccionar el Tipo de Proceso</label>
                   <select class="form-select" id="idTipoProcOp" name="idTipoProcOp">
                   </select>
                 </div>
@@ -156,7 +156,7 @@
               </div>
 
               <div class="col-md-6  mb-3">
-                <label for="descripcionProcOpEdit" class="form-label" style="font-weight: bold">Descripcion Proceso:
+                <label for="descripcionProcOpEdit" class="form-label" style="font-weight: bold">Descripción Proceso:
                 </label>
                 <input type="text" class="form-control" id="descripcionProcOpEdit" name="descripcionProcOpEdit"
                   placeholder="Ingrese una descripcion del proceso operativo ">
@@ -174,7 +174,7 @@
               <!-- selec2 selecionar una salida de productos prima -->
               <div class="col-md-6 ">
                 <div class="form-group">
-                  <label for="idSalProdPrimaEdit">Selecionar Salida de Productos Prima</label>
+                  <label for="idSalProdPrimaEdit">Seleccionar Salida de Productos Prima</label>
                   <select class="form-select" id="idSalProdPrimaEdit" name="idSalProdPrimaEdit">
                   </select>
                 </div>
@@ -194,7 +194,7 @@
               <!-- selec2 para pedidos -->
               <div class="col-md-6  mb-3">
                 <div class="form-group">
-                  <label for="idPedidoProcOpEdit">Selecionar Pedido</label>
+                  <label for="idPedidoProcOpEdit">Seleccionar Pedido</label>
                   <select class="form-select" id="idPedidoProcOpEdit" name="idPedidoProcOpEdit">
                   </select>
                 </div>
@@ -203,7 +203,7 @@
               <!-- selec2 para tipos de procesos -->
               <div class="col-md-6  mb-3">
                 <div class="form-group">
-                  <label for="idTipoProcOpEdit">Selecionar el Tipo de Proceso</label>
+                  <label for="idTipoProcOpEdit">Seleccionar el Tipo de Proceso</label>
                   <select class="form-select" id="idTipoProcOpEdit" name="idTipoProcOpEdit">
                   </select>
                 </div>
@@ -230,7 +230,7 @@
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="">Todas las Salidas de Almacen Producto Prima</h1>
+        <h1 class="modal-title fs-5" id="">Todas las Salidas de Almacén Producto Prima</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="">
@@ -258,7 +258,7 @@
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalverSalidasMprimaEdit">Todas las Salidas de Almacen Producto Prima</h1>
+        <h1 class="modal-title fs-5" id="modalverSalidasMprimaEdit">Todas las Salidas de Almacén Producto Prima</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="">
@@ -285,7 +285,7 @@
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5">Productos salida de Almacen</h1>
+        <h1 class="modal-title fs-5">Productos salida de Almacén</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="procesosTrabajoModal">
@@ -329,7 +329,7 @@
               </div>
               <!-- descripcion del tipo de proceso operativo -->
               <div class="col-md-6  mb-3">
-                <label for="descripcionTipoProcOpAdd" class="form-label" style="font-weight: bold">Descripcion Tipo de
+                <label for="descripcionTipoProcOpAdd" class="form-label" style="font-weight: bold">Descripción Tipo de
                   Proceso:
                 </label>
                 <input type="text" class="form-control" id="descripcionTipoProcOpAdd" name="descripcionTipoProcOpAdd"
@@ -338,7 +338,7 @@
               <!-- selecionar la fichas de trabajo creadas -->
               <div class="col-md-6  mb-3">
                 <div class="form-group">
-                  <label for="idFichTrabProcAdd">Selecionar Ficha de Trabajo</label>
+                  <label for="idFichTrabProcAdd">Seleccionar Ficha de Trabajo</label>
                   <select id="idFichTrabProcAdd" style="width: 100%;"></select>
                 </div>
               </div>
@@ -388,7 +388,7 @@
               </div>
               <!-- descripcion del tipo de proceso operativo -->
               <div class="col-md-6  mb-3">
-                <label for="descripcionTipoProcOpEdit" class="form-label" style="font-weight: bold">Descripcion Tipo de
+                <label for="descripcionTipoProcOpEdit" class="form-label" style="font-weight: bold">Descripción Tipo de
                   Proceso:
                 </label>
                 <input type="text" class="form-control" id="descripcionTipoProcOpEdit" name="descripcionTipoProcOpEdit"
@@ -397,7 +397,7 @@
               <!-- selecionar la fichas de trabajo creadas -->
               <div class="col-md-6  mb-3">
                 <div class="form-group">
-                  <label for="idFichTrabProcEdit">Selecionar Ficha de Trabajo</label>
+                  <label for="idFichTrabProcEdit">Seleccionar Ficha de Trabajo</label>
                   <select id="idFichTrabProcEdit" style="width: 100%;"></select>
                 </div>
               </div>
@@ -531,7 +531,7 @@
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5">Materia Prima Salida de Almacen</h1>
+        <h1 class="modal-title fs-5">Materia Prima Salida de Almacén</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body" id="">
@@ -559,7 +559,7 @@
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5 text-center w-100" id="">Proceso Operativo en Ejecucion</h1>
+        <h1 class="modal-title fs-5 text-center w-100" id="">Proceso Operativo en Ejecución</h1>
       </div>
       <div class="modal-body" id="">
         <div class="container">
@@ -631,7 +631,7 @@
           </form>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-success" id="btnActualizarProcesoOpEstados">Actializar Proceso
+            <button type="button" class="btn btn-success" id="btnActualizarProcesoOpEstados">Actualizar Proceso
               Operativo</button>
           </div>
         </div>
@@ -686,7 +686,7 @@
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5 text-center w-100" id="">Productos en Confeccion</h1>
+        <h1 class="modal-title fs-5 text-center w-100" id="">Productos en Confección</h1>
       </div>
       <div class="modal-body" id="">
         <div class="container">
