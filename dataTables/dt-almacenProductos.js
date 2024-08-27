@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre</th>
-          <th scope="col">Codigo</th>
+          <th scope="col">Código</th>
           <th scope="col">Unidad Medida</th>
           <th scope="col">Cantidad</th>
           <th scope="col">Total S/.</th>

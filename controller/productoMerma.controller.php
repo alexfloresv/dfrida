@@ -11,6 +11,28 @@ class ProductoMermaController
     return $response;
   }
 
+  //funciones para mostrar productos merma y mprima
+
+  //funcion mostrar produtos merma nuevos
+  public static function ctrProductoMerma($codProdMerma)
+  {
+    $table = "prod_merma";
+    $response = ProductoMermaModel::mdlProductoMerma($table, $codProdMerma);
+    return $response;
+  }
+  //fin
+
+  //funcion mostrar productos mprima merma
+  public static function ctrMateriaPrimaMerma($codMermaConfir)
+  {
+    $table = "prod_merma";
+    $response = ProductoMermaModel::mdlMateriaPrimaMerma($table, $codMermaConfir);
+    return $response;
+  }
+  //fin
+
+  //fin
+
   //funcion para traer la merma aprobada al selct 2
   public static function ctrViewDataMermaConfirmada()
   {
@@ -59,7 +81,7 @@ class ProductoMermaController
       //crear productos editado con id para el ingreso al almacen
       $crearProductosNuevos = self::crearProdMermaNuevo($dataProdMermaNew);
       //registro de producto merma
-      $registroProdMerma = self::crearRegistroProdMerma($dataFormProdMerma, $crearProductosNuevos, $dataProdMermaNew);
+      $registroProdMerma = self::crearRegistroProdMerma($dataFormProdMerma, $crearProductosNuevos, $jsonMprimaMerma);
 
       if ($registroProdMerma == "ok") {
         //agreagar productos creados al almacen
@@ -78,12 +100,10 @@ class ProductoMermaController
   //fin funcion
 
   //crear registro de producto merma en su tabla
-  public static function crearRegistroProdMerma($dataFormProdMerma, $crearProductosNuevos, $dataProdMermaNew)
+  public static function crearRegistroProdMerma($dataFormProdMerma, $crearProductosNuevos, $jsonMprimaMerma)
   {
 
     $jsonProductos = json_encode($crearProductosNuevos);
-
-    $jsonMermaPrima = json_encode($dataProdMermaNew);
 
     $table = "prod_merma";
 
@@ -94,7 +114,7 @@ class ProductoMermaController
       'totalMerma' => $dataFormProdMerma['totalMerma'],
       'estadoProdMerma' => 1,
       'jsonProdMerma' => $jsonProductos,
-      'jsonMerma' => $jsonMermaPrima,
+      'jsonMerma' => $jsonMprimaMerma,
       'DateCreate' => date("Y-m-d\TH:i:sP"),
     );
 
@@ -457,4 +477,8 @@ class ProductoMermaController
   //fin
 
   //fin funciones crear producto merma **
+
+
+  //funciones para mostrar productos merma y mprima
+  //fin
 }

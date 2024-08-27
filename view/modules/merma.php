@@ -62,7 +62,7 @@
               <label for="nombreMerma" class="form-label" style="font-weight: bold">Nombre Merma:
               </label>
               <input type="text" class="form-control" id="nombreMerma" name="nombreMerma"
-                placeholder="Ingrese una descripcion del proceso operativo ">
+                placeholder="Ingrese una descripción del proceso operativo ">
             </div>
 
             <div class="col-md-6 ">
@@ -74,7 +74,7 @@
 
             <div class="row" style="font-weight: bold">
               <div class="col-lg-2">Nombre</div>
-              <div class="col-lg-2">Codigo</div>
+              <div class="col-lg-2">Código</div>
               <div class="col-lg-2">Unidad</div>
               <div class="col-lg-2">Cantidad</div>
               <div class="col-lg-2">Precio Producto</div>

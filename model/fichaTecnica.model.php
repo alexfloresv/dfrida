@@ -53,7 +53,7 @@ interactive_timeout=300
   {
     try {
       $statement = Conexion::conn()->prepare("INSERT INTO $table (nombreFichaTec, fechaFichaTec, clienteFichaTec, descripcionFichaTec, codigoFichaTec, nombreSoliFichaTec, celularFichaTec, correoFichaTec, detalleFichaTec, estadoFichaTec, DateCreate) VALUES(:nombreFichaTec, :fechaFichaTec, :clienteFichaTec, :descripcionFichaTec, :codigoFichaTec, :nombreSoliFichaTec, :celularFichaTec, :correoFichaTec, :detalleFichaTec,  :estadoFichaTec, :DateCreate)");
-  
+
       $statement->bindParam(":nombreFichaTec", $dataCreate["nombreFichaTec"], PDO::PARAM_STR);
       $statement->bindParam(":fechaFichaTec", $dataCreate["fechaFichaTec"], PDO::PARAM_STR);
       $statement->bindParam(":clienteFichaTec", $dataCreate["clienteFichaTec"], PDO::PARAM_STR);
@@ -66,14 +66,14 @@ interactive_timeout=300
       //$statement->bindParam(":docFichaTec", $dataCreate["docFichaTec"], PDO::PARAM_STR);
       $statement->bindParam(":estadoFichaTec", $dataCreate["estadoFichaTec"], PDO::PARAM_INT);
       $statement->bindParam(":DateCreate", $dataCreate["DateCreate"], PDO::PARAM_STR);
-  
+
       if ($statement->execute()) {
         return "ok";
       } else {
         return "error";
       }
     } catch (PDOException $e) {
-      return "errorFicha"; 
+      return "errorFicha";
     }
   }
   //obtener el ultimo registro de la ficha tecnica
@@ -85,7 +85,7 @@ interactive_timeout=300
     return $result;
   }
   //registrar el documento de la ficha tecnica
-  public static function mdlRegistrarDocFichaTec($table, $idFichaTec,$docFichaTec)
+  public static function mdlRegistrarDocFichaTec($table, $idFichaTec, $docFichaTec)
   {
     $statement = Conexion::conn()->prepare("UPDATE $table SET docFichaTec = :docFichaTec WHERE idFichaTec = :idFichaTec");
 
@@ -179,7 +179,7 @@ interactive_timeout=300
     $result = $statement->fetch();
     return $result !== false;
   }
-//obtebre el nombre de la ficha tecnica para eliminar el archivo
+  //obtebre el nombre de la ficha tecnica para eliminar el archivo
   public static function mdlDocFichaTecnica($table, $codFichaTec)
   {
     $statement = Conexion::conn()->prepare("SELECT docFichaTec FROM $table WHERE idFichaTec = :idFichaTec");
@@ -220,6 +220,20 @@ interactive_timeout=300
     } else {
       return "error";
     }
+  }
+
+  //cliente para ficha tecnica
+  public static function mdlClientesFichaTec($table)
+  {
+    $statement = Conexion::conn()->prepare("SELECT 
+    idCli,
+    nombreCli,
+    celularCli,
+    correoCli,
+    rucCli
+     FROM $table ORDER BY idCli DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
 }

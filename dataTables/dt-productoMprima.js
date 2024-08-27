@@ -10,11 +10,11 @@ document.addEventListener("DOMContentLoaded", function () {
           <th scope="col">#</th>
           <th scope="col">Nombre Producto Prima</th>
            <th scope="col">Proveedor</th>
-          <th scope="col">Categoria Producto Prima</th>
-          <th scope="col">Codigo Producto Prima</th>
+          <th scope="col">Categoría Producto Prima</th>
+          <th scope="col">Código Producto Prima</th>
           <th scope="col">Unidad</th>
           <th scope="col">Precio Prima</th>
-          <th scope="col">Observacion</th>
+          <th scope="col">Observación</th>
           <th scope="col">Acciones</th>
         </tr>
       `);
@@ -84,9 +84,9 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre</th>
-          <th scope="col">Codigo</th>
+          <th scope="col">Código</th>
           <th scope="col">Precio</th>
-          <th scope="col">Agreagar</th>
+          <th scope="col">Agregar</th>
         </tr>
       `);
 

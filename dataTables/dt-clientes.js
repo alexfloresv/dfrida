@@ -51,13 +51,13 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#dataTableClientes thead").html(`
     <tr>
     <th>#</th>
-    <th>Razon Social</th>
+    <th>Razón Social</th>
     <th>RUC</th>
      <th>Nombre</th>
     <th>Correo</th>
     <th>Dirección</th>
     <th>Celular</th>
-    <th>Observacion</th>
+    <th>Observación</th>
     <th>Estado</th>
     <th>Acciones</th>
     </tr>

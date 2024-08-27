@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <th scope="col">Estado Actual</th>
           <th scope="col">Actualizar Proceso</th>
           <th scope="col">Nombre Proceso</th>
-          <th scope="col">Descripcion</th>
+          <th scope="col">Descripción</th>
           <th scope="col">Fecha Registro</th>
           <th scope="col">Fecha Inicio</th>
           <th scope="col">Fecha Fin</th>
@@ -120,9 +120,9 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nombre Tipo Proceso</th>
-             <th scope="col">Descripcion</th>
+             <th scope="col">Descripción</th>
           <th scope="col">Ficha Trabajo</th>
-          <th scope="col">Aciones</th>
+          <th scope="col">Acciones</th>
         </tr>
       `);
 
@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <tr>
             <th scope="col">#</th>
             <th scope="col">Producto Prima</th>
-            <th scope="col">Codigo Producto</th>
+            <th scope="col">Código Producto</th>
             <th scope="col">Unidad Producto</th>
             <th scope="col">Cantidad Producto</th>
             <th scope="col">Precio Producto</th>
@@ -304,7 +304,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // Actualiza la estructura del thead para incluir las nuevas columnas
           $("#dataTableProcesosDeTrabajoActivo thead").html(`
           <tr>
-            <th scope="col">N° Atividad</th>
+            <th scope="col">N° Actividad</th>
             <th scope="col">Nombre</th>
             <th scope="col">Tiempo</th>
             <th scope="col">Observación</th>

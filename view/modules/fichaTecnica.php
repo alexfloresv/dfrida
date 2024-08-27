@@ -12,7 +12,7 @@
   <main class="bg">
     <div class="container-fluid px-4">
       <h1 class="mt-4">
-        Ficha Tecnica D'Frida
+        Ficha Técnica D'Frida
       </h1>
     </div>
 
@@ -24,37 +24,35 @@
         <h3>Ficha Tecnica</h3>
 
         <div class="form-group col-md-10">
-          <label for="nombreFichaTecAdd" class="form-label" style="font-weight: bold">Nombre Ficha Tecnica:</label>
+          <label for="nombreFichaTecAdd" class="form-label" style="font-weight: bold">Nombre Ficha Técnica:</label>
           <input type="text" class="form-control" id="nombreFichaTecAdd" name="nombreFichaTecAdd"
-            placeholder="Ingrese nombre de la ficha/Opcional" >
+            placeholder="Ingrese nombre de la ficha/Opcional">
         </div>
         <div class="col-md-2">
           <label for="fechaFichaTecAdd" class="form-label" style="font-weight: bold">Fecha: </label>
-          <input type="date" class="form-control" id="fechaFichaTecAdd" name="fechaFichaTecAdd" >
+          <input type="date" class="form-control" id="fechaFichaTecAdd" name="fechaFichaTecAdd">
         </div><br>
 
-        <div class="form-group col-md-4">
-          <label for="clienteFichaTecAdd" class="form-label" style="font-weight: bold">Cliente :</label>
-          <input type="text" class="form-control" id="clienteFichaTecAdd" name="clienteFichaTecAdd"
-            placeholder="Ingrese nombre Cliente/Empresa/Institucion/etc/Opcional" >
+        <!-- cliente -->
+        <div class="form-group col-md-4" id="nombreClienteDiv">
+
+        </div>
+
+        <!-- producto -->
+        <div class="form-group col-md-4" id="prodFichaTec">
+
         </div>
 
         <div class="form-group col-md-4">
-          <label for="descripcionFichaTecAdd" class="form-label" style="font-weight: bold">Descripcion Ficha:</label>
-          <input type="text" class="form-control" id="descripcionFichaTecAdd" name="descripcionFichaTecAdd"
-            placeholder="Descripcion del Ficha/Opcional">
-        </div>
-
-        <div class="form-group col-md-4">
-          <label for="codigoFichaTecAdd" class="form-label" style="font-weight: bold">Codigo de Ficha - Orden:</label>
+          <label for="codigoFichaTecAdd" class="form-label" style="font-weight: bold">Código de Ficha - Orden:</label>
           <input type="text" class="form-control" id="codigoFichaTecAdd" name="codigoFichaTecAdd"
             placeholder="Ingrese el Codigo de la Ficha /Opcional">
         </div>
 
         <div class="form-group col-md-6">
-          <label for="nombreSoliFichaTecAdd" class="form-label" style="font-weight: bold">Nombre Solicitante:</label>
+          <label for="nombreSoliFichaTecAdd" class="form-label" style="font-weight: bold">RUC/DNI:</label>
           <input type="text" class="form-control" id="nombreSoliFichaTecAdd" name="nombreSoliFichaTecAdd" value=""
-            placeholder="Nombre del solicitante/Opcional">
+            placeholder="Opcional">
         </div>
 
         <div class="form-group col-md-2">
@@ -72,7 +70,7 @@
         <div class="col-md-12" style="margin-bottom: 10px;">
           <label for="detalleFichaTecAdd" class="form-label" style="font-weight: bold">Observaciones: </label>
           <input type="text" class="form-control" id="detalleFichaTecAdd" name="detalleFichaTecAdd"
-            placeholder="Ingrese observacion para la Ficha tecnica">
+            placeholder="Ingrese observación para la Ficha técnica">
         </div>
         <!-- fin -->
       </div>
@@ -80,7 +78,7 @@
       <!-- Ficha tecnica php-->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
         <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
-          <h3>Subir Ficha Tecnica</h3>
+          <h3>Subir Ficha Técnica</h3>
           <div class="d-inline-flex flex-column align-items-center m-2" style="text-align: center;">
             <button type="button" class="btn btn-warning btnfileFichaTecnica" id="btnfileFichaTecnica"
               style="flex-direction: column-reverse; align-items: center;">
@@ -111,5 +109,3 @@
 </main>
 </div>
 </div>
-
-

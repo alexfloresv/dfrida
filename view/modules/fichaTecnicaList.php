@@ -9,13 +9,13 @@
 <div id="layoutSidenav_content">
   <main class="bg">
     <div class="container-fluid px-4">
-      <h1 class="mt-4">Lista Fichas Tecnicas</h1>
+      <h1 class="mt-4">Lista Fichas Técnicas</h1>
       <ol class="breadcrumb mb-4">
         <!-- <li class="breadcrumb-item active">Todos los Usuarios</li> -->
       </ol>
       <div class="d-flex m-2">
         <button type="button" class="btn btn-success" id="btnAddFichaTecnica">
-          Agregar Ficha Tenica
+          Agregar Ficha Técnica
         </button>
       </div>
       <div class="card mb-4">

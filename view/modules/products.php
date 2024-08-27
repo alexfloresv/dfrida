@@ -21,12 +21,12 @@
         <span style="margin-right: 10px;"></span>
         <!-- Button  modal  ver lista categorias-->
         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalViewCatProd">
-          Ver todas las Categorias Producto
+          Ver todas las Categorías Producto
         </button>
         <span style="margin-right: 10px;"></span>
         <!-- Button  modal  crear categoria-->
         <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalCrearCategoriaProd">
-          Crear Categoria Producto
+          Crear Categoría Producto
         </button>
       </div>
       <!--  -->
@@ -80,7 +80,7 @@
           </div>
           <!-- Codigo Producto -->
           <div class="form-group">
-            <label for="productCodigo" class="col-form-label">Codigo Producto:</label>
+            <label for="productCodigo" class="col-form-label">Código Producto:</label>
             <input type="text" class="form-control" id="productCodigo" name="productCodigo" required>
           </div>
 
@@ -99,7 +99,7 @@
 
           <!-- Detalle Producto -->
           <div class="form-group">
-            <label for="productDetail" class="col-form-label">Observacion del Producto:</label>
+            <label for="productDetail" class="col-form-label">Observación del Producto:</label>
             <input type="text" class="form-control" id="productDetail" name="productDetail">
           </div>
 
@@ -206,7 +206,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalViewCatProd">Lista Categorias</h1>
+        <h1 class="modal-title fs-5" id="modalViewCatProd">Lista Categorías</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">

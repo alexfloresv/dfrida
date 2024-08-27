@@ -90,7 +90,7 @@ ORDER BY
   //  visualizar datos materia_prima
   public static function mdlViewProductoMprima($table, $codProductMprima)
   {
-    $statement = Conexion::conn()->prepare("SELECT materia_prima.idMprima, materia_prima.idCatMprima, materia_prima.codigoMprima, materia_prima.nombreMprima, materia_prima.detalleMprima, materia_prima.unidadMprima, materia_prima.precioMprima, categoria_mprima.nombreCategoriaMprima FROM $table INNER JOIN categoria_mprima ON materia_prima.idCatMprima = categoria_mprima.idCatMprima WHERE materia_prima.idMprima = :idMprima");
+    $statement = Conexion::conn()->prepare("SELECT materia_prima.idMprima,materia_prima.idProv, materia_prima.idCatMprima, materia_prima.codigoMprima, materia_prima.nombreMprima, materia_prima.detalleMprima, materia_prima.unidadMprima, materia_prima.precioMprima, categoria_mprima.nombreCategoriaMprima FROM $table INNER JOIN categoria_mprima ON materia_prima.idCatMprima = categoria_mprima.idCatMprima WHERE materia_prima.idMprima = :idMprima");
     $statement->bindParam(":idMprima", $codProductMprima, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);

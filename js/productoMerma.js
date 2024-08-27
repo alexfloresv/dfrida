@@ -1090,26 +1090,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 jsonMprimaMerma: jsonMprimaMerma,
               },
               dataType: "json",
-              success: function (response) {
-                $("#modalAddProductoMprima").modal("hide"); // Cerrar el modal
-                // Función para limpiar los datos de la URL
-                var limpiarURL = function () {
-                  window.history.pushState(
-                    {},
-                    document.title,
-                    window.location.pathname
-                  );
-                };
-
+              success: function (response) { 
                 if (response == "ok") {
                   Swal.fire({
                     icon: "success",
                     title: "Correcto",
-                    html: "<strong>Producto Prima creado correctamente</strong>",
+                    html: "<strong>Producto Merma creado correctamente</strong>",
                   }).then(function (result) {
                     if (result.value) {
-                      limpiarURL(); // Llamar a la función para limpiar la URL
-                      window.location.reload(); // Recargar la página
+                      window.location.href = "/dfrida/productoMermaList";
                     }
                   });
                 } else {
@@ -1119,7 +1108,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     html: "<strong>No se puede crear el Producto Prima con datos Vacios</strong>.",
                   }).then(function (result) {
                     if (result.value) {
-                      limpiarURL(); // Llamar a la función para limpiar la URL
+                      window.location.href = "/dfrida/productoMermaList";
                     }
                   });
                 }

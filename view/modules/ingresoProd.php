@@ -24,15 +24,15 @@
 
         <!-- datos de la cotizacion Enpresa -->
         <div class="form-group col-md-8">
-          <label for="tituloIngProdAdd" class="form-label" style="font-weight: bold">Descripcion Ingreso:</label>
+          <label for="tituloIngProdAdd" class="form-label" style="font-weight: bold">Descripción Ingreso:</label>
           <input type="text" class="form-control" id="tituloIngProdAdd" name="tituloIngProdAdd"
-            placeholder="Ingrese una una descripcion para el ingreso ">
+            placeholder="Ingrese una una descripción para el ingreso ">
         </div>
 
         <div class="col-md-2">
-          <label for="btnProduccionProdAdd" class="form-label" style="font-weight: bold">Asignar Produccion: </label>
+          <label for="btnProduccionProdAdd" class="form-label" style="font-weight: bold">Asignar Producción: </label>
           <div id="produccionProdAdd">
-            <button type="button" class="btn btn-primary w-100" id="btnProduccionProdAdd">Agregar Produccion</button>
+            <button type="button" class="btn btn-primary w-100" id="btnProduccionProdAdd">Agregar Producción</button>
           </div>
         </div>
 
@@ -46,7 +46,7 @@
 
       <!-- Productos -->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
-        <h3>Productos a Almacen</h3>
+        <h3>Productos a Almacén</h3>
         <div class="d-inline-flex m-2">
           <button type="button" class="btn btn-warning" data-bs-toggle="modal"
             data-bs-target="#modalAddProdCoti">Agregar Productos</button>
@@ -54,7 +54,7 @@
 
         <div class="row" style="font-weight: bold">
           <div class="col-lg-2">Nombre</div>
-          <div class="col-lg-2">Codigo</div>
+          <div class="col-lg-2">Código</div>
           <div class="col-lg-2">Unidad</div>
           <div class="col-lg-2">Cantidad</div>
           <div class="col-lg-2">Precio Producto</div>
@@ -106,7 +106,7 @@
             <!-- vacio -->
           </div>
           <div class="form-group col-md-2">
-            <button type="button" class="btn btn-info btnCalcularTotalIng" id="btnCalcularTotalIng">Calular Total
+            <button type="button" class="btn btn-info btnCalcularTotalIng" id="btnCalcularTotalIng">Calcular Total
               Ingreso
             </button>
           </div>

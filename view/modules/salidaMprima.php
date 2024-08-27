@@ -20,14 +20,14 @@
 
       <div class="container row g-8" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
 
-        <h3>Datos para la Salida de Productos Prima del Almacen</h3>
+        <h3>Datos para la Salida de Productos Prima del Almacén</h3>
 
         <!-- datos de la cotizacion Enpresa -->
         <div class="form-group col-md-6">
-          <label for="tituloSalProdAdd" class="form-label" style="font-weight: bold">Descripcion Salida productos
+          <label for="tituloSalProdAdd" class="form-label" style="font-weight: bold">Descripción Salida productos
             Prima:</label>
           <input type="text" class="form-control" id="tituloSalProdAdd" name="tituloSalProdAdd"
-            placeholder="Ingrese una una descripcion para la salida ">
+            placeholder="Ingrese una una descripción para la salida ">
         </div>
 
 
@@ -51,7 +51,7 @@
 
       <!-- Productos -->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
-        <h3>Retirar Productos de Almacen</h3>
+        <h3>Retirar Productos de Almacén</h3>
         <div class="d-inline-flex m-2">
           <button type="button" class="btn btn-warning" data-bs-toggle="modal"
             data-bs-target="#modalAddProdSali">Agregar Productos</button>
@@ -59,7 +59,7 @@
 
         <div class="row" style="font-weight: bold">
           <div class="col-lg-2">Nombre</div>
-          <div class="col-lg-2">Codigo</div>
+          <div class="col-lg-2">Código</div>
           <div class="col-lg-2">Unidad</div>
           <div class="col-lg-2">Cantidad</div>
           <div class="col-lg-2">Precio Producto</div>
@@ -94,7 +94,7 @@
 
       <!-- Calculo totales-->
       <div class="container row g-3" style="border: 3px solid #808080; padding: 3px; margin-left: 2px; ">
-        <h3>Valores Totales de la salida Almacen</h3>
+        <h3>Valores Totales de la salida Almacén</h3>
 
         <div class="row" style="font-weight: bold">
           <div class="col-lg-4"></div>
@@ -111,7 +111,7 @@
             <!-- vacio -->
           </div>
           <div class="form-group col-md-2">
-            <button type="button" class="btn btn-info btnCalcularTotalIng" id="btnCalcularTotalIng">Calular Total
+            <button type="button" class="btn btn-info btnCalcularTotalIng" id="btnCalcularTotalIng">Calcular Total
             </button>
           </div>
           <div class="form-group col-md-2">
@@ -145,7 +145,7 @@
   <div class="modal-dialog modal-lg"> <!-- Clase "modal-lg" agregada aquí -->
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="modalAddProdSali">Lista Productos de Almacen </h1>
+        <h1 class="modal-title fs-5" id="modalAddProdSali">Lista Productos de Almacén </h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">

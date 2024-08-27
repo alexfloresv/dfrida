@@ -58,7 +58,7 @@
 
           <!-- razonSocialProv -->
           <div class="form-group">
-            <label for="razonSocialProv" class="col-form-label">Razon Social</label>
+            <label for="razonSocialProv" class="col-form-label">Razón Social</label>
             <input type="text" class="form-control" id="razonSocialProv" name="razonSocialProv" placeholder="Opcional">
           </div>
 
@@ -82,7 +82,7 @@
 
           <!--  direccionProv -->
           <div class="form-group">
-            <label for="direccionProv" class="col-form-label">Direccion:</label>
+            <label for="direccionProv" class="col-form-label">Dirección:</label>
             <input type="text" class="form-control" id="direccionProv" name="direccionProv" placeholder="Opcional">
           </div>
 
@@ -94,7 +94,7 @@
 
           <!--  observacionProv -->
           <div class="form-group">
-            <label for="detalleProv" class="col-form-label">Observacion:</label>
+            <label for="detalleProv" class="col-form-label">Observación:</label>
             <input type="text" class="form-control" id="detalleProv" name="detalleProv" placeholder="Opcional">
           </div>
 
@@ -124,7 +124,7 @@
         <form role="form" id="formEditarProveedor">
           <!-- razonSocialProvEdit -->
           <div class="form-group">
-            <label for="razonSocialProvEdit" class="col-form-label">Razon Social</label>
+            <label for="razonSocialProvEdit" class="col-form-label">Razón Social</label>
             <input type="text" class="form-control" id="razonSocialProvEdit" name="razonSocialProvEdit"
               placeholder="Opcional">
           </div>
@@ -149,7 +149,7 @@
 
           <!-- direccionProvEdit -->
           <div class="form-group">
-            <label for="direccionProvEdit" class="col-form-label">Direccion:</label>
+            <label for="direccionProvEdit" class="col-form-label">Dirección:</label>
             <input type="text" class="form-control" id="direccionProvEdit" name="direccionProvEdit"
               placeholder="Opcional">
           </div>
@@ -163,7 +163,7 @@
 
           <!-- observacionProvEdit -->
           <div class="form-group">
-            <label for="detalleProvEdit" class="col-form-label">Observacion:</label>
+            <label for="detalleProvEdit" class="col-form-label">Observación:</label>
             <input type="text" class="form-control" id="detalleProvEdit" name="detalleProvEdit" placeholder="Opcional">
           </div>
 

@@ -56,10 +56,10 @@ document.addEventListener("DOMContentLoaded", function () {
       <th scope="col">Nombre Proveedor</th>
       <th scope="col">Celular</th>
       <th scope="col">Ruc</th>
-       <th scope="col">Razon Social</th>
+       <th scope="col">Razón Social</th>
       <th scope="col">Correo</th>
-      <th scope="col">Direcccion</th>
-      <th scope="col">Observacion</th>
+      <th scope="col">Dirección</th>
+      <th scope="col">Observación</th>
       <th scope="col">Estado</th>
       <th scope="col">Acciones</th>
     </tr>

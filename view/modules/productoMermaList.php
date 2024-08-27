@@ -40,3 +40,58 @@
   </main>
 </div>
 </div>
+
+<!-- Modal producto merma-->
+<div class="modal fade" id="modalProdMerma" tabindex="-1" aria-labelledby="modalProdMerma" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Nuevos Productos Mermas</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="">
+
+        <table id="modalDataTableProdMerma" class="display modalDataTableProdMerma">
+          <thead>
+            <!-- modalDataTableProdMerma -->
+          </thead>
+          <tbody>
+            <!--modalDataTableProdMerma-->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin -->
+
+<!-- Modal productos merma mprima-->
+<div class="modal fade" id="modalProdMprimaMerma" tabindex="-1" aria-labelledby="modalProdMprimaMerma"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Materias Prima Mermadas</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="">
+
+        <table id="modalDataTableProdMprimaMerma" class="display modalDataTableProdMprimaMerma">
+          <thead>
+            <!-- modalDataTableProdMprimaMerma -->
+          </thead>
+          <tbody>
+            <!--modalDataTableProdMprimaMerma-->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin -->

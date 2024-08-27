@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <tr>
             <th scope="col">#</th>
             <th scope="col">Producto Prima</th>
-            <th scope="col">Codigo </th>
+            <th scope="col">Código </th>
             <th scope="col">Unidad merma</th>
             <th scope="col">Cantidad merma</th>
             <th scope="col">Precio merma</th>

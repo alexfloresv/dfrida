@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
       $("#dataTableCategoriasProductos thead").html(`
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Categoria Producto</th>
+          <th scope="col">Categoría Producto</th>
           <th scope="col">Acciones</th>
         </tr>
       `);

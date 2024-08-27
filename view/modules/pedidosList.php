@@ -112,7 +112,7 @@
         </div>
         <!-- Razon social -->
         <div class="form-group">
-          <label for="VerRazonSocialPedido" class="col-form-label">Razon social:</label>
+          <label for="VerRazonSocialPedido" class="col-form-label">Razón social:</label>
           <input type="text" class="form-control" id="VerRazonSocialPedido" name="VerRazonSocialPedido" readonly>
         </div>
         <!-- Name Client -->
@@ -137,7 +137,7 @@
         </div>
         <!-- Detalle Client -->
         <div class="form-group">
-          <label for="VerDetallCliPedido" class="col-form-label">Observacion Cliente:</label>
+          <label for="VerDetallCliPedido" class="col-form-label">Observación Cliente:</label>
           <input type="text" class="form-control" id="VerDetallCliPedido" name="VerDetallCliPedido" readonly>
         </div>
         <div class="modal-footer">
@@ -183,7 +183,7 @@
                 <div class="form-group">
                   <label for="btnVerCotizacionesPedidoAdd">Cotizaciones</label>
                   <button type="button" class="btn btn-warning" id="btnVerCotizacionesPedidoAdd" idCoti="">
-                    Selecionar Cotizacion
+                    Seleccionar Cotización
                   </button>
                 </div>
               </div>

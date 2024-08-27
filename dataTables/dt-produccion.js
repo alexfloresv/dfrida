@@ -15,13 +15,13 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#dataTableProduccion thead").html(`
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Aprobar Produccion</th>
-          <th scope="col">Nombre Produccion</th>
+          <th scope="col">Aprobar Producción</th>
+          <th scope="col">Nombre Producción</th>
           <th scope="col">Fecha Aprobada</th>
           <th scope="col">Fecha Inicio</th>
           <th scope="col">Fecha Fin</th>
           <th scope="col">Productos</th>
-          <th scope="col">Estado Ingreso Almacen</th>
+          <th scope="col">Estado Ingreso Almacén</th>
         </tr>
       `);
 
@@ -130,7 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
             
                   <th scope="col">Unidad Producto</th>
                   <th scope="col">Cantidad Producto</th>
-                  <th scope="col">Precio Prodcuto</th>
+                  <th scope="col">Precio Producto</th>
                 </tr>
               </thead>
               <tbody></tbody>
