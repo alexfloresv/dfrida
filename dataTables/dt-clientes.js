@@ -52,12 +52,12 @@ document.addEventListener("DOMContentLoaded", function () {
     <tr>
     <th>#</th>
     <th>Nombre</th>
-    <th>RUC/DIN</th>
+    <th>RUC / DNI</th>
     <th>Celular</th>
-    <th>Correo</th>
     <th>Observación</th>
     <th>Dirección</th>
     <th>Razón Social</th>
+    <th>Correo</th>
     <th>Estado</th>
     <th>Acciones</th>
     </tr>
@@ -75,10 +75,10 @@ document.addEventListener("DOMContentLoaded", function () {
       { data: "nombreCli" },
       { data: "rucCli" },
       { data: "celularCli" },
-      { data: "correoCli" },
       { data: "detalleCli" },
       { data: "direccionCli" },
       { data: "RazonSocialCli" },
+      { data: "correoCli" },
       { data: "estadoCli" },
       { data: "buttons" },
     ];
