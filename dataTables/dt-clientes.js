@@ -51,13 +51,13 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#dataTableClientes thead").html(`
     <tr>
     <th>#</th>
-    <th>Razón Social</th>
-    <th>RUC</th>
-     <th>Nombre</th>
-    <th>Correo</th>
-    <th>Dirección</th>
+    <th>Nombre</th>
+    <th>RUC/DIN</th>
     <th>Celular</th>
+    <th>Correo</th>
     <th>Observación</th>
+    <th>Dirección</th>
+    <th>Razón Social</th>
     <th>Estado</th>
     <th>Acciones</th>
     </tr>
@@ -72,13 +72,13 @@ document.addEventListener("DOMContentLoaded", function () {
           return meta.row + 1;
         },
       },
-      { data: "RazonSocialCli" },
-      { data: "rucCli" },
       { data: "nombreCli" },
-      { data: "correoCli" },
-      { data: "direccionCli" },
+      { data: "rucCli" },
       { data: "celularCli" },
+      { data: "correoCli" },
       { data: "detalleCli" },
+      { data: "direccionCli" },
+      { data: "RazonSocialCli" },
       { data: "estadoCli" },
       { data: "buttons" },
     ];
