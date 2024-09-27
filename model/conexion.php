@@ -41,7 +41,7 @@ class Conexion
 {
   static public function conn()
   {
-    $link = new PDO("mysql:host=localhost;dbname=u993966586_dfrida", "u993966586_dfrida", "#Dfrida1234");
+    $link = new PDO("mysql:host=localhost;dbname=u993966586_dbdfrida", "u993966586_dbdfrida", "#Dfrida1234");
     $link->exec("set names utf8");
     return $link;
   }
