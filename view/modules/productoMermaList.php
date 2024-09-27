@@ -14,7 +14,7 @@
         <!-- <li class="breadcrumb-item active">Todos los Usuarios</li> -->
       </ol>
       <div class="d-flex m-2">
-        <button type="button" class="btn btn-primary me-4" id="btnRegistrarProdMerma">
+        <button type="button" class="btn btn-primary me-4" id="btnRegistrarProdMermaL">
           Crear Producto Merma
         </button>
       </div>

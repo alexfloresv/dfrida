@@ -1224,7 +1224,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var currentPath = window.location.pathname;
   var appPath = "/dfrida/productoMermaList";
   if (currentPath == appPath) {
-    var btn = document.getElementById("btnRegistrarProdMerma");
+    var btn = document.getElementById("btnRegistrarProdMermaL");
     if (btn) {
       btn.addEventListener("click", function () {
         window.location.href = "/dfrida/productoMerma";
